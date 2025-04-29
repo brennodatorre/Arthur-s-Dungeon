@@ -16,6 +16,8 @@ public class RoundManager : MonoBehaviour
     [SerializeField] public GameObject damagePopupPrefab;
     [SerializeField] public Transform hud; //the parent object for the damage popups
     [SerializeField] public ActionQueue actionQueue;
+    [SerializeField] public ActionQueue clashQueue;
+    
     public GameObject act_menu;
 
     public Entity currentTurn;
@@ -45,8 +47,8 @@ public class RoundManager : MonoBehaviour
 
     public void Start()
     {
-        
-
+        //actionQueue = new ActionQueue();
+        //clashQueue = new ActionQueue();
         entities = FindObjectsOfType<Entity>(true); //finds all entities in the scene
 
         foreach (Entity entity in entities) //loops through each entity
@@ -116,7 +118,7 @@ public class RoundManager : MonoBehaviour
             yield return Delay(1f); 
             currentPhase = TurnPhase.Action; //set the current phase to action
             target = allies[UnityEngine.Random.Range(0, allies.Length)];
-            yield return StartCoroutine(currentTurn.doBasicATK(target));
+            yield return StartCoroutine(currentTurn.doBasicAtkCaller(target));
         }
         else if (currentTurn.entityType == Entity.EntityType.NPC)
         {
@@ -145,7 +147,7 @@ public class RoundManager : MonoBehaviour
         }
     }
 
-
+ 
     public void EnableEnemyTargetingUI(bool enable)
     {
 
@@ -191,7 +193,7 @@ public class RoundManager : MonoBehaviour
 
             buttonManager.inAtkOverlay = false;
 
-            actionQueue.Enqueue("PlayerAttack", () => currentTurn.doBasicATK(target));
+            actionQueue.Enqueue("PlayerAttack", () => currentTurn.doBasicAtkCaller(target));
         }
         else if (currentPhase == TurnPhase.targetingSKILL) 
         {

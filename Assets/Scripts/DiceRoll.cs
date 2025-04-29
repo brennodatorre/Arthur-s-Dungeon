@@ -45,24 +45,12 @@ public class DiceRoll
         return this;
     }
 
-    //rolls the complete dice pool and returns the total value
-    public int Roll()
-    {
-        int total = 0;
-        foreach (var dice in dices)
-        {
-            for (int i = 0; i < dice.count; i++)
-            {
-                int temp = Random.Range(1, dice.sides + 1);
-                total += temp;
-                //Debug.Log($"Rolled {temp} on {dice.count}d{dice.sides}");
-            }
-        }
-        return total + modifier;
-    }
+    
 
-    public int RollWithAdvantage(int advantages)
+    public int Roll(int advantages = 0)
     {
+        advantages++;
+
         int finaltotal = 0;
         int total;
         for (int i = 0; i < advantages; i++)
@@ -80,6 +68,33 @@ public class DiceRoll
         return finaltotal + modifier;
 
         
+    }
+
+    public bool wasCriticalHit(int value){
+
+        int maxRoll = 0;
+
+        foreach (var dice in this.dices)
+        {
+            maxRoll += dice.sides * dice.count;
+        }
+
+        return value == maxRoll;
+
+
+    }
+    public bool wasCriticalFail(int value){
+
+        int minRoll = 0;
+
+        foreach (var dice in this.dices)
+        {
+            minRoll +=  dice.count;
+        }
+
+        return value == minRoll;
+
+
     }
 
       public override string ToString()

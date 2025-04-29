@@ -6,12 +6,22 @@ using UnityEngine;
 [System.Serializable]
 public class ActionQueue : MonoBehaviour
 {
-    private Queue<Func<IEnumerator>> actionQueue = new Queue<Func<IEnumerator>>();
+    public Queue<Func<IEnumerator>> actionQueue = new Queue<Func<IEnumerator>>();
     public bool isRunning = false;
-    public List<string> actionNames = new List<string>();
+    public List<string> actionNames =  new List<string>();
+
+    public int numActionsInQueue= 0;
+
+
+    void Update()
+    {
+        numActionsInQueue = actionQueue.Count;
+    }
+
 
     public void Enqueue(string name , Func<IEnumerator> action)
     {
+        //Debug.Log(name);
         actionNames.Add(name); 
         actionQueue.Enqueue(action);
 
@@ -30,6 +40,7 @@ public class ActionQueue : MonoBehaviour
             Func<IEnumerator> action = actionQueue.Dequeue();
             //actionNames.RemoveAt(0); // Remove the action name from the list
             yield return StartCoroutine(action());
+            
         }
 
         isRunning = false;

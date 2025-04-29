@@ -959,11 +959,12 @@ MonoBehaviour:
   baseATK:
     dices:
     - count: 1
-      sides: 4
+      sides: 9999
     modifier: 0
   currentATK:
     dices: []
     modifier: 0
+  atkAdvantage: 0
   DEXTREZA: 1
   ATLETISMO: 1
   entityType: 1
@@ -1267,6 +1268,7 @@ GameObject:
   - component: {fileID: 537370084}
   - component: {fileID: 537370085}
   - component: {fileID: 537370086}
+  - component: {fileID: 537370087}
   m_Layer: 0
   m_Name: RoundManager
   m_TagString: Untagged
@@ -1306,6 +1308,7 @@ MonoBehaviour:
   damagePopupPrefab: {fileID: 839128812586752143, guid: d4b84f6c90d7e6d48857547b458b16b8, type: 3}
   hud: {fileID: 277979764}
   actionQueue: {fileID: 537370086}
+  clashQueue: {fileID: 537370087}
   act_menu: {fileID: 1922509253}
   currentTurn: {fileID: 0}
   target: {fileID: 0}
@@ -1330,6 +1333,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isRunning: 0
   actionNames: []
+  numActionsInQueue: 0
+--- !u!114 &537370087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537370083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad87e7c67eb48ff4cbce674ce1795b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRunning: 0
+  actionNames: []
+  numActionsInQueue: 0
 --- !u!1 &545758052
 GameObject:
   m_ObjectHideFlags: 0
@@ -3330,11 +3349,12 @@ MonoBehaviour:
   baseATK:
     dices:
     - count: 1
-      sides: 6
+      sides: 3
     modifier: 2
   currentATK:
     dices: []
     modifier: 0
+  atkAdvantage: 0
   DEXTREZA: 1
   ATLETISMO: 1
   entityType: 0

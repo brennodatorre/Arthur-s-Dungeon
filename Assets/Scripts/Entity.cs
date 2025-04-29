@@ -20,6 +20,7 @@ public class Entity : MonoBehaviour
     [SerializeField] public float def;
     [SerializeField] public DiceRoll baseATK = new DiceRoll();
     [SerializeField] public DiceRoll currentATK = new DiceRoll();
+    [SerializeField] public int atkAdvantage = 0; //advantage for the attack roll
     [SerializeField] public int DEXTREZA = 1;
     [SerializeField] public int ATLETISMO = 1;
 
@@ -33,7 +34,7 @@ public class Entity : MonoBehaviour
 
 
     public bool hasSupAction = true;
-
+    
 
 
     public Entity() { }
@@ -67,22 +68,80 @@ public class Entity : MonoBehaviour
        
     }
 
-    public IEnumerator doBasicATK(Entity target) {
+    public IEnumerator doBasicAtkCaller(Entity target) {
 
         yield return new WaitForSeconds(0f);
 
-        int damage = currentATK.Roll();
+        roundManager.actionQueue.Enqueue("first atk", () => doBasicATK(target));
+        
+        
+
+        while (roundManager.clashQueue.isRunning)
+        {
+            Debug.Log("null");
+            yield return null;
+        }
+
+        roundManager.EndTurn();
+
+        
+        
+    }
+    private IEnumerator doBasicATK(Entity target){
+
+        //adds delay on atacks after the first one
+        if (roundManager.clashQueue.actionQueue.Count > 1) {yield return new WaitForSeconds(3);}
+        else {yield return new WaitForSeconds(2);}
+
+        var damage = doAtkClash(this, target);
+
         float actualDamage = target.takeDamage(damage);
         audioManager.PlayAttackSound();
 
-        logManager.AddLog( name + " atacked " + target.name + " for " + actualDamage + " damage.");
 
-        roundManager.EndTurn();
+    }
+
+    public int doAtkClash(Entity attacker, Entity target) {
+        int damageDealt = 0; 
+
+        int attackRoll = attacker.currentATK.Roll(attacker.atkAdvantage);
+        int targetRoll = target.currentATK.Roll(target.atkAdvantage);
+
+        //if the rolls are equal, reroll)
+        while(attackRoll == targetRoll) { 
+            attackRoll = attacker.currentATK.Roll(attacker.atkAdvantage);
+            targetRoll = target.currentATK.Roll(target.atkAdvantage);
+        }
+
+        //deals with crits and fails
+        if(attacker.currentATK.wasCriticalHit(attackRoll)) { 
+            logManager.AddLog(attacker.name + " CRITHIT " + attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
+            roundManager.clashQueue.Enqueue("crithit", () => attacker.doBasicATK(target));
+            }
+        else if (target.currentATK.wasCriticalHit(targetRoll)) {
+            logManager.AddLog(target.name + " CRITHIT" + attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
+            roundManager.clashQueue.Enqueue("crithit", () =>  target.doBasicATK(attacker));
+            }
+        else if (attacker.currentATK.wasCriticalFail(attackRoll)){
+            logManager.AddLog(attacker.name + " CRITFAIL " +  attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
+            roundManager.clashQueue.Enqueue("critfail", () => target.doBasicATK(attacker));
+            }
+        else if(target.currentATK.wasCriticalFail(targetRoll)){
+            logManager.AddLog(target.name + " CRITFAIL " + attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
+            roundManager.clashQueue.Enqueue("critfail", () => attacker.doBasicATK(target));
+            }
+        else {
+            logManager.AddLog(attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll );
+        }
         
+        damageDealt = attackRoll - targetRoll; //calculate the damage dealt
+        return damageDealt;
+
+
     }
 
     public int rollDEX() {
-        int result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).RollWithAdvantage(DEXTREZA);
+        int result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(DEXTREZA);
         return result;
 
     }   
@@ -97,19 +156,19 @@ public class Entity : MonoBehaviour
             hp -= damage - def;
 
             // Flash red to indicate damage taken
-            roundManager.actionQueue.Enqueue("FlashRed",() => FlashSprite(spriteRenderer, Color.red));
+            roundManager.clashQueue.Enqueue("FlashRed",() => FlashSprite(spriteRenderer, Color.red));
 
             //show damage popup
-            roundManager.actionQueue.Enqueue("showDamagePopup", () => roundManager.ShowDamagePopup(actualDamage, transform.position, Color.red));
+            roundManager.clashQueue.Enqueue("showDamagePopup", () => roundManager.ShowDamagePopup(actualDamage, transform.position, Color.red));
 
         } else {
             actualDamage = 0;
 
             // Flash White to indicate block
-            roundManager.actionQueue.Enqueue("Flashwhite",() => FlashSprite(spriteRenderer, Color.white ));
+            roundManager.clashQueue.Enqueue("Flashwhite",() => FlashSprite(spriteRenderer, Color.white ));
 
             //show damage popup
-            roundManager.actionQueue.Enqueue("showDamagePopup", () => roundManager.ShowDamagePopup(actualDamage, transform.position, Color.gray));
+            roundManager.clashQueue.Enqueue("showDamagePopup", () => roundManager.ShowDamagePopup(actualDamage, transform.position, Color.gray));
         }
 
 
@@ -185,6 +244,7 @@ public class Entity : MonoBehaviour
         // Reset the material and color to original
         spriteRenderer.material = originalMaterial;
         spriteRenderer.color = original;
+
     }
 
     public static explicit operator List<object>(Entity v)
