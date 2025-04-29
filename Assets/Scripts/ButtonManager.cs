@@ -1,0 +1,174 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ButtonManager : MonoBehaviour
+{
+    private RoundManager roundManager;
+    private AudioManager audioManager;
+    private SkillManager skillManager;
+    public GameObject buttonPrefab;
+    public GameObject actMenu;
+    public GameObject skillMenu;
+    public GameObject skillMenuGrid;
+    public GameObject itemMenu;
+    //public GameObject itemMenuGrid;
+
+    List<GameObject> skillButtons = new List<GameObject>(); 
+    public List<GameObject> actionButtons = new List<GameObject>();
+    public GameObject lastButtonPressed;
+
+    public bool inAtkOverlay = false;
+    public bool inSkillOverlay = false;
+    public bool inItemOverlay = false;
+
+
+
+
+
+    private GameObject hero;
+    void Start()
+    {
+        roundManager = GameObject.Find("RoundManager").GetComponent<RoundManager>();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        skillManager = GameObject.Find("SkillManager").GetComponent<SkillManager>();
+
+
+    }
+
+
+    public void ATK_button(GameObject btn)
+    {
+        lastButtonPressed = btn;
+
+        audioManager.PlayAtkButtonSound();
+
+        if (!inAtkOverlay) {
+            
+            inAtkOverlay = true;
+            roundManager.currentPhase = RoundManager.TurnPhase.targetingATK;
+
+            //lock the other action buttons
+            toggleBtns(false, actionButtons);
+            // but not the last button pressed(atk button in this case)
+            lastButtonPressed.GetComponent<Button>().interactable = true;
+
+            roundManager.EnableEnemyTargetingUI(true);
+        } else {
+            inAtkOverlay = false;
+            //unlock the other action buttons
+            toggleBtns(true, actionButtons);
+
+            roundManager.EnableEnemyTargetingUI(false);
+            roundManager.currentPhase = RoundManager.TurnPhase.Action;
+
+        }
+    }
+    public void SKILL_button()
+    {
+        audioManager.PlaySkillButtonSound();
+        openSkillMenu();
+    }
+    public void ITEM_button()
+    {
+        audioManager.PlayItemButtonSound();
+        //openItemMenu();
+    }
+    public void RUN_button()
+    {
+        audioManager.PlayRunButtonSound();
+        //run away from battle
+    }
+
+    
+    private void openSkillMenu()
+    {
+
+        //clears the skill menu grid
+        foreach (Transform child in skillMenuGrid.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        actMenu.SetActive(false);
+        skillMenu.SetActive(true);
+
+        //create go back to action menu button
+        GameObject backButton = Instantiate(buttonPrefab, skillMenu.transform);
+        backButton.GetComponentInChildren<TextMeshProUGUI>().text = "Back";
+        backButton.GetComponentInChildren<TextMeshProUGUI>().color = Color.cyan;
+        Button backButtonBTN = backButton.GetComponent<Button>();
+        backButtonBTN.onClick.AddListener(() => closeSkillMenu());
+
+
+
+        foreach (Skill skill in roundManager.currentTurn.skillsInstance)
+        {
+            //creates a button for each skill in the players skill list
+            GameObject buttonObj = Instantiate(buttonPrefab, skillMenuGrid.transform);
+            buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = skill.skillName;
+
+            Button button = buttonObj.GetComponent<Button>();
+            button.onClick.AddListener(() => 
+            {
+                
+                lastButtonPressed = buttonObj;
+
+                skillButtons.Clear(); //clears the skill buttons list
+                //gets all the buttons in the skill menu grid and adds them to the skillButtons list
+                foreach (Transform child in skillMenuGrid.transform)
+                {
+                    skillButtons.Add(child.gameObject);
+                }
+
+                if (!inSkillOverlay){
+                    inSkillOverlay = true;
+                    toggleBtns(false, skillButtons); //lock the skill buttons
+                    lastButtonPressed.GetComponent<Button>().interactable = true; //unlock the last button pressed(the skill button that was pressed)
+
+                    //toggles skill targetting
+                    roundManager.currentPhase = RoundManager.TurnPhase.targetingSKILL;
+                    roundManager.EnableSkillTargetingUI(true);
+
+                    //tells skillManager which skill was selected
+                    roundManager.skillSelected = skill;
+                }
+                else {
+                    inSkillOverlay = false;
+                    toggleBtns(true, skillButtons); //unlock the skill buttons
+                    roundManager.EnableSkillTargetingUI(false); //disable the skill targetting UI
+                    roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
+                }
+            });
+        }
+        
+    } 
+
+
+    public void closeSkillMenu()
+    {
+        skillMenu.SetActive(false);
+        actMenu.SetActive(true);
+        inSkillOverlay = false;
+    }
+    
+
+
+    public void toggleBtns(bool switcher, List<GameObject> actionButtons )
+    {
+        
+
+        foreach (GameObject actionBtn in actionButtons)
+        {
+            actionBtn.GetComponent<Button>().interactable = switcher;
+        }
+
+    }
+    
+
+
+}
