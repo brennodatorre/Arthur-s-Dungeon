@@ -22,6 +22,8 @@ public class ButtonManager : MonoBehaviour
     public GameObject tooltipPanel;
     public TextMeshProUGUI tooltipText;
 
+    public GameObject backButton;
+
 
 
 
@@ -104,12 +106,7 @@ public class ButtonManager : MonoBehaviour
         skillMenu.SetActive(true);
 
         //create go back to action menu button
-        GameObject backButton = Instantiate(buttonPrefab, skillMenu.transform);
-        backButton.GetComponentInChildren<TextMeshProUGUI>().text = "Back";
-        backButton.GetComponentInChildren<TextMeshProUGUI>().color = Color.cyan;
-
-        Button backButtonBTN = backButton.GetComponent<Button>();
-        backButtonBTN.onClick.AddListener(() => closeSkillMenu());
+        backButton.SetActive(true);
         
 
 
@@ -170,6 +167,7 @@ public class ButtonManager : MonoBehaviour
 
     public void closeSkillMenu()
     {
+        backButton.SetActive(false);
         skillMenu.SetActive(false);
         actMenu.SetActive(true);
         inSkillOverlay = false;
