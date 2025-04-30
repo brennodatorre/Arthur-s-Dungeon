@@ -13,6 +13,7 @@ public class Entity : MonoBehaviour
 
     public enum EntityType { Player, Enemy, NPC };
     
+    [SerializeField] public new string name;
     [SerializeField] private float hp;
     [SerializeField] private float maxHP;
     [SerializeField] private float mp;
@@ -91,7 +92,7 @@ public class Entity : MonoBehaviour
 
         //adds delay on atacks after the first one
         if (roundManager.clashQueue.actionQueue.Count > 1) {yield return new WaitForSeconds(3);}
-        else {yield return new WaitForSeconds(2);}
+        else {yield return new WaitForSeconds(.5F);}
 
         var damage = doAtkClash(this, target);
 
@@ -100,7 +101,6 @@ public class Entity : MonoBehaviour
 
 
     }
-
     public int doAtkClash(Entity attacker, Entity target) {
         int damageDealt = 0; 
 
@@ -113,27 +113,29 @@ public class Entity : MonoBehaviour
             targetRoll = target.currentATK.Roll(target.atkAdvantage);
         }
 
-        //deals with crits and fails
-        if(attacker.currentATK.wasCriticalHit(attackRoll)) { 
-            logManager.AddLog(attacker.name + " CRITHIT " + attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
-            roundManager.clashQueue.Enqueue("crithit", () => attacker.doBasicATK(target));
-            }
-        else if (target.currentATK.wasCriticalHit(targetRoll)) {
-            logManager.AddLog(target.name + " CRITHIT" + attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
-            roundManager.clashQueue.Enqueue("crithit", () =>  target.doBasicATK(attacker));
-            }
-        else if (attacker.currentATK.wasCriticalFail(attackRoll)){
-            logManager.AddLog(attacker.name + " CRITFAIL " +  attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
-            roundManager.clashQueue.Enqueue("critfail", () => target.doBasicATK(attacker));
-            }
-        else if(target.currentATK.wasCriticalFail(targetRoll)){
-            logManager.AddLog(target.name + " CRITFAIL " + attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
-            roundManager.clashQueue.Enqueue("critfail", () => attacker.doBasicATK(target));
-            }
-        else {
-            logManager.AddLog(attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll );
-        }
-        
+        ////////////////////FIX/////////////////////////////////////////////////////////////////////////////////////
+        /// // //deals with crits and fails
+        // if(attacker.currentATK.wasCriticalHit(attackRoll)) { 
+        //     logManager.AddLog(attacker.name + " CRITHIT " + attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
+        //     roundManager.clashQueue.Enqueue("crithit", () => attacker.doBasicATK(target));
+        //     }
+        // else if (target.currentATK.wasCriticalHit(targetRoll)) {
+        //     logManager.AddLog(target.name + " CRITHIT" + attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
+        //     roundManager.clashQueue.Enqueue("crithit", () =>  target.doBasicATK(attacker));
+        //     }
+        // else if (attacker.currentATK.wasCriticalFail(attackRoll)){
+        //     logManager.AddLog(attacker.name + " CRITFAIL " +  attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
+        //     roundManager.clashQueue.Enqueue("critfail", () => target.doBasicATK(attacker));
+        //     }
+        // else if(target.currentATK.wasCriticalFail(targetRoll)){
+        //     logManager.AddLog(target.name + " CRITFAIL " + attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll); 
+        //     roundManager.clashQueue.Enqueue("critfail", () => attacker.doBasicATK(target));
+        //     }
+        // else {
+        //     logManager.AddLog(attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll );
+        // }
+        logManager.AddLog(attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll );
+
         damageDealt = attackRoll - targetRoll; //calculate the damage dealt
         return damageDealt;
 
@@ -266,5 +268,23 @@ public class Entity : MonoBehaviour
         return maxMP;
     }
     
+    public string getStatusAsString(){
+        string stts = "";
+
+        stts += "Name: " + name + "\n";
+        stts +="HP: "+ hp + "/" +maxHP + "\n";
+        stts +="MP " +mp + "/" +maxMP + "\n";
+        stts +="DEF: "+ def +"\n";
+        stts += "Base ATK: " +baseATK.diceToString() + "\n";
+        stts += "Current ATK: " + currentATK.diceToString() + "\n";
+        stts += "Current ATK Advantages: " + atkAdvantage + "\n";
+        stts += "DEXTERITY: " + DEXTREZA + "\n";
+        stts += "ATHLEtics: " + ATLETISMO + "\n";
+
+
+
+        return stts;
+
+    }
 
 }

@@ -11,12 +11,19 @@ public class ButtonManager : MonoBehaviour
     private RoundManager roundManager;
     private AudioManager audioManager;
     private SkillManager skillManager;
+    private CursorManager cursorManager;
     public GameObject buttonPrefab;
     public GameObject actMenu;
     public GameObject skillMenu;
     public GameObject skillMenuGrid;
     public GameObject itemMenu;
     //public GameObject itemMenuGrid;
+
+    public GameObject tooltipPanel;
+    public TextMeshProUGUI tooltipText;
+
+
+
 
     List<GameObject> skillButtons = new List<GameObject>(); 
     public List<GameObject> actionButtons = new List<GameObject>();
@@ -36,8 +43,7 @@ public class ButtonManager : MonoBehaviour
         roundManager = GameObject.Find("RoundManager").GetComponent<RoundManager>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         skillManager = GameObject.Find("SkillManager").GetComponent<SkillManager>();
-
-
+        cursorManager = GameObject.Find("CursorManager").GetComponent<CursorManager>();
     }
 
 
@@ -101,8 +107,10 @@ public class ButtonManager : MonoBehaviour
         GameObject backButton = Instantiate(buttonPrefab, skillMenu.transform);
         backButton.GetComponentInChildren<TextMeshProUGUI>().text = "Back";
         backButton.GetComponentInChildren<TextMeshProUGUI>().color = Color.cyan;
+
         Button backButtonBTN = backButton.GetComponent<Button>();
         backButtonBTN.onClick.AddListener(() => closeSkillMenu());
+        
 
 
 
@@ -111,6 +119,17 @@ public class ButtonManager : MonoBehaviour
             //creates a button for each skill in the players skill list
             GameObject buttonObj = Instantiate(buttonPrefab, skillMenuGrid.transform);
             buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = skill.skillName;
+
+            buttonObj.GetComponent<TooltipManager>().description = skill.description;
+            buttonObj.GetComponent<TooltipManager>().tooltipPanel = tooltipPanel;
+            buttonObj.GetComponent<TooltipManager>().tooltipText = tooltipText;
+            buttonObj.GetComponent<TooltipManager>().cursorManager = cursorManager;
+            buttonObj.GetComponent<TooltipManager>().btn = buttonObj;
+            buttonObj.GetComponent<TooltipManager>().hasDescription = true;
+
+            
+            
+
 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => 

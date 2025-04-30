@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class CursorManager : MonoBehaviour
 {
-    [SerializeField] private GameObject customCursor;
+    [SerializeField] public GameObject customCursor;
     [SerializeField] private Canvas canvas; 
     [SerializeField]private Sprite base_cursor; // The default cursor sprite
     [SerializeField]private Sprite onClick_cursor; // The clicked cursor sprite

@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 761961391154726603}
   - component: {fileID: 6942048351312920997}
   - component: {fileID: 8067990584894571182}
+  - component: {fileID: 8702537327615159185}
   m_Layer: 5
   m_Name: Button_Prefab
   m_TagString: Untagged
@@ -255,3 +256,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8702537327615159185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476485891199800133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6754a98d371e25f4089f4ea94ca160be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: this is a button
+  tooltipPanel: {fileID: 0}
+  tooltipText: {fileID: 0}
+  cursorManager: {fileID: 0}
+  btn: {fileID: 0}
+  offset: {x: 0, y: 20, z: 0}
+  hasDescription: 0

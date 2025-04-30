@@ -97,7 +97,7 @@ public class DiceRoll
 
     }
 
-      public override string ToString()
+      public string diceToString()
     {
         List<string> parts = new();
         foreach (var dice in dices)
