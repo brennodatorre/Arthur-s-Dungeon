@@ -153,7 +153,7 @@ public class Entity : MonoBehaviour
         //     logManager.AddLog(attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll );
         // }
 
-        logManager.AddLog(attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll );
+        logManager.AddLog(attacker.name + " rolled " + attackRoll + " || "  + target.name + " rolled " + targetRoll );
 
 
         damageDealt = attackRoll + attacker.currentATK.getModifier() - (targetRoll + target.currentATK.getModifier()); //calculate the damage dealt
