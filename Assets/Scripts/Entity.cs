@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 
 [System.Serializable]
@@ -58,10 +59,15 @@ public class Entity : MonoBehaviour
         logManager = FindObjectOfType<LogManager>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
 
+        if(baseATK.dices.Count ==0) {baseATK.AddDice(0,0);}
 
+        //copies baseATK dices to currentATK
         foreach (Dice dice in baseATK.dices) {
             this.currentATK.AddDice(dice.count, dice.sides);
         }
+
+        
+        currentATK.AddModifier (baseATK.getModifier());
 
         foreach (Skill skill in skills) {
             skillsInstance.Add(Instantiate(skill)); //add the skill to the instance list
@@ -97,21 +103,33 @@ public class Entity : MonoBehaviour
         var damage = doAtkClash(this, target);
 
         float actualDamage = target.takeDamage(damage);
-        audioManager.PlayAttackSound();
+        audioManager.PlayAttackSound(actualDamage);
+
+
 
 
     }
     public int doAtkClash(Entity attacker, Entity target) {
         int damageDealt = 0; 
 
+
         int attackRoll = attacker.currentATK.Roll(attacker.atkAdvantage);
         int targetRoll = target.currentATK.Roll(target.atkAdvantage);
 
+
+
         //if the rolls are equal, reroll)
-        while(attackRoll == targetRoll) { 
+        while(attackRoll == targetRoll ) { 
             attackRoll = attacker.currentATK.Roll(attacker.atkAdvantage);
             targetRoll = target.currentATK.Roll(target.atkAdvantage);
+
         }
+
+
+        if (attackRoll < 0) {attackRoll = 0;}
+        if (targetRoll < 0) { targetRoll = 0;}
+
+        
 
         ////////////////////FIX/////////////////////////////////////////////////////////////////////////////////////
         /// // //deals with crits and fails
@@ -134,9 +152,11 @@ public class Entity : MonoBehaviour
         // else {
         //     logManager.AddLog(attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll );
         // }
+
         logManager.AddLog(attacker.name + " rolled " + attackRoll + "|| "  + target.name + " rolled " + targetRoll );
 
-        damageDealt = attackRoll - targetRoll; //calculate the damage dealt
+
+        damageDealt = attackRoll + attacker.currentATK.getModifier() - (targetRoll + target.currentATK.getModifier()); //calculate the damage dealt
         return damageDealt;
 
 
@@ -175,6 +195,8 @@ public class Entity : MonoBehaviour
 
 
         if (hp <= 0) {die();}
+
+        Debug.Log(damage +" || " + actualDamage);
 
         return actualDamage; //return the actual damage taken 
          

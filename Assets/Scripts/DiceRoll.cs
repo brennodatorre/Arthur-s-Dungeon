@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 [System.Serializable]
 public class DiceRoll 
 {
-    [SerializeField] public List<Dice> dices = new() ;
+    [SerializeField] public List<Dice> dices = new List<Dice>();
     [SerializeField] private int modifier = 0;
 
     public DiceRoll() { }
@@ -39,16 +40,43 @@ public class DiceRoll
     }
 
     //adds a modifier to the dice pool, this is added after rolling the dices
-    public DiceRoll AddModifier(int value)
+    public void AddModifier(int value)
     {
-        modifier += value;
-        return this;
+        this.modifier += value;
+        
     }
 
+    public int getModifier()
+    {
+        return this.modifier;
+    }
+
+
+    
+
+    public bool isSafeRoll(DiceRoll roll)
+    {
+        bool safe = true;
+
+        int xSides = 0;
+        int xDices = 0;
+        foreach (Dice dice in roll.dices) { 
+            xSides += dice.sides;
+            xDices += dice.count;
+
+            }
+
+            if (xSides == xDices ) {safe = false;}
+
+        return   safe;
+    }
     
 
     public int Roll(int advantages = 0)
     {
+        //returns random low negative num, showing its not a safe roll to do
+        if (!isSafeRoll(this)) { return -1 - Random.Range(999, 9999);}
+
         advantages++;
 
         int finaltotal = 0;
@@ -60,6 +88,9 @@ public class DiceRoll
             {
                 for (int j = 0; j < dice.count; j++)
                 {
+                    if (dice.count <= 0 || dice.sides <= 0)
+                    continue;
+
                     total += Random.Range(1, dice.sides + 1);
                 }
             }
@@ -96,6 +127,10 @@ public class DiceRoll
 
 
     }
+
+
+    
+
 
       public string diceToString()
     {

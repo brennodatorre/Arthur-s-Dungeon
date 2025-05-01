@@ -118,7 +118,8 @@ public class RoundManager : MonoBehaviour
             yield return Delay(1f); 
             currentPhase = TurnPhase.Action; //set the current phase to action
             target = allies[UnityEngine.Random.Range(0, allies.Length)];
-            yield return StartCoroutine(currentTurn.doBasicAtkCaller(target));
+            actionQueue.Enqueue("EnemyAttack", () => currentTurn.doBasicAtkCaller(target));
+            
         }
         else if (currentTurn.entityType == Entity.EntityType.NPC)
         {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -8,6 +9,7 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource output;
 
+    public int[] atk_levels;
     [SerializeField]public List<AudioClip> atk_sounds = new List<AudioClip>();
     [SerializeField]public List<AudioClip> hit_sounds = new List<AudioClip>(); 
     
@@ -24,10 +26,18 @@ public class AudioManager : MonoBehaviour
     }
 
     //plays a random attack sound from the list
-    public void PlayAttackSound()
+    public void PlayAttackSound(float damage)
     {
-        int randomIndex = Random.Range(0, atk_sounds.Count);
-        output.PlayOneShot(atk_sounds[randomIndex]);
+        int index = 0;
+
+        //gets the level of the damage
+        for (int i = 0; i < atk_levels.Length; i++){
+            if (damage <= atk_levels[i] ) {break;} else {index++;}
+        }
+        
+
+        output.PlayOneShot(atk_sounds[index]);
+        Debug.Log(atk_sounds[index].name);
     }
 
     public void PlayAtkButtonSound()
