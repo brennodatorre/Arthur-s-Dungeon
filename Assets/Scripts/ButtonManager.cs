@@ -105,7 +105,7 @@ public class ButtonManager : MonoBehaviour
         actMenu.SetActive(false);
         skillMenu.SetActive(true);
 
-        //create go back to action menu button
+        //activateb the go back to action menu button
         backButton.SetActive(true);
         
 

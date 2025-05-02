@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public Vector2 screenBounds = new Vector2(Screen.width, Screen.height);
+
+
     public string description;
     public GameObject tooltipPanel;
     public TextMeshProUGUI tooltipText;
@@ -25,37 +28,46 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             isEntity = true;
             entity = GetComponent<Entity>();
         }
+        
 
 
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (isEntity && entity.entityType == Entity.EntityType.Enemy) {
+            return;
+        } 
 
+        tooltipPanel.SetActive(true);
+        RectTransform tooltipRect = tooltipPanel.GetComponent<RectTransform>();
+        Canvas canvas = tooltipPanel.GetComponentInParent<Canvas>();
 
-        if (isEntity && entity.entityType == Entity.EntityType.Player){
-            
+        LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRect);
+        Vector2 tooltipSize = tooltipRect.sizeDelta;
+
+        // Convert screen position to local position in canvas
+        Vector2 localPoint;
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, Input.mousePosition, canvas.worldCamera, out localPoint);
+
+        // Clamp tooltip inside the canvas
+        float pivotX = Mathf.Clamp(localPoint.x, -canvasRect.rect.width / 2 + tooltipSize.x / 2, canvasRect.rect.width / 2 - tooltipSize.x / 2);
+        float pivotY = Mathf.Clamp(localPoint.y, -canvasRect.rect.height / 2 + tooltipSize.y / 2, canvasRect.rect.height / 2 - tooltipSize.y / 2);
+
+        tooltipRect.localPosition = new Vector2(pivotX, pivotY);
+
+        // Set text
+        if (isEntity && entity.entityType == Entity.EntityType.Player)
+        {
             tooltipText.text = entity.getStatusAsString();
-            tooltipPanel.SetActive(true);
-
-            LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipPanel.GetComponent<RectTransform>());
-            tooltipPanel.GetComponent<RectTransform>().position = 
-                entity.transform.position ;
-
         }
-        else if (hasDescription){
+        else if (hasDescription)
+        {
             tooltipText.text = description;
-            tooltipPanel.SetActive(true);
-
-            LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipPanel.GetComponent<RectTransform>());
-            tooltipPanel.GetComponent<RectTransform>().position = 
-                btn.transform.position + offset;
         }
-
-
-       
-
     }
+
 
     public void OnPointerExit(PointerEventData eventData)
     {
