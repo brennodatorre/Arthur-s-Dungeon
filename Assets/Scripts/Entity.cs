@@ -103,6 +103,11 @@ public class Entity : MonoBehaviour
         var damage = doAtkClash(this, target);
 
         float actualDamage = target.takeDamage(damage);
+
+        //camera shake when player takes damage
+        if (actualDamage > 0 && target.entityType == EntityType.Player) 
+        {FindObjectOfType<CameraManager>().Shake();}
+
         audioManager.PlayAttackSound(actualDamage);
 
 
@@ -176,6 +181,9 @@ public class Entity : MonoBehaviour
         float actualDamage = damage - def;
         if (actualDamage > 0) {
             hp -= damage - def;
+
+            
+
 
             // Flash red to indicate damage taken
             roundManager.clashQueue.Enqueue("FlashRed",() => FlashSprite(spriteRenderer, Color.red));

@@ -5,6 +5,8 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class ButtonManager : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class ButtonManager : MonoBehaviour
     private AudioManager audioManager;
     private SkillManager skillManager;
     private CursorManager cursorManager;
+    private MySceneManager sceneManager;
+
     public GameObject buttonPrefab;
     public GameObject actMenu;
     public GameObject skillMenu;
@@ -42,10 +46,18 @@ public class ButtonManager : MonoBehaviour
     private GameObject hero;
     void Start()
     {
-        roundManager = GameObject.Find("RoundManager").GetComponent<RoundManager>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-        skillManager = GameObject.Find("SkillManager").GetComponent<SkillManager>();
+        
         cursorManager = GameObject.Find("CursorManager").GetComponent<CursorManager>();
+
+        sceneManager = GameObject.Find("MySceneManager").GetComponent<MySceneManager>();
+
+        if (sceneManager.sceneType == MySceneManager.SceneType.COMBAT) 
+        {
+            roundManager = GameObject.Find("RoundManager").GetComponent<RoundManager>();
+            skillManager = GameObject.Find("SkillManager").GetComponent<SkillManager>();
+        }
+
     }
 
 
@@ -92,7 +104,7 @@ public class ButtonManager : MonoBehaviour
         //run away from battle
     }
 
-    
+
     private void openSkillMenu()
     {
 

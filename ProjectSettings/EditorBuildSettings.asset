@@ -5,10 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/mainMenu.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/arthur.unity
     guid: d0c1fd4bb7b4506498f0a27c5c6f5097
+  - enabled: 1
+    path: Assets/Scenes/MainMenu_scene.unity
+    guid: e3786fb17cac2944eb21c5eac7715b09
+  - enabled: 1
+    path: Assets/Scenes/Arthur_scene.unity
+    guid: 8f0acc72d4afc44418cbd85896b91e10
+  - enabled: 1
+    path: Assets/Scenes/combat_scene.unity
+    guid: f7861b2207a4a584ab3595d72911ec5d
+  - enabled: 1
+    path: Assets/Scenes/DeathShop_scene.unity
+    guid: 6d605a9d67d413947a043fb65e6bee11
   m_configObjects: {}

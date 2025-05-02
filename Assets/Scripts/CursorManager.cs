@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 public class CursorManager : MonoBehaviour
 {
+
+    
+
+
     [SerializeField] public GameObject customCursor;
     [SerializeField] private Canvas canvas; 
     [SerializeField]private Sprite base_cursor; // The default cursor sprite
@@ -14,6 +18,8 @@ public class CursorManager : MonoBehaviour
     [SerializeField]private Sprite blade_cursor; // The hovered cursor sprite
 
     public RoundManager roundManager;
+    public MySceneManager sceneManager;
+    
 
     public int base_cursorSize = 1; // Size of the cursor in pixels
     public int onClick_cursorSize = 1; // Size of the cursor in pixels
@@ -44,7 +50,7 @@ public class CursorManager : MonoBehaviour
         customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(32, -44); 
 
 
-        if (roundManager.currentPhase == RoundManager.TurnPhase.targetingATK) // if the targeting phase is active
+        if ( sceneManager.sceneType == MySceneManager.SceneType.COMBAT && roundManager.currentPhase == RoundManager.TurnPhase.targetingATK) // if the targeting phase is active
         {
             customCursor.GetComponent<Image>().sprite = blade_cursor; // Change to hovered cursor sprite
             // Adjust the position to center the cursor
