@@ -46,8 +46,8 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 0
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 9
+  spritePivot: {x: 0.3884858, y: 0.3745413}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -108,7 +108,28 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Player_0
+      rect:
+        serializedVersion: 2
+        x: 584
+        y: 0
+        width: 960
+        height: 1499
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a565f2ea4659364090f821e88b7218f
+      internalID: -867296830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline:
     - - {x: 154, y: -888}
       - {x: 158, y: -712}
@@ -214,7 +235,11 @@ TextureImporter:
       - {x: -23, y: 301}
       - {x: -20, y: 295}
       - {x: -13, y: 277}
-    physicsShape: []
+    physicsShape:
+    - - {x: -778.6834, y: -1024}
+      - {x: -488.8089, y: 541.2086}
+      - {x: 88.81372, y: 475.6754}
+      - {x: 255.23413, y: -1024}
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 1537655665
@@ -223,7 +248,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Player_0: -867296830
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
