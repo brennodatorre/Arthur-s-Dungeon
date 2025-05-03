@@ -16,7 +16,7 @@ MonoBehaviour:
   mpCost: 2
   cooldown: 0
   currentCooldown: 0
-  description: apply rot into atk, adding 1d4 damage to atk
+  description: apply ROT adding 1d4 damage to atk of target
   soundEffect: {fileID: 8300000, guid: f49dd6b5f80535541bd3a15c04e777bb, type: 3}
   origin: 0
   targetType: 0

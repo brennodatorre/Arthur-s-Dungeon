@@ -16,7 +16,7 @@ MonoBehaviour:
   mpCost: 4
   cooldown: 0
   currentCooldown: 0
-  description: Heals target for 1d6 hp
+  description: Heals target for 1d6 HP
   soundEffect: {fileID: 8300000, guid: ab34aae26d749be40ab07eddd17f0931, type: 3}
   origin: 4
   targetType: 0

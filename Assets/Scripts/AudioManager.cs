@@ -7,7 +7,10 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
 
-    private AudioSource output;
+    public Entity player;
+
+    public AudioSource SFXoutput;
+    public AudioSource ambienceOutput;
 
     public int[] atk_levels;
     [SerializeField]public List<AudioClip> atk_sounds = new List<AudioClip>();
@@ -20,9 +23,14 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip skill_unable_sound;
 
-    private void Start()
+    
+
+    private void Update()
     {
-        output = GetComponent<AudioSource>();
+
+        if (player != null){
+            ambienceOutput.pitch = Mathf.Lerp(2.5f, .5f, player.getHP() / player.getMaxHP());
+        }
     }
 
     //plays a random attack sound from the list
@@ -36,34 +44,34 @@ public class AudioManager : MonoBehaviour
         }
         
 
-        output.PlayOneShot(atk_sounds[index]);
+        SFXoutput.PlayOneShot(atk_sounds[index]);
         Debug.Log(atk_sounds[index].name);
     }
 
     public void PlayAtkButtonSound()
     {
-        output.PlayOneShot(atk_button_sound);
+        SFXoutput.PlayOneShot(atk_button_sound);
     }
 
     public void PlaySkillButtonSound()
     {
-        output.PlayOneShot(skill_button_sound);
+        SFXoutput.PlayOneShot(skill_button_sound);
     }
 
     public void PlayItemButtonSound()
     {
-        output.PlayOneShot(item_button_sound);
+        SFXoutput.PlayOneShot(item_button_sound);
     }
 
     public void PlayRunButtonSound()
     {
-        output.PlayOneShot(run_button_sound);
+        SFXoutput.PlayOneShot(run_button_sound);
     }
 
 
     public void PlaySound(AudioClip sound)
     {
-        output.PlayOneShot(sound);
+        SFXoutput.PlayOneShot(sound);
     }
 
 }

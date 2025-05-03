@@ -221,6 +221,7 @@ public class Entity : MonoBehaviour
 
     public void heal(float value) {
         hp += value;
+        if (hp > maxHP) {hp = maxHP;}
     }
 
     public void loseMP(float value) {

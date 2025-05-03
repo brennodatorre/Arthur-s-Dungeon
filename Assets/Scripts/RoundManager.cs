@@ -171,13 +171,13 @@ public class RoundManager : MonoBehaviour
 
         foreach (var entity in entities)
         {
-            var enemyCollider = entity.GetComponent<Collider2D>();
-            if (enemyCollider != null)
-                enemyCollider.enabled = enable;
+            var entityColiider = entity.GetComponent<Collider2D>();
+            if (entityColiider != null && entity.entityType == Entity.EntityType.Enemy)
+                entityColiider.enabled = enable;
 
-            var enemyRender = entity.GetComponent<SpriteRenderer>();
-            if (enemyRender != null)
-                enemyRender.color = enable ? new Color(0f, 0f, 1f) : Color.white;
+            var entityRender = entity.GetComponent<SpriteRenderer>();
+            if (entityRender != null)
+                entityRender.color = enable ? new Color(0f, 0f, 1f) : Color.white;
         }
     }
 
