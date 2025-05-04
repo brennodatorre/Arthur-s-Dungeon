@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip run_button_sound;
 
     public AudioClip skill_unable_sound;
+    public AudioClip death_sound;
 
     
 
@@ -45,7 +46,7 @@ public class AudioManager : MonoBehaviour
         
 
         SFXoutput.PlayOneShot(atk_sounds[index]);
-        Debug.Log(atk_sounds[index].name);
+        //Debug.Log(atk_sounds[index].name);
     }
 
     public void PlayAtkButtonSound()

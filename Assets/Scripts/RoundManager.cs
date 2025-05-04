@@ -12,6 +12,7 @@ public class RoundManager : MonoBehaviour
 {
     public SkillManager skillManager;
     public ButtonManager buttonManager;
+    public AnimationManager animationManager;
 
     [SerializeField] public GameObject damagePopupPrefab;
     [SerializeField] public Transform hud; //the parent object for the damage popups
@@ -68,8 +69,10 @@ public class RoundManager : MonoBehaviour
 
         currentTurn = entities[0]; //sets the current turn to the first entity in the array
         
-        //set act_menu to active if the current turn is the player's
-        act_menu.SetActive(currentTurn.entityType == Entity.EntityType.Player);
+        //sets all menus off so the combat can begin
+        act_menu.SetActive(false);
+        buttonManager.skillMenu.SetActive(false);
+        buttonManager.itemMenu.SetActive(false);
 
         actionQueue.Enqueue("delay" , () => Delay(1f));
         actionQueue.Enqueue("StartTurn", () => StartTurn());
@@ -152,6 +155,7 @@ public class RoundManager : MonoBehaviour
     public void EnableEnemyTargetingUI(bool enable)
     {
 
+        player.GetComponent<Collider2D>().enabled = !enable; //does not allow player self hit
 
         foreach (var enemy in enemies)
         {
@@ -160,9 +164,11 @@ public class RoundManager : MonoBehaviour
                 enemyCollider.enabled = enable;
 
             var enemyRender = enemy.GetComponent<SpriteRenderer>();
-            if (enemyRender != null)
+            if (enemyRender != null && !enemy.isDead)
                 enemyRender.color = enable ? new Color(1f, 0f, 0f) : Color.white;
         }
+
+        // player.GetComponent<Collider2D>().enabled = enable; //does not allow player self hit
     }
 
     public void EnableSkillTargetingUI(bool enable)
@@ -176,7 +182,7 @@ public class RoundManager : MonoBehaviour
                 entityColiider.enabled = enable;
 
             var entityRender = entity.GetComponent<SpriteRenderer>();
-            if (entityRender != null)
+            if (entityRender != null  && !entity.isDead)
                 entityRender.color = enable ? new Color(0f, 0f, 1f) : Color.white;
         }
     }

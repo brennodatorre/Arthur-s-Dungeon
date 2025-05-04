@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -14,28 +15,50 @@ public class Entity : MonoBehaviour
 
     public enum EntityType { Player, Enemy, NPC };
     
+    [Space]
+    [Header("Base Status")]
+    [SerializeField] public EntityType entityType;
     [SerializeField] public new string name;
     [SerializeField] private float hp;
     [SerializeField] private float maxHP;
     [SerializeField] private float mp;
     [SerializeField] private float maxMP;
     [SerializeField] public float def;
-    [SerializeField] public DiceRoll baseATK = new DiceRoll();
-    [SerializeField] public DiceRoll currentATK = new DiceRoll();
-    [SerializeField] public int atkAdvantage = 0; //advantage for the attack roll
+
+    [Space]
+    [Header("Traits")]
+
     [SerializeField] public int DEXTREZA = 1;
     [SerializeField] public int ATLETISMO = 1;
 
-    [SerializeField] public EntityType entityType;
-   
+
+    [Space]
+    [Header("Atk Status")]
+
+    [SerializeField] public DiceRoll baseATK = new DiceRoll();
+    [SerializeField] public DiceRoll currentATK = new DiceRoll();
+    [SerializeField] public int atkAdvantage = 0; //advantage for the attack roll
+
+
+    [Space]
+    [Header("States")]
+    
+    public bool isDead = false;
+    
+    public bool hasSupAction = true;
+
+
+    [Space]
+    [Header("Skiils")]
+
     [SerializeField] public List<Skill> skills = new List<Skill>();
-    [HideInInspector]public List<Skill> skillsInstance = new List<Skill>();
+    [HideInInspector]public List<Skill> skillsInstance = new List<Skill>(); // to not edit original copy
     [SerializeField] public List<Skill> activeSkillEffects = new List<Skill>();
 
     
 
 
-    public bool hasSupAction = true;
+    
     
 
 
@@ -101,6 +124,8 @@ public class Entity : MonoBehaviour
         else {yield return new WaitForSeconds(.5F);}
 
         var damage = doAtkClash(this, target);
+
+        roundManager.animationManager.doAnimation(target);
 
         float actualDamage = target.takeDamage(damage);
 
@@ -182,15 +207,15 @@ public class Entity : MonoBehaviour
         if (actualDamage > 0) {
             hp -= damage - def;
 
-            
+            if (hp <= 0) {die();}
+            else {
 
+                // Flash red to indicate damage taken
+                roundManager.clashQueue.Enqueue("FlashRed",() => FlashSprite(spriteRenderer, Color.red));
 
-            // Flash red to indicate damage taken
-            roundManager.clashQueue.Enqueue("FlashRed",() => FlashSprite(spriteRenderer, Color.red));
-
-            //show damage popup
-            roundManager.clashQueue.Enqueue("showDamagePopup", () => roundManager.ShowDamagePopup(actualDamage, transform.position, Color.red));
-
+                //show damage popup
+                roundManager.clashQueue.Enqueue("showDamagePopup", () => roundManager.ShowDamagePopup(actualDamage, transform.position, Color.red));
+            }
         } else {
             actualDamage = 0;
 
@@ -202,7 +227,7 @@ public class Entity : MonoBehaviour
         }
 
 
-        if (hp <= 0) {die();}
+        
 
         Debug.Log(damage +" || " + actualDamage);
 
@@ -245,8 +270,21 @@ public class Entity : MonoBehaviour
     }
 
     public void die() {
+
+        isDead = true;
         spriteRenderer.color = Color.black; //change the color of the sprite to gray
         Debug.Log(name + " has died.");
+
+        // If player Dies
+        if (this.entityType == EntityType.Player) {
+
+            roundManager.actionQueue.actionQueue.Clear(); // clears next actions on action queue
+
+            StartCoroutine( GameObject.FindObjectOfType<MySceneManager>().doPlayerKilled() );
+
+        }
+        
+
     }
 
     public bool hasEffect(Skill skill) {
@@ -302,15 +340,17 @@ public class Entity : MonoBehaviour
     public string getStatusAsString(){
         string stts = "";
 
-        stts += "Name: " + name + "\n";
+        stts += "Name: " + name + "\n \n";
         stts +="HP: "+ hp + "/" +maxHP + "\n";
-        stts +="MP " +mp + "/" +maxMP + "\n";
+        stts +="MP " +mp + "/" +maxMP + "\n\n";
         stts +="DEF: "+ def +"\n";
         stts += "Base ATK: " +baseATK.diceToString() + "\n";
         stts += "Current ATK: " + currentATK.diceToString() + "\n";
-        stts += "Current ATK Advantages: " + atkAdvantage + "\n";
+        stts += "Current ATK Advantages: " + atkAdvantage + "\n \n";
         stts += "DEXTERITY: " + DEXTREZA + "\n";
         stts += "ATHLEtics: " + ATLETISMO + "\n";
+
+        stts += "Has Supporting Action = " +hasSupAction + "\n";
 
 
 

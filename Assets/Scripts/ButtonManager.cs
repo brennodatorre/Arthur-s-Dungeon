@@ -127,7 +127,7 @@ public class ButtonManager : MonoBehaviour
         {
             //creates a button for each skill in the players skill list
             GameObject buttonObj = Instantiate(buttonPrefab, skillMenuGrid.transform);
-            buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = skill.skillName;
+            buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = skill.skillName  + " (" + skill.mpCost + ") ";
 
             buttonObj.GetComponent<TooltipManager>().description = skill.description;
             buttonObj.GetComponent<TooltipManager>().tooltipPanel = tooltipPanel;
