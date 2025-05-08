@@ -23,6 +23,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip skill_unable_sound;
     public AudioClip death_sound;
+    public AudioClip skill_page_select_sound;
 
     
 
@@ -44,6 +45,8 @@ public class AudioManager : MonoBehaviour
             if (damage <= atk_levels[i] ) {break;} else {index++;}
         }
         
+        if (index > atk_levels.Length-1) {index--;}
+        Debug.Log("index " +index );
 
         SFXoutput.PlayOneShot(atk_sounds[index]);
         //Debug.Log(atk_sounds[index].name);
@@ -73,6 +76,10 @@ public class AudioManager : MonoBehaviour
     public void PlaySound(AudioClip sound)
     {
         SFXoutput.PlayOneShot(sound);
+    }
+
+    public void PlaySkillPageSelectdSound(){
+        SFXoutput.PlayOneShot(skill_page_select_sound);
     }
 
 }

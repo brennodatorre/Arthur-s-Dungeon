@@ -48,8 +48,9 @@ public class RoundManager : MonoBehaviour
 
     public void Start()
     {
-        //actionQueue = new ActionQueue();
-        //clashQueue = new ActionQueue();
+        
+        PlayerData.Instance.LoadPlayerData(player); // load player data 
+
         entities = FindObjectsOfType<Entity>(true); //finds all entities in the scene
 
         foreach (Entity entity in entities) //loops through each entity

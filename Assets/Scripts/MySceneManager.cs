@@ -16,43 +16,51 @@ public class MySceneManager : MonoBehaviour
     public AudioManager audioManager;
 
 
-public IEnumerator doPlayerKilled()
 
-{
-
-    audioManager.ambienceOutput.Pause();
-    audioManager.PlaySound(audioManager.death_sound);
-
-
-    GameObject blackout = GameObject.Find("BlackoutOverlay");
-    SpriteRenderer spriteRenderer = blackout.GetComponent<SpriteRenderer>();
-
-    float duration = 5f; 
-    float currentTimer = 0f; 
-
-    Color startColor = new Color(0, 0, 0, 0); 
-    Color endColor = new Color(0, 0, 0, 1); 
 
     
-    while (currentTimer < duration)
-    {
-        currentTimer += Time.deltaTime;
+    /// //////////////////////////////////////////////////////////////////////////////////////////////
+   
 
-        float t = currentTimer / duration; 
 
-        spriteRenderer.color = Color.Lerp(startColor, endColor, t);
 
-        yield return null; // wait for the next frame
 
+
+    public IEnumerator openSceneWithTransition(string toScene, bool withDeathSound){
+
+        audioManager.ambienceOutput.Pause();
+         if (withDeathSound) {audioManager.PlaySound(audioManager.death_sound);}
+
+
+        GameObject blackout = GameObject.Find("BlackoutOverlay");
+        SpriteRenderer spriteRenderer = blackout.GetComponent<SpriteRenderer>();
+
+        float duration = 5f; 
+        float currentTimer = 0f; 
+
+        Color startColor = new Color(0, 0, 0, 0); 
+        Color endColor = new Color(0, 0, 0, 1); 
+
+        
+        while (currentTimer < duration)
+        {
+            currentTimer += Time.deltaTime;
+
+            float t = currentTimer / duration; 
+
+            spriteRenderer.color = Color.Lerp(startColor, endColor, t);
+
+            yield return null; // wait for the next frame
+
+        }
+
+        
+        spriteRenderer.color = endColor;
+
+        yield return new WaitForSeconds(3f); 
+
+        openScene(toScene);
     }
-
-    
-    spriteRenderer.color = endColor;
-
-    yield return new WaitForSeconds(3f); 
-
-    openScene("DEATHSHOP");
-}
 
     public void openScene(string sceneName)
     {
@@ -111,7 +119,7 @@ public IEnumerator doPlayerKilled()
         yield return new WaitForSeconds(1);
         
 
-        SceneManager.LoadScene("DeathShop_scene");
+        SceneManager.LoadScene("OutsideReader_scene");
 
         
 

@@ -21,6 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/combat_scene.unity
     guid: f7861b2207a4a584ab3595d72911ec5d
   - enabled: 1
-    path: Assets/Scenes/DeathShop_scene.unity
+    path: Assets/Scenes/OutsideReader_scene.unity
     guid: 6d605a9d67d413947a043fb65e6bee11
   m_configObjects: {}

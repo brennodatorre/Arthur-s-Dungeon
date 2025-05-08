@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class Skill : ScriptableObject
     public int cooldown;
     public int currentCooldown;
     public string description;
+    public int fableCost;
 
     public AudioClip soundEffect;
     public SkillOrigin origin;
@@ -90,4 +92,5 @@ public class Skill : ScriptableObject
     
     }
 
+   
 }

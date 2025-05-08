@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4811895941543658939}
   - component: {fileID: 990376181097744666}
   - component: {fileID: 5487627267637466254}
+  - component: {fileID: 8318368269574766686}
   - component: {fileID: 2499290641024110798}
   m_Layer: 5
   m_Name: Glow_font
@@ -66,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: START
+  m_text: Game Over
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7dd7f5cbc947cc34b9691fc2828eb171, type: 2}
   m_sharedMaterial: {fileID: 3256645777341221851, guid: 7dd7f5cbc947cc34b9691fc2828eb171, type: 2}
@@ -105,7 +106,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 100
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -135,6 +136,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8318368269574766686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4323080165584772290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f526f5c5841488d4aaa37dd785c69846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typingDelay: 0.07
 --- !u!114 &2499290641024110798
 MonoBehaviour:
   m_ObjectHideFlags: 0

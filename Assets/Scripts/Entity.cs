@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
+using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -44,8 +46,8 @@ public class Entity : MonoBehaviour
     [Header("States")]
     
     public bool isDead = false;
-    
     public bool hasSupAction = true;
+    
 
 
     [Space]
@@ -280,8 +282,23 @@ public class Entity : MonoBehaviour
 
             roundManager.actionQueue.actionQueue.Clear(); // clears next actions on action queue
 
-            StartCoroutine( GameObject.FindObjectOfType<MySceneManager>().doPlayerKilled() );
+            PlayerData.Instance.fablePoints++;
 
+            StartCoroutine( GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("DEATHSHOP", true) );
+
+        } else {
+
+            //removes the dead entity from theirs respective arrays
+            roundManager.entities = roundManager.entities.Where(x => x != this).ToArray();
+            if (this.entityType == EntityType.Enemy){
+                roundManager.enemies = roundManager.enemies.Where(x => x != this).ToArray();
+                PlayerData.Instance.fablePoints++;
+            }
+            else { //is an ally
+                roundManager.allies = roundManager.allies.Where(x => x != this).ToArray();
+            }
+        
+        
         }
         
 
@@ -336,7 +353,21 @@ public class Entity : MonoBehaviour
     public float getMaxMP() {
         return maxMP;
     }
+    public void setHP(float x) {
+        hp = x;
+    }
+    public void setMP(float x) {
+        mp = x;
+    }
+    public void setMaxHP(float x) {
+        maxHP = x;
+    }
+    public void setMaxMP(float x) {
+        maxMP = x;
+        
+    }
     
+
     public string getStatusAsString(){
         string stts = "";
 

@@ -49,7 +49,7 @@ public class CursorManager : MonoBehaviour
         // Adjust the position to center the cursor
         customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(32, -44); 
 
-
+        
         if ( sceneManager.sceneType == MySceneManager.SceneType.COMBAT && roundManager.currentPhase == RoundManager.TurnPhase.targetingATK) // if the targeting phase is active
         {
             customCursor.GetComponent<Image>().sprite = blade_cursor; // Change to hovered cursor sprite
