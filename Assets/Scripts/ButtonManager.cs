@@ -16,6 +16,16 @@ public class ButtonManager : MonoBehaviour
     private CursorManager cursorManager;
     private MySceneManager sceneManager;
 
+
+    [SerializeField] public enum OnMenu
+    {
+        Action,
+        Skill,
+        Item 
+    }
+
+    [Space]
+    [Header("GUI Elements")]
     public GameObject buttonPrefab;
     public GameObject actMenu;
     public GameObject skillMenu;
@@ -23,27 +33,34 @@ public class ButtonManager : MonoBehaviour
     public GameObject itemMenu;
     //public GameObject itemMenuGrid;
 
+    [Space]
+    [Header("Buttons")]
+    public GameObject atk_button;
+    public GameObject skill_button;
+    public GameObject item_button;
+    public GameObject run_button;
+    public GameObject backButton;
+
+    [Space]
     public GameObject tooltipPanel;
     public TextMeshProUGUI tooltipText;
 
-    public GameObject backButton;
-
-
-
-
+    
+    [Space]
     List<GameObject> skillButtons = new List<GameObject>(); 
     public List<GameObject> actionButtons = new List<GameObject>();
     public GameObject lastButtonPressed;
 
+    [Space]
+    [Header("States")]
     public bool inAtkOverlay = false;
     public bool inSkillOverlay = false;
     public bool inItemOverlay = false;
+    public OnMenu currentMenu; //the current menu of the turn
 
 
 
 
-
-    private GameObject hero;
     void Start()
     {
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -54,9 +71,37 @@ public class ButtonManager : MonoBehaviour
 
         if (sceneManager.sceneType == MySceneManager.SceneType.COMBAT) 
         {
-            roundManager = GameObject.Find("RoundManager").GetComponent<RoundManager>();
+            roundManager = GameObject.Find("CombatManager").GetComponent<RoundManager>();
             skillManager = GameObject.Find("SkillManager").GetComponent<SkillManager>();
         }
+
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q) && currentMenu != OnMenu.Skill && currentMenu != OnMenu.Item)
+        {
+            ATK_button(atk_button);
+        }
+        else if (Input.GetKeyDown(KeyCode.W) && !inAtkOverlay &&  currentMenu != OnMenu.Item)
+        {
+            //if not on skill already open skill menu, else close it
+            if (currentMenu != OnMenu.Skill) {SKILL_button();}
+            else { audioManager.PlaySkillButtonSound();  
+                    closeSkillMenu();}
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && !inAtkOverlay && currentMenu != OnMenu.Skill )
+        {
+            ITEM_button();
+        }
+        else if (Input.GetKeyDown(KeyCode.R) && !inAtkOverlay && currentMenu != OnMenu.Skill && currentMenu != OnMenu.Item)
+        {
+           RUN_button();  
+        }
+        
+
+
 
     }
 
@@ -90,16 +135,21 @@ public class ButtonManager : MonoBehaviour
     }
     public void SKILL_button()
     {
+        currentMenu = OnMenu.Skill;
+        lastButtonPressed = skill_button;
         audioManager.PlaySkillButtonSound();
         openSkillMenu();
     }
     public void ITEM_button()
     {
+        //currentMenu = OnMenu.Item;
+        lastButtonPressed = item_button;
         audioManager.PlayItemButtonSound();
         //openItemMenu();
     }
     public void RUN_button()
     {
+        lastButtonPressed = run_button;
         audioManager.PlayRunButtonSound();
         //run away from battle
     }
@@ -183,10 +233,11 @@ public class ButtonManager : MonoBehaviour
         skillMenu.SetActive(false);
         actMenu.SetActive(true);
         inSkillOverlay = false;
+        currentMenu = OnMenu.Action;
     }
     
 
-
+    //togle the list of buttons passed 
     public void toggleBtns(bool switcher, List<GameObject> actionButtons )
     {
         

@@ -15,7 +15,14 @@ public class PlayerData : MonoBehaviour
     [SerializeField] public int atkAdvantage = 0; //advantage for the attack roll
     [SerializeField] public int DEXTREZA = 1;
     [SerializeField] public int ATLETISMO = 1;
+
+
+    [Space]
     [SerializeField] public int fablePoints = 0;
+    public int death_counter = 0;
+    public int kill_counter = 0;
+    
+
 
 
     public bool isDead = false;

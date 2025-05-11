@@ -53,12 +53,14 @@ MonoBehaviour:
   baseATK:
     dices:
     - count: 1
-      sides: 8
+      sides: 4
     modifier: 0
   atkAdvantage: 0
   DEXTREZA: 1
   ATLETISMO: 1
   fablePoints: 0
+  death_counter: 0
+  kill_counter: 0
   isDead: 0
   skills: []
   skillsInstance: []

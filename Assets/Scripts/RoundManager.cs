@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.Video;
@@ -13,6 +14,20 @@ public class RoundManager : MonoBehaviour
     public SkillManager skillManager;
     public ButtonManager buttonManager;
     public AnimationManager animationManager;
+    public CombatSetter combatSetter;
+
+
+     [SerializeField] public enum TurnPhase
+    {
+        Start,
+        Action,
+        targetingATK,
+        targetingSKILL,
+        targetingITEM,
+        End
+    }
+
+    
 
     [SerializeField] public GameObject damagePopupPrefab;
     [SerializeField] public Transform hud; //the parent object for the damage popups
@@ -25,24 +40,17 @@ public class RoundManager : MonoBehaviour
     public Entity target;
     public Skill skillSelected;
     public TurnPhase currentPhase; //the current phase of the turn
+    
 
     public Entity player;
-    public Entity[] entities; //array of all entities in the scene
+    public List<Entity> entities; //array of all entities in the scene
     public Entity[] allies; //array of all allies in the scene
     public Entity[] enemies; //array of all enemies in the scene
 
     public bool test = false; //for testing purposes
 
     
-    [SerializeField] public enum TurnPhase
-    {
-        Start,
-        Action,
-        targetingATK,
-        targetingSKILL,
-        targetingITEM,
-        End
-    }
+   
 
 
 
@@ -51,22 +59,27 @@ public class RoundManager : MonoBehaviour
         
         PlayerData.Instance.LoadPlayerData(player); // load player data 
 
-        entities = FindObjectsOfType<Entity>(true); //finds all entities in the scene
+        combatSetter.openLevel(); // sets the enemies level
 
-        foreach (Entity entity in entities) //loops through each entity
+        entities = FindObjectsOfType<Entity>(true).ToList(); //finds all entities in the scene and converts to a list
+
+        foreach (Entity entity in entities.ToArray()) //loops through each entity
         {
-            if (entity.entityType != Entity.EntityType.Enemy) //if the entity is not an enemy
-            {
-                allies = allies.Append(entity).ToArray(); //adds the entity to the allies array
+            if (entity.isActiveAndEnabled){
+                if (entity.entityType != Entity.EntityType.Enemy) //if the entity is not an enemy
+                {
+                    allies = allies.Append(entity).ToArray(); //adds the entity to the allies array
+                }
+                else if (entity.entityType == Entity.EntityType.Enemy) //if the entity is an enemy
+                {
+                    enemies = enemies.Append(entity).ToArray(); //adds the entity to the enemies array
+                }
             }
-            else if (entity.entityType == Entity.EntityType.Enemy) //if the entity is an enemy
-            {
-                enemies = enemies.Append(entity).ToArray(); //adds the entity to the enemies array
-            }
+            else {entities.Remove(entity);} //removes the entity from the list
         }
         
         //sorts the entities by their rolls in descending order
-        entities = entities.OrderByDescending(x => x.rollDEX()).ToArray();
+        entities = entities.OrderByDescending(x => x.rollDEX()).ToList();
 
         currentTurn = entities[0]; //sets the current turn to the first entity in the array
         
@@ -92,8 +105,8 @@ public class RoundManager : MonoBehaviour
         currentPhase = TurnPhase.End; //set the current phase to end
 
         // set the next turn to the next entity in the array, or loop back to the first entity if at the end
-        int index = System.Array.IndexOf(entities, currentTurn);
-        currentTurn = (index == entities.Length - 1) ? entities[0] : entities[index + 1];
+        int index = entities.IndexOf(currentTurn);
+        currentTurn = (index == entities.Count - 1) ? entities[0] : entities[index + 1];
         
         if (currentTurn.entityType != Entity.EntityType.Player) {yield return Delay(1f); }//wait for 1 second before starting the next turn
 

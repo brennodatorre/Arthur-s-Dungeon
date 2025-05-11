@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4687080640567179169}
   - component: {fileID: 5683966555742805366}
   m_Layer: 0
-  m_Name: bunny
+  m_Name: MeatBall
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 451, y: -44, z: 0}
-  m_LocalScale: {x: 29.500793, y: 29.761168, z: 73.74}
+  m_LocalScale: {x: 29.500792, y: 29.761166, z: 73.73999}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}

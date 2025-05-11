@@ -13,7 +13,7 @@ public class skillPage : MonoBehaviour
         selected = !selected;
         FindObjectOfType<AudioManager>().PlaySkillPageSelectdSound();
         if (selected){ GetComponentInParent<Image>().color = Color.magenta;}
-        else { GetComponentInParent<Image>().color = Color.white;}
+        else { GetComponentInParent<Image>().color = Color.black;}
     }
 
 }

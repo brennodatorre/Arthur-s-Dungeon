@@ -79,7 +79,7 @@ public class Entity : MonoBehaviour
     void Start()
     {
 
-        roundManager = GameObject.Find("RoundManager").GetComponent<RoundManager>();
+        roundManager = GameObject.Find("CombatManager").GetComponent<RoundManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         logManager = FindObjectOfType<LogManager>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -283,16 +283,28 @@ public class Entity : MonoBehaviour
             roundManager.actionQueue.actionQueue.Clear(); // clears next actions on action queue
 
             PlayerData.Instance.fablePoints++;
+            PlayerData.Instance.death_counter++;
 
+            //goes to fable shop on player death
             StartCoroutine( GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("DEATHSHOP", true) );
 
         } else {
+            
+
 
             //removes the dead entity from theirs respective arrays
-            roundManager.entities = roundManager.entities.Where(x => x != this).ToArray();
+            roundManager.entities = roundManager.entities.Where(x => x != this).ToList();
             if (this.entityType == EntityType.Enemy){
+                
                 roundManager.enemies = roundManager.enemies.Where(x => x != this).ToArray();
+
+                if (roundManager.enemies.Length == 0) {  //goes to tutorial if there are no more enemies
+                    StartCoroutine( GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("TUTORIAL", true) );
+                }
+
+                
                 PlayerData.Instance.fablePoints++;
+                PlayerData.Instance.kill_counter++;
             }
             else { //is an ally
                 roundManager.allies = roundManager.allies.Where(x => x != this).ToArray();

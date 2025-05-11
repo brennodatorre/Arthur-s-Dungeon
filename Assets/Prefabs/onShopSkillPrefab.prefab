@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 6621196894211975185}
   - component: {fileID: 46427619410356826}
   - component: {fileID: 1669059986769291809}
+  - component: {fileID: 2473700131534599035}
   m_Layer: 5
   m_Name: onShopSkillPrefab
   m_TagString: Untagged
@@ -138,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7056604, g: 0.6481377, b: 0.5259167, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -271,3 +272,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skill: {fileID: 0}
   selected: 0
+--- !u!114 &2473700131534599035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7018723158389982702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5636edfce79ac05469cf6d3b1b47dd5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 0
+  amplitude: 5
+  frequency: 3
+  startDelay: 0
