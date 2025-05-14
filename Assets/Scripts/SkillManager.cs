@@ -29,10 +29,14 @@ public class SkillManager : MonoBehaviour
                 roundManager.actionQueue.Enqueue("do HealingTear", () => doHealingTear(target, caster, skill)); //add the action to the queue
                 
             } 
-            else if (skill.skillName == "Rotting Touch" && checkMP(skill, caster)) {
+            else if (skill.skillName == "Rotting Touch") {
 
                 roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doRottingTouch(target, caster, skill)); //add the action to the queue
 
+            }
+            else if (skill.skillName == "Plated Soul"){
+
+                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doPlatedSoul(target, caster, skill)); //add the action to the queue
             }
             else {
                 Debug.Log("Skill not implemented yet.");
@@ -44,6 +48,11 @@ public class SkillManager : MonoBehaviour
         roundManager.buttonManager.closeSkillMenu(); //close the skill menu after the action is done
 
     }
+
+
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     public Skill getSkill(string skillName) {
         foreach (Skill skill in skills) {
@@ -96,8 +105,8 @@ public class SkillManager : MonoBehaviour
 
         audioManager.PlaySound(skill.soundEffect); //play skill sound
 
-        DiceRoll damageAmount = new DiceRoll(); //create a new DiceRoll for the healing amount
-        damageAmount.AddDice(1, 4); //add 1d6 to the healing amount
+        DiceRoll damageAmount = new DiceRoll(); //create a new DiceRoll
+        damageAmount.AddDice(1, 4); //
 
         target.activeSkillEffects.Add(skill); //add the skill to the active effects list
 
@@ -109,7 +118,7 @@ public class SkillManager : MonoBehaviour
 
         //////////////////////////////////////////////////
         
-        activeEffectManager.AddEffect(skill, 0, RoundManager.TurnPhase.End, () => {
+        activeEffectManager.AddEffect(skill, 1, RoundManager.TurnPhase.End, () => {}, () => {
 
             target.activeSkillEffects.Remove(skill); //remove the effect from the active effects list
             
@@ -120,7 +129,37 @@ public class SkillManager : MonoBehaviour
         
     }
 
+    private IEnumerator doPlatedSoul( Entity target, Entity caster, Skill skill) {
 
+        yield return new WaitForSeconds(0f); //wait for 0 seconds
+
+        caster.loseMP(skill.mpCost); //lose MP for casting the skill
+
+        audioManager.PlaySound(skill.soundEffect); //play skill sound
+
+        
+
+        target.activeSkillEffects.Add(skill); //add the skill to the active effects list
+
+        target.def += 3; //add 3 to the defense amount
+
+        logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
+
+
+
+        //////////////////////////////////////////////////
+        
+        activeEffectManager.AddEffect(skill, 3, RoundManager.TurnPhase.Start, () => {}, () =>
+        {
+            target.activeSkillEffects.Remove(skill); //remove the effect from the active effects list
+            
+            target.def += -3; //remove 1d4 from the attack amount
+        }
+        
+        
+        );
+        
+    }
 
 
 }

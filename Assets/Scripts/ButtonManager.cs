@@ -158,11 +158,7 @@ public class ButtonManager : MonoBehaviour
     private void openSkillMenu()
     {
 
-        //clears the skill menu grid
-        foreach (Transform child in skillMenuGrid.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        
 
         actMenu.SetActive(false);
         skillMenu.SetActive(true);
@@ -229,6 +225,13 @@ public class ButtonManager : MonoBehaviour
 
     public void closeSkillMenu()
     {
+        // Clears the skill menu grid
+        for (int i = skillMenuGrid.transform.childCount - 1; i >= 0; i--)
+        {
+            Transform child = skillMenuGrid.transform.GetChild(i);
+            Destroy(child.gameObject);
+        }
+
         backButton.SetActive(false);
         skillMenu.SetActive(false);
         actMenu.SetActive(true);

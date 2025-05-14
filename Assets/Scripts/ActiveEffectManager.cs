@@ -26,6 +26,7 @@ public class ActiveEffectManager : MonoBehaviour
     public void Update() {
         // if turn phase changed and there are active effects, execute
         if (currentPhase != roundManager.currentPhase && activeEffects.Count > 0) {
+
            currentPhase = roundManager.currentPhase; //update the current phase
 
            
@@ -37,24 +38,28 @@ public class ActiveEffectManager : MonoBehaviour
             else if (currentPhase == RoundManager.TurnPhase.End) {
                 
                 foreach (effectNode effect in endEffects) {
-                    effect.action.Invoke(); //execute the action
+                    if (effect.turns == 1 ) {effect.endEffect.Invoke();}
+                    effect.roundEffect.Invoke(); //execute the action
                     effect.turns--; //decrease the turns left for the effect
                     
                 }
                 
-                RemoveDeadEffects(); //remove any dead effects from the lists
+                
 
             } 
-
             else if (currentPhase == RoundManager.TurnPhase.Start) {
                 
                 foreach (effectNode effect in startEffects) {
-                    effect.action.Invoke(); //execute the action
+                    if (effect.turns == 1 ) {effect.endEffect.Invoke();}
+                    effect.roundEffect.Invoke(); //execute the action
                     effect.turns--; //decrease the turns left for the effect
                     
                 }
                 
             }
+
+
+            RemoveDeadEffects(); //remove any dead effects from the lists
 
             
 
@@ -64,9 +69,9 @@ public class ActiveEffectManager : MonoBehaviour
     }
     
 
-    public void AddEffect(Skill skill, int turns, RoundManager.TurnPhase phase, Action toDo) {
+    public void AddEffect(Skill skill, int turns, RoundManager.TurnPhase phase, Action triggerEffect, Action triggerEndEffect) {
         
-        effectNode effect = new effectNode(turns, toDo, phase); //create a new node for the effect
+        effectNode effect = new effectNode(turns, triggerEffect, phase, triggerEndEffect); //create a new node for the effect
 
         activeEffects.Add(effect); //add the effect to the list of active effects
 
@@ -112,14 +117,16 @@ public class ActiveEffectManager : MonoBehaviour
 public class effectNode
 {
     public int turns;
-    public Action action;
+    public Action roundEffect;
     RoundManager.TurnPhase phase;
+    public Action endEffect;
 
-    public effectNode(int turns, Action action, RoundManager.TurnPhase phase)
+    public effectNode(int turns, Action roundEffect, RoundManager.TurnPhase phase, Action endEffect)
     {
         this.turns = turns;
-        this.action = action;
+        this.roundEffect = roundEffect;
         this.phase = phase;
+        this.endEffect = endEffect;
     }
 }
 

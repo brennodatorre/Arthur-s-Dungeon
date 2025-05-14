@@ -94,6 +94,9 @@ public class Entity : MonoBehaviour
         
         currentATK.AddModifier (baseATK.getModifier());
 
+        //clear the skill instance so there wont be duplicates
+        skillsInstance.Clear(); 
+
         foreach (Skill skill in skills) {
             skillsInstance.Add(Instantiate(skill)); //add the skill to the instance list
         }
@@ -294,12 +297,13 @@ public class Entity : MonoBehaviour
 
             //removes the dead entity from theirs respective arrays
             roundManager.entities = roundManager.entities.Where(x => x != this).ToList();
+
             if (this.entityType == EntityType.Enemy){
                 
                 roundManager.enemies = roundManager.enemies.Where(x => x != this).ToArray();
 
                 if (roundManager.enemies.Length == 0) {  //goes to tutorial if there are no more enemies
-                    StartCoroutine( GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("TUTORIAL", true) );
+                    StartCoroutine( GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("COMBAT", true) );
                 }
 
                 
