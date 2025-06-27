@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
+
 using System.Linq;
-using Unity.PlasticSCM.Editor.WebApi;
-using Unity.VisualScripting;
+
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.RenderGraphModule;
 
 [System.Serializable]
 public class Entity : MonoBehaviour
@@ -277,11 +277,12 @@ public class Entity : MonoBehaviour
     public void die() {
 
         isDead = true;
-        spriteRenderer.color = Color.black; //change the color of the sprite to gray
+        //spriteRenderer.color = Color.black; //change the color of the sprite to gray
         Debug.Log(name + " has died.");
 
         // If player Dies
-        if (this.entityType == EntityType.Player) {
+        if (this.entityType == EntityType.Player)
+        {
 
             roundManager.actionQueue.actionQueue.Clear(); // clears next actions on action queue
 
@@ -289,30 +290,39 @@ public class Entity : MonoBehaviour
             PlayerData.Instance.death_counter++;
 
             //goes to fable shop on player death
-            StartCoroutine( GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("DEATHSHOP", true) );
+            StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("DEATHSHOP", true));
 
-        } else {
-            
+        }
+        else
+        { // if not player
+
 
 
             //removes the dead entity from theirs respective arrays
             roundManager.entities = roundManager.entities.Where(x => x != this).ToList();
 
-            if (this.entityType == EntityType.Enemy){
-                
+            if (this.entityType == EntityType.Enemy)
+            {
+
                 roundManager.enemies = roundManager.enemies.Where(x => x != this).ToArray();
 
-                if (roundManager.enemies.Length == 0) {  //goes to tutorial if there are no more enemies
-                    StartCoroutine( GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("COMBAT", true) );
+                if (roundManager.enemies.Length == 0)
+                {  //goes to tutorial if there are no more enemies
+                    StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("COMBAT", true));
                 }
 
-                
+
                 PlayerData.Instance.fablePoints++;
                 PlayerData.Instance.kill_counter++;
             }
-            else { //is an ally
+            else
+            { //is an ally
                 roundManager.allies = roundManager.allies.Where(x => x != this).ToArray();
             }
+
+
+            StartCoroutine(DissolveUponDeath()); //dissolves the entity upon death
+
         
         
         }
@@ -328,7 +338,6 @@ public class Entity : MonoBehaviour
         }
         return false; // Return false if the effect is not found
     }
-
 
     //flash the entity a inputed color
     public IEnumerator FlashSprite(SpriteRenderer spriteRenderer, Color color, float duration = 0.2f)
@@ -351,13 +360,25 @@ public class Entity : MonoBehaviour
 
     }
 
-    public static explicit operator List<object>(Entity v)
+    //does Dissolve effect on the entity upon death
+    public IEnumerator DissolveUponDeath()
     {
-        throw new NotImplementedException();
+
+        Material mat = spriteRenderer.material;
+
+        float fade = 1;
+
+        while (fade > 0)
+        {
+            fade -= Time.deltaTime * 0.5f; //fade out over time
+            mat.SetFloat("_Fade", fade);
+            yield return null; //wait for next frame
+        }
+
     }
 
-    
-    public float getHP() {
+    public float getHP()
+    {
         return hp;
     }
     public float getMP() {

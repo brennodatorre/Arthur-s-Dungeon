@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hero
   - Enemy
+  - Interactable
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Don't Render In Camera
   - 
   - 
   - 

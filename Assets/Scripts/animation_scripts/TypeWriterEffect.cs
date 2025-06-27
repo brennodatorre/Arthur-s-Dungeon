@@ -4,11 +4,13 @@ using TMPro;
 
 public class TypeWriterEffect : MonoBehaviour
 {
-    public float typingDelay = 0.07f;
+    public float typingDelay = 0.07f; // delay between each character
     private Coroutine currentTyping;
     private TextMeshProUGUI textComponent;
     private AudioClip typeSound;
     private AudioManager audioManager;
+
+    
     
 
 
@@ -17,9 +19,11 @@ public class TypeWriterEffect : MonoBehaviour
         textComponent = GetComponent<TextMeshProUGUI>();
 
         typeSound = Resources.Load<AudioClip>("soundEffects/btn_sounds/typeClick");
+
+        
         if (typeSound == null)
         {
-            Debug.LogError("Failed to load typeSound!");
+            Debug.LogError("failed to load typeSound");
         }
 
         audioManager = FindObjectOfType<AudioManager>();
@@ -28,13 +32,29 @@ public class TypeWriterEffect : MonoBehaviour
 
     void OnEnable()
     {
-        StartCoroutine(DelayedTypewriter());
+        //print("TypeWriterEffect enabled");
+
+        textComponent = GetComponent<TextMeshProUGUI>();
+
+        string fulltext = textComponent.text;// stores the full texts
+
+        Debug.Log("Full text: " + fulltext);
+
+        StartCoroutine(DelayedTypewriter(fulltext));
+        
+        textComponent.text = ""; 
     }
 
-    IEnumerator DelayedTypewriter()
+    IEnumerator DelayedTypewriter(string fulltext)
     {
+
+        
+
         yield return null; // waits one frame
-        ShowText(textComponent.text);
+        
+        ShowText(fulltext);
+        
+        
     }
 
     public void ShowText(string fullText)
@@ -45,13 +65,15 @@ public class TypeWriterEffect : MonoBehaviour
         currentTyping = StartCoroutine(TypeText(fullText));
     }
 
+
+
     private IEnumerator TypeText(string text)
     {
-        textComponent.text = "";
+        
         foreach (char c in text)
         {
             textComponent.text += c;
-            audioManager.PlaySound(typeSound);
+            if (audioManager != null) { audioManager.PlaySound(typeSound); }
             yield return new WaitForSeconds(typingDelay);
         }
     }
