@@ -824,10 +824,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 700
+  sprintSpeed: 700
   orientation: {fileID: 467666932}
-  cacheTargetPosition: {x: 0, y: 0, z: 0}
   lookTarget: {fileID: 851519777}
   Cam: {fileID: 1216469581}
+  isSprinting: 0
 --- !u!114 &467666935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1872,8 +1873,8 @@ MonoBehaviour:
   PixelRender: {fileID: 8400000, guid: 76f1bb796b84d614ea6492c8672c25b7, type: 2}
   RegularTexture: {fileID: 8400000, guid: 5eb2bcaed2f5ebd418a71a4035435f70, type: 2}
   Render: {fileID: 2137911250}
-  sensitivity: 500
-  distance: 1
+  sensitivity: 600
+  distance: 0.1
   verticalClamp: 80
 --- !u!114 &1216469586
 MonoBehaviour:

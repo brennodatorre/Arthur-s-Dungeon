@@ -53,8 +53,8 @@ public class DiceRoll
 
 
     
-
-    public bool isSafeRoll(DiceRoll roll)
+    //internal helper method to check if the roll is safe to do
+    private bool isSafeRoll(DiceRoll roll)
     {
         bool safe = true;
 

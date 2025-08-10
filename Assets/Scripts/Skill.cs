@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewSkill", menuName = "RPG/Skill")]
 public class Skill : ScriptableObject
 {
-    public enum SkillOrigin { Roses, Hex, Landreas, Arthur, System, Unknown };
+    public enum SkillOrigin { Roses, Hex, Landreas, Arthur, System, Unknown, Survivor };
     public enum SkillTarget { Single, Multi, Self };
 
 

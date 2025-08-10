@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public class player_move : MonoBehaviour
@@ -7,13 +8,12 @@ public class player_move : MonoBehaviour
 
     private Rigidbody rb;
     public float speed = 5f;
+    public float sprintSpeed = 5f;
     public Transform orientation;
-
-    public Vector3 cacheTargetPosition; // Cache the target position for camera movement
-
     public Transform lookTarget; 
-
     public Transform Cam; // Reference to the camera transform
+
+    public bool isSprinting = false;
 
    
     void Start()
@@ -38,18 +38,27 @@ public class player_move : MonoBehaviour
         // Use orientation (yaw-only) instead of full transform
         Vector3 moveDirection = (orientation.forward * ver + orientation.right * hor).normalized;
 
-        rb.AddForce(moveDirection * speed * Time.deltaTime, ForceMode.VelocityChange);
+        if (Input.GetKey(KeyCode.LeftShift))
+        { //sprint
+            isSprinting = true;
+            rb.AddForce(moveDirection * (speed + sprintSpeed) * Time.deltaTime, ForceMode.VelocityChange);
+        }
+        else
+        { //walk
+            isSprinting = false;
+            rb.AddForce(moveDirection * speed * Time.deltaTime, ForceMode.VelocityChange);
+        }
+        
 
-        cacheTargetPosition = lookTarget.position; // Cache the target position for camera movement
+        
 
-
+        // Rotate the player to face the camera direction
         transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * Cam.GetComponent<camera_move>().sensitivity * Time.deltaTime);
 
+        Quaternion CamRotation = Cam.rotation;
+        CamRotation.x = 0f;
+        CamRotation.z = 0f;
 
-            Quaternion CamRotation = Cam.rotation;
-            CamRotation.x = 0f;
-            CamRotation.z = 0f;
-
-            transform.rotation = Quaternion.Lerp(transform.rotation, CamRotation, 0.1f);
-    }
+        transform.rotation = Quaternion.Lerp(transform.rotation, CamRotation, 0.1f);
+}
 }

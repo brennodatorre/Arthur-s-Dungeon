@@ -27,11 +27,27 @@ public class Entity : MonoBehaviour
     [SerializeField] private float maxMP;
     [SerializeField] public float def;
 
+
+
+    public enum Trait { DEXTREZA, ATLETISMO, AURA, CARISMA, SORTE, INTUICAO, HEX, ASTUCIA, VONTADE, REFLEXOS, PERSEPCAO, FURTIVIDADE, CONSTITUICAO };
     [Space]
     [Header("Traits")]
+    
 
     [SerializeField] public int DEXTREZA = 1;
     [SerializeField] public int ATLETISMO = 1;
+    [SerializeField] public int AURA = 1;
+    [SerializeField] public int CHARISMA = 1;
+    [SerializeField] public int SORTE = 1;
+    [SerializeField] public int INTUICAO = 1;
+    [SerializeField] public int HEX = 1;
+    [SerializeField] public int ASTUCIA = 1;
+    [SerializeField] public int VONTADE = 1;
+    [SerializeField] public int REFLEXOS = 1;
+    [SerializeField] public int PERSEPCAO = 1;
+    [SerializeField] public int FURTIVIDADE = 1;
+    [SerializeField] public int CONSTITUICAO = 1;
+    [SerializeField] public int DOMINANCIA = 1;
 
 
     [Space]
@@ -201,47 +217,104 @@ public class Entity : MonoBehaviour
         int result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(DEXTREZA);
         return result;
 
-    }   
+    }
 
-    public float takeDamage(float damage) {
+    //rolls a test based on inputed trait
+    public int rollTest(Trait trait)
+    {
+        int result = 0;
 
-        if (roundManager == null) {roundManager = GameObject.Find("RoundManager").GetComponent<RoundManager>();}
-        if (spriteRenderer == null) {spriteRenderer = GetComponent<SpriteRenderer>();}
+        switch (trait)
+        {
+            case Trait.DEXTREZA:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(DEXTREZA - 1);
+                break;
+            case Trait.ATLETISMO:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(ATLETISMO - 1);
+                break;
+            case Trait.AURA:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(AURA - 1);
+                break;
+            case Trait.CARISMA:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(CHARISMA - 1);
+                break;
+            case Trait.SORTE:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(SORTE - 1);
+                break;
+            case Trait.INTUICAO:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(INTUICAO - 1);
+                break;
+            case Trait.HEX:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(HEX - 1);
+                break;
+            case Trait.ASTUCIA:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(ASTUCIA - 1);
+                break;
+            case Trait.VONTADE:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(VONTADE - 1);
+                break;
+            case Trait.REFLEXOS:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(REFLEXOS - 1);
+                break;
+            case Trait.PERSEPCAO:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(PERSEPCAO - 1);
+                break;
+            case Trait.FURTIVIDADE:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(FURTIVIDADE - 1);
+                break;
+            case Trait.CONSTITUICAO:
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(CONSTITUICAO - 1);
+                break;
+        }
+
+        return result;
+
+    } 
+
+    public float takeDamage(float damage)
+    {
+
+        if (roundManager == null) { roundManager = GameObject.Find("RoundManager").GetComponent<RoundManager>(); }
+        if (spriteRenderer == null) { spriteRenderer = GetComponent<SpriteRenderer>(); }
 
         float actualDamage = damage - def;
-        if (actualDamage > 0) {
+        if (actualDamage > 0)
+        {
             hp -= damage - def;
 
-            if (hp <= 0) {die();}
-            else {
+            if (hp <= 0) { die(); }
+            else
+            {
 
                 // Flash red to indicate damage taken
-                roundManager.clashQueue.Enqueue("FlashRed",() => FlashSprite(spriteRenderer, Color.red));
+                roundManager.clashQueue.Enqueue("FlashRed", () => FlashSprite(spriteRenderer, Color.red));
 
                 //show damage popup
                 roundManager.clashQueue.Enqueue("showDamagePopup", () => roundManager.ShowDamagePopup(actualDamage, transform.position, Color.red));
             }
-        } else {
+        }
+        else
+        {
             actualDamage = 0;
 
             // Flash White to indicate block
-            roundManager.clashQueue.Enqueue("Flashwhite",() => FlashSprite(spriteRenderer, Color.white ));
+            roundManager.clashQueue.Enqueue("Flashwhite", () => FlashSprite(spriteRenderer, Color.white));
 
             //show damage popup
             roundManager.clashQueue.Enqueue("showDamagePopup", () => roundManager.ShowDamagePopup(actualDamage, transform.position, Color.gray));
         }
 
 
-        
 
-        Debug.Log(damage +" || " + actualDamage);
+
+        Debug.Log(damage + " || " + actualDamage);
 
         return actualDamage; //return the actual damage taken 
-         
-        
 
 
-        
+
+
+
     }
 
     public void takeTrueDamage(float damage) {
@@ -376,6 +449,15 @@ public class Entity : MonoBehaviour
         }
 
     }
+
+
+
+
+
+
+
+    ////////////////////////////////////// Getters and Setters for HP, MP, Max HP, and Max MP ////////////////////////////////////////////////////
+
 
     public float getHP()
     {

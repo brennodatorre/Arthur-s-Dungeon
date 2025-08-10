@@ -4208,6 +4208,18 @@ MonoBehaviour:
   def: 0
   DEXTREZA: 1
   ATLETISMO: 1
+  AURA: 1
+  CHARISMA: 1
+  SORTE: 1
+  INTUICAO: 1
+  HEX: 1
+  ASTUCIA: 1
+  VONTADE: 1
+  REFLEXOS: 1
+  PERSEPCAO: 1
+  FURTIVIDADE: 1
+  CONSTITUICAO: 1
+  DOMINANCIA: 1
   baseATK:
     dices:
     - count: 1
@@ -4219,9 +4231,7 @@ MonoBehaviour:
   atkAdvantage: 0
   isDead: 0
   hasSupAction: 1
-  skills:
-  - {fileID: 11400000, guid: 22e4c1c3b66e065408c8cbbeb67d841f, type: 2}
-  - {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
+  skills: []
   skillsInstance: []
   activeSkillEffects: []
 --- !u!60 &1432705811
@@ -5532,6 +5542,7 @@ Transform:
   - {fileID: 329883513}
   - {fileID: 1456739211}
   - {fileID: 751601856}
+  - {fileID: 2140493527}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1922509253
@@ -6146,6 +6157,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+--- !u!4 &2140493527 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 420727671571176749, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+  m_PrefabInstance: {fileID: 3570246708827117848}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2682038035843549328
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6167,9 +6183,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 537370085}
     - target: {fileID: 4382045549093195584, guid: 409763086259f4c44aca300556e6d7d2, type: 3}
+      propertyPath: skills.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382045549093195584, guid: 409763086259f4c44aca300556e6d7d2, type: 3}
       propertyPath: activeEffectManager
       value: 
       objectReference: {fileID: 821012531}
+    - target: {fileID: 4382045549093195584, guid: 409763086259f4c44aca300556e6d7d2, type: 3}
+      propertyPath: skills.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 78709ea5f11babb48860ee4c96f8ad74, type: 2}
     - target: {fileID: 7454324298889154050, guid: 409763086259f4c44aca300556e6d7d2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.7973537
@@ -6225,7 +6249,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1908633245}
     m_Modifications:
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: hp
@@ -6237,12 +6261,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: skills.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: skills.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 005afb1d946bd1b4bbf14bab003931b9, type: 2}
+      objectReference: {fileID: 11400000, guid: 78709ea5f11babb48860ee4c96f8ad74, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: skills.Array.data[1]
       value: 
@@ -6253,15 +6277,15 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
     - target: {fileID: 420727671571176749, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.025362
+      value: 6.1206484
       objectReference: {fileID: 0}
     - target: {fileID: 420727671571176749, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.1563544
+      value: -4.113313
       objectReference: {fileID: 0}
     - target: {fileID: 420727671571176749, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.626354
+      value: 4.7623672
       objectReference: {fileID: 0}
     - target: {fileID: 420727671571176749, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6820,4 +6844,3 @@ SceneRoots:
   - {fileID: 737360100}
   - {fileID: 1090405488}
   - {fileID: 1908633245}
-  - {fileID: 3570246708827117848}
