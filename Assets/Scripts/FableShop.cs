@@ -84,20 +84,28 @@ public class FableShop : MonoBehaviour
 
         int amountDue= 0;
 
-        foreach (GameObject pageOb in skillsPagesOnShop) {
-            if (pageOb.GetComponent<skillPage>().selected) {
+        // calculates the total amount due
+        foreach (GameObject pageOb in skillsPagesOnShop)
+        {
+            if (pageOb.GetComponent<skillPage>().selected)
+            {
                 amountDue += pageOb.GetComponent<skillPage>().skill.fableCost;
             }
         }
 
-        if (PlayerData.Instance.fablePoints < amountDue) {Debug.Log("Not enough Fables");}
-        else { // adds the skills to player and leaves shop
-            foreach (GameObject pageOb in skillsPagesOnShop) {
-                if (pageOb.GetComponent<skillPage>().selected) {
+
+        if (PlayerData.Instance.fablePoints < amountDue) { Debug.Log("Not enough Fables"); }
+        
+        else
+        { // adds the skills to player and leaves shop
+            foreach (GameObject pageOb in skillsPagesOnShop)
+            {
+                if (pageOb.GetComponent<skillPage>().selected)
+                {
                     PlayerData.Instance.skills.Add(pageOb.GetComponent<skillPage>().skill);
                     PlayerData.Instance.fablePoints -= amountDue;
                 }
-                
+
             }
             PlayerData.Instance.revivePlayer();
             FindObjectOfType<Or_Manager>().leaveOutsideReaderDomain();

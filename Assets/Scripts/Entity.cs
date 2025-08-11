@@ -409,14 +409,9 @@ public class Entity : MonoBehaviour
 
                 roundManager.enemies = roundManager.enemies.Where(x => x != this).ToArray();
 
-                if (roundManager.enemies.Length == 0)
-                {  //goes to tutorial if there are no more enemies
-                    StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("COMBAT", true));
-                }
-
-
                 PlayerData.Instance.fablePoints++;
                 PlayerData.Instance.kill_counter++;
+
             }
             else
             { //is an ally
@@ -425,6 +420,12 @@ public class Entity : MonoBehaviour
 
 
             StartCoroutine(DissolveUponDeath()); //dissolves the entity upon death
+
+            if (roundManager.enemies.Length == 0)
+            {  //goes to next combat level
+                PlayerData.Instance.savePlayerData(roundManager.player);
+                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("COMBAT", false));
+            }
 
         
         

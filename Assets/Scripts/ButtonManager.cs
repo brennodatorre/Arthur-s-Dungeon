@@ -81,7 +81,7 @@ public class ButtonManager : MonoBehaviour
     private void Update()
     {
         //if its on the player's turn and they havent ended their action
-        if (roundManager.currentTurn == roundManager.player && roundManager.currentTurn.currentMainActions > 0 && (roundManager.currentPhase == RoundManager.TurnPhase.Action|| roundManager.currentPhase == RoundManager.TurnPhase.targetingATK))
+        if (roundManager != null && roundManager.currentTurn == roundManager.player && roundManager.currentTurn.currentMainActions > 0 && (roundManager.currentPhase == RoundManager.TurnPhase.Action|| roundManager.currentPhase == RoundManager.TurnPhase.targetingATK))
         {
             if (Input.GetKeyDown(KeyCode.Q) && currentMenu != OnMenu.Skill && currentMenu != OnMenu.Item)
             {

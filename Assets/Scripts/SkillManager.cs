@@ -33,7 +33,7 @@ public class SkillManager : MonoBehaviour
             //use up the sup action if the skill is a support action
             if (skill.isSupportAction) { caster.currentSupActions--; }
 
-
+            caster.loseMP(skill.mpCost); //caster lose mp
 
             if (skill.skillName == "Healing Tear")
             {
@@ -133,7 +133,7 @@ public class SkillManager : MonoBehaviour
 
         var heal = healAmount.Roll(); //roll the healing amount
         caster.heal(heal); //heal the target for 10 HP
-        caster.loseMP(skill.mpCost); //lose 5 MP for casting the skill
+        
 
         logManager.AddLog(caster.name + " casted Healing Tear on " + target.name + " for " + heal + " HP.");
 
@@ -144,7 +144,7 @@ public class SkillManager : MonoBehaviour
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
-        caster.loseMP(skill.mpCost); //lose 5 MP for casting the skill
+        
 
         audioManager.PlaySound(skill.soundEffect); //play skill sound
 
@@ -177,8 +177,6 @@ public class SkillManager : MonoBehaviour
     {
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
-
-        caster.loseMP(skill.mpCost); //lose MP for casting the skill
 
         audioManager.PlaySound(skill.soundEffect); //play skill sound
 
@@ -239,7 +237,6 @@ public class SkillManager : MonoBehaviour
 
     }
 
-
     private IEnumerator doBestialAdrenaline(Entity target, Entity caster, Skill skill)
     {
 
@@ -282,13 +279,10 @@ public class SkillManager : MonoBehaviour
         });
 
     }
-    
 
     private IEnumerator doSpinalJaw(Entity target, Entity caster, Skill skill){
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
-
-        caster.loseMP(skill.mpCost); //lose MP for casting the skill
 
         audioManager.PlaySound(skill.soundEffect); //play skill sound
 

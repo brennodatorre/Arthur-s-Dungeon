@@ -18,7 +18,7 @@ MonoBehaviour:
   currentCooldown: 0
   description: 1d8 damage -> if > 0, apply bleed
   fableCost: 3
-  soundEffect: {fileID: 8300000, guid: f49dd6b5f80535541bd3a15c04e777bb, type: 3}
+  soundEffect: {fileID: 8300000, guid: d7e33bb457e2b114ea1bf5517375491c, type: 3}
   origin: 0
   targetType: 0
   isSupportAction: 1

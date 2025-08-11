@@ -29,7 +29,7 @@ public class MySceneManager : MonoBehaviour
     public IEnumerator openSceneWithTransition(string toScene, bool withDeathSound){
 
         audioManager.ambienceOutput.Pause();
-         if (withDeathSound) {audioManager.PlaySound(audioManager.death_sound);}
+        if (withDeathSound) {audioManager.PlaySound(audioManager.death_sound);}
 
 
         GameObject blackout = GameObject.Find("BlackoutOverlay");
@@ -66,20 +66,19 @@ public class MySceneManager : MonoBehaviour
     {
 
 
-        if (sceneType == SceneType.COMBAT) {PlayerData.Instance.savePlayerData(player);}
+        if (sceneType == SceneType.COMBAT || sceneType == SceneType.DEATHSHOP) {PlayerData.Instance.savePlayerData(player);}
         
-       if (sceneName == "COMBAT") {
-        
-        StartCoroutine(openCombatSceneWithDelay());
-        sceneType = SceneType.COMBAT;
-       }
-       else if (sceneName == "TUTORIAL") {
-        StartCoroutine(openTuroialSceneWithDelay());
-        sceneType = SceneType.TUTORIAL;
+        if (sceneName == "COMBAT") {
+            StartCoroutine(openCombatSceneWithDelay());
+            sceneType = SceneType.COMBAT;
         }
-       else if (sceneName == "DEATHSHOP") {
-        StartCoroutine(openDeathShopSceneWithDelay());
-        sceneType = SceneType.DEATHSHOP;
+        else if (sceneName == "TUTORIAL") {
+            StartCoroutine(openTuroialSceneWithDelay());
+            sceneType = SceneType.TUTORIAL;
+        }
+        else if (sceneName == "DEATHSHOP") {
+            StartCoroutine(openDeathShopSceneWithDelay());
+            sceneType = SceneType.DEATHSHOP;
         }
        else {Debug.Log("IRREGULAR SCENE TYPE");}
     
