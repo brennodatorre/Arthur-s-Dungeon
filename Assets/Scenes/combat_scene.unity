@@ -4230,7 +4230,10 @@ MonoBehaviour:
     modifier: 0
   atkAdvantage: 0
   isDead: 0
-  hasSupAction: 1
+  totalMainActions: 1
+  totalSupActions: 1
+  currentMainActions: 1
+  currentSupActions: 1
   skills: []
   skillsInstance: []
   activeSkillEffects: []
@@ -5536,9 +5539,9 @@ Transform:
   - {fileID: 769783444}
   - {fileID: 626889045}
   - {fileID: 2036010593}
+  - {fileID: 821012530}
   - {fileID: 2113638508}
   - {fileID: 545758053}
-  - {fileID: 821012530}
   - {fileID: 329883513}
   - {fileID: 1456739211}
   - {fileID: 751601856}
@@ -6184,7 +6187,7 @@ PrefabInstance:
       objectReference: {fileID: 537370085}
     - target: {fileID: 4382045549093195584, guid: 409763086259f4c44aca300556e6d7d2, type: 3}
       propertyPath: skills.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4382045549093195584, guid: 409763086259f4c44aca300556e6d7d2, type: 3}
       propertyPath: activeEffectManager
@@ -6194,6 +6197,14 @@ PrefabInstance:
       propertyPath: skills.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 78709ea5f11babb48860ee4c96f8ad74, type: 2}
+    - target: {fileID: 4382045549093195584, guid: 409763086259f4c44aca300556e6d7d2, type: 3}
+      propertyPath: skills.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: d62f801262eb2c54f9d179ef5ed5f504, type: 2}
+    - target: {fileID: 4382045549093195584, guid: 409763086259f4c44aca300556e6d7d2, type: 3}
+      propertyPath: skills.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 79d6c8f1e3b41594c905b26c2b8a8583, type: 2}
     - target: {fileID: 7454324298889154050, guid: 409763086259f4c44aca300556e6d7d2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.7973537
@@ -6261,7 +6272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: skills.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: skills.Array.data[0]
@@ -6270,11 +6281,15 @@ PrefabInstance:
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: skills.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 22e4c1c3b66e065408c8cbbeb67d841f, type: 2}
+      objectReference: {fileID: 11400000, guid: d62f801262eb2c54f9d179ef5ed5f504, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: skills.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: skills.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 79d6c8f1e3b41594c905b26c2b8a8583, type: 2}
     - target: {fileID: 420727671571176749, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.1206484

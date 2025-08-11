@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9131ef76b2c8924695aff3257888b20, type: 3}
-  m_Name: Plated_Soul
+  m_Name: Bestial_Adrenaline
   m_EditorClassIdentifier: 
-  skillName: Plated Soul
-  mpCost: 4
-  cooldown: 3
+  skillName: Bestial Adrenaline
+  mpCost: 5
+  cooldown: 4
   currentCooldown: 0
-  description: Gives +3 DEF to target for 3 turns
-  fableCost: 2
-  soundEffect: {fileID: 8300000, guid: a6d2f68dc3067ec41a283a350dc0402f, type: 3}
-  origin: 4
+  description: +1d6 + 2 /4 rounds -> 1d8 damage
+  fableCost: 3
+  soundEffect: {fileID: 8300000, guid: a57a2429b35061e4b9062a690259345f, type: 3}
+  origin: 6
   targetType: 2
   isSupportAction: 0
   isStackable: 0

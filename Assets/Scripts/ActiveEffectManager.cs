@@ -28,34 +28,42 @@ public class ActiveEffectManager : MonoBehaviour
         if (currentPhase != roundManager.currentPhase && activeEffects.Count > 0) {
 
            currentPhase = roundManager.currentPhase; //update the current phase
+           
 
            
             
-            if (currentPhase == RoundManager.TurnPhase.Action) {
+            if (currentPhase == RoundManager.TurnPhase.Action)
+            {
                 //imlpoement the action phase here
-            } 
+            }
 
-            else if (currentPhase == RoundManager.TurnPhase.End) {
+            else if (currentPhase == RoundManager.TurnPhase.End)
+            {
                 
-                foreach (effectNode effect in endEffects) {
-                    if (effect.turns == 1 ) {effect.endEffect.Invoke();}
+                foreach (effectNode effect in endEffects)
+                {
+                    if (roundManager.currentTurn != effect.target){continue;} //skip the effect if the target is not the current turn
+                    if (effect.turns == 1) { effect.endEffect.Invoke(); } //execute end effect if it exists
                     effect.roundEffect.Invoke(); //execute the action
                     effect.turns--; //decrease the turns left for the effect
-                    
-                }
-                
-                
 
-            } 
-            else if (currentPhase == RoundManager.TurnPhase.Start) {
-                
-                foreach (effectNode effect in startEffects) {
-                    if (effect.turns == 1 ) {effect.endEffect.Invoke();}
+                }
+
+
+
+            }
+            else if (currentPhase == RoundManager.TurnPhase.Start)
+            {
+
+                foreach (effectNode effect in startEffects)
+                {
+                    if (roundManager.currentTurn != effect.target){continue;} //skip the effect if the target is not the current turn
+                    if (effect.turns == 1) { effect.endEffect.Invoke(); } //execute end effect if it exists
                     effect.roundEffect.Invoke(); //execute the action
                     effect.turns--; //decrease the turns left for the effect
-                    
+
                 }
-                
+
             }
 
 
@@ -69,9 +77,9 @@ public class ActiveEffectManager : MonoBehaviour
     }
     
 
-    public void AddEffect(Skill skill, int turns, RoundManager.TurnPhase phase, Action triggerEffect, Action triggerEndEffect) {
+    public void AddEffect(Skill skill, int turns, RoundManager.TurnPhase phase , Entity target , Entity caster, Action triggerEffect, Action triggerEndEffect ) {
         
-        effectNode effect = new effectNode(turns, triggerEffect, phase, triggerEndEffect); //create a new node for the effect
+        effectNode effect = new effectNode(turns, triggerEffect, phase, triggerEndEffect, target, caster); //create a new node for the effect
 
         activeEffects.Add(effect); //add the effect to the list of active effects
 
@@ -120,9 +128,14 @@ public class effectNode
     public Action roundEffect;
     RoundManager.TurnPhase phase;
     public Action endEffect;
+    public Entity target;
+    public Entity caster;
 
-    public effectNode(int turns, Action roundEffect, RoundManager.TurnPhase phase, Action endEffect)
+    public effectNode(int turns, Action roundEffect, RoundManager.TurnPhase phase, Action endEffect, Entity target, Entity caster)
     {
+        this.target = target;
+        this.caster = caster;
+    
         this.turns = turns;
         this.roundEffect = roundEffect;
         this.phase = phase;

@@ -62,7 +62,11 @@ public class Entity : MonoBehaviour
     [Header("States")]
     
     public bool isDead = false;
-    public bool hasSupAction = true;
+    public int totalMainActions = 1;
+    public int totalSupActions = 1;
+
+    public int currentMainActions = 1;
+    public int currentSupActions = 1;
     
 
 
@@ -119,21 +123,36 @@ public class Entity : MonoBehaviour
        
     }
 
-    public IEnumerator doBasicAtkCaller(Entity target) {
+    public IEnumerator doBasicAtkCaller(Entity target)
+    {
 
         yield return new WaitForSeconds(0f);
 
         roundManager.actionQueue.Enqueue("first atk", () => doBasicATK(target));
-        
-        
 
+
+        //while combat is running, dont end the action/turn 
         while (roundManager.clashQueue.isRunning)
         {
             Debug.Log("null");
             yield return null;
         }
 
-        roundManager.EndTurn();
+
+        roundManager.currentTurn.currentMainActions--; //decrease the main actions left for the entity
+        if (roundManager.currentTurn.currentMainActions < 1)
+        {
+            roundManager.EndTurn();
+        }
+        else
+        {
+            
+            if (roundManager.currentTurn == roundManager.player) //if its the players turn, brind up the action menu
+            {
+                roundManager.act_menu.SetActive(true);
+                roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
+            }
+        }
 
         
         
@@ -319,7 +338,18 @@ public class Entity : MonoBehaviour
 
     public void takeTrueDamage(float damage) {
         hp -=  damage;
-        if (hp <= 0) {die();}
+        
+
+        if (hp <= 0) { die(); }
+            else
+            {
+
+                // Flash red to indicate damage taken
+                roundManager.clashQueue.Enqueue("FlashRed", () => FlashSprite(spriteRenderer, Color.red));
+
+                //show damage popup
+                roundManager.clashQueue.Enqueue("showDamagePopup", () => roundManager.ShowDamagePopup(damage, transform.position, Color.red));
+            }
     }
 
     public void heal(float value) {
@@ -412,6 +442,14 @@ public class Entity : MonoBehaviour
         return false; // Return false if the effect is not found
     }
 
+    public void resetActions()
+    {
+        currentMainActions = totalMainActions;
+        currentSupActions = totalSupActions;
+    }
+
+
+
     //flash the entity a inputed color
     public IEnumerator FlashSprite(SpriteRenderer spriteRenderer, Color color, float duration = 0.2f)
     {
@@ -500,7 +538,7 @@ public class Entity : MonoBehaviour
         stts += "DEXTERITY: " + DEXTREZA + "\n";
         stts += "ATHLEtics: " + ATLETISMO + "\n";
 
-        stts += "Has Supporting Action = " +hasSupAction + "\n";
+        stts += "Has Supporting Action = " +currentSupActions + "\n";
 
 
 

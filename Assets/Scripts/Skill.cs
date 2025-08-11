@@ -59,7 +59,7 @@ public class Skill : ScriptableObject
             currentCooldown == 0 &&
             currentUsesPerTurn < limitPerTurn &&
             caster.getMP() >= mpCost && // Check if the caster has enough MP
-            (isSupportAction ? caster.hasSupAction : true) &&// Check if the caster has a support action available
+            (isSupportAction ? caster.currentSupActions > 0 : true) &&// Check if the caster has a support action available
             checkIfStackCanBeApplied(target) // Check if the skill can be applied to the target
         ) 
         {

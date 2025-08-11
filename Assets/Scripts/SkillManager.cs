@@ -16,11 +16,22 @@ public class SkillManager : MonoBehaviour
 
     public void doSkill(Entity target, Entity caster, Skill skill)
     {
+        // deals with self targeting skills (casting a self target into someone else)
+        if (target != caster && skill.targetType == Skill.SkillTarget.Self)
+        {
+            audioManager.PlaySound(audioManager.skill_unable_sound);
+            logManager.AddLog(skill.skillName + " can only be used on yourself.");
+            roundManager.buttonManager.closeSkillMenu(); //close the skill menu after the action is done
+            return;
+        }
+        {
+
+        }
 
         if (skill.CanBeUsed(caster, target))
         {
             //use up the sup action if the skill is a support action
-            if (skill.isSupportAction) { caster.hasSupAction = false; }
+            if (skill.isSupportAction) { caster.currentSupActions--; }
 
 
 
@@ -46,13 +57,27 @@ public class SkillManager : MonoBehaviour
 
                 roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doDevour(target, caster, skill)); //add the action to the queue
             }
+            else if (skill.skillName == "Bestial Adrenaline")
+            {
+
+                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doBestialAdrenaline(target, caster, skill)); //add the action to the queue
+            }
+            else if (skill.skillName == "Spinal Jaw")
+            {
+
+                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doSpinalJaw(target, caster, skill)); //add the action to the queue
+            }
             else
             {
                 Debug.Log("Skill not implemented yet.");
             }
 
         }
-        else { audioManager.PlaySound(audioManager.skill_unable_sound); }
+        else
+        {
+            audioManager.PlaySound(audioManager.skill_unable_sound);
+            logManager.AddLog(caster.name + " cannot use " + skill.skillName + " on " + target.name + ".");
+        }
 
         roundManager.buttonManager.closeSkillMenu(); //close the skill menu after the action is done
 
@@ -136,7 +161,7 @@ public class SkillManager : MonoBehaviour
 
         //////////////////////////////////////////////////
 
-        activeEffectManager.AddEffect(skill, 1, RoundManager.TurnPhase.End, () => { }, () =>
+        activeEffectManager.AddEffect(skill, 1, RoundManager.TurnPhase.End, target, caster, () => { }, () =>
         {
 
             target.activeSkillEffects.Remove(skill); //remove the effect from the active effects list
@@ -169,7 +194,7 @@ public class SkillManager : MonoBehaviour
 
         //////////////////////////////////////////////////
 
-        activeEffectManager.AddEffect(skill, 3, RoundManager.TurnPhase.Start, () => { }, () =>
+        activeEffectManager.AddEffect(skill, 3, RoundManager.TurnPhase.Start, target, caster, () => { }, () =>
         {
             target.activeSkillEffects.Remove(skill); //remove the effect from the active effects list
 
@@ -181,7 +206,7 @@ public class SkillManager : MonoBehaviour
 
     }
 
-     private IEnumerator doDevour(Entity target, Entity caster, Skill skill)
+    private IEnumerator doDevour(Entity target, Entity caster, Skill skill)
     {
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
@@ -189,7 +214,7 @@ public class SkillManager : MonoBehaviour
         audioManager.PlaySound(skill.soundEffect); //play the skill sound
 
         int casterRoll = 0;
-        if (caster.DEXTREZA > caster.ATLETISMO) {casterRoll = caster.rollTest(Entity.Trait.DEXTREZA);} //roll a test based on the caster's DEXTREZA
+        if (caster.DEXTREZA > caster.ATLETISMO) { casterRoll = caster.rollTest(Entity.Trait.DEXTREZA); } //roll a test based on the caster's DEXTREZA
         else { casterRoll = caster.rollTest(Entity.Trait.ATLETISMO); } //roll a test based on the caster's ATLETISMO
 
         int targetRoll = target.rollTest(Entity.Trait.REFLEXOS); //roll a test based on the target's CONSTITUICAO
@@ -206,12 +231,114 @@ public class SkillManager : MonoBehaviour
 
         }
         else
-        { 
+        {
             logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name + " but failed to devour.");
         }
 
 
 
     }
+
+
+    private IEnumerator doBestialAdrenaline(Entity target, Entity caster, Skill skill)
+    {
+
+        yield return new WaitForSeconds(0f); //wait for 0 seconds
+
+        //add 1d6 + 2 to the attack of the user
+        target.currentATK.AddDice(1, 6);
+        target.currentATK.AddModifier(2);
+
+        audioManager.PlaySound(skill.soundEffect); //play skill sound
+
+        target.activeSkillEffects.Add(skill); //add the skill to the active effects list
+
+        logManager.AddLog(caster.name + " casted " + skill.skillName);
+
+
+
+        //////////////////////////////////////////////////
+
+        activeEffectManager.AddEffect(skill, 4, RoundManager.TurnPhase.End, target, caster, () => { }, () =>
+        {
+
+            target.activeSkillEffects.Remove(skill); //remove the effect from the active effects list
+
+            target.currentATK.RemoveDice(1, 6, caster.currentATK); //remove 1d4 from the attack amount
+
+            target.currentATK.AddModifier(-2); //remove the modifier
+
+            DiceRoll damageAmount = new DiceRoll(); //create a new DiceRoll
+            damageAmount.AddDice(1, 8); //
+            int damage = damageAmount.Roll(); //roll the damage amount
+
+            target.takeTrueDamage(damage); //deal true damage to the target
+
+            logManager.AddLog(target.name + " takes " + damage + " damage from Beastial Adrenaline.");
+
+
+
+
+        });
+
+    }
+    
+
+    private IEnumerator doSpinalJaw(Entity target, Entity caster, Skill skill){
+
+        yield return new WaitForSeconds(0f); //wait for 0 seconds
+
+        caster.loseMP(skill.mpCost); //lose MP for casting the skill
+
+        audioManager.PlaySound(skill.soundEffect); //play skill sound
+
+        DiceRoll damageAmount = new DiceRoll(); //create a new DiceRoll
+        damageAmount.AddDice(1, 8); //
+        float damage = damageAmount.Roll(); //roll the damage amount
+
+        float damageTaken = target.takeDamage(damage);
+
+        if (damageTaken < 0)
+        {
+            logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name + "but missed.");
+        }
+        else
+        {
+            logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name + " for " + damageTaken + " damage.");
+
+            int bleedDuration = 3;
+
+            logManager.AddLog(target.name + " is now [bleeding] for " + bleedDuration + " turns.");
+
+            target.activeSkillEffects.Add(skill); //add the skill to the active effects list
+
+           
+            /// ////////////////////////////////////////////////////////////////////
+            
+
+            activeEffectManager.AddEffect(skill, bleedDuration, RoundManager.TurnPhase.Start, target, caster, () =>
+            {
+                DiceRoll bleedDamage = new DiceRoll(); //create a new DiceRoll
+                bleedDamage.AddDice(1, 4); //
+                float Bdamage = bleedDamage.Roll(); //roll the damage amount
+
+                target.takeTrueDamage(Bdamage); //deal true damage to the target
+                
+                logManager.AddLog(target.name + " took " + Bdamage + " bleed damage. ");
+            },
+            () =>
+            {
+                target.activeSkillEffects.Remove(skill); //remove the effect from the active effects list
+            });
+
+
+            
+
+        }
+
+       
+    }
+
+
 
 }

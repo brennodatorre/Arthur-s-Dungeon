@@ -80,26 +80,32 @@ public class ButtonManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && currentMenu != OnMenu.Skill && currentMenu != OnMenu.Item)
+        //if its on the player's turn and they havent ended their action
+        if (roundManager.currentTurn == roundManager.player && roundManager.currentTurn.currentMainActions > 0 && (roundManager.currentPhase == RoundManager.TurnPhase.Action|| roundManager.currentPhase == RoundManager.TurnPhase.targetingATK))
         {
-            ATK_button(atk_button);
+            if (Input.GetKeyDown(KeyCode.Q) && currentMenu != OnMenu.Skill && currentMenu != OnMenu.Item)
+            {
+                ATK_button(atk_button);
+            }
+            else if (Input.GetKeyDown(KeyCode.W) && !inAtkOverlay && currentMenu != OnMenu.Item)
+            {
+                //if not on skill already open skill menu, else close it
+                if (currentMenu != OnMenu.Skill) { SKILL_button(); }
+                else
+                {
+                    audioManager.PlaySkillButtonSound();
+                    closeSkillMenu();
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.E) && !inAtkOverlay && currentMenu != OnMenu.Skill)
+            {
+                ITEM_button();
+            }
+            else if (Input.GetKeyDown(KeyCode.R) && !inAtkOverlay && currentMenu != OnMenu.Skill && currentMenu != OnMenu.Item)
+            {
+                RUN_button();
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.W) && !inAtkOverlay &&  currentMenu != OnMenu.Item)
-        {
-            //if not on skill already open skill menu, else close it
-            if (currentMenu != OnMenu.Skill) {SKILL_button();}
-            else { audioManager.PlaySkillButtonSound();  
-                    closeSkillMenu();}
-        }
-        else if (Input.GetKeyDown(KeyCode.E) && !inAtkOverlay && currentMenu != OnMenu.Skill )
-        {
-            ITEM_button();
-        }
-        else if (Input.GetKeyDown(KeyCode.R) && !inAtkOverlay && currentMenu != OnMenu.Skill && currentMenu != OnMenu.Item)
-        {
-           RUN_button();  
-        }
-        
 
 
 

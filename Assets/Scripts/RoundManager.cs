@@ -87,7 +87,7 @@ public class RoundManager : MonoBehaviour
         buttonManager.skillMenu.SetActive(false);
         buttonManager.itemMenu.SetActive(false);
 
-        actionQueue.Enqueue("delay" , () => Delay(1f));
+        actionQueue.Enqueue("delay" , () => Delay(2f));
         actionQueue.Enqueue("StartTurn", () => StartTurn());
         
     }
@@ -98,10 +98,13 @@ public class RoundManager : MonoBehaviour
     }
 
     //endturn picks the next entity to take their turn
-    public void EndTurn(){ actionQueue.Enqueue("EndTurn", () => EndTurnCoroutine());}
+    public void EndTurn() { actionQueue.Enqueue("EndTurn", () => EndTurnCoroutine());}
     public IEnumerator EndTurnCoroutine(){
 
+        
         currentPhase = TurnPhase.End; //set the current phase to end
+
+        yield return null; //wait for the end of the frame to ensure all actions are processed
 
         // set the next turn to the next entity in the array, or loop back to the first entity if at the end
         int index = entities.IndexOf(currentTurn);
@@ -124,8 +127,10 @@ public class RoundManager : MonoBehaviour
     private IEnumerator StartTurn()
     {
         currentPhase = TurnPhase.Start; //set the current phase to start
+
+        yield return null; //wait for the end of the frame to ensure all actions are processed
         
-        currentTurn.hasSupAction = true; //set the hasSupAction to true for the current turn
+        currentTurn.resetActions(); //reset the actions for the current turn
         
         if (currentTurn.entityType == Entity.EntityType.Enemy)
         {
@@ -204,8 +209,8 @@ public class RoundManager : MonoBehaviour
     {
         target = selected;
 
-        
-        if (currentPhase == TurnPhase.targetingATK) 
+
+        if (currentPhase == TurnPhase.targetingATK)
         {
             EnableEnemyTargetingUI(false);
             buttonManager.toggleBtns(true, buttonManager.actionButtons); //turn on the action buttons locally(so they are on when players next turn starts)
@@ -214,16 +219,17 @@ public class RoundManager : MonoBehaviour
             buttonManager.inAtkOverlay = false;
 
             actionQueue.Enqueue("PlayerAttack", () => currentTurn.doBasicAtkCaller(target));
+            
         }
-        else if (currentPhase == TurnPhase.targetingSKILL) 
+        else if (currentPhase == TurnPhase.targetingSKILL)
         {
             EnableSkillTargetingUI(false);
             buttonManager.skillMenu.SetActive(false);
-            act_menu.SetActive(false); 
+            act_menu.SetActive(false);
 
             buttonManager.inSkillOverlay = false;
 
-            skillManager.doSkill(target , currentTurn, skillSelected);
+            skillManager.doSkill(target, currentTurn, skillSelected);
 
         }
         // else if (currentPhase == TurnPhase.targetingITEM) 
