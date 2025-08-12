@@ -77,8 +77,17 @@ public class AudioManager : MonoBehaviour
     {
         SFXoutput.PlayOneShot(sound);
     }
+    
+    // fix this
+    // public void PlaySoundWithRandomPitch(AudioClip sound)
+    // {
+    //     SFXoutput.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+    //     SFXoutput.PlayOneShot(sound);
+    //     //SFXoutput.pitch = 1f; // reset pitch to normal after playing
+    // }
 
-    public void PlaySkillPageSelectdSound(){
+    public void PlaySkillPageSelectdSound()
+    {
         SFXoutput.PlayOneShot(skill_page_select_sound);
     }
 

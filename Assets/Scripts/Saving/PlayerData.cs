@@ -5,16 +5,52 @@ public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
     
+    [Header("Player Actual Data")]
+    [SerializeField] private float actualMaxHP;
+    [SerializeField] private float actualMaxMP;
+    [SerializeField] public float actualDef;
+    
+    [SerializeField] public DiceRoll actualBaseATK = new DiceRoll();
+    [SerializeField] public int actualAtkAdvantage = 0; //advantage for the attack roll
+    [SerializeField] public int actualMainActions = 1;
+    [SerializeField] public int actualSupActions = 1;
+
+    [Space]
+    [SerializeField] public int actualDEXTREZA = 1;
+    [SerializeField] public int actualATLETISMO = 1;
+    [SerializeField] public int actualAURA = 1;
+    [SerializeField] public int actualCHARISMA = 1;
+    [SerializeField] public int actualSORTE = 1;
+    [SerializeField] public int actualINTUICAO = 1;
+    [SerializeField] public int actualHEX = 1;
+    [SerializeField] public int actualASTUCIA = 1;
+    [SerializeField] public int actualVONTADE = 1;
+    [SerializeField] public int actualREFLEXOS = 1;
+    [SerializeField] public int actualPERSEPCAO = 1;
+    [SerializeField] public int actualFURTIVIDADE = 1;
+    [SerializeField] public int actualCONSTITUICAO = 1;
+    [SerializeField] public int actualDOMINANCIA = 1;
+
+
+
+    [Space]
+    [Space]
+    [Space]
+    [Space]
+    [Space]
+
+
+
+    [Header("Player Floating Data")]
     [SerializeField] public new string name;
     [SerializeField] private float hp;
     [SerializeField] private float maxHP;
     [SerializeField] private float mp;
     [SerializeField] private float maxMP;
     [SerializeField] public float def;
+
     [SerializeField] public DiceRoll baseATK = new DiceRoll();
-    [SerializeField] public int atkAdvantage = 0; //advantage for the attack roll
-    [SerializeField]public int currentMainActions = 1;
-    [SerializeField]public int currentSupActions = 1;
+    [SerializeField] public int atkAdvantage = 0; 
 
     [SerializeField] public int totalMainActions = 1;
     [SerializeField] public int totalSupActions = 1;
@@ -140,21 +176,44 @@ public class PlayerData : MonoBehaviour
         Debug.Log("Player data loaded.");
     }
 
-
-    public void revivePlayer()
+    //resets the player floating data to their actual data
+    public void revitalizePlayer()
     {
-        // Paste the saved data into the player
+        
 
-        hp = maxHP;
-        mp = maxMP;
-        currentMainActions = totalMainActions;
-        currentSupActions = totalSupActions;
         activeSkillEffects.Clear(); // Clear active skill effects
-
         isDead = false; //
 
 
-        Debug.Log("Player data revived.");
+
+        hp = actualMaxHP;
+        maxHP = actualMaxHP;
+        mp = actualMaxMP;
+        maxMP = actualMaxMP;
+        def = actualDef;
+        baseATK = actualBaseATK;
+        atkAdvantage = actualAtkAdvantage;
+
+        totalMainActions = actualMainActions;
+        totalSupActions = actualSupActions;
+        
+        DEXTREZA = actualDEXTREZA;
+        ATLETISMO = actualATLETISMO;   
+        AURA = actualAURA;
+        CHARISMA = actualCHARISMA;
+        SORTE = actualSORTE;
+        INTUICAO = actualINTUICAO;
+        HEX = actualHEX;
+        ASTUCIA = actualASTUCIA;
+        VONTADE = actualVONTADE;
+        REFLEXOS = actualREFLEXOS;
+        PERSEPCAO = actualPERSEPCAO;
+        FURTIVIDADE = actualFURTIVIDADE;
+        CONSTITUICAO = actualCONSTITUICAO;
+        DOMINANCIA = actualDOMINANCIA;
+        
+
+        Debug.Log("Player data revitalized.");
     }
 
     

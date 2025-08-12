@@ -186,7 +186,7 @@ public class ButtonManager : MonoBehaviour
             buttonObj.GetComponent<TooltipManager>().tooltipText = tooltipText;
             buttonObj.GetComponent<TooltipManager>().cursorManager = cursorManager;
             buttonObj.GetComponent<TooltipManager>().btn = buttonObj;
-            buttonObj.GetComponent<TooltipManager>().hasDescription = true;
+            buttonObj.GetComponent<TooltipManager>().tooltipType = TooltipManager.TooltipType.Skill;
 
             
             

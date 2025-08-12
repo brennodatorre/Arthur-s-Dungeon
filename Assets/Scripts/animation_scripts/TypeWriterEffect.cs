@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class TypeWriterEffect : MonoBehaviour
 {
@@ -10,67 +11,43 @@ public class TypeWriterEffect : MonoBehaviour
     private AudioClip typeSound;
     private AudioManager audioManager;
 
-    
-    
+    public string fullText; // stores the full text to be displayed
 
-
-    void Start()
+    //before starts
+    private void Awake()
     {
+       
         textComponent = GetComponent<TextMeshProUGUI>();
 
         typeSound = Resources.Load<AudioClip>("soundEffects/btn_sounds/typeClick");
 
-        
-        if (typeSound == null)
-        {
-            Debug.LogError("failed to load typeSound");
-        }
+        if (typeSound == null) { Debug.LogError("failed to load typeSound"); }
 
         audioManager = FindObjectOfType<AudioManager>();
-    }
 
+
+        Debug.Log("Full text: " + fullText);
+
+        fullText = textComponent.text;
+    }
 
     void OnEnable()
     {
         //print("TypeWriterEffect enabled");
 
-        textComponent = GetComponent<TextMeshProUGUI>();
+        textComponent.text = ""; // clear the text component before typing
 
-        string fulltext = textComponent.text;// stores the full texts
-
-        Debug.Log("Full text: " + fulltext);
-
-        StartCoroutine(DelayedTypewriter(fulltext));
-        
-        textComponent.text = ""; 
-    }
-
-    IEnumerator DelayedTypewriter(string fulltext)
-    {
-
-        
-
-        yield return null; // waits one frame
-        
-        ShowText(fulltext);
-        
+        StartCoroutine(TypeText());
         
     }
 
-    public void ShowText(string fullText)
-    {
-        if (currentTyping != null)
-            StopCoroutine(currentTyping);
 
-        currentTyping = StartCoroutine(TypeText(fullText));
-    }
-
-
-
-    private IEnumerator TypeText(string text)
+    private IEnumerator TypeText()
     {
         
-        foreach (char c in text)
+        
+        
+        foreach (char c in fullText)
         {
             textComponent.text += c;
             if (audioManager != null) { audioManager.PlaySound(typeSound); }

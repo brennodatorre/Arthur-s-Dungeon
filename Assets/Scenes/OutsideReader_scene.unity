@@ -6342,9 +6342,13 @@ MonoBehaviour:
   skillMenu: {fileID: 0}
   skillMenuGrid: {fileID: 0}
   itemMenu: {fileID: 0}
+  atk_button: {fileID: 0}
+  skill_button: {fileID: 0}
+  item_button: {fileID: 0}
+  run_button: {fileID: 0}
+  backButton: {fileID: 0}
   tooltipPanel: {fileID: 0}
   tooltipText: {fileID: 0}
-  backButton: {fileID: 0}
   actionButtons:
   - {fileID: 0}
   - {fileID: 0}
@@ -6354,6 +6358,7 @@ MonoBehaviour:
   inAtkOverlay: 0
   inSkillOverlay: 0
   inItemOverlay: 0
+  currentMenu: 0
 --- !u!1 &1581823396
 GameObject:
   m_ObjectHideFlags: 0

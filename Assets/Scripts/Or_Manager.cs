@@ -26,19 +26,25 @@ public class Or_Manager : MonoBehaviour
         pages[1].SetActive(true); //starts first page
     }
 
-    public void doNextPage(){
+    private IEnumerator lateStart()
+    { 
+        yield return null; // wait for the next frame
+    }
+
+    public void doNextPage()
+    {
         currentPage++;
 
-        if(currentPage == 1) { StartCoroutine(doPage1());}
-        if(currentPage == 2) {StartCoroutine(doNextSimplePage(0));}
-        if(currentPage == 3) {StartCoroutine(doNextSimplePage(0));}
-        if(currentPage == 4) {StartCoroutine(doNextSimplePage(0));}
-        if(currentPage == 5) {StartCoroutine(doNextSimplePage(0));}
-        if(currentPage == 6) {StartCoroutine(doNextSimplePage(0));}
-        if(currentPage == 7) {StartCoroutine(doNextSimplePage(0));}
-        if(currentPage == 8) {StartCoroutine(doNextSimplePage(0));}
-        if(currentPage == 0) {leaveOutsideReaderDomain();}
-        
+        if (currentPage == 1) { StartCoroutine(doPage1()); }
+        if (currentPage == 2) { StartCoroutine(doNextSimplePage(0)); }
+        if (currentPage == 3) { StartCoroutine(doNextSimplePage(0)); }
+        if (currentPage == 4) { StartCoroutine(doNextSimplePage(0)); }
+        if (currentPage == 5) { StartCoroutine(doNextSimplePage(0)); }
+        if (currentPage == 6) { StartCoroutine(doNextSimplePage(0)); }
+        if (currentPage == 7) { StartCoroutine(doNextSimplePage(0)); }
+        if (currentPage == 8) { StartCoroutine(doNextSimplePage(0)); }
+        if (currentPage == 0) { leaveOutsideReaderDomain(); }
+
 
     }
 

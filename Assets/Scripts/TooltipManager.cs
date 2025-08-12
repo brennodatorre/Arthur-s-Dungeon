@@ -10,34 +10,46 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     public Vector2 screenBounds = new Vector2(Screen.width, Screen.height);
 
+    public enum TooltipType
+    {
+        None,
+        Entity,
+        Skill,
+        UIElement
+    }
+
 
     public string description;
     public GameObject tooltipPanel;
-    public TextMeshProUGUI tooltipText;
+    [HideInInspector] public TextMeshProUGUI tooltipText;
     [HideInInspector]public CursorManager cursorManager;
     public GameObject btn ;
     public Vector3 offset = new Vector3(0, 0, 0);
 
-    public bool hasDescription = false;
-    public bool isEntity = false;
+    public TooltipType tooltipType = TooltipType.None;
+  
+
     public Entity entity;
 
     void Start()
     {
-        if (GetComponent<Entity>() != null) {
-            isEntity = true;
+        
+        if (GetComponent<Entity>() != null)
+        {
+            tooltipType = TooltipType.Entity;
             entity = GetComponent<Entity>();
         }
         
-
+        tooltipText = tooltipPanel.GetComponentInChildren<TextMeshProUGUI>();
 
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isEntity && entity.entityType == Entity.EntityType.Enemy) {
+        if (tooltipType == TooltipType.Entity && entity.entityType == Entity.EntityType.Enemy)
+        {
             return;
-        } 
+        }
 
         tooltipPanel.SetActive(true);
         RectTransform tooltipRect = tooltipPanel.GetComponent<RectTransform>();
@@ -58,13 +70,21 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         tooltipRect.localPosition = new Vector2(pivotX, pivotY);
 
         // Set text
-        if (isEntity && entity.entityType == Entity.EntityType.Player)
+        if (tooltipType == TooltipType.Entity && entity.entityType == Entity.EntityType.Player)
         {
             tooltipText.text = entity.getStatusAsString();
         }
-        else if (hasDescription)
+        else if (tooltipType == TooltipType.Skill)
         {
             tooltipText.text = description;
+        }
+        else if (tooltipType == TooltipType.UIElement)
+        {
+            tooltipText.text = description;
+        }
+        else
+        {
+            tooltipText.text = "No description available.";
         }
     }
 

@@ -292,7 +292,7 @@ public class SkillManager : MonoBehaviour
 
         float damageTaken = target.takeDamage(damage);
 
-        if (damageTaken < 0)
+        if (damageTaken <= 0)
         {
             logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name + "but missed.");
         }

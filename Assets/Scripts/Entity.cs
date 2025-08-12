@@ -29,6 +29,7 @@ public class Entity : MonoBehaviour
 
 
 
+
     public enum Trait { DEXTREZA, ATLETISMO, AURA, CARISMA, SORTE, INTUICAO, HEX, ASTUCIA, VONTADE, REFLEXOS, PERSEPCAO, FURTIVIDADE, CONSTITUICAO };
     [Space]
     [Header("Traits")]
@@ -55,6 +56,7 @@ public class Entity : MonoBehaviour
 
     [SerializeField] public DiceRoll baseATK = new DiceRoll();
     [SerializeField] public DiceRoll currentATK = new DiceRoll();
+
     [SerializeField] public int atkAdvantage = 0; //advantage for the attack roll
 
 
@@ -423,6 +425,7 @@ public class Entity : MonoBehaviour
 
             if (roundManager.enemies.Length == 0)
             {  //goes to next combat level
+
                 PlayerData.Instance.savePlayerData(roundManager.player);
                 StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("COMBAT", false));
             }

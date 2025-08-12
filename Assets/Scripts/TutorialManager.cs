@@ -64,7 +64,7 @@ public class TutorialManager : MonoBehaviour
 
         yield return new WaitForSeconds(delay);
 
-        StartCoroutine(mySceneManager.openSceneWithTransition("COMBAT", false));
+        mySceneManager.openScene("COMBAT");
 
 
 

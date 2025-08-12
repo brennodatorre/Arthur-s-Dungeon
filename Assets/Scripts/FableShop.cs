@@ -70,7 +70,7 @@ public class FableShop : MonoBehaviour
             skillPageObj.GetComponent<TooltipManager>().tooltipText = tooltipText;
             skillPageObj.GetComponent<TooltipManager>().cursorManager = cursorManager;
             skillPageObj.GetComponent<TooltipManager>().btn = skillPageObj;
-            skillPageObj.GetComponent<TooltipManager>().hasDescription = true;
+            skillPageObj.GetComponent<TooltipManager>().tooltipType = TooltipManager.TooltipType.Skill;
             skillPageObj.GetComponent<skillPage>().skill = skl;
 
             skillsPagesOnShop.Add(skillPageObj);
@@ -107,7 +107,8 @@ public class FableShop : MonoBehaviour
                 }
 
             }
-            PlayerData.Instance.revivePlayer();
+
+            PlayerData.Instance.revitalizePlayer(); // resets the player data to their actual values
             FindObjectOfType<Or_Manager>().leaveOutsideReaderDomain();
 
         }
