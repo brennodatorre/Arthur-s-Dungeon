@@ -21,7 +21,7 @@ MonoBehaviour:
   soundEffect: {fileID: 8300000, guid: f49dd6b5f80535541bd3a15c04e777bb, type: 3}
   origin: 0
   targetType: 0
-  isSupportAction: 0
+  actionType: 2
   isStackable: 0
   limitPerTurn: 999
   currentUsesPerTurn: 0

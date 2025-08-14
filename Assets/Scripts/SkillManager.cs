@@ -31,7 +31,8 @@ public class SkillManager : MonoBehaviour
         if (skill.CanBeUsed(caster, target))
         {
             //use up the sup action if the skill is a support action
-            if (skill.isSupportAction) { caster.currentSupActions--; }
+            if (skill.actionType == Skill.SkillActionType.Sup) { caster.currentSupActions--; }
+            else if (skill.actionType == Skill.SkillActionType.Main) { caster.currentMainActions--; }
 
             caster.loseMP(skill.mpCost); //caster lose mp
 

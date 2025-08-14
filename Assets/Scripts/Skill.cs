@@ -8,6 +8,7 @@ public class Skill : ScriptableObject
 {
     public enum SkillOrigin { Roses, Hex, Landreas, Arthur, System, Unknown, Survivor };
     public enum SkillTarget { Single, Multi, Self };
+    public enum SkillActionType { Main, Sup, Bonus };
 
 
     public string skillName;
@@ -20,7 +21,8 @@ public class Skill : ScriptableObject
     public AudioClip soundEffect;
     public SkillOrigin origin;
     public SkillTarget targetType;
-    public bool isSupportAction;
+    public SkillActionType actionType = SkillActionType.Sup;
+
     public bool isStackable;
 
     public int limitPerTurn = 999; // The number of times this skill can be used per turn
@@ -55,11 +57,13 @@ public class Skill : ScriptableObject
 
     public bool CanBeUsed(Entity caster, Entity target)
     {
-        if ( 
+        if (
             currentCooldown == 0 &&
             currentUsesPerTurn < limitPerTurn &&
             caster.getMP() >= mpCost && // Check if the caster has enough MP
-            (isSupportAction ? caster.currentSupActions > 0 : true) &&// Check if the caster has a support action available
+            // Check if the caster has a support or main action available
+            ((actionType == SkillActionType.Sup ? caster.currentSupActions > 0 : true) ||
+            (actionType == SkillActionType.Main ? caster.currentMainActions > 0 : true)) &&
             checkIfStackCanBeApplied(target) // Check if the skill can be applied to the target
         ) 
         {

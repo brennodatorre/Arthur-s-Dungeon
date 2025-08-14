@@ -188,10 +188,19 @@ public class ButtonManager : MonoBehaviour
             buttonObj.GetComponent<TooltipManager>().btn = buttonObj;
             buttonObj.GetComponent<TooltipManager>().tooltipType = TooltipManager.TooltipType.Skill;
 
+            //Sets the ball displayers based on the skill action type 
+            // // as long as hierarchy does not change: Main (3), Sup (2), Bonus (1)
+            if (skill.actionType == Skill.SkillActionType.Sup) {
+                buttonObj.transform.GetChild(1).GetChild(1).gameObject.SetActive(false); 
+                buttonObj.transform.GetChild(1).GetChild(2).gameObject.SetActive(true);            }
+            else if (skill.actionType == Skill.SkillActionType.Main) {
+                buttonObj.transform.GetChild(1).GetChild(1).gameObject.SetActive(false); 
+                buttonObj.transform.GetChild(1).GetChild(3).gameObject.SetActive(true);  }
+
             
             
 
-
+ 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => 
             {
