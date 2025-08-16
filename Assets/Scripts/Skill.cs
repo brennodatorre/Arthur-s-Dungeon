@@ -62,8 +62,9 @@ public class Skill : ScriptableObject
             currentUsesPerTurn < limitPerTurn &&
             caster.getMP() >= mpCost && // Check if the caster has enough MP
             // Check if the caster has a support or main action available
-            ((actionType == SkillActionType.Sup ? caster.currentSupActions > 0 : true) ||
-            (actionType == SkillActionType.Main ? caster.currentMainActions > 0 : true)) &&
+            ((actionType == SkillActionType.Sup ? caster.currentSupActions > 0 : false) ||
+            (actionType == SkillActionType.Main ? caster.currentMainActions > 0 : false) ||
+            actionType == SkillActionType.Bonus ? true : false) &&
             checkIfStackCanBeApplied(target) // Check if the skill can be applied to the target
         ) 
         {

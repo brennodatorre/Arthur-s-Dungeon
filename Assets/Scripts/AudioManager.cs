@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance;
 
     public Entity player;
 
@@ -14,8 +15,11 @@ public class AudioManager : MonoBehaviour
 
     public int[] atk_levels;
     [SerializeField]public List<AudioClip> atk_sounds = new List<AudioClip>();
-    [SerializeField]public List<AudioClip> hit_sounds = new List<AudioClip>(); 
-    
+    [SerializeField]public List<AudioClip> hit_sounds = new List<AudioClip>();
+    public AudioClip atk_equal_sound;
+
+
+    [Space]
     public AudioClip atk_button_sound;
     public AudioClip skill_button_sound;
     public AudioClip item_button_sound;
@@ -25,7 +29,24 @@ public class AudioManager : MonoBehaviour
     public AudioClip death_sound;
     public AudioClip skill_page_select_sound;
 
-    
+
+
+
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
+
+        
+    }
 
     private void Update()
     {
@@ -46,7 +67,7 @@ public class AudioManager : MonoBehaviour
         }
         
         if (index > atk_levels.Length-1) {index--;}
-        Debug.Log("index " +index );
+        //Debug.Log("index " +index );
 
         SFXoutput.PlayOneShot(atk_sounds[index]);
         //Debug.Log(atk_sounds[index].name);

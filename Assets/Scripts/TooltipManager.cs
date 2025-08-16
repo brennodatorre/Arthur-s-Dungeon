@@ -31,7 +31,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public Entity entity;
 
-    void Start()
+    void Awake()
     {
         
         if (GetComponent<Entity>() != null)
@@ -39,13 +39,15 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             tooltipType = TooltipType.Entity;
             entity = GetComponent<Entity>();
         }
+
         
-        tooltipText = tooltipPanel.GetComponentInChildren<TextMeshProUGUI>();
 
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        tooltipText = tooltipPanel.GetComponentInChildren<TextMeshProUGUI>();
+
         if (tooltipType == TooltipType.Entity && entity.entityType == Entity.EntityType.Enemy)
         {
             return;

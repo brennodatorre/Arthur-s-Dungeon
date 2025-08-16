@@ -47,7 +47,7 @@ public class ButtonManager : MonoBehaviour
 
     
     [Space]
-    List<GameObject> skillButtons = new List<GameObject>(); 
+    [HideInInspector] public List<GameObject> skillButtons = new List<GameObject>(); 
     public List<GameObject> actionButtons = new List<GameObject>();
     public GameObject lastButtonPressed;
 

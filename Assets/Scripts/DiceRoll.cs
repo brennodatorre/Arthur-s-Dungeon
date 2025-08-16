@@ -71,7 +71,7 @@ public class DiceRoll
         return   safe;
     }
     
-
+    //rolls the dices and return the result without the modifier
     public int Roll(int advantages = 0)
     {
         //returns random low negative num, showing its not a safe roll to do

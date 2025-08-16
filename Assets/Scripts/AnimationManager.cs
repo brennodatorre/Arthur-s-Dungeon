@@ -16,7 +16,7 @@ public class AnimationManager : MonoBehaviour
 
 
 
-    public void doAnimation(Entity target){
+    public void doSlashAnimation(Entity target){
 
         StartCoroutine(playSlashAnima(target));
         

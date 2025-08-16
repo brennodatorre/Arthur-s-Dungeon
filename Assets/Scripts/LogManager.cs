@@ -7,6 +7,7 @@ using System;
 
 public class LogManager : MonoBehaviour
 {
+    public static LogManager Instance;
 
     public Transform logContent; 
     public GameObject logTextPrefab;
@@ -16,6 +17,23 @@ public class LogManager : MonoBehaviour
     public AnimationCurve scrollCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); 
 
     private Queue<GameObject> logEntries = new Queue<GameObject>();
+
+
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
+
+        
+    }
 
     public void AddLog(string message)
     {

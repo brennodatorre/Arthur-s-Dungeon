@@ -10,6 +10,9 @@ using UnityEngine;
 [System.Serializable]
 public class RoundManager : MonoBehaviour
 {
+
+    public static RoundManager Instance;
+
     public SkillManager skillManager;
     public ButtonManager buttonManager;
     public AnimationManager animationManager;
@@ -49,7 +52,20 @@ public class RoundManager : MonoBehaviour
     public bool test = false; //for testing purposes
 
     
-   
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
+
+        
+    }
 
 
 
@@ -224,6 +240,10 @@ public class RoundManager : MonoBehaviour
         else if (currentPhase == TurnPhase.targetingSKILL)
         {
             EnableSkillTargetingUI(false);
+
+            //unlock the skill buttons in case there are more skills to use
+            buttonManager.toggleBtns(true, buttonManager.skillButtons); 
+
             buttonManager.skillMenu.SetActive(false);
             act_menu.SetActive(false);
 

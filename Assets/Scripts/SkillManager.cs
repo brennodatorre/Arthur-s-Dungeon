@@ -80,7 +80,20 @@ public class SkillManager : MonoBehaviour
             logManager.AddLog(caster.name + " cannot use " + skill.skillName + " on " + target.name + ".");
         }
 
-        roundManager.buttonManager.closeSkillMenu(); //close the skill menu after the action is done
+        if (caster.currentMainActions <= 0)
+        {
+            roundManager.buttonManager.closeSkillMenu(); //close the skill menu after the action is done
+            roundManager.act_menu.SetActive(false); //close the action menu after the action is done
+            //roundManager.act_menu.SetActive(false); //close the target menu after the action is done
+            roundManager.EndTurn(); //end the turn if the caster has no main actions left
+        }
+        else
+        {
+            //roundManager.EnableSkillTargetingUI(true);
+            roundManager.buttonManager.skillMenu.SetActive(true);
+        }
+
+
 
     }
 
