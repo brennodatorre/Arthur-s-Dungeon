@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.EditorTools;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,8 +19,12 @@ public class StatusHudManager : MonoBehaviour
     [HideInInspector] public TooltipManager mainActionDisplayToolM;
     [HideInInspector] public TooltipManager supActionDisplayToolM;
 
+    // Variables to keep track of the number of actions and health/mana
+    // These are used to update the display only when the values change
     private int mainActionCount;
     private int supActionCount;
+    private int hpCount;
+    private int mpCount;
 
     private Color mainActionColor;
     private Color supActionColor;
@@ -44,8 +48,22 @@ public class StatusHudManager : MonoBehaviour
     {
         // Update the health and mana bars based on the player's current stats
         Entity player = roundManager.player;
-        hpBar.fillAmount = player.getHP() / player.getMaxHP();
-        mpBar.fillAmount = player.getMP() / player.getMaxMP();
+        hpBar.fillAmount = (float)player.getHP() / (float)player.getMaxHP();
+        mpBar.fillAmount = (float)player.getMP() / (float)player.getMaxMP();
+
+        // Update the tooltip descriptions for health and mana bars
+        if (player.getHP() != hpCount)
+        {
+            hpCount = player.getHP();
+            hpBar.GetComponentInParent<TooltipManager>().description = "HP: " + player.getHP() + "/" + player.getMaxHP();
+
+        }
+        // Update the mana bar tooltip
+        if (player.getMP() != mpCount)
+        {
+            mpCount = player.getMP();
+            mpBar.GetComponentInParent<TooltipManager>().description = "MP: " + player.getMP() + "/" + player.getMaxMP();
+        }
 
         // Update the main action displays based on the player's current number of actions
         if (player.currentMainActions != mainActionCount)

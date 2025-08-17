@@ -302,9 +302,9 @@ public class SkillManager : MonoBehaviour
 
         DiceRoll damageAmount = new DiceRoll(); //create a new DiceRoll
         damageAmount.AddDice(1, 8); //
-        float damage = damageAmount.Roll(); //roll the damage amount
+        int damage = damageAmount.Roll(); //roll the damage amount
 
-        float damageTaken = target.takeDamage(damage);
+        int damageTaken = target.takeDamage(damage);
 
         if (damageTaken <= 0)
         {
@@ -328,7 +328,7 @@ public class SkillManager : MonoBehaviour
             {
                 DiceRoll bleedDamage = new DiceRoll(); //create a new DiceRoll
                 bleedDamage.AddDice(1, 4); //
-                float Bdamage = bleedDamage.Roll(); //roll the damage amount
+                int Bdamage = bleedDamage.Roll(); //roll the damage amount
 
                 target.takeTrueDamage(Bdamage); //deal true damage to the target
                 

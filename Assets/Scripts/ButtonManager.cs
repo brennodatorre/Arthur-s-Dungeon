@@ -83,7 +83,7 @@ public class ButtonManager : MonoBehaviour
         //if its on the player's turn and they havent ended their action
         if (roundManager != null && roundManager.currentTurn == roundManager.player && roundManager.currentTurn.currentMainActions > 0 && (roundManager.currentPhase == RoundManager.TurnPhase.Action|| roundManager.currentPhase == RoundManager.TurnPhase.targetingATK))
         {
-            if (Input.GetKeyDown(KeyCode.Q) && currentMenu != OnMenu.Skill && currentMenu != OnMenu.Item)
+            if (Input.GetKeyDown(KeyCode.Q)  && !roundManager.playerIsAttacking && currentMenu != OnMenu.Skill && currentMenu != OnMenu.Item)
             {
                 ATK_button(atk_button);
             }
@@ -118,8 +118,9 @@ public class ButtonManager : MonoBehaviour
 
         audioManager.PlayAtkButtonSound();
 
-        if (!inAtkOverlay) {
-            
+        if (!inAtkOverlay)
+        {
+
             inAtkOverlay = true;
             roundManager.currentPhase = RoundManager.TurnPhase.targetingATK;
 
@@ -129,7 +130,9 @@ public class ButtonManager : MonoBehaviour
             lastButtonPressed.GetComponent<Button>().interactable = true;
 
             roundManager.EnableEnemyTargetingUI(true);
-        } else {
+        }
+        else
+        {
             inAtkOverlay = false;
             //unlock the other action buttons
             toggleBtns(true, actionButtons);
@@ -138,6 +141,7 @@ public class ButtonManager : MonoBehaviour
             roundManager.currentPhase = RoundManager.TurnPhase.Action;
 
         }
+
     }
     public void SKILL_button()
     {

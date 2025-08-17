@@ -6,9 +6,9 @@ public class PlayerData : MonoBehaviour
     public static PlayerData Instance;
     
     [Header("Player Actual Data")]
-    [SerializeField] private float actualMaxHP;
-    [SerializeField] private float actualMaxMP;
-    [SerializeField] public float actualDef;
+    [SerializeField] private int actualMaxHP;
+    [SerializeField] private int actualMaxMP;
+    [SerializeField] public int actualDef;
     
     [SerializeField] public DiceRoll actualBaseATK = new DiceRoll();
     [SerializeField] public int actualAtkAdvantage = 0; //advantage for the attack roll
@@ -43,11 +43,11 @@ public class PlayerData : MonoBehaviour
 
     [Header("Player Floating Data")]
     [SerializeField] public new string name;
-    [SerializeField] private float hp;
-    [SerializeField] private float maxHP;
-    [SerializeField] private float mp;
-    [SerializeField] private float maxMP;
-    [SerializeField] public float def;
+    [SerializeField] private int hp;
+    [SerializeField] private int maxHP;
+    [SerializeField] private int mp;
+    [SerializeField] private int maxMP;
+    [SerializeField] public int def;
 
     [SerializeField] public DiceRoll baseATK = new DiceRoll();
     [SerializeField] public int atkAdvantage = 0; 

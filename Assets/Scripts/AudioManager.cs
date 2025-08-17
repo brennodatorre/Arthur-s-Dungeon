@@ -51,8 +51,11 @@ public class AudioManager : MonoBehaviour
     private void Update()
     {
 
-        if (player != null){
-            ambienceOutput.pitch = Mathf.Lerp(2.5f, .5f, player.getHP() / player.getMaxHP());
+        // adjjusts the player heartbeat sound based on the player's HP
+        // while player is in combat
+        if (player != null)
+        {
+            ambienceOutput.pitch = Mathf.Lerp(2.5f, .5f, (float)player.getHP() / (float)player.getMaxHP());
         }
     }
 

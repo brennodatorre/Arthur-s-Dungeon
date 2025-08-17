@@ -21,11 +21,11 @@ public class Entity : MonoBehaviour
     [Header("Base Status")]
     [SerializeField] public EntityType entityType;
     [SerializeField] public new string name;
-    [SerializeField] private float hp;
-    [SerializeField] private float maxHP;
-    [SerializeField] private float mp;
-    [SerializeField] private float maxMP;
-    [SerializeField] public float def;
+    [SerializeField] private int hp;
+    [SerializeField] private int maxHP;
+    [SerializeField] private int mp;
+    [SerializeField] private int maxMP;
+    [SerializeField] public int def;
 
 
 
@@ -87,7 +87,7 @@ public class Entity : MonoBehaviour
 
 
     public Entity() { }
-    public Entity(float hp, float mp, float def, DiceRoll baseATK)
+    public Entity(int hp, int mp, int def, DiceRoll baseATK)
     {
         this.hp = hp;
         this.mp = mp;
@@ -142,13 +142,16 @@ public class Entity : MonoBehaviour
 
 
         roundManager.currentTurn.currentMainActions--; //decrease the main actions left for the entity
+        
+        if (roundManager.playerIsAttacking) { roundManager.playerIsAttacking = false; } //set the player as not attacking anymore
+
         if (roundManager.currentTurn.currentMainActions < 1)
         {
             roundManager.EndTurn();
         }
         else
         {
-            
+
             if (roundManager.currentTurn == roundManager.player) //if its the players turn, brind up the action menu
             {
                 roundManager.act_menu.SetActive(true);
@@ -220,13 +223,13 @@ public class Entity : MonoBehaviour
 
     } 
 
-    public float takeDamage(float damage)
+    public int takeDamage(int damage)
     {
 
         if (roundManager == null) { roundManager = GameObject.Find("RoundManager").GetComponent<RoundManager>(); }
         if (spriteRenderer == null) { spriteRenderer = GetComponent<SpriteRenderer>(); }
 
-        float actualDamage = damage - def;
+        int actualDamage = damage - def;
         if (actualDamage > 0)
         {
             hp -= damage - def;
@@ -262,7 +265,7 @@ public class Entity : MonoBehaviour
 
     }
 
-    public void takeTrueDamage(float damage) {
+    public void takeTrueDamage(int damage) {
         hp -=  damage;
         
 
@@ -278,20 +281,20 @@ public class Entity : MonoBehaviour
             }
     }
 
-    public void heal(float value) {
+    public void heal(int value) {
         hp += value;
         if (hp > maxHP) {hp = maxHP;}
     }
 
-    public void loseMP(float value) {
+    public void loseMP(int value) {
         mp -= value;
     }
 
-    public void gainMP(float value) {
+    public void gainMP(int value) {
         mp += value;
     }
 
-    public void SetDef(float value) {
+    public void SetDef(int value) {
         def += value;
     }
 
@@ -425,29 +428,29 @@ public class Entity : MonoBehaviour
     ////////////////////////////////////// Getters and Setters for HP, MP, Max HP, and Max MP ////////////////////////////////////////////////////
 
 
-    public float getHP()
+    public int getHP()
     {
         return hp;
     }
-    public float getMP() {
+    public int getMP() {
         return mp;
     }
-    public float getMaxHP() {
+    public int getMaxHP() {
         return maxHP;
     }
-    public float getMaxMP() {
+    public int getMaxMP() {
         return maxMP;
     }
-    public void setHP(float x) {
+    public void setHP(int x) {
         hp = x;
     }
-    public void setMP(float x) {
+    public void setMP(int x) {
         mp = x;
     }
-    public void setMaxHP(float x) {
+    public void setMaxHP(int x) {
         maxHP = x;
     }
-    public void setMaxMP(float x) {
+    public void setMaxMP(int x) {
         maxMP = x;
         
     }

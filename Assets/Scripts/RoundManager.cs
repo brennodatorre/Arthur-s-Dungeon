@@ -43,13 +43,16 @@ public class RoundManager : MonoBehaviour
     public Skill skillSelected;
     public TurnPhase currentPhase; //the current phase of the turn
     
-
+    [Space]
     public Entity player;
+    public bool playerIsAttacking = false; //if the player is currently attacking
+
+    [Space]
     public List<Entity> entities; //array of all entities in the scene
     public Entity[] allies; //array of all allies in the scene
     public Entity[] enemies; //array of all enemies in the scene
 
-    public bool test = false; //for testing purposes
+
 
     
     void Awake()
@@ -106,11 +109,6 @@ public class RoundManager : MonoBehaviour
         actionQueue.Enqueue("delay" , () => Delay(2f));
         actionQueue.Enqueue("StartTurn", () => StartTurn());
         
-    }
-
-    public void Update()
-    {
-        test = act_menu.activeInHierarchy; //for testing purposes
     }
 
     //endturn picks the next entity to take their turn
@@ -233,6 +231,8 @@ public class RoundManager : MonoBehaviour
             act_menu.SetActive(false);
 
             buttonManager.inAtkOverlay = false;
+
+            playerIsAttacking = true; //set the player as attacking
 
             actionQueue.Enqueue("PlayerAttack", () => currentTurn.doBasicAtkCaller(target));
             

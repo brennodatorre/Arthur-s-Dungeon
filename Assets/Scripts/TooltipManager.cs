@@ -22,25 +22,27 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public string description;
     public GameObject tooltipPanel;
     [HideInInspector] public TextMeshProUGUI tooltipText;
-    [HideInInspector]public CursorManager cursorManager;
-    public GameObject btn ;
+    [HideInInspector] public CursorManager cursorManager;
+    public GameObject btn;
     public Vector3 offset = new Vector3(0, 0, 0);
 
     public TooltipType tooltipType = TooltipType.None;
-  
+
+    private Coroutine pointerCoroutine;
+
 
     public Entity entity;
 
     void Awake()
     {
-        
+
         if (GetComponent<Entity>() != null)
         {
             tooltipType = TooltipType.Entity;
             entity = GetComponent<Entity>();
         }
 
-        
+
 
     }
 
@@ -71,29 +73,49 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         tooltipRect.localPosition = new Vector2(pivotX, pivotY);
 
-        // Set text
-        if (tooltipType == TooltipType.Entity && entity.entityType == Entity.EntityType.Player)
-        {
-            tooltipText.text = entity.getStatusAsString();
-        }
-        else if (tooltipType == TooltipType.Skill)
-        {
-            tooltipText.text = description;
-        }
-        else if (tooltipType == TooltipType.UIElement)
-        {
-            tooltipText.text = description;
-        }
-        else
-        {
-            tooltipText.text = "No description available.";
-        }
+        pointerCoroutine = StartCoroutine(updateText());
+
+       
     }
+
+
 
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        tooltipPanel.SetActive(false);  
- 
+        tooltipPanel.SetActive(false);
+
+        if (pointerCoroutine != null) { StopCoroutine(pointerCoroutine); }
+
+    }
+
+    // Updates the tooltip text based on the current description
+    // in real-time, so that the tooltip can be update while the player is hovering over it
+    private IEnumerator updateText()
+    {
+        
+
+        while (tooltipPanel.activeSelf)
+        {
+            // Set text
+            if (tooltipType == TooltipType.Entity && entity.entityType == Entity.EntityType.Player)
+            {
+                tooltipText.text = entity.getStatusAsString();
+            }
+            else if (tooltipType == TooltipType.Skill)
+            {
+                tooltipText.text = description;
+            }
+            else if (tooltipType == TooltipType.UIElement)
+            {
+                tooltipText.text = description;
+            }
+            else
+            {
+                tooltipText.text = "No description available.";
+            }
+
+            yield return new WaitForSeconds(0.1f); // Update every 0.1 seconds
+        }
     }
 }
