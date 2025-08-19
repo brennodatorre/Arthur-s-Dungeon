@@ -6,8 +6,8 @@ public class PlayerData : MonoBehaviour
     public static PlayerData Instance;
     
     [Header("Player Actual Data")]
-    [SerializeField] private int actualMaxHP;
-    [SerializeField] private int actualMaxMP;
+    [SerializeField] public int actualMaxHP;
+    [SerializeField] public int actualMaxMP;
     [SerializeField] public int actualDef;
     
     [SerializeField] public DiceRoll actualBaseATK = new DiceRoll();

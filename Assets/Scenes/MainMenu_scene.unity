@@ -1829,6 +1829,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  atk_equal_sound: {fileID: 0}
   atk_button_sound: {fileID: 8300000, guid: 6c64a9403f1881a429731f899dbf30d3, type: 3}
   skill_button_sound: {fileID: 8300000, guid: 113205f208721c548bd2c67f1d4c7ffc, type: 3}
   item_button_sound: {fileID: 8300000, guid: 6d99c6e2ff73a6a48901d45587afaec4, type: 3}
@@ -3538,6 +3539,7 @@ MonoBehaviour:
   backButton: {fileID: 0}
   tooltipPanel: {fileID: 663061804}
   tooltipText: {fileID: 25334909}
+  skillButtons: []
   actionButtons:
   - {fileID: 0}
   - {fileID: 0}
@@ -3736,6 +3738,71 @@ PrefabInstance:
       addedObject: {fileID: 1536598035}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c77788342b4bb754bb2c7523849912ac, type: 3}
+--- !u!1001 &4365570714738560838
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 65.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -28.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905691753247927275, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3813733886481090656, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_Name
+      value: Clash Sparks
+      objectReference: {fileID: 0}
+    - target: {fileID: 3813733886481090656, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
 --- !u!1001 &5683871258205223030
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4051,5 +4118,6 @@ SceneRoots:
   - {fileID: 892188935}
   - {fileID: 427529165}
   - {fileID: 79454950328330764}
+  - {fileID: 4365570714738560838}
   - {fileID: 737360100}
   - {fileID: 1908633245}

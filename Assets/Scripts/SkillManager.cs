@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SkillManager : MonoBehaviour
 {
+    [HideInInspector] public static SkillManager Instance;
 
     public RoundManager roundManager;
     public LogManager logManager;
@@ -13,6 +14,18 @@ public class SkillManager : MonoBehaviour
 
     public List<Skill> skills = new List<Skill>();
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
+    }
 
     public void doSkill(Entity target, Entity caster, Skill skill)
     {

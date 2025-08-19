@@ -6,7 +6,7 @@ public class ClashManager : MonoBehaviour
 {
 
     public static ClashManager Instance;
-    public RoundManager roundManager;
+    private RoundManager roundManager;
     private AudioManager audioManager;
     private LogManager logManager;
 
@@ -53,6 +53,7 @@ public class ClashManager : MonoBehaviour
         while (attackRoll + attacker.currentATK.getModifier() == targetRoll + target.currentATK.getModifier())
         {
             audioManager.PlaySound(audioManager.atk_equal_sound);
+            AnimationManager.Instance.doClashAnimation();
             yield return new WaitForSeconds(1f);
             Debug.Log("Rerolling ATK vs BLOCK");
             attackRoll = attacker.currentATK.Roll(attacker.atkAdvantage);

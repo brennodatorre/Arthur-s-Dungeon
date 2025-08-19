@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class CursorManager : MonoBehaviour
 {
 
-    
+    [HideInInspector] public static CursorManager Instance;
 
 
     [SerializeField] public GameObject customCursor;
@@ -17,13 +17,32 @@ public class CursorManager : MonoBehaviour
     [SerializeField]private Sprite onClick_cursor; // The clicked cursor sprite
     [SerializeField]private Sprite blade_cursor; // The hovered cursor sprite
 
-    public RoundManager roundManager;
-    public MySceneManager sceneManager;
+    private RoundManager roundManager;
+    private MySceneManager sceneManager;
     
 
     public int base_cursorSize = 1; // Size of the cursor in pixels
     public int onClick_cursorSize = 1; // Size of the cursor in pixels
     public int blade_cursorSize = 1; // Size of the cursor in pixels
+
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
+
+        roundManager = RoundManager.Instance;
+        sceneManager = MySceneManager.Instance;
+    }
+
+
 
     void Start() {
         

@@ -53,6 +53,9 @@ TagManager:
   - name: HUD
     uniqueID: 1241316321
     locked: 0
+  - name: VFX
+    uniqueID: 2522845935
+    locked: 0
   - name: Cursor
     uniqueID: 850570943
     locked: 0

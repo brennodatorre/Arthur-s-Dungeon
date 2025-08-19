@@ -744,6 +744,7 @@ RectTransform:
   - {fileID: 228142604}
   - {fileID: 663061805}
   - {fileID: 1557216431}
+  - {fileID: 958704773}
   - {fileID: 2782692098531505648}
   m_Father: {fileID: 737360100}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1117,7 +1118,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1023621579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b28eeb19f169db140844d74bde43fa65, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
@@ -1557,10 +1558,10 @@ MonoBehaviour:
   skillSelected: {fileID: 0}
   currentPhase: 0
   player: {fileID: 1432705810}
+  playerIsAttacking: 0
   entities: []
   allies: []
   enemies: []
-  test: 0
 --- !u!114 &537370086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2241,7 +2242,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animatorOBJ: {fileID: 1557216427}
-  offset: {x: 0, y: 10, z: 0}
+  gizmos: 1
+  slashAnimaOffset: {x: 0, y: 0, z: 0}
+  clashSparkPS: {fileID: 958704775}
+  clashSparkOffset: 30
 --- !u!222 &751601859
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2284,8 +2288,6 @@ MonoBehaviour:
   base_cursor: {fileID: 148288479, guid: 46fd4460e9aafb34389c17dc6cf03c8f, type: 3}
   onClick_cursor: {fileID: 2066456052, guid: 46fd4460e9aafb34389c17dc6cf03c8f, type: 3}
   blade_cursor: {fileID: 167246651, guid: 46fd4460e9aafb34389c17dc6cf03c8f, type: 3}
-  roundManager: {fileID: 537370085}
-  sceneManager: {fileID: 1456739212}
   base_cursorSize: 2
   onClick_cursorSize: 2
   blade_cursorSize: 3
@@ -2718,6 +2720,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &958704773 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+  m_PrefabInstance: {fileID: 1981713139}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &958704775 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1905691753247927275, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+  m_PrefabInstance: {fileID: 1981713139}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &980174161
 GameObject:
   m_ObjectHideFlags: 0
@@ -3585,7 +3597,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 850570943
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Time: 0.1
   m_PreviewTimeScale: 1
@@ -4415,7 +4427,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneType: 0
   player: {fileID: 1432705810}
-  audioManager: {fileID: 626889046}
 --- !u!1 &1471923008
 GameObject:
   m_ObjectHideFlags: 0
@@ -4711,7 +4722,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cc21de83a1fd474bb06c47eedf136b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roundManager: {fileID: 0}
 --- !u!1 &1691540634
 GameObject:
   m_ObjectHideFlags: 0
@@ -5424,6 +5434,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955796003}
   m_CullTransparentMesh: 1
+--- !u!1001 &1981713139
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 277979764}
+    m_Modifications:
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -52
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400005521860542862, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3813733886481090656, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
+      propertyPath: m_Name
+      value: Clash Sparks
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fb2bfaeec2ada494fae8379c816e2a69, type: 3}
 --- !u!1 &1988842045
 GameObject:
   m_ObjectHideFlags: 0
@@ -6052,7 +6131,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: baseATK.dices.Array.data[0].sides
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: actualBaseATK.dices.Array.data[0].count
@@ -6189,7 +6268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
       propertyPath: baseATK.dices.Array.data[0].sides
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -8,12 +8,14 @@ using Debug = UnityEngine.Debug;
 
 public class MySceneManager : MonoBehaviour
 {
+    
+    [HideInInspector] public static MySceneManager Instance;
 
-    public enum SceneType { COMBAT, MAINMENU, TUTORIAL, DEATHSHOP}
+    public enum SceneType { COMBAT, MAINMENU, TUTORIAL, DEATHSHOP }
     public SceneType sceneType;
     public Entity player;
 
-    public AudioManager audioManager;
+    private AudioManager audioManager;
 
 
 
@@ -22,7 +24,20 @@ public class MySceneManager : MonoBehaviour
     /// //////////////////////////////////////////////////////////////////////////////////////////////
    
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
 
+        audioManager = AudioManager.Instance;
+    }
 
 
 

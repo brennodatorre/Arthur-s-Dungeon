@@ -1053,8 +1053,6 @@ MonoBehaviour:
   base_cursor: {fileID: 148288479, guid: 46fd4460e9aafb34389c17dc6cf03c8f, type: 3}
   onClick_cursor: {fileID: 2066456052, guid: 46fd4460e9aafb34389c17dc6cf03c8f, type: 3}
   blade_cursor: {fileID: 167246651, guid: 46fd4460e9aafb34389c17dc6cf03c8f, type: 3}
-  roundManager: {fileID: 0}
-  sceneManager: {fileID: 451511527}
   base_cursorSize: 2
   onClick_cursorSize: 2
   blade_cursorSize: 3
@@ -1507,7 +1505,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneType: 1
   player: {fileID: 0}
-  audioManager: {fileID: 65056350}
 --- !u!4 &451511528
 Transform:
   m_ObjectHideFlags: 0
@@ -3603,7 +3600,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 850570943
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Time: 0.1
   m_PreviewTimeScale: 1
@@ -6294,7 +6291,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1023621579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b28eeb19f169db140844d74bde43fa65, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
@@ -7058,17 +7055,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1858613350 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4382045549093195584, guid: 409763086259f4c44aca300556e6d7d2, type: 3}
-  m_PrefabInstance: {fileID: 1283074022}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc1b0496b52641d4cb165b79e17e5b8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1860591049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7632,7 +7618,7 @@ GameObject:
   - component: {fileID: 1970529686}
   - component: {fileID: 1970529687}
   m_Layer: 5
-  m_Name: SHOP
+  m_Name: FABLE SHOP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7673,16 +7659,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4350f90e0ba2f814f9219a8eb88fa40d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillManager: {fileID: 1858613350}
-  cursorManager: {fileID: 192342223}
+  numberOfPagesOnShop: 3
+  chanceToGetUpgradePage: 50
   skillPagePrefab: {fileID: 7018723158389982702, guid: 91bb3c555a96e1943a261cf7b3c2324c, type: 3}
+  upgradePagePrefab: {fileID: 2030963171664810299, guid: 3f8b121ad917a3947af7c9a1d015daef, type: 3}
   tooltipPanel: {fileID: 2017018697}
   tooltipText: {fileID: 988572055}
   wallet: {fileID: 900597213}
-  numberOfSkillsOnShop: 3
   unlockableSkills: []
   skillsOnShop: []
-  skillsPagesOnShop: []
+  upgradePagesOnShop: []
+  PagesOnShop: []
   selectedSkills: []
 --- !u!1001 &1978623918
 PrefabInstance:
