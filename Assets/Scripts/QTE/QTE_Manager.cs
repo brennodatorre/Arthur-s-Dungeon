@@ -1,57 +1,90 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+
+using Image = UnityEngine.UI.Image;
+using Random = UnityEngine.Random;
+using System;
+using System.Collections;
 
 public class QTE_Manager : MonoBehaviour
 {
+    public static QTE_Manager Instance;
 
-    public GameObject triggerObj;
-    public GameObject goalObj;
-    public GameObject trackObj;
+    public Sprite iconQ;
+    public Sprite iconW;
+    public Sprite iconE;
+    public Sprite iconR;
+
+
+    [Space(5)]
+    public GameObject QTE;
+    public GameObject trigger;
+    public GameObject goal;
+    public GameObject track;
+
     public Transform trackStart;
     public Transform trackEnd;
+
+
 
     [Space(10)]
     [Range(0f, 1f)] public float t;
     public float speed = 1f;
 
+    [Space(3)]
+    public bool suceededQTE;
+    public bool qteIsRunning;
 
-    private RectTransform trigger;
-    private RectTransform goal;
-    private RectTransform track;
+
+
+
+    private KeyCode keyCode;
+
+    private Bounds triggerBounds;
+    private Bounds goalBounds;
 
     private bool isGoing = true;
 
 
-    // Start is called before the first frame update
-    void Start()
+    
+    void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
 
-        track = trackObj.GetComponent<RectTransform>();
-        goal = goalObj.GetComponent<RectTransform>();
-        trigger = triggerObj.GetComponent<RectTransform>();
-
-
-     
 
     }
 
+
     // Update is called once per frame
-    void Update()
+    public IEnumerator doQTE()
     {
+        QTE.gameObject.SetActive(true);
+        setQTE();
+        qteIsRunning = true;
 
-        if (Input.GetKeyDown(KeyCode.L)) {
-            if (goal.GetComponent<BoxCollider2D>().bounds.Contains(trigger.transform.position))
-            {
-                Debug.Log("SUCCESS");
-            }
-            else
-            {
-                Debug.Log("MISS");
-            }
-        }
+        while (qteIsRunning)
+        {
+            //delas with getting collider status
+            triggerBounds = trigger.GetComponent<BoxCollider2D>().bounds;
+            goalBounds = goal.GetComponent<BoxCollider2D>().bounds;
+            bool triggerFullyContained = (goalBounds.Contains(triggerBounds.min) && goalBounds.Contains(triggerBounds.max));
 
-        //gets distance and direction
+
+            if (Input.GetKeyDown(keyCode))
+            {
+                if (triggerFullyContained) { suceedQTE(); }
+                else { failedQTE(); }
+
+            }
+
+            //gets distance and direction
             if (isGoing)
             {
                 t += speed * Time.deltaTime;
@@ -59,17 +92,85 @@ public class QTE_Manager : MonoBehaviour
             }
             else
             {
-                t -= speed * Time.deltaTime;
-                if (t <= 0) { isGoing = true; }
+
+
+                failedQTE();
             }
+
+            // Move trigger between start and end
+            trigger.transform.position = Vector3.Lerp(trackStart.position, trackEnd.position, t);
+            yield return null;
+        }
+
         
 
+    }
+
+
+    private void failedQTE()
+    {
+        //resets for next qte
+        isGoing = true;
+        t = 0f;
+        
+        Debug.Log("MISS");
+        QTE.gameObject.SetActive(false);
+        suceededQTE = false;
+        AudioManager.Instance.PlaySound(AudioManager.Instance.skill_unable_sound);
+        qteIsRunning = false;
+    }
+    private void suceedQTE()
+    {
+        //resets for next qte
+        isGoing = true;
+        t = 0f;
+
+        Debug.Log("SUCCESS");
+        QTE.gameObject.SetActive(false);
+        suceededQTE = true;
+        AudioManager.Instance.PlaySound(AudioManager.Instance.skill_button_sound);
+        qteIsRunning = false;
+    }
+
+    private void setQTE()
+    {
+        
+
+        //adds random rotation to the QTE, 
+        // while maintaining trigger and goal's rotation for visibility
+        int rot = Random.Range(-170, 171);
+        QTE.transform.rotation = Quaternion.Euler(0, 0, rot);
+        trigger.transform.localRotation = Quaternion.Euler(0, 0, -rot);
+        goal.transform.localRotation = Quaternion.Euler(0, 0, -rot);
+
+        //sets a random key for the QTE
+        int x = Random.Range(0, 4);
+        switch (x)
+        {
+            case 0:
+                keyCode = KeyCode.Q;
+                trigger.GetComponent<Image>().sprite = iconQ;
+                goal.GetComponent<Image>().sprite = iconQ;
+                break;
+            case 1:
+                keyCode = KeyCode.W;
+                trigger.GetComponent<Image>().sprite = iconW;
+                goal.GetComponent<Image>().sprite = iconW;
+                break;
+            case 2:
+                keyCode = KeyCode.E;
+                trigger.GetComponent<Image>().sprite = iconE;
+                goal.GetComponent<Image>().sprite = iconE;
+                break;
+            case 3:
+                keyCode = KeyCode.R;
+                trigger.GetComponent<Image>().sprite = iconR;
+                goal.GetComponent<Image>().sprite = iconR;
+                break;
 
 
 
-        // Move trigger between start and end
-        trigger.position = Vector3.Lerp(trackStart.position, trackEnd.position, t);
-
+        }
     }
     
         

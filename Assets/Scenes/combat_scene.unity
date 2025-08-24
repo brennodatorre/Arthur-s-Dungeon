@@ -380,7 +380,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 128991944}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -732,7 +732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &259050202
 RectTransform:
   m_ObjectHideFlags: 0
@@ -740,16 +740,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 259050201}
-  m_LocalRotation: {x: -0, y: -0, z: 0.35446605, w: 0.9350689}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2013558284}
   - {fileID: 1117354746}
   - {fileID: 1932618416}
   m_Father: {fileID: 277979764}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 41.521}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1517,13 +1517,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71e3ea70bd9199e4882b83161879e174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerObj: {fileID: 1932618415}
-  goalObj: {fileID: 1117354745}
-  trackObj: {fileID: 2013558281}
+  iconQ: {fileID: 4432099549368743713, guid: b7bab032226e7534b89e5286a49782bf, type: 3}
+  iconW: {fileID: -3784547327470513735, guid: b7bab032226e7534b89e5286a49782bf, type: 3}
+  iconE: {fileID: -5467539470469625378, guid: b7bab032226e7534b89e5286a49782bf, type: 3}
+  iconR: {fileID: 8901252882216427102, guid: b7bab032226e7534b89e5286a49782bf, type: 3}
+  QTE: {fileID: 259050201}
+  trigger: {fileID: 1932618415}
+  goal: {fileID: 1117354745}
+  track: {fileID: 2013558281}
   trackStart: {fileID: 1495390094}
   trackEnd: {fileID: 128991945}
   t: 0
-  speed: 1
+  speed: 1.5
+  suceededQTE: 0
+  qteIsRunning: 0
 --- !u!4 &504487927 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5376998625829254358, guid: 1dc458043f4e807469454d83adb20298, type: 3}
@@ -3307,8 +3314,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 206.561, y: 100}
+  m_AnchoredPosition: {x: 167.5, y: 0}
+  m_SizeDelta: {x: 97.897, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &1117354747
 BoxCollider2D:
@@ -3342,7 +3349,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.2862358, y: 0.10588074}
+  m_Offset: {x: -19.147465, y: 0.10588074}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3353,7 +3360,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 205.59302, y: 99.723785}
+  m_Size: {x: 174.86066, y: 99.723785}
   m_EdgeRadius: 0
 --- !u!114 &1117354748
 MonoBehaviour:
@@ -3367,15 +3374,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.26021355, g: 0.6075471, b: 0.31725088, a: 1}
+  m_Material: {fileID: 2100000, guid: 5e8f7a7817b51c44bbf45c7b8827415a, type: 2}
+  m_Color: {r: 0, g: 0.43529412, b: 0.43098134, a: 0.87058824}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 4432099549368743713, guid: b7bab032226e7534b89e5286a49782bf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4758,7 +4765,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495390093}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -5657,15 +5664,15 @@ RectTransform:
   m_GameObject: {fileID: 1932618415}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 259050202}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 69.99, y: 100}
+  m_AnchoredPosition: {x: -73.8, y: 0}
+  m_SizeDelta: {x: 46, y: 49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &1932618417
 BoxCollider2D:
@@ -5699,7 +5706,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.094818115, y: -0.54405403}
+  m_Offset: {x: 0.4537182, y: -0.85998535}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5710,7 +5717,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 69.778305, y: 81.118774}
+  m_Size: {x: 34.679287, y: 24.461548}
   m_EdgeRadius: 0
 --- !u!114 &1932618418
 MonoBehaviour:
@@ -5725,14 +5732,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.13834813, g: 0.49742168, b: 0.5773585, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 4432099549368743713, guid: b7bab032226e7534b89e5286a49782bf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6058,8 +6065,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.690566, g: 0.690566, b: 0.690566, a: 1}
+  m_Material: {fileID: 2100000, guid: 5e8f7a7817b51c44bbf45c7b8827415a, type: 2}
+  m_Color: {r: 0, g: 0.30551866, b: 0.3207547, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

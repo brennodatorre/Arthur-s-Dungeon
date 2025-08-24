@@ -9,6 +9,7 @@ public class ClashManager : MonoBehaviour
     private RoundManager roundManager;
     private AudioManager audioManager;
     private LogManager logManager;
+    private QTE_Manager qteManager;
 
 
     void Awake()
@@ -29,16 +30,28 @@ public class ClashManager : MonoBehaviour
     void Start()
     {
         // Initialize any necessary components or variables here
-        
+
         roundManager = RoundManager.Instance;
         audioManager = AudioManager.Instance;
         logManager = LogManager.Instance;
+        qteManager = QTE_Manager.Instance;
     }
 
 
     public IEnumerator doBasicATK(Entity attacker, Entity target)
     {
         yield return new WaitForSeconds(1f);
+
+        // runs quick time event
+        StartCoroutine(qteManager.doQTE());
+        while (qteManager.qteIsRunning == true)
+        {
+            yield return null;
+        }
+
+        bool qteSuceeded = qteManager.suceededQTE;
+        
+
 
         //adds delay on atacks after the first one
         if (roundManager.clashQueue.actionQueue.Count > 1) { yield return new WaitForSeconds(3); }
@@ -132,6 +145,19 @@ public class ClashManager : MonoBehaviour
         
 
         roundManager.animationManager.doSlashAnimation(target);
+
+        if (attacker.entityType == Entity.EntityType.Player)
+        { 
+            if (qteSuceeded) { damageDealt += 3; }
+            else { damageDealt /= 2; }
+        }
+        if (target.entityType == Entity.EntityType.Player)
+        { 
+            if (qteSuceeded) { damageDealt /= 2; }
+            else { damageDealt += 3; }
+        }
+
+
 
         float actualDamage = target.takeDamage(damageDealt);
 
