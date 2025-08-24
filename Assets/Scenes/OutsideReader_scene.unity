@@ -1505,6 +1505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneType: 1
   player: {fileID: 0}
+  intentDelay: 0
 --- !u!4 &451511528
 Transform:
   m_ObjectHideFlags: 0
@@ -1520,6 +1521,55 @@ Transform:
   m_Children:
   - {fileID: 1493333259}
   m_Father: {fileID: 1584966830}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &459240546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 459240548}
+  - component: {fileID: 459240547}
+  m_Layer: 0
+  m_Name: UpgradeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &459240547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459240546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be6f108bd6551d24c9b06a93e1281e80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgrades:
+  - {fileID: 11400000, guid: 64d28f7eba2ee8943b7d629d55237a14, type: 2}
+  - {fileID: 11400000, guid: 0a38f18fee4af0140a705f84e526a50d, type: 2}
+  - {fileID: 11400000, guid: 57ba78b45c94ce742b7cfac0e72c509f, type: 2}
+  - {fileID: 11400000, guid: 34ce9d71a80f35d43a0a4982264ea8cc, type: 2}
+--- !u!4 &459240548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459240546}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.839567, y: 1.4513787, z: -20.526443}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &503118154
 PrefabInstance:
@@ -7660,16 +7710,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfPagesOnShop: 3
-  chanceToGetUpgradePage: 50
+  chanceToGetUpgradePage: 1
   skillPagePrefab: {fileID: 7018723158389982702, guid: 91bb3c555a96e1943a261cf7b3c2324c, type: 3}
   upgradePagePrefab: {fileID: 2030963171664810299, guid: 3f8b121ad917a3947af7c9a1d015daef, type: 3}
   tooltipPanel: {fileID: 2017018697}
   tooltipText: {fileID: 988572055}
   wallet: {fileID: 900597213}
+  PagesOnShop: []
   unlockableSkills: []
   skillsOnShop: []
-  upgradePagesOnShop: []
-  PagesOnShop: []
+  possibleUpgrades: []
+  upgradesOnShop: []
   selectedSkills: []
 --- !u!1001 &1978623918
 PrefabInstance:
@@ -8956,3 +9007,4 @@ SceneRoots:
   - {fileID: 1584966830}
   - {fileID: 1283074022}
   - {fileID: 168440310}
+  - {fileID: 459240548}

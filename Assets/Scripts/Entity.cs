@@ -354,7 +354,7 @@ public class Entity : MonoBehaviour
             {  //goes to next combat level
 
                 PlayerData.Instance.savePlayerData(roundManager.player);
-                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("COMBAT", false));
+                StartCoroutine(MySceneManager.Instance.openSceneWithTransition("TESTS", false));
             }
 
         

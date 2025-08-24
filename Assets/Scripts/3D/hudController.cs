@@ -9,12 +9,11 @@ public class hudController : MonoBehaviour
 
     public static hudController instance; // makes this class a singleton
 
-    private void Awake()
-    {
+    [SerializeField] GameObject InteractionText;
+
+    private void Awake(){
         instance = this;
     }
-
-    [SerializeField] GameObject InteractionText;
 
     private void Start()
     {

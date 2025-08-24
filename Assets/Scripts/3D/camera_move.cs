@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class camera_move : MonoBehaviour
 {
 
+    public static camera_move Instance;
+
     public GameObject player;      // The player's body 
     public Transform lookTarget;      // The point the camera looks at 
 
@@ -16,24 +18,44 @@ public class camera_move : MonoBehaviour
 
     public RawImage Render;
 
+    [Space(3)]
     public float sensitivity = 100f;
     public float distance = 5f;       // Distance from the lookTarget
     public float verticalClamp = 80f; // Max up/down angle
+    public float smoothSpeed = 0.1f;  // Smoothing speed for camera movement
+    public float smoothSpeedPos = 0.1f;  // Smoothing speed for camera movement
 
     private float xRotation = 0f; // pitch
-    private float yRotation = 0f; // yaw
+
+    
+
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            //DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
+
+        
+    }
+
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        CursorManager.Instance.setCursor(false, true);
     }
 
 
 
 
 
-    void LateUpdate()
+    void Update()
     {
         // Unlocks cursor
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -58,30 +80,38 @@ public class camera_move : MonoBehaviour
             }
         }
 
-        // Accumulate mouse movement
-        float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+        
 
-        yRotation += mouseX;
-        yRotation = NormalizeAngle(yRotation);
 
-        xRotation -= mouseY;
+        //deals with camera rotation
+        xRotation -= player_move.Instance.mouseY;
         xRotation = Mathf.Clamp(xRotation, -verticalClamp, verticalClamp - 30);
+        Quaternion rotation = Quaternion.Euler(xRotation, player_move.Instance.transform.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, smoothSpeed * Time.deltaTime);
 
-        Quaternion rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        Vector3 desiredPos = rotation * Vector3.forward * distance;
-        transform.position = lookTarget.position + desiredPos;
-        transform.rotation = rotation;
+        //deals with camera position
+        Vector3 targetPos = lookTarget.position; 
+        Vector3 smoothPos = Vector3.Lerp(transform.position, targetPos + rotation * Vector3.forward * distance, smoothSpeed * Time.deltaTime);
+        transform.position = smoothPos;
+        
 
 
 
     }
+
+
     
-    // helper function to normilize angles, (fixes Y rotation flick when crossing 179/-179 degrees)
-    float NormalizeAngle(float angle)
-{
-    while (angle > 180f) angle -= 360f;
-    while (angle < -180f) angle += 360f;
-    return angle;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

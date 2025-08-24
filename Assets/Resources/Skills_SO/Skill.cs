@@ -19,6 +19,7 @@ public class Skill : ScriptableObject
     public int fableCost;
 
     public AudioClip soundEffect;
+
     public SkillOrigin origin;
     public SkillTarget targetType;
     public SkillActionType actionType = SkillActionType.Sup;
@@ -30,7 +31,6 @@ public class Skill : ScriptableObject
 
     
 
-    // Add any other properties or methods you need for the skill
 
     public Skill(string skillName, int mpCost, int cooldown, string description, AudioClip soundEffect, SkillOrigin origin, SkillTarget targetType)
     {

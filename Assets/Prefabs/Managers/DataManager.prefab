@@ -44,20 +44,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14d04156bcbc8174d9ba6d82b2a79218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actualMaxHP: 10
+  actualMaxMP: 10
+  actualDef: 0
+  actualBaseATK:
+    dices:
+    - count: 1
+      sides: 6
+    modifier: 0
+  actualAtkAdvantage: 0
+  actualMainActions: 1
+  actualSupActions: 1
+  actualDEXTREZA: 1
+  actualATLETISMO: 1
+  actualAURA: 1
+  actualCHARISMA: 1
+  actualSORTE: 1
+  actualINTUICAO: 1
+  actualHEX: 1
+  actualASTUCIA: 1
+  actualVONTADE: 1
+  actualREFLEXOS: 1
+  actualPERSEPCAO: 1
+  actualFURTIVIDADE: 1
+  actualCONSTITUICAO: 1
+  actualDOMINANCIA: 1
   name: You
-  hp: 25
-  maxHP: 25
+  hp: 10
+  maxHP: 10
   mp: 10
   maxMP: 10
   def: 0
   baseATK:
     dices:
     - count: 1
-      sides: 4
+      sides: 6
     modifier: 0
   atkAdvantage: 0
+  totalMainActions: 1
+  totalSupActions: 1
   DEXTREZA: 1
   ATLETISMO: 1
+  AURA: 1
+  CHARISMA: 1
+  SORTE: 1
+  INTUICAO: 1
+  HEX: 1
+  ASTUCIA: 1
+  VONTADE: 1
+  REFLEXOS: 1
+  PERSEPCAO: 1
+  FURTIVIDADE: 1
+  CONSTITUICAO: 1
+  DOMINANCIA: 1
   fablePoints: 0
   death_counter: 0
   kill_counter: 0

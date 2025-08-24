@@ -7,6 +7,7 @@ TagManager:
   - Hero
   - Enemy
   - Interactable
+  - Ground
   layers:
   - Default
   - TransparentFX

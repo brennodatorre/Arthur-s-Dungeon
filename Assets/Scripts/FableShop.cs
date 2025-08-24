@@ -1,9 +1,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FableShop : MonoBehaviour
 {
@@ -11,16 +13,17 @@ public class FableShop : MonoBehaviour
 
 
     private SkillManager skillManager;
+    private UpgradeManager upgradeManager;
     private CursorManager cursorManager;
 
 
     public int numberOfPagesOnShop = 1;
 
     [Tooltip("Chance to get a skill on the shop, 0-100")]
-    public float chanceToGetUpgradePage = 25; // chance to get a skill on the shop, 0-100
-    
+    [Range(0f, 1f)] public float chanceToGetUpgradePage = .25f; // chance to get a skill on the shop, [0-1]
 
-    [Space(1)]
+
+    [Space(10)]
     [Header("Prefabs && Objects:")]
     public GameObject skillPagePrefab;
     public GameObject upgradePagePrefab;
@@ -28,14 +31,23 @@ public class FableShop : MonoBehaviour
     public TextMeshProUGUI tooltipText;
     public GameObject wallet;
 
+    [Space(10)]
+    public List<GameObject> PagesOnShop = new List<GameObject>();
 
 
-    [Space(3)]
+
+    [Space(10)]
     [Header("Skills List:")]
     public List<Skill> unlockableSkills = new List<Skill>();
     public List<Skill> skillsOnShop = new List<Skill>();
-    public int upgradePagesOnShop ; // list of upgrade pages on the shop
-    public List<GameObject> PagesOnShop = new List<GameObject>();
+
+
+
+    [Space(10)]
+    [Header("Upgrades List:")]
+    public List<Upgrade> possibleUpgrades = new List<Upgrade>();
+    public List<Upgrade> upgradesOnShop = new List<Upgrade>();
+
 
     [Space(3)]
     public List<Skill> selectedSkills = new List<Skill>(); //player selected skills to be bought
@@ -45,6 +57,7 @@ public class FableShop : MonoBehaviour
     {
         skillManager = SkillManager.Instance;
         cursorManager = CursorManager.Instance;
+        upgradeManager = UpgradeManager.Instance;
 
     }
 
@@ -60,22 +73,31 @@ public class FableShop : MonoBehaviour
                 unlockableSkills.Add(Instantiate(skill));
             }
         }
+        
+        foreach (Upgrade upgrade in upgradeManager.upgrades)
+        {
+
+            possibleUpgrades.Add(Instantiate(upgrade));
+
+        }
 
 
 
 
         // bound number of skill on avaible on shop by total the number of unlockable skills 
         //if (numberOfPagesOnShop > unlockableSkills.Count) { numberOfPagesOnShop = unlockableSkills.Count; }
-        
+
 
         //gets n number of skills to be sold at the shop randomly
         for (int i = 0; i < numberOfPagesOnShop; i++)
         {
-            int prob = Random.Range(0, 100);
-            if (prob > chanceToGetUpgradePage)
+            float prob = Random.value; // [0,1]
+            if (prob < chanceToGetUpgradePage)
             {
                 // if the probability is met, add an upgrade page instead of a skill page
-                upgradePagesOnShop++;
+                int x = Random.Range(0, possibleUpgrades.Count);
+                upgradesOnShop.Add(Instantiate(possibleUpgrades[x]));
+
 
             }
             else
@@ -117,28 +139,37 @@ public class FableShop : MonoBehaviour
             skillPageObj.GetComponent<TooltipManager>().tooltipType = TooltipManager.TooltipType.Skill;
             skillPageObj.GetComponent<skillPage>().skill = skl;
 
-            setPageSymbol(skillPageObj.GetComponent<skillPage>()); // sets the symbol of the page based on the skill origin
+            setSkillPageSymbol(skillPageObj.GetComponent<skillPage>()); // sets the symbol of the page based on the skill origin
 
             PagesOnShop.Add(skillPageObj);
 
         }
-        for (int i = 0; i < upgradePagesOnShop; i++)
+        foreach (Upgrade upg in upgradesOnShop)
         {
             //creates a button for each upgrade page in the shop
             GameObject upgradePageObj = Instantiate(upgradePagePrefab, this.transform);
-            
 
-            UpgradePage upPage= upgradePageObj.GetComponent<UpgradePage>();
-            upPage.setRandomPage(); // sets the page on the object 
+
+            UpgradePage upPage = upgradePageObj.GetComponent<UpgradePage>();
+            upPage.upgrade = upg; // sets the page on the object 
 
 
             //gets the description of the upgrade based on the type
-            upgradePageObj.GetComponent<TooltipManager>().description = upPage.upgradeDescription;
+            upgradePageObj.GetComponent<TooltipManager>().description = upg.upgradeDescription;
             upgradePageObj.GetComponent<TooltipManager>().tooltipPanel = tooltipPanel;
             upgradePageObj.GetComponent<TooltipManager>().tooltipText = tooltipText;
             upgradePageObj.GetComponent<TooltipManager>().cursorManager = cursorManager;
             upgradePageObj.GetComponent<TooltipManager>().btn = upgradePageObj;
             upgradePageObj.GetComponent<TooltipManager>().tooltipType = TooltipManager.TooltipType.Skill; //can be used for upgrade pages too
+
+            GameObject upImgObj = upgradePageObj.transform.GetChild(0).gameObject;
+            UnityEngine.UI.Image upgImage = upImgObj.GetComponent<UnityEngine.UI.Image>();
+            upgImage.sprite = upPage.upgrade.image;
+            upgImage.SetNativeSize();
+
+            ///Set the offset of the image here///////
+            //
+            //////////
 
             PagesOnShop.Add(upgradePageObj);
         }
@@ -159,8 +190,8 @@ public class FableShop : MonoBehaviour
                 amountDue += pageOb.GetComponent<skillPage>().skill.fableCost;
             }
             else if (pageOb.GetComponent<UpgradePage>() != null && pageOb.GetComponent<UpgradePage>().selected)
-            { 
-                amountDue += pageOb.GetComponent<UpgradePage>().upgradeFableCost; // adds the cost of the upgrade to the total amount due
+            {
+                amountDue += pageOb.GetComponent<UpgradePage>().upgrade.upgradeFableCost; // adds the cost of the upgrade to the total amount due
             }
 
         }
@@ -180,10 +211,10 @@ public class FableShop : MonoBehaviour
                 {
                     // if the page is an upgrade page, apply the upgrades
                     UpgradePage upgPage = pageOb.GetComponent<UpgradePage>();
-                    upgPage.applyUpgrade(upgPage.upgradeType); // applies the upgrade based on the type
-                    PlayerData.Instance.fablePoints -= upgPage.upgradeFableCost; // deducts the cost of the upgrade from the player's fable points
+                    upgradeManager.applyUpgrade(upgPage.upgrade.upgradeName); // applies the upgrade based on the type
+                    PlayerData.Instance.fablePoints -= upgPage.upgrade.upgradeFableCost; // deducts the cost of the upgrade from the player's fable points
                 }
-                
+
 
             }
 
@@ -194,18 +225,13 @@ public class FableShop : MonoBehaviour
     }
 
 
-    private void setPageSymbol(skillPage page)
-    { 
+    private void setSkillPageSymbol(skillPage page)
+    {
 
-        // Deactivate all symbols first
-        page.rose_symbol.SetActive(false);
-        page.hex_symbol.SetActive(false);
-        page.arthur_symbol.SetActive(false);
-        page.landreas_symbol.SetActive(false);
-        page.survivor_symbol.SetActive(false);
-        page.system_symbol.SetActive(false);
-        page.flame_symbol.SetActive(false);
-        page.unknown_symbol.SetActive(false);
+        foreach (Transform child in page.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
 
         // Activate the symbol based on the skill's origin
         switch (page.skill.origin)
@@ -239,5 +265,6 @@ public class FableShop : MonoBehaviour
                 break;
         }
     }
+
 
 }
