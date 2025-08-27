@@ -11,23 +11,33 @@ public class AudioManager : MonoBehaviour
     public Entity player;
 
     public AudioSource SFXoutput;
+   
     public AudioSource ambienceOutput;
 
     public int[] atk_levels;
-    [SerializeField]public List<AudioClip> atk_sounds = new List<AudioClip>();
-    [SerializeField]public List<AudioClip> hit_sounds = new List<AudioClip>();
+    [SerializeField] public List<AudioClip> atk_sounds = new List<AudioClip>();
+    [SerializeField] public List<AudioClip> hit_sounds = new List<AudioClip>();
     public AudioClip atk_equal_sound;
 
 
-    [Space]
+    [Space(10)]
+    [Header("Sound Clips:")]
     public AudioClip atk_button_sound;
     public AudioClip skill_button_sound;
     public AudioClip item_button_sound;
     public AudioClip run_button_sound;
 
+    [Space(3)]
+    public AudioClip qteSpeedSound;
+    public AudioClip qteFail;
+    public AudioClip qteSucess;
+
+    [Space(3)]
     public AudioClip skill_unable_sound;
     public AudioClip death_sound;
     public AudioClip skill_page_select_sound;
+
+    
 
 
 
@@ -45,7 +55,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject); // Avoid duplicates
         }
 
-        
+
     }
 
     private void Update()
@@ -65,11 +75,12 @@ public class AudioManager : MonoBehaviour
         int index = 0;
 
         //gets the level of the damage
-        for (int i = 0; i < atk_levels.Length; i++){
-            if (damage <= atk_levels[i] ) {break;} else {index++;}
+        for (int i = 0; i < atk_levels.Length; i++)
+        {
+            if (damage <= atk_levels[i]) { break; } else { index++; }
         }
-        
-        if (index > atk_levels.Length-1) {index--;}
+
+        if (index > atk_levels.Length - 1) { index--; }
         //Debug.Log("index " +index );
 
         SFXoutput.PlayOneShot(atk_sounds[index]);
@@ -101,7 +112,7 @@ public class AudioManager : MonoBehaviour
     {
         SFXoutput.PlayOneShot(sound);
     }
-    
+
     // fix this
     // public void PlaySoundWithRandomPitch(AudioClip sound)
     // {
@@ -113,6 +124,43 @@ public class AudioManager : MonoBehaviour
     public void PlaySkillPageSelectdSound()
     {
         SFXoutput.PlayOneShot(skill_page_select_sound);
+    }
+
+
+
+    public AudioSource PlayQTESoundWithProgressivePitch(AudioClip sound, System.Func<float>  t, float speed, System.Func<bool> isRunning = null)
+    {
+        AudioSource temp = gameObject.AddComponent<AudioSource>();
+
+        StartCoroutine(PlayPitchOverTime(temp, sound, t, speed, isRunning));
+
+        return temp;
+    }
+
+    private IEnumerator PlayPitchOverTime(AudioSource src, AudioClip clip, System.Func<float> t, float speed, System.Func<bool> isRunning = null)
+    {
+        if (src == null || clip == null || speed <= 0f) yield break;
+
+        float qteDuration = 1f / speed;
+        float avgPitch = clip.length / qteDuration;
+        float startPitch = Mathf.Clamp(avgPitch * 0.5f, 0.1f, 3f);
+        float endPitch   = Mathf.Clamp(avgPitch * 1.5f, 0.1f, 3f);
+        if (Mathf.Abs(((startPitch + endPitch) * 0.5f) - avgPitch) > 0.01f)
+            startPitch = endPitch = Mathf.Clamp(avgPitch, 0.1f, 3f);
+
+        src.clip = clip;
+        src.pitch = startPitch;
+        src.Play();
+
+        while ((isRunning == null || isRunning()) && src != null)
+        {
+            float tt = Mathf.Clamp01(t());        
+            src.pitch = Mathf.Lerp(startPitch, endPitch, tt);
+            if (tt >= 1f) break;                   
+            yield return null;
+        }
+
+        if (src != null) { src.Stop(); Destroy(src); }
     }
 
 }

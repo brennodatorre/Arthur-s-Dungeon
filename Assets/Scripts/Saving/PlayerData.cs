@@ -1,15 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
-    
-    [Header("Player Actual Data")]
+
+    [Header("Player Deathless Data")]
     [SerializeField] public int actualMaxHP;
     [SerializeField] public int actualMaxMP;
     [SerializeField] public int actualDef;
-    
+
     [SerializeField] public DiceRoll actualBaseATK = new DiceRoll();
     [SerializeField] public int actualAtkAdvantage = 0; //advantage for the attack roll
     [SerializeField] public int actualMainActions = 1;
@@ -32,15 +33,19 @@ public class PlayerData : MonoBehaviour
     [SerializeField] public int actualDOMINANCIA = 1;
 
 
+    [Space(5)]
+    [SerializeField] private int fableRecord = 0;
+    [SerializeField] private int fablePoints = 0;
+    public int death_counter = 0;
+    public int kill_counter = 0;
 
-    [Space]
-    [Space]
-    [Space]
-    [Space]
-    [Space]
+    public bool isDead = false;
 
 
 
+
+
+    [Space(10)]
     [Header("Player Floating Data")]
     [SerializeField] public new string name;
     [SerializeField] private int hp;
@@ -50,12 +55,12 @@ public class PlayerData : MonoBehaviour
     [SerializeField] public int def;
 
     [SerializeField] public DiceRoll baseATK = new DiceRoll();
-    [SerializeField] public int atkAdvantage = 0; 
+    [SerializeField] public int atkAdvantage = 0;
 
     [SerializeField] public int totalMainActions = 1;
     [SerializeField] public int totalSupActions = 1;
 
-    [Space]
+    [Space(3)]
     [SerializeField] public int DEXTREZA = 1;
     [SerializeField] public int ATLETISMO = 1;
     [SerializeField] public int AURA = 1;
@@ -72,19 +77,10 @@ public class PlayerData : MonoBehaviour
     [SerializeField] public int DOMINANCIA = 1;
 
 
-    [Space]
-    [SerializeField] public int fablePoints = 0;
-    public int death_counter = 0;
-    public int kill_counter = 0;
-    
 
 
-
-    public bool isDead = false;
-
-   
     [SerializeField] public List<Skill> skills = new List<Skill>();
-    [HideInInspector]public List<Skill> skillsInstance = new List<Skill>();
+    [HideInInspector] public List<Skill> skillsInstance = new List<Skill>();
     [SerializeField] public List<Skill> activeSkillEffects = new List<Skill>();
 
 
@@ -101,42 +97,43 @@ public class PlayerData : MonoBehaviour
         }
     }
 
-    public void savePlayerData(Entity player){
-    
+    public void savePlayerData(Entity player)
+    {
 
-            // Copy over the data
-            name = player.name;
-            hp = player.getHP();
-            maxHP = player.getMaxHP();
-            mp = player.getMP();
-            maxMP = player.getMaxMP();
-            def = player.def;
-            baseATK = player.baseATK;
-            atkAdvantage = player.atkAdvantage;
-            totalMainActions = player.totalMainActions;
-            totalSupActions = player.totalSupActions;
-            DEXTREZA = player.DEXTREZA;
-            ATLETISMO = player.ATLETISMO;
-            AURA = player.AURA;
-            CHARISMA = player.CHARISMA;
-            SORTE = player.SORTE;
-            INTUICAO = player.INTUICAO;
-            HEX = player.HEX;
-            ASTUCIA = player.ASTUCIA;
-            VONTADE = player.VONTADE;
-            REFLEXOS = player.REFLEXOS;
-            PERSEPCAO = player.PERSEPCAO;
-            FURTIVIDADE = player.FURTIVIDADE;
-            CONSTITUICAO = player.CONSTITUICAO;
-            DOMINANCIA = player.DOMINANCIA;
-            isDead = player.isDead;
 
-            
-            skills = new List<Skill>(player.skills);
-            skillsInstance = new List<Skill>(player.skillsInstance);
-            activeSkillEffects = new List<Skill>(player.activeSkillEffects);
+        // Copy over the data
+        name = player.name;
+        hp = player.getHP();
+        maxHP = player.getMaxHP();
+        mp = player.getMP();
+        maxMP = player.getMaxMP();
+        def = player.def;
+        baseATK = player.baseATK;
+        atkAdvantage = player.atkAdvantage;
+        totalMainActions = player.totalMainActions;
+        totalSupActions = player.totalSupActions;
+        DEXTREZA = player.DEXTREZA;
+        ATLETISMO = player.ATLETISMO;
+        AURA = player.AURA;
+        CHARISMA = player.CHARISMA;
+        SORTE = player.SORTE;
+        INTUICAO = player.INTUICAO;
+        HEX = player.HEX;
+        ASTUCIA = player.ASTUCIA;
+        VONTADE = player.VONTADE;
+        REFLEXOS = player.REFLEXOS;
+        PERSEPCAO = player.PERSEPCAO;
+        FURTIVIDADE = player.FURTIVIDADE;
+        CONSTITUICAO = player.CONSTITUICAO;
+        DOMINANCIA = player.DOMINANCIA;
+        isDead = player.isDead;
 
-            Debug.Log("Player data saved.");
+
+        skills = new List<Skill>(player.skills);
+        skillsInstance = new List<Skill>(player.skillsInstance);
+        activeSkillEffects = new List<Skill>(player.activeSkillEffects);
+
+        Debug.Log("Player data saved.");
     }
 
     public void LoadPlayerData(Entity player)
@@ -168,7 +165,7 @@ public class PlayerData : MonoBehaviour
         player.totalSupActions = totalSupActions;
         player.isDead = isDead;
 
-        
+
         player.skills = new List<Skill>(skills);
         player.skillsInstance = new List<Skill>(skillsInstance);
         player.activeSkillEffects = new List<Skill>(activeSkillEffects);
@@ -179,7 +176,7 @@ public class PlayerData : MonoBehaviour
     //resets the player floating data to their actual data
     public void revitalizePlayer()
     {
-        
+
 
         activeSkillEffects.Clear(); // Clear active skill effects
         isDead = false; //
@@ -196,9 +193,9 @@ public class PlayerData : MonoBehaviour
 
         totalMainActions = actualMainActions;
         totalSupActions = actualSupActions;
-        
+
         DEXTREZA = actualDEXTREZA;
-        ATLETISMO = actualATLETISMO;   
+        ATLETISMO = actualATLETISMO;
         AURA = actualAURA;
         CHARISMA = actualCHARISMA;
         SORTE = actualSORTE;
@@ -211,13 +208,41 @@ public class PlayerData : MonoBehaviour
         FURTIVIDADE = actualFURTIVIDADE;
         CONSTITUICAO = actualCONSTITUICAO;
         DOMINANCIA = actualDOMINANCIA;
-        
+
 
         Debug.Log("Player data revitalized.");
     }
 
-    
 
+    //deals prevents fableRecords from being becreased 
+    public void addFablePoints(int amount)
+    {
+        if (amount <= 0)
+        { throw new System.ArgumentOutOfRangeException(nameof(amount), "Value must be positive."); }
+
+        fablePoints += amount;
+        fableRecord += amount;
+    }
+    ////...
+    public void loseFablePoints(int amount)
+    {
+        if (amount <= 0)
+        { throw new System.ArgumentOutOfRangeException(nameof(amount), "Value must be positive."); }
+
+
+        fablePoints -= amount;
+
+    }
+    ///...
+    public int getCurrentFablePoints()
+    {
+        return fablePoints;
+    }
+    ///... 
+    public int getFableRecord()
+    {
+        return fableRecord;
+    }
 
 
 

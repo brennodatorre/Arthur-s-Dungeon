@@ -31,7 +31,7 @@ public class Entity : MonoBehaviour
 
 
     public enum Trait { DEXTREZA, ATLETISMO, AURA, CARISMA, SORTE, INTUICAO, HEX, ASTUCIA, VONTADE, REFLEXOS, PERSEPCAO, FURTIVIDADE, CONSTITUICAO };
-    [Space]
+    [Space(10)]
     [Header("Traits")]
     
 
@@ -51,7 +51,7 @@ public class Entity : MonoBehaviour
     [SerializeField] public int DOMINANCIA = 1;
 
 
-    [Space]
+    [Space(10)]
     [Header("Atk Status")]
 
     [SerializeField] public DiceRoll baseATK = new DiceRoll();
@@ -60,7 +60,7 @@ public class Entity : MonoBehaviour
     [SerializeField] public int atkAdvantage = 0; //advantage for the attack roll
 
 
-    [Space]
+    [Space(10)]
     [Header("States")]
     
     public bool isDead = false;
@@ -72,15 +72,18 @@ public class Entity : MonoBehaviour
     
 
 
-    [Space]
+    [Space(10)]
     [Header("Skiils")]
 
     [SerializeField] public List<Skill> skills = new List<Skill>();
     [HideInInspector]public List<Skill> skillsInstance = new List<Skill>(); // to not edit original copy
     [SerializeField] public List<Skill> activeSkillEffects = new List<Skill>();
 
-    
 
+
+    [Space(10)]
+    [Header("Fable Status")]
+    public int fableWorth;
 
     
     
@@ -127,6 +130,7 @@ public class Entity : MonoBehaviour
 
     public IEnumerator doBasicAtkCaller(Entity target)
     {
+        roundManager.currentPhase = RoundManager.TurnPhase.Clash;
 
         yield return new WaitForSeconds(0f);
 
@@ -155,8 +159,9 @@ public class Entity : MonoBehaviour
             if (roundManager.currentTurn == roundManager.player) //if its the players turn, brind up the action menu
             {
                 roundManager.act_menu.SetActive(true);
-                roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
+
             }
+            roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
         }
 
         
@@ -318,7 +323,7 @@ public class Entity : MonoBehaviour
 
             roundManager.actionQueue.actionQueue.Clear(); // clears next actions on action queue
 
-            PlayerData.Instance.fablePoints++;
+            PlayerData.Instance.addFablePoints(fableWorth);
             PlayerData.Instance.death_counter++;
 
             //goes to fable shop on player death
@@ -338,7 +343,7 @@ public class Entity : MonoBehaviour
 
                 roundManager.enemies = roundManager.enemies.Where(x => x != this).ToArray();
 
-                PlayerData.Instance.fablePoints++;
+                PlayerData.Instance.addFablePoints(fableWorth);
                 PlayerData.Instance.kill_counter++;
 
             }

@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 
 using UnityEngine;
+using UnityEngine.Video;
 
 
 [System.Serializable]
@@ -23,6 +24,7 @@ public class RoundManager : MonoBehaviour
     {
         Start,
         Action,
+        Clash,
         targetingATK,
         targetingSKILL,
         targetingITEM,
@@ -35,24 +37,25 @@ public class RoundManager : MonoBehaviour
     [SerializeField] public Transform hud; //the parent object for the damage popups
     [SerializeField] public ActionQueue actionQueue;
     [SerializeField] public ActionQueue clashQueue;
-    
     public GameObject act_menu;
 
+    [Space(5)]
     public Entity currentTurn;
     public Entity target;
     public Skill skillSelected;
     public TurnPhase currentPhase; //the current phase of the turn
-    
-    [Space]
-    public Entity player;
-    public bool playerIsAttacking = false; //if the player is currently attacking
 
-    [Space]
+    [Space(10)]
     public List<Entity> entities; //array of all entities in the scene
     public Entity[] allies; //array of all allies in the scene
     public Entity[] enemies; //array of all enemies in the scene
 
-
+    [Space(10)]
+    [Header ("Player Info")]
+    public Entity player;
+    public bool playerIsAttacking = false; //if the player is currently attacking
+    public bool playerIsTargeting;
+    public bool playerCanAct;
 
     
     void Awake()
@@ -71,10 +74,28 @@ public class RoundManager : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+
+        playerIsTargeting =
+            currentPhase == RoundManager.TurnPhase.targetingATK ||
+            currentPhase == RoundManager.TurnPhase.targetingSKILL||
+            currentPhase == RoundManager.TurnPhase.targetingITEM 
+        ;
+
+        playerCanAct =
+            currentTurn == player &&                              //on player's turn and
+            currentTurn.currentMainActions > 0 &&                 //player has Main-Aactions and
+            (currentPhase == RoundManager.TurnPhase.Action ||     //(player is on action menu or
+            playerIsTargeting)                                    // is targetting)
+        ;
+    }
+
+
 
     public void Start()
     {
-        
+
         PlayerData.Instance.LoadPlayerData(player); // load player data 
 
         combatSetter.openLevel(); // sets the enemies level
@@ -83,7 +104,8 @@ public class RoundManager : MonoBehaviour
 
         foreach (Entity entity in entities.ToArray()) //loops through each entity
         {
-            if (entity.isActiveAndEnabled){
+            if (entity.isActiveAndEnabled)
+            {
                 if (entity.entityType != Entity.EntityType.Enemy) //if the entity is not an enemy
                 {
                     allies = allies.Append(entity).ToArray(); //adds the entity to the allies array
@@ -93,47 +115,22 @@ public class RoundManager : MonoBehaviour
                     enemies = enemies.Append(entity).ToArray(); //adds the entity to the enemies array
                 }
             }
-            else {entities.Remove(entity);} //removes the entity from the list
+            else { entities.Remove(entity); } //removes the entity from the list
         }
-        
+
         //sorts the entities by their rolls in descending order
         entities = entities.OrderByDescending(x => x.rollDEX()).ToList();
 
         currentTurn = entities[0]; //sets the current turn to the first entity in the array
-        
+
         //sets all menus off so the combat can begin
         act_menu.SetActive(false);
         buttonManager.skillMenu.SetActive(false);
         buttonManager.itemMenu.SetActive(false);
 
-        actionQueue.Enqueue("delay" , () => Delay(2f));
+        actionQueue.Enqueue("delay", () => Delay(2f));
         actionQueue.Enqueue("StartTurn", () => StartTurn());
-        
-    }
 
-    //endturn picks the next entity to take their turn
-    public void EndTurn() { actionQueue.Enqueue("EndTurn", () => EndTurnCoroutine());}
-    public IEnumerator EndTurnCoroutine(){
-
-        
-        currentPhase = TurnPhase.End; //set the current phase to end
-
-        yield return null; //wait for the end of the frame to ensure all actions are processed
-
-        // set the next turn to the next entity in the array, or loop back to the first entity if at the end
-        int index = entities.IndexOf(currentTurn);
-        currentTurn = (index == entities.Count - 1) ? entities[0] : entities[index + 1];
-        
-        if (currentTurn.entityType != Entity.EntityType.Player) {yield return Delay(1f); }//wait for 1 second before starting the next turn
-
-        foreach (Entity entity in entities) 
-        {
-            skillManager.resetSkills(entity); //reset the skills for the next turn
-        }
-
-        
-
-        actionQueue.Enqueue("StartTurn", () => StartTurn());
     }
 
 
@@ -178,12 +175,40 @@ public class RoundManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Unknown entity type: " + currentTurn.entityType);
-            
+            Debug.Log("Unknown entity type: " + currentTurn.entityType); 
         }
     }
 
- 
+    //endturn picks the next entity to take their turn
+    public void EndTurn() { actionQueue.Enqueue("EndTurn", () => EndTurnCoroutine()); }
+    public IEnumerator EndTurnCoroutine(){
+
+        
+        currentPhase = TurnPhase.End; //set the current phase to end
+
+        yield return null; //wait for the end of the frame to ensure all actions are processed
+
+        // set the next turn to the next entity in the array, or loop back to the first entity if at the end
+        int index = entities.IndexOf(currentTurn);
+        currentTurn = (index == entities.Count - 1) ? entities[0] : entities[index + 1];
+        
+        if (currentTurn.entityType != Entity.EntityType.Player) {yield return Delay(1f); }//wait for 1 second before starting the next turn
+
+        foreach (Entity entity in entities) 
+        {
+            skillManager.resetSkills(entity); //reset the skills for the next turn
+        }
+
+        
+
+        actionQueue.Enqueue("StartTurn", () => StartTurn());
+    }
+
+
+
+
+
+
     public void EnableEnemyTargetingUI(bool enable)
     {
 

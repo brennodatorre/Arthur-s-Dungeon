@@ -7710,7 +7710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfPagesOnShop: 3
-  chanceToGetUpgradePage: 1
+  chanceToGetUpgradePage: 0.28
   skillPagePrefab: {fileID: 7018723158389982702, guid: 91bb3c555a96e1943a261cf7b3c2324c, type: 3}
   upgradePagePrefab: {fileID: 2030963171664810299, guid: 3f8b121ad917a3947af7c9a1d015daef, type: 3}
   tooltipPanel: {fileID: 2017018697}

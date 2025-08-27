@@ -109,6 +109,18 @@ MonoBehaviour:
   def: 1
   DEXTREZA: 3
   ATLETISMO: 1
+  AURA: 1
+  CHARISMA: 1
+  SORTE: 1
+  INTUICAO: 1
+  HEX: 1
+  ASTUCIA: 1
+  VONTADE: 1
+  REFLEXOS: 1
+  PERSEPCAO: 1
+  FURTIVIDADE: 1
+  CONSTITUICAO: 1
+  DOMINANCIA: 1
   baseATK:
     dices:
     - count: 2
@@ -119,11 +131,15 @@ MonoBehaviour:
     modifier: 0
   atkAdvantage: 0
   isDead: 0
-  hasSupAction: 1
+  totalMainActions: 1
+  totalSupActions: 1
+  currentMainActions: 1
+  currentSupActions: 1
   skills:
   - {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
   skillsInstance: []
   activeSkillEffects: []
+  fableWorth: 3
 --- !u!60 &7789547090989743464
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -617,6 +633,5 @@ MonoBehaviour:
   cursorManager: {fileID: 0}
   btn: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
-  hasDescription: 0
-  isEntity: 1
+  tooltipType: 0
   entity: {fileID: 0}

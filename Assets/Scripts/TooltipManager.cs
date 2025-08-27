@@ -46,6 +46,11 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     }
 
+    void Start()
+    {
+        if (tooltipPanel == null) { tooltipPanel = ButtonManager.Instance.tooltipPanel; }
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         tooltipText = tooltipPanel.GetComponentInChildren<TextMeshProUGUI>();
@@ -75,7 +80,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         pointerCoroutine = StartCoroutine(updateText());
 
-       
+
     }
 
 

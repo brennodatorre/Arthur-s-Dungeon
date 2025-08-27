@@ -10,6 +10,9 @@ using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour
 {
+
+    public static ButtonManager Instance;
+
     private RoundManager roundManager;
     private AudioManager audioManager;
     private SkillManager skillManager;
@@ -17,11 +20,13 @@ public class ButtonManager : MonoBehaviour
     private MySceneManager sceneManager;
 
 
-    [SerializeField] public enum OnMenu
+    [SerializeField]
+    public enum OnMenu
     {
         Action,
         Skill,
-        Item 
+        Item, 
+        None
     }
 
     [Space]
@@ -59,6 +64,18 @@ public class ButtonManager : MonoBehaviour
     public OnMenu currentMenu; //the current menu of the turn
 
 
+        void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
+    }
 
 
     void Start()
@@ -80,30 +97,32 @@ public class ButtonManager : MonoBehaviour
 
     private void Update()
     {
-        //if its on the player's turn and they havent ended their action
-        if (roundManager != null && roundManager.currentTurn == roundManager.player && roundManager.currentTurn.currentMainActions > 0 && (roundManager.currentPhase == RoundManager.TurnPhase.Action|| roundManager.currentPhase == RoundManager.TurnPhase.targetingATK))
+        bool canTriggerAtk = (currentMenu == OnMenu.Action || inAtkOverlay) && !inSkillOverlay && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
+        bool canTriggerSkill = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Skill || inSkillOverlay) && !inAtkOverlay  && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
+        bool canTriggerItem = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Item || inItemOverlay ) && !inAtkOverlay && !inSkillOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
+        bool canTriggerRun = currentMenu == OnMenu.Action && !roundManager.playerIsTargeting && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
+
+
+        //Dels with shortcut inputting
+        if (roundManager != null && roundManager.playerCanAct)
         {
-            if (Input.GetKeyDown(KeyCode.Q)  && !roundManager.playerIsAttacking && currentMenu != OnMenu.Skill && currentMenu != OnMenu.Item)
+            if (Input.GetKeyDown(KeyCode.Q) && canTriggerAtk)
             {
-                ATK_button(atk_button);
+                atkMenuButton(atk_button);
             }
-            else if (Input.GetKeyDown(KeyCode.W) && !inAtkOverlay && currentMenu != OnMenu.Item)
+            else if (Input.GetKeyDown(KeyCode.W) && canTriggerSkill)
             {
-                //if not on skill already open skill menu, else close it
-                if (currentMenu != OnMenu.Skill) { SKILL_button(); }
-                else
-                {
-                    audioManager.PlaySkillButtonSound();
-                    closeSkillMenu();
-                }
+                //if not on skill menu, open it, else close it
+                if (currentMenu != OnMenu.Skill) { skillMenuButton(); }
+                else { closeSkillMenu(true); }
             }
-            else if (Input.GetKeyDown(KeyCode.E) && !inAtkOverlay && currentMenu != OnMenu.Skill)
+            else if (Input.GetKeyDown(KeyCode.E) && canTriggerItem)
             {
-                ITEM_button();
+                itemMenuButton();
             }
-            else if (Input.GetKeyDown(KeyCode.R) && !inAtkOverlay && currentMenu != OnMenu.Skill && currentMenu != OnMenu.Item)
+            else if (Input.GetKeyDown(KeyCode.R) && canTriggerRun)
             {
-                RUN_button();
+                runMenuButton();
             }
         }
 
@@ -112,7 +131,7 @@ public class ButtonManager : MonoBehaviour
     }
 
 
-    public void ATK_button(GameObject btn)
+    public void atkMenuButton(GameObject btn)
     {
         lastButtonPressed = btn;
 
@@ -143,21 +162,21 @@ public class ButtonManager : MonoBehaviour
         }
 
     }
-    public void SKILL_button()
+    public void skillMenuButton()
     {
         currentMenu = OnMenu.Skill;
         lastButtonPressed = skill_button;
         audioManager.PlaySkillButtonSound();
         openSkillMenu();
     }
-    public void ITEM_button()
+    public void itemMenuButton()
     {
         //currentMenu = OnMenu.Item;
         lastButtonPressed = item_button;
         audioManager.PlayItemButtonSound();
         //openItemMenu();
     }
-    public void RUN_button()
+    public void runMenuButton()
     {
         lastButtonPressed = run_button;
         audioManager.PlayRunButtonSound();
@@ -242,8 +261,17 @@ public class ButtonManager : MonoBehaviour
     } 
 
 
-    public void closeSkillMenu()
+    public void closeSkillMenu(bool withSound = false)
     {
+        if (inSkillOverlay)
+        {
+            inSkillOverlay = false;
+            roundManager.EnableSkillTargetingUI(false); //disable the skill targetting UI
+            roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
+        }
+
+        if (withSound == true) { audioManager.PlaySkillButtonSound(); }
+
         // Clears the skill menu grid
         for (int i = skillMenuGrid.transform.childCount - 1; i >= 0; i--)
         {
@@ -271,6 +299,6 @@ public class ButtonManager : MonoBehaviour
 
     }
     
-
+    
 
 }

@@ -1,11 +1,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Unity.VisualStudio.Editor;
+
 using TMPro;
 
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class FableShop : MonoBehaviour
 {
@@ -120,7 +120,7 @@ public class FableShop : MonoBehaviour
     void Start()
     {
 
-        wallet.GetComponentInChildren<TextMeshProUGUI>().text = "Fable Points: " + PlayerData.Instance.fablePoints.ToString();
+        wallet.GetComponentInChildren<TextMeshProUGUI>().text = "Fable Points: " + PlayerData.Instance.getCurrentFablePoints().ToString();
 
         foreach (Skill skl in skillsOnShop)
         {
@@ -197,7 +197,7 @@ public class FableShop : MonoBehaviour
         }
 
 
-        if (PlayerData.Instance.fablePoints < amountDue) { Debug.Log("Not enough Fables"); }
+        if (PlayerData.Instance.getCurrentFablePoints() < amountDue) { Debug.Log("Not enough Fables"); }
         else
         { // adds the skills to player and leaves shop
             foreach (GameObject pageOb in PagesOnShop)
@@ -205,18 +205,19 @@ public class FableShop : MonoBehaviour
                 if (pageOb.GetComponent<skillPage>() != null && pageOb.GetComponent<skillPage>().selected)
                 {
                     PlayerData.Instance.skills.Add(pageOb.GetComponent<skillPage>().skill);
-                    PlayerData.Instance.fablePoints -= amountDue;
+                    //PlayerData.Instance.loseFablePoints(amountDue);
                 }
                 else if (pageOb.GetComponent<UpgradePage>() != null && pageOb.GetComponent<UpgradePage>().selected)
                 {
                     // if the page is an upgrade page, apply the upgrades
                     UpgradePage upgPage = pageOb.GetComponent<UpgradePage>();
                     upgradeManager.applyUpgrade(upgPage.upgrade.upgradeName); // applies the upgrade based on the type
-                    PlayerData.Instance.fablePoints -= upgPage.upgrade.upgradeFableCost; // deducts the cost of the upgrade from the player's fable points
+                    //PlayerData.Instance.loseFablePoints( upgPage.upgrade.upgradeFableCost); // deducts the cost of the upgrade from the player's fable points
                 }
 
 
             }
+            PlayerData.Instance.loseFablePoints(amountDue);
 
             PlayerData.Instance.revitalizePlayer(); // resets the player data to their actual values
             FindObjectOfType<Or_Manager>().leaveOutsideReaderDomain();

@@ -6,38 +6,34 @@ using UnityEngine.EventSystems;
 public class Targeting : MonoBehaviour, IPointerClickHandler
 {
     private Entity entity ;
-    public RoundManager roundManager;
+    private RoundManager roundManager;
 
 
+    void Start()
+    {
+        roundManager = RoundManager.Instance;
+
+        entity = GetComponent<Entity>();
+        
+    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         ////////////////// fix the rest of the imlpementation\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        if (roundManager.currentPhase == RoundManager.TurnPhase.targetingATK) 
+        if (roundManager.currentPhase == RoundManager.TurnPhase.targetingATK)
         {
             roundManager.OnTargetSelected(entity); // call the method in RoundManager to set the target
-           
-            
+
+
         }
-        if (roundManager.currentPhase == RoundManager.TurnPhase.targetingSKILL) 
+        if (roundManager.currentPhase == RoundManager.TurnPhase.targetingSKILL)
         {
             roundManager.OnTargetSelected(entity); // call the method in RoundManager to set the target
-           
-            
+
+
         }
-        
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-       entity = GetComponent<Entity>();
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

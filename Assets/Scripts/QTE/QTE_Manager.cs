@@ -69,9 +69,21 @@ public class QTE_Manager : MonoBehaviour
         setQTE();
         qteIsRunning = true;
 
+
+        // deals with speed audio 
+        AudioSource tempAudioSource = AudioManager.Instance.PlayQTESoundWithProgressivePitch
+            (AudioManager.Instance.qteSpeedSound, () => t, speed, () => qteIsRunning)
+        ;
+        
+
+
+
         while (qteIsRunning)
         {
-            //delas with getting collider status
+
+
+
+            //deals with getting collider status
             triggerBounds = trigger.GetComponent<BoxCollider2D>().bounds;
             goalBounds = goal.GetComponent<BoxCollider2D>().bounds;
             bool triggerFullyContained = (goalBounds.Contains(triggerBounds.min) && goalBounds.Contains(triggerBounds.max));
@@ -79,8 +91,21 @@ public class QTE_Manager : MonoBehaviour
 
             if (Input.GetKeyDown(keyCode))
             {
-                if (triggerFullyContained) { suceedQTE(); }
-                else { failedQTE(); }
+                if (triggerFullyContained)
+                {
+                    //stops and destroy the temporary audio source playing the speed sound
+                    tempAudioSource.Stop();
+                    Destroy(tempAudioSource);
+
+                    suceedQTE();
+                }
+                else
+                {
+                    //stops and destroy the temporary audio source playing the speed sound
+                    tempAudioSource.Stop();
+                    Destroy(tempAudioSource);
+                    failedQTE();
+                }
 
             }
 
@@ -92,8 +117,6 @@ public class QTE_Manager : MonoBehaviour
             }
             else
             {
-
-
                 failedQTE();
             }
 
@@ -111,12 +134,13 @@ public class QTE_Manager : MonoBehaviour
     {
         //resets for next qte
         isGoing = true;
+        
         t = 0f;
         
         Debug.Log("MISS");
         QTE.gameObject.SetActive(false);
         suceededQTE = false;
-        AudioManager.Instance.PlaySound(AudioManager.Instance.skill_unable_sound);
+        AudioManager.Instance.PlaySound(AudioManager.Instance.qteFail);
         qteIsRunning = false;
     }
     private void suceedQTE()
@@ -128,7 +152,7 @@ public class QTE_Manager : MonoBehaviour
         Debug.Log("SUCCESS");
         QTE.gameObject.SetActive(false);
         suceededQTE = true;
-        AudioManager.Instance.PlaySound(AudioManager.Instance.skill_button_sound);
+        AudioManager.Instance.PlaySound(AudioManager.Instance.qteSucess);
         qteIsRunning = false;
     }
 
