@@ -136,7 +136,7 @@ public class ClashManager : MonoBehaviour
 
 
         logManager.AddLog(attacker.name + ": " + atk + " VS " + target.name + ": " + block);
-        Debug.Log(attacker.name + ": " + attackRoll + " VS " + target.name + ": " + targetRoll);
+        //Debug.Log(attacker.name + ": " + attackRoll + " VS " + target.name + ": " + targetRoll);
         
 
 

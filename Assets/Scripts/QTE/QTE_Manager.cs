@@ -25,6 +25,9 @@ public class QTE_Manager : MonoBehaviour
     public Transform trackStart;
     public Transform trackEnd;
 
+    public Color failColor;
+    public Color sucessColor;
+
 
 
     [Space(10)]
@@ -88,23 +91,24 @@ public class QTE_Manager : MonoBehaviour
             goalBounds = goal.GetComponent<BoxCollider2D>().bounds;
             bool triggerFullyContained = (goalBounds.Contains(triggerBounds.min) && goalBounds.Contains(triggerBounds.max));
 
-
-            if (Input.GetKeyDown(keyCode))
+            
+            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.W) ||Input.GetKeyDown(KeyCode.E) ||Input.GetKeyDown(KeyCode.R))
             {
-                if (triggerFullyContained)
+                if (triggerFullyContained && Input.GetKeyDown(keyCode))
                 {
                     //stops and destroy the temporary audio source playing the speed sound
                     tempAudioSource.Stop();
                     Destroy(tempAudioSource);
 
-                    suceedQTE();
+                    yield return StartCoroutine(suceedQTE());
                 }
                 else
                 {
                     //stops and destroy the temporary audio source playing the speed sound
                     tempAudioSource.Stop();
                     Destroy(tempAudioSource);
-                    failedQTE();
+                    
+                    yield return StartCoroutine(failedQTE());
                 }
 
             }
@@ -117,7 +121,7 @@ public class QTE_Manager : MonoBehaviour
             }
             else
             {
-                failedQTE();
+                yield return StartCoroutine(failedQTE());
             }
 
             // Move trigger between start and end
@@ -130,35 +134,65 @@ public class QTE_Manager : MonoBehaviour
     }
 
 
-    private void failedQTE()
+    private IEnumerator failedQTE()
     {
         //resets for next qte
         isGoing = true;
-        
+
         t = 0f;
-        
-        Debug.Log("MISS");
-        QTE.gameObject.SetActive(false);
+
+        //Debug.Log("MISS");
+
         suceededQTE = false;
         AudioManager.Instance.PlaySound(AudioManager.Instance.qteFail);
-        qteIsRunning = false;
+        yield return StartCoroutine(endQTE(true));
+        
     }
-    private void suceedQTE()
+
+    private IEnumerator suceedQTE()
     {
         //resets for next qte
         isGoing = true;
         t = 0f;
 
-        Debug.Log("SUCCESS");
-        QTE.gameObject.SetActive(false);
+        //Debug.Log("SUCCESS");
+
         suceededQTE = true;
         AudioManager.Instance.PlaySound(AudioManager.Instance.qteSucess);
+        yield return StartCoroutine(endQTE(false));
+        
+    }
+
+    private IEnumerator endQTE(bool failed)
+    {
+        Image triggerImage = trigger.GetComponent<Image>();
+        Color originalTColor = triggerImage.color;
+
+        goal.GetComponent<Image>().enabled = false;
+        track.GetComponent<Image>().enabled = false;
+
+        if (failed) {triggerImage.color = failColor; }
+        else
+        { 
+            triggerImage.color = sucessColor;
+        }
+        
+
+        yield return new WaitForSeconds(.5f);
+
+        triggerImage.color = originalTColor;
+        goal.GetComponent<Image>().enabled = true;
+        track.GetComponent<Image>().enabled = true;
+
+
+        QTE.gameObject.SetActive(false);
         qteIsRunning = false;
     }
+
 
     private void setQTE()
     {
-        
+
 
         //adds random rotation to the QTE, 
         // while maintaining trigger and goal's rotation for visibility

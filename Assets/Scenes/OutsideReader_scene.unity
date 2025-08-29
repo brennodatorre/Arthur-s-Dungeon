@@ -588,6 +588,9 @@ MonoBehaviour:
   skill_button_sound: {fileID: 8300000, guid: 113205f208721c548bd2c67f1d4c7ffc, type: 3}
   item_button_sound: {fileID: 8300000, guid: 6d99c6e2ff73a6a48901d45587afaec4, type: 3}
   run_button_sound: {fileID: 8300000, guid: d35682b6bc674ed4288add2017d05e7e, type: 3}
+  qteSpeedSound: {fileID: 0}
+  qteFail: {fileID: 0}
+  qteSucess: {fileID: 0}
   skill_unable_sound: {fileID: 8300000, guid: 04d010c17109136469f7fd6457333ffa, type: 3}
   death_sound: {fileID: 0}
   skill_page_select_sound: {fileID: 8300000, guid: 5d3bc7e10afe8214f8ce9279045a626f, type: 3}
@@ -6203,73 +6206,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1554458270}
   m_CullTransparentMesh: 1
---- !u!1 &1575917858
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1575917859}
-  - component: {fileID: 1575917860}
-  m_Layer: 0
-  m_Name: ButtonManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1575917859
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575917858}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.8385458, y: -13.919565, z: 1285.5846}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1584966830}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1575917860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575917858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3edb5027511fa5f43a9037748271314c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonPrefab: {fileID: 7476485891199800133, guid: d7ade83c89eb39549ae828453824284a, type: 3}
-  actMenu: {fileID: 0}
-  skillMenu: {fileID: 0}
-  skillMenuGrid: {fileID: 0}
-  itemMenu: {fileID: 0}
-  atk_button: {fileID: 0}
-  skill_button: {fileID: 0}
-  item_button: {fileID: 0}
-  run_button: {fileID: 0}
-  backButton: {fileID: 0}
-  tooltipPanel: {fileID: 0}
-  tooltipText: {fileID: 0}
-  skillButtons: []
-  actionButtons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  lastButtonPressed: {fileID: 0}
-  inAtkOverlay: 0
-  inSkillOverlay: 0
-  inItemOverlay: 0
-  currentMenu: 0
 --- !u!1 &1581823396
 GameObject:
   m_ObjectHideFlags: 0
@@ -6385,7 +6321,6 @@ Transform:
   m_Children:
   - {fileID: 192342222}
   - {fileID: 65056352}
-  - {fileID: 1575917859}
   - {fileID: 1465205800}
   - {fileID: 451511528}
   - {fileID: 536512729}

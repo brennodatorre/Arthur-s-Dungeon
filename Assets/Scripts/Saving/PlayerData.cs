@@ -217,7 +217,7 @@ public class PlayerData : MonoBehaviour
     //deals prevents fableRecords from being becreased 
     public void addFablePoints(int amount)
     {
-        if (amount <= 0)
+        if (amount < 0)
         { throw new System.ArgumentOutOfRangeException(nameof(amount), "Value must be positive."); }
 
         fablePoints += amount;
@@ -226,7 +226,7 @@ public class PlayerData : MonoBehaviour
     ////...
     public void loseFablePoints(int amount)
     {
-        if (amount <= 0)
+        if (amount < 0)
         { throw new System.ArgumentOutOfRangeException(nameof(amount), "Value must be positive."); }
 
 

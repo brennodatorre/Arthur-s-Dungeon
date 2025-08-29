@@ -9,6 +9,7 @@ public class AnimationManager : MonoBehaviour
 
     public GameObject animatorOBJ;
     private Animator animator;
+    private Canvas canvas;
 
     [Space]
     public bool gizmos = false;
@@ -23,7 +24,7 @@ public class AnimationManager : MonoBehaviour
 
 
 
-        void Awake()
+    void Awake()
     {
         if (Instance == null)
         {
@@ -34,6 +35,10 @@ public class AnimationManager : MonoBehaviour
         {
             Destroy(gameObject); // Avoid duplicates
         }
+        
+
+        
+
 
 
     }
@@ -42,6 +47,11 @@ public class AnimationManager : MonoBehaviour
     {
         animator = animatorOBJ.GetComponent<Animator>();
         clashSparkStartPos = clashSparkPS.transform.position;
+        canvas = StatusHudManager.Instance.MainCanvas;
+
+        clashSparkStartPos = canvas.transform.position; 
+        clashSparkPS.transform.position = clashSparkStartPos;
+
     }
 
 
@@ -51,14 +61,18 @@ public class AnimationManager : MonoBehaviour
         StartCoroutine(playSlashAnima(target));
         
     }
-    
+
     public void doClashAnimation()
     {
-        clashSparkPS.transform.position = clashSparkStartPos; // Reset to original position
+        
 
         Vector2 randomOffset = Random.insideUnitCircle * clashSparkOffset; // Random offset within a circle of radius X
+        clashSparkPS.transform.position = clashSparkStartPos;
         clashSparkPS.transform.position += new Vector3(randomOffset.x, randomOffset.y, 0f); //sets a new random position for the PS
         clashSparkPS.Play();
+        //clashSparkPS.transform.position = clashSparkStartPos;
+        
+
     }
 
     void OnDrawGizmos()

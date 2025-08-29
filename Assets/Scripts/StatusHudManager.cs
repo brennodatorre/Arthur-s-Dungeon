@@ -7,8 +7,10 @@ using UnityEngine.UI;
 
 public class StatusHudManager : MonoBehaviour
 {
+    public static StatusHudManager Instance;
 
     public RoundManager roundManager;
+    public Canvas MainCanvas;
 
     public Image hpBar;
     public Image mpBar;
@@ -29,9 +31,21 @@ public class StatusHudManager : MonoBehaviour
     private Color mainActionColor;
     private Color supActionColor;
 
+
     private void Awake()
     {
-        mainActionDisplayImage = mainActionDisplay.GetComponent<Image>() ;
+
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
+
+        mainActionDisplayImage = mainActionDisplay.GetComponent<Image>();
         supActionDisplayImage = supActionDisplay.GetComponent<Image>();
         mainActionDisplayToolM = mainActionDisplay.GetComponent<TooltipManager>();
         supActionDisplayToolM = supActionDisplay.GetComponent<TooltipManager>();

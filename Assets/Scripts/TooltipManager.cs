@@ -18,20 +18,31 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         UIElement
     }
 
-
-    public string description;
-    public GameObject tooltipPanel;
     [HideInInspector] public TextMeshProUGUI tooltipText;
     [HideInInspector] public CursorManager cursorManager;
-    public GameObject btn;
-    public Vector3 offset = new Vector3(0, 0, 0);
+    [HideInInspector] public Entity entity;
+    private RectTransform tooltipRect;
+    public Canvas canvas;
+    private RectTransform canvasRect;
 
+
+    public GameObject tooltipPanel;
+    public GameObject btn;
+
+    [Space(10)]
     public TooltipType tooltipType = TooltipType.None;
+    public Vector3 offset = new Vector3(0, 0, 0);
+    public bool displayToolTip = true;
+
+
+    public string description;
+
+
+
+
 
     private Coroutine pointerCoroutine;
 
-
-    public Entity entity;
 
     void Awake()
     {
@@ -49,34 +60,36 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     void Start()
     {
         if (tooltipPanel == null) { tooltipPanel = ButtonManager.Instance.tooltipPanel; }
+
+        tooltipText = tooltipPanel.GetComponentInChildren<TextMeshProUGUI>();
+        tooltipRect = tooltipPanel.GetComponent<RectTransform>();
+        canvas = StatusHudManager.Instance.MainCanvas;
+        canvasRect = canvas.GetComponent<RectTransform>();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tooltipText = tooltipPanel.GetComponentInChildren<TextMeshProUGUI>();
+        // blocks tooltip
+        if (displayToolTip == false) { return; }
 
-        if (tooltipType == TooltipType.Entity && entity.entityType == Entity.EntityType.Enemy)
-        {
-            return;
-        }
+        StartCoroutine(AnimateTooltipOpen());
 
-        tooltipPanel.SetActive(true);
-        RectTransform tooltipRect = tooltipPanel.GetComponent<RectTransform>();
-        Canvas canvas = tooltipPanel.GetComponentInParent<Canvas>();
+        setText();
+
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRect);
         Vector2 tooltipSize = tooltipRect.sizeDelta;
 
         // Convert screen position to local position in canvas
-        Vector2 localPoint;
-        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, Input.mousePosition, canvas.worldCamera, out localPoint);
+        Vector2 pos;
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, Input.mousePosition, canvas.worldCamera, out pos);
 
         // Clamp tooltip inside the canvas
-        float pivotX = Mathf.Clamp(localPoint.x, -canvasRect.rect.width / 2 + tooltipSize.x / 2, canvasRect.rect.width / 2 - tooltipSize.x / 2);
-        float pivotY = Mathf.Clamp(localPoint.y, -canvasRect.rect.height / 2 + tooltipSize.y / 2, canvasRect.rect.height / 2 - tooltipSize.y / 2);
+        float pivotX = Mathf.Clamp(pos.x, -canvasRect.rect.width / 2 + tooltipSize.x / 2, canvasRect.rect.width / 2 - tooltipSize.x / 2);
+        float pivotY = Mathf.Clamp(pos.y, -canvasRect.rect.height / 2 + tooltipSize.y / 2, canvasRect.rect.height / 2 - tooltipSize.y / 2);
 
-        tooltipRect.localPosition = new Vector2(pivotX, pivotY);
+        tooltipRect.anchoredPosition = new Vector2(pivotX, pivotY);
 
         pointerCoroutine = StartCoroutine(updateText());
 
@@ -98,29 +111,58 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     // in real-time, so that the tooltip can be update while the player is hovering over it
     private IEnumerator updateText()
     {
-        
+
 
         while (tooltipPanel.activeSelf)
         {
-            // Set text
-            if (tooltipType == TooltipType.Entity && entity.entityType == Entity.EntityType.Player)
-            {
-                tooltipText.text = entity.getStatusAsString();
-            }
-            else if (tooltipType == TooltipType.Skill)
-            {
-                tooltipText.text = description;
-            }
-            else if (tooltipType == TooltipType.UIElement)
-            {
-                tooltipText.text = description;
-            }
-            else
-            {
-                tooltipText.text = "No description available.";
-            }
+            setText();
 
             yield return new WaitForSeconds(0.1f); // Update every 0.1 seconds
         }
     }
+
+    private void setText()
+    {
+        // Set text
+        if (tooltipType == TooltipType.Entity && entity.entityType == Entity.EntityType.Player)
+        {
+            tooltipText.text = entity.getStatusAsString();
+        }
+        else if (tooltipType == TooltipType.Skill)
+        {
+            tooltipText.text = description;
+        }
+        else if (tooltipType == TooltipType.UIElement)
+        {
+            tooltipText.text = description;
+        }
+        else
+        {
+            tooltipText.text = "No description available.";
+        }
+    }
+
+    public IEnumerator AnimateTooltipOpen()
+    {
+        tooltipPanel.SetActive(true);
+        tooltipPanel.transform.localScale = Vector3.zero;
+
+        float time = 0f;
+        float duration = 0.2f; // how fast the animation is
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+            // ease out for a nice pop
+            float scale = Mathf.SmoothStep(0f, 1f, t);
+            tooltipPanel.transform.localScale = new Vector3(scale, scale, 1f);
+            yield return null;
+        }
+
+        tooltipPanel.transform.localScale = Vector3.one;
+    }
+
+    
+
+
 }

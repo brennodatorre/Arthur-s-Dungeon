@@ -31,7 +31,7 @@ public class CursorManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
+            //DontDestroyOnLoad(gameObject); // Persist across scenes
         }
         else
         {
@@ -44,10 +44,11 @@ public class CursorManager : MonoBehaviour
 
     void Start()
     {
-        
+
 
         roundManager = RoundManager.Instance;
         sceneManager = MySceneManager.Instance;
+        canvas = StatusHudManager.Instance.MainCanvas;
 
     }
 

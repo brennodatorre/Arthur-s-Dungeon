@@ -78,7 +78,11 @@ public class CombatSetter : MonoBehaviour
     {
         int p = PlayerData.Instance.getFableRecord();
 
+        // player level = ceil (ceil((x^4) / 500)^.6), 
+        // where x are the amount of fable points the player has ever received
         int pLevel = Mathf.CeilToInt(Mathf.Pow(Mathf.CeilToInt(1f / 500f * Mathf.Pow(p, 4f)), 0.6f));
+
+        if (pLevel == 0 ){ pLevel = 1; } //acounts for 0 FableRecord
 
         playerLevel = pLevel;
 
@@ -105,14 +109,20 @@ public class CombatSetter : MonoBehaviour
             }
 
             //gets number of enemy of level i that can be spawnd based on player's level
-            int numOfEnemy = pLevel % i;
+            int mod = pLevel % i;
+            int numOfEnemy = (pLevel - mod) / i;
             pLevel -= numOfEnemy * i;
 
             // gets a random enemy from list of enemy of level i
             // and adds to random roaster
-            int rand = Random.Range(0, list.Count);
+            for (int b = 0; b < numOfEnemy; b++)
+            { 
+                int rand = Random.Range(0, list.Count);
 
-            randomRoaster.Add(list[rand]);
+                randomRoaster.Add(list[rand]);
+                print(""+ numOfEnemy + " " + list[rand].name + " were added to Roaster ");
+
+            }
 
             i--;
         }
