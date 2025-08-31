@@ -17,12 +17,22 @@ public class DiceRoll
         this.dices = dices;
         this.modifier = modifier;
     }
+
+    public DiceRoll(DiceRoll dc)
+    {
+        this.dices = new List<Dice>();
+        foreach (var die in dc.dices)
+        {
+            this.dices.Add(new Dice (die.count, die.sides)); 
+        }
+        this.modifier = dc.modifier;
+    }
     
 
     public DiceRoll AddDice(int count, int sides)
     {
-        
-        dices.Add(new Dice(count, sides)); 
+
+        dices.Add(new Dice(count, sides));
         return this;
     }
 

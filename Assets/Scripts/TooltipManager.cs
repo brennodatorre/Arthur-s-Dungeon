@@ -63,7 +63,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         tooltipText = tooltipPanel.GetComponentInChildren<TextMeshProUGUI>();
         tooltipRect = tooltipPanel.GetComponent<RectTransform>();
-        canvas = StatusHudManager.Instance.MainCanvas;
+        canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); ;
         canvasRect = canvas.GetComponent<RectTransform>();
     }
 
@@ -101,6 +101,9 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        // blocks tooltip
+        if (displayToolTip == false) { return; }
+
         tooltipPanel.SetActive(false);
 
         if (pointerCoroutine != null) { StopCoroutine(pointerCoroutine); }

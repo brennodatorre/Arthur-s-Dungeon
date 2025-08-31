@@ -40,7 +40,9 @@ public class ClashManager : MonoBehaviour
 
     public IEnumerator doBasicATK(Entity attacker, Entity target)
     {
-        yield return new WaitForSeconds(1f);
+        if (roundManager.player.isDead) { yield break; } // sops all atks after player death 
+
+        yield return new WaitForSeconds(.7f);
 
         // runs quick time event
         StartCoroutine(qteManager.doQTE());
@@ -146,8 +148,9 @@ public class ClashManager : MonoBehaviour
 
         roundManager.animationManager.doSlashAnimation(target);
 
+        //deals with QTE fail/sucess
         if (attacker.entityType == Entity.EntityType.Player)
-        { 
+        {
             if (qteSuceeded) { damageDealt += 3; }
             else { damageDealt /= 2; }
         }

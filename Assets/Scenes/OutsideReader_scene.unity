@@ -3480,7 +3480,7 @@ GameObject:
   - component: {fileID: 1006769713}
   m_Layer: 5
   m_Name: HUD CANVAS
-  m_TagString: Untagged
+  m_TagString: MainCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3587,7 +3587,7 @@ GameObject:
   - component: {fileID: 1008223343}
   m_Layer: 5
   m_Name: Cursor
-  m_TagString: Untagged
+  m_TagString: customCursor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7058,7 +7058,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 182.01
+      value: 90.1
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7066,11 +7066,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 141.005
+      value: 95.05
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -63.005
+      value: -65.604996
       objectReference: {fileID: 0}
     - target: {fileID: 5531574432542099366, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_Name
@@ -7118,7 +7118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7484761601416248679, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -841.7767
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7484761601416248679, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_LocalRotation.w

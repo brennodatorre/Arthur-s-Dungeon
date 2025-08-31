@@ -40,7 +40,7 @@ public class Or_Manager : MonoBehaviour
         if (currentPage == 3) { StartCoroutine(doNextSimplePage(0)); }
         if (currentPage == 4) { StartCoroutine(doNextSimplePage(0)); }
         if (currentPage == 5) { StartCoroutine(doNextSimplePage(0)); }
-        if (currentPage == 6) { StartCoroutine(doNextSimplePage(0)); }
+        if (currentPage == 6) { StartCoroutine(doNextSimplePage(0)); } 
         if (currentPage == 7) { StartCoroutine(doNextSimplePage(0)); }
         if (currentPage == 8) { StartCoroutine(doNextSimplePage(0)); }
         if (currentPage == 0) { leaveOutsideReaderDomain(); }

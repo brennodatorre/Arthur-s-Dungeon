@@ -30,7 +30,7 @@ public class MySceneManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
+            //DontDestroyOnLoad(gameObject); // Persist across scenes
         }
         else
         {
@@ -98,12 +98,13 @@ public class MySceneManager : MonoBehaviour
     {
 
 
-        if (sceneType == SceneType.COMBAT || sceneType == SceneType.DEATHSHOP) { PlayerData.Instance.savePlayerData(player); }
+        //if (sceneType == SceneType.COMBAT || sceneType == SceneType.DEATHSHOP) { PlayerData.Instance.savePlayerData(player); }
 
         if (sceneName == "COMBAT")
         {
             StartCoroutine(openSceneWithDelay("Combat_scene", delay));
             sceneType = SceneType.COMBAT;
+            
         }
         else if (sceneName == "TUTORIAL")
         {
@@ -114,6 +115,7 @@ public class MySceneManager : MonoBehaviour
         {
             StartCoroutine(openSceneWithDelay("OutsideReader_scene", delay));
             sceneType = SceneType.DEATHSHOP;
+            
         }
         else if (sceneName == "TESTS")
         {

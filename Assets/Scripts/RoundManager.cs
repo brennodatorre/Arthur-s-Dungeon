@@ -84,6 +84,7 @@ public class RoundManager : MonoBehaviour
         ;
 
         playerCanAct =
+            !player.isDead &&
             currentTurn == player &&                              //on player's turn and
             currentTurn.currentMainActions > 0 &&                 //player has Main-Aactions and
             (currentPhase == RoundManager.TurnPhase.Action ||     //(player is on action menu or
@@ -95,6 +96,8 @@ public class RoundManager : MonoBehaviour
 
     public void Start()
     {
+        StatusHudManager.Instance.updateLivesCounterUI();
+        StatusHudManager.Instance.updateLevelCounterUI();
 
         PlayerData.Instance.LoadPlayerData(player); // load player data 
 

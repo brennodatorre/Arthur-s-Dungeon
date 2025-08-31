@@ -97,6 +97,8 @@ public class ButtonManager : MonoBehaviour
 
     private void Update()
     {
+        if (MySceneManager.Instance.sceneType == MySceneManager.SceneType.TUTORIAL) { return; }
+
         bool canTriggerAtk = (currentMenu == OnMenu.Action || inAtkOverlay) && !inSkillOverlay && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
         bool canTriggerSkill = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Skill || inSkillOverlay) && !inAtkOverlay  && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
         bool canTriggerItem = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Item || inItemOverlay ) && !inAtkOverlay && !inSkillOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
@@ -298,7 +300,12 @@ public class ButtonManager : MonoBehaviour
         }
 
     }
-    
-    
+
+    public void closeAllMenus()
+    {
+        actMenu.SetActive(false);
+        skillMenu.SetActive(false);
+        itemMenu.SetActive(false);
+    }  
 
 }

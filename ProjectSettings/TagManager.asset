@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Interactable
   - Ground
+  - customCursor
+  - MainCanvas
   layers:
   - Default
   - TransparentFX

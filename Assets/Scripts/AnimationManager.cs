@@ -47,7 +47,7 @@ public class AnimationManager : MonoBehaviour
     {
         animator = animatorOBJ.GetComponent<Animator>();
         clashSparkStartPos = clashSparkPS.transform.position;
-        canvas = StatusHudManager.Instance.MainCanvas;
+        canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); ;
 
         clashSparkStartPos = canvas.transform.position; 
         clashSparkPS.transform.position = clashSparkStartPos;

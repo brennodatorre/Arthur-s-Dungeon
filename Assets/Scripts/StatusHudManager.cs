@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
-
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,16 +11,19 @@ public class StatusHudManager : MonoBehaviour
     public static StatusHudManager Instance;
 
     public RoundManager roundManager;
-    public Canvas MainCanvas;
+
 
     public Image hpBar;
     public Image mpBar;
     public GameObject mainActionDisplay;
     public GameObject supActionDisplay;
+    public GameObject livesDisplay;
+    public GameObject LevelBeatenDisplay;
     [HideInInspector] public Image mainActionDisplayImage;
     [HideInInspector] public Image supActionDisplayImage;
     [HideInInspector] public TooltipManager mainActionDisplayToolM;
     [HideInInspector] public TooltipManager supActionDisplayToolM;
+
 
     // Variables to keep track of the number of actions and health/mana
     // These are used to update the display only when the values change
@@ -38,7 +42,7 @@ public class StatusHudManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
+
         }
         else
         {
@@ -49,6 +53,8 @@ public class StatusHudManager : MonoBehaviour
         supActionDisplayImage = supActionDisplay.GetComponent<Image>();
         mainActionDisplayToolM = mainActionDisplay.GetComponent<TooltipManager>();
         supActionDisplayToolM = supActionDisplay.GetComponent<TooltipManager>();
+
+
 
 
 
@@ -86,7 +92,7 @@ public class StatusHudManager : MonoBehaviour
             if (player.currentMainActions < 1) { mainActionDisplayImage.color = Color.gray; }
             else { mainActionDisplayImage.color = mainActionColor; }
         }
-        
+
         // Update the support action display
         if (player.currentSupActions != supActionCount)
         {
@@ -94,10 +100,21 @@ public class StatusHudManager : MonoBehaviour
             if (player.currentSupActions < 1) { supActionDisplayImage.color = Color.gray; }
             else { supActionDisplayImage.color = supActionColor; }
         }
-        
+
         // updates memomry of main and sup actions
         mainActionCount = player.currentMainActions;
         supActionCount = player.currentSupActions;
-        
+
+    }
+
+    public void updateLivesCounterUI()
+    {
+        TooltipManager liveTM = livesDisplay.GetComponent<TooltipManager>();
+        liveTM.description = "Lives " + (PlayerData.Instance.lives - PlayerData.Instance.death_counter) + " / " + PlayerData.Instance.lives;
+    }
+
+    public void updateLevelCounterUI()
+    {
+        LevelBeatenDisplay.GetComponent<TextMeshProUGUI>().text = "LEVEL: " + PlayerData.Instance.levelsBeat;
     }
 }

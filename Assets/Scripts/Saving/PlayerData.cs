@@ -6,6 +6,39 @@ public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
 
+    //player starting status
+    bool initialStatusSaved = false;
+
+    int initialMaxHP;
+    int initiaMaxMP;
+    int initiaDef;
+    int initialLives;
+
+    DiceRoll initiaBaseATK;
+    int initiaAtkAdvantage;
+    int initiaMainActions;
+    int initiaSupActions;
+
+
+    int initiaDEXTREZA;
+    int initiaATLETISMO;
+    int initiaAURA;
+    int initiaCHARISMA;
+    int initiaSORTE;
+    int initiaINTUICAO;
+    int initiaHEX;
+    int initiaASTUCIA;
+    int initiaVONTADE;
+    int initiaREFLEXOS;
+    int initiaPERSEPCAO;
+    int initiaFURTIVIDADE;
+    int initiaCONSTITUICAO;
+    int initiaDOMINANCIA;
+
+
+    List<Skill> initialSkills = new List<Skill>();
+    List<Skill> initialSkillsInstance = new List<Skill>();
+
     [Header("Player Deathless Data")]
     [SerializeField] public int actualMaxHP;
     [SerializeField] public int actualMaxMP;
@@ -36,6 +69,9 @@ public class PlayerData : MonoBehaviour
     [Space(5)]
     [SerializeField] private int fableRecord = 0;
     [SerializeField] private int fablePoints = 0;
+    public int levelsBeat; // totoal levels beaten
+    public int currentLevelsBeat; // levels beaten this death loop
+    public int lives;
     public int death_counter = 0;
     public int kill_counter = 0;
 
@@ -47,7 +83,7 @@ public class PlayerData : MonoBehaviour
 
     [Space(10)]
     [Header("Player Floating Data")]
-    [SerializeField] public new string name;
+    [SerializeField] public string playerName;
     [SerializeField] private int hp;
     [SerializeField] private int maxHP;
     [SerializeField] private int mp;
@@ -95,6 +131,14 @@ public class PlayerData : MonoBehaviour
         {
             Destroy(gameObject); // Avoid duplicates
         }
+
+
+    }
+
+    void Start()
+    {
+        // saves initial values for true death
+        if (!initialStatusSaved) { saveInitialStatus();  initialStatusSaved = true; }
     }
 
     public void savePlayerData(Entity player)
@@ -102,7 +146,7 @@ public class PlayerData : MonoBehaviour
 
 
         // Copy over the data
-        name = player.name;
+        playerName = player.name;
         hp = player.getHP();
         maxHP = player.getMaxHP();
         mp = player.getMP();
@@ -139,7 +183,7 @@ public class PlayerData : MonoBehaviour
     public void LoadPlayerData(Entity player)
     {
         // Paste the saved data into the player
-        player.name = name;
+        player.name = playerName;
         player.setHP(hp);
         player.setMaxHP(maxHP);
         player.setMP(mp);
@@ -245,6 +289,93 @@ public class PlayerData : MonoBehaviour
     }
 
 
+    private void saveInitialStatus()
+    {
 
+        activeSkillEffects.Clear(); // Clear active skill effects
+        isDead = false; //
+        initialLives = lives;
+
+        initialMaxHP = actualMaxHP;
+        initiaMaxMP = actualMaxMP;
+        initiaDef = actualDef;
+
+        initiaBaseATK = new DiceRoll(actualBaseATK); // if DiceRoll has a copy constructor
+        initiaAtkAdvantage = actualAtkAdvantage;
+        initiaMainActions = actualMainActions;
+        initiaSupActions = actualSupActions;
+
+        initiaDEXTREZA = actualDEXTREZA;
+        initiaATLETISMO = actualATLETISMO;
+        initiaAURA = actualAURA;
+        initiaCHARISMA = actualCHARISMA;
+        initiaSORTE = actualSORTE;
+        initiaINTUICAO = actualINTUICAO;
+        initiaHEX = actualHEX;
+        initiaASTUCIA = actualASTUCIA;
+        initiaVONTADE = actualVONTADE;
+        initiaREFLEXOS = actualREFLEXOS;
+        initiaPERSEPCAO = actualPERSEPCAO;
+        initiaFURTIVIDADE = actualFURTIVIDADE;
+        initiaCONSTITUICAO = actualCONSTITUICAO;
+        initiaDOMINANCIA = actualDOMINANCIA;
+
+
+        initialSkills = new List<Skill>(skills);
+        initialSkillsInstance = new List<Skill>(skillsInstance);
+
+
+
+        Debug.Log("Player initial data saved.");
+    }
+
+    //resets for initial informartion
+    public void resetPlayerStatus()
+    {
+
+        activeSkillEffects.Clear();
+        isDead = false;
+        lives = initialLives;
+        fableRecord = 0;
+        fablePoints = 0;
+        levelsBeat = 0; // totoal levels beaten
+        currentLevelsBeat = 0; // levels beaten this death loop
+        death_counter = 0;
+        kill_counter = 0;
+
+
+
+        // --- initial → actual ---
+        actualMaxHP = initialMaxHP;
+        actualMaxMP = initiaMaxMP;
+        actualDef = initiaDef;
+        actualBaseATK = new DiceRoll(initiaBaseATK); // deep copy
+        actualAtkAdvantage = initiaAtkAdvantage;
+        actualMainActions = initiaMainActions;
+        actualSupActions = initiaSupActions;
+
+        actualDEXTREZA = initiaDEXTREZA;
+        actualATLETISMO = initiaATLETISMO;
+        actualAURA = initiaAURA;
+        actualCHARISMA = initiaCHARISMA;
+        actualSORTE = initiaSORTE;
+        actualINTUICAO = initiaINTUICAO;
+        actualHEX = initiaHEX;
+        actualASTUCIA = initiaASTUCIA;
+        actualVONTADE = initiaVONTADE;
+        actualREFLEXOS = initiaREFLEXOS;
+        actualPERSEPCAO = initiaPERSEPCAO;
+        actualFURTIVIDADE = initiaFURTIVIDADE;
+        actualCONSTITUICAO = initiaCONSTITUICAO;
+        actualDOMINANCIA = initiaDOMINANCIA;
+
+        skills = new List<Skill>(initialSkills);
+        skillsInstance = new List<Skill>(initialSkillsInstance);
+
+        // --- refresh floating from actual ---
+        revitalizePlayer();
+
+        Debug.Log("Player actual data reset to initial stats.");
+    }
 
 }

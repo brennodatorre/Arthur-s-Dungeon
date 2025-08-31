@@ -16,10 +16,13 @@ public class Entity : MonoBehaviour
     private AudioManager audioManager;
 
     public enum EntityType { Player, Enemy, NPC };
+    public enum EntityOrigin {ROSES, HEX, LANDREAS, ARTHUR, SYSTEM, UNKNOWN, SURVIVOR, FLAME }
+
     
     [Space]
     [Header("Base Status")]
     [SerializeField] public EntityType entityType;
+    public EntityOrigin entityOrigin;
     [SerializeField] public new string name;
     [SerializeField] private int hp;
     [SerializeField] private int maxHP;
@@ -320,14 +323,32 @@ public class Entity : MonoBehaviour
         // If player Dies
         if (this.entityType == EntityType.Player)
         {
+            ButtonManager.Instance.closeAllMenus();
 
             roundManager.actionQueue.actionQueue.Clear(); // clears next actions on action queue
+            roundManager.clashQueue.actionQueue.Clear();
+            roundManager.entities.Remove(roundManager.player);
+            roundManager.allies.Where(x => x != roundManager.player).ToArray();
+            
 
+            PlayerData.Instance.currentLevelsBeat = 0; // resets current level beaten, to start new death loop
             PlayerData.Instance.addFablePoints(fableWorth);
             PlayerData.Instance.death_counter++;
+            StatusHudManager.Instance.updateLivesCounterUI();
 
-            //goes to fable shop on player death
-            StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("DEATHSHOP", true));
+            if ((PlayerData.Instance.lives - PlayerData.Instance.death_counter) <= 0)
+            {
+                PlayerData.Instance.resetPlayerStatus();
+
+                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("TUTORIAL", true));
+            }
+            else
+            {
+                //goes to fable shop on player death
+                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("DEATHSHOP", true));
+            }
+            
+
 
         }
         else
@@ -355,10 +376,18 @@ public class Entity : MonoBehaviour
 
             StartCoroutine(DissolveUponDeath()); //dissolves the entity upon death
 
-            if (roundManager.enemies.Length == 0)
+            if (roundManager.enemies.Length == 0) // fix this for mult enemy damage, it will trigger that many times if u end the combat by killing more than one enemy
             {  //goes to next combat level
 
+                PlayerData.Instance.levelsBeat++;
+                PlayerData.Instance.currentLevelsBeat++;
+                doInBtwnLevelPlayerRegen(); 
                 PlayerData.Instance.savePlayerData(roundManager.player);
+
+                StatusHudManager.Instance.updateLevelCounterUI();
+
+
+                
                 StartCoroutine(MySceneManager.Instance.openSceneWithTransition("TESTS", false));
             }
 
@@ -424,7 +453,14 @@ public class Entity : MonoBehaviour
 
     }
 
+    public void doInBtwnLevelPlayerRegen()
+    {
+        int h = Mathf.CeilToInt(getMaxHP() / 10f);
+        int m = Mathf.CeilToInt(getMaxMP() / 10f);
+        setHP(getHP() + h);
+        setMP(getHP() + m);
 
+    }
 
 
 

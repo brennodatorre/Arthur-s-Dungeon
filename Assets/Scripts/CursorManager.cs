@@ -44,16 +44,25 @@ public class CursorManager : MonoBehaviour
 
     void Start()
     {
-
+        if (MySceneManager.Instance.sceneType == MySceneManager.SceneType.TEST) { return; }
 
         roundManager = RoundManager.Instance;
         sceneManager = MySceneManager.Instance;
-        canvas = StatusHudManager.Instance.MainCanvas;
+        canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); 
 
     }
 
 
-    void Update(){
+    void Update() {
+        // blocks update if on 3D Space
+        if (MySceneManager.Instance.sceneType == MySceneManager.SceneType.TEST) { return; }
+
+        if (customCursor == null) { customCursor = GameObject.FindGameObjectWithTag("customCursor"); }
+        if (sceneManager == null) { sceneManager = MySceneManager.Instance;}
+        if (canvas == null ){ StartCoroutine(LoudingDelay()); return; }
+        if (roundManager == null) {roundManager = RoundManager.Instance; }
+
+
 
         Vector3 mousePos = Input.mousePosition;
 
@@ -101,6 +110,18 @@ public class CursorManager : MonoBehaviour
 
 
 
+    }
+
+
+
+    private IEnumerator LoudingDelay()
+    {
+        yield return null; // wait 1 frame
+        GameObject mainCanvasObj = GameObject.FindGameObjectWithTag("MainCanvas");
+        if (mainCanvasObj != null)
+        {
+            canvas = mainCanvasObj.GetComponent<Canvas>();
+        }
     }
 
     private void updateCursorScale(float scale)
