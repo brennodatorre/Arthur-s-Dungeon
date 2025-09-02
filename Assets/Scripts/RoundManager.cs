@@ -2,10 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 
 using UnityEngine;
 using UnityEngine.Video;
+
+using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 
 
 [System.Serializable]
@@ -56,6 +60,9 @@ public class RoundManager : MonoBehaviour
     public bool playerIsAttacking = false; //if the player is currently attacking
     public bool playerIsTargeting;
     public bool playerCanAct;
+    public int numberOfRounds;
+
+
 
     
     void Awake()
@@ -96,6 +103,8 @@ public class RoundManager : MonoBehaviour
 
     public void Start()
     {
+        numberOfRounds = 0;
+
         StatusHudManager.Instance.updateLivesCounterUI();
         StatusHudManager.Instance.updateLevelCounterUI();
 
@@ -202,7 +211,7 @@ public class RoundManager : MonoBehaviour
             skillManager.resetSkills(entity); //reset the skills for the next turn
         }
 
-        
+        numberOfRounds++;
 
         actionQueue.Enqueue("StartTurn", () => StartTurn());
     }
@@ -223,12 +232,12 @@ public class RoundManager : MonoBehaviour
             if (enemyCollider != null)
                 enemyCollider.enabled = enable;
 
-            var enemyRender = enemy.GetComponent<SpriteRenderer>();
+            Image enemyRender = enemy.GetComponent<Image>();
             if (enemyRender != null && !enemy.isDead)
                 enemyRender.color = enable ? new Color(1f, 0f, 0f) : Color.white;
         }
 
-        // player.GetComponent<Collider2D>().enabled = enable; //does not allow player self hit
+
     }
 
     public void EnableSkillTargetingUI(bool enable)
@@ -241,7 +250,7 @@ public class RoundManager : MonoBehaviour
             if (entityColiider != null && entity.entityType == Entity.EntityType.Enemy)
                 entityColiider.enabled = enable;
 
-            var entityRender = entity.GetComponent<SpriteRenderer>();
+            Image entityRender = entity.GetComponent<Image>();
             if (entityRender != null  && !entity.isDead)
                 entityRender.color = enable ? new Color(0f, 0f, 1f) : Color.white;
         }

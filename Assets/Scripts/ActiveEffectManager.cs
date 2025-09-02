@@ -12,9 +12,9 @@ public class ActiveEffectManager : MonoBehaviour
     public LogManager logManager;
     public AudioManager audioManager;
 
-    [SerializeField] public List<effectNode> activeEffects = new List<effectNode>();
-    [SerializeField] public List<effectNode> endEffects = new List<effectNode>(); //list of actions to do at the end of the turn
-    [SerializeField] public List<effectNode> startEffects = new List<effectNode>(); //list of actions to do at the end of the turn
+    //if there are too many effects, it my lag, so possible optimization can be done here
+    [SerializeField] public List<StatusEffect> activeEffects = new List<StatusEffect>();
+
 
     private RoundManager.TurnPhase currentPhase; //the current phase of the turn
 
@@ -30,22 +30,18 @@ public class ActiveEffectManager : MonoBehaviour
            currentPhase = roundManager.currentPhase; //update the current phase
            
 
-           
-            
-            if (currentPhase == RoundManager.TurnPhase.Action)
+            if (currentPhase == RoundManager.TurnPhase.End)
             {
-                //imlpoement the action phase here
-            }
 
-            else if (currentPhase == RoundManager.TurnPhase.End)
-            {
-                
-                foreach (effectNode effect in endEffects)
+                foreach (StatusEffect effect in activeEffects)
                 {
-                    if (roundManager.currentTurn != effect.target){continue;} //skip the effect if the target is not the current turn
-                    if (effect.turns == 1) { effect.endEffect.Invoke(); } //execute end effect if it exists
-                    effect.roundEffect.Invoke(); //execute the action
-                    effect.turns--; //decrease the turns left for the effect
+                    if (roundManager.currentTurn != effect.target) { continue; } //skip the effect if the target is not the current turn
+                    if (effect.turnPhaseOfEffect != StatusEffect.TurnPhaseOfEffect.End) { continue; } //skip if the effetct is not an end effect
+
+                    effect.effectAct.Invoke(); //execute the action
+                    effect.currentDuration--; //decrease the turns left for the effect
+                    
+                    if (effect.currentDuration == 0) { effect.endEffectAct.Invoke(); } //execute end effect if it exists
 
                 }
 
@@ -55,12 +51,15 @@ public class ActiveEffectManager : MonoBehaviour
             else if (currentPhase == RoundManager.TurnPhase.Start)
             {
 
-                foreach (effectNode effect in startEffects)
+                foreach (StatusEffect effect in activeEffects)
                 {
-                    if (roundManager.currentTurn != effect.target){continue;} //skip the effect if the target is not the current turn
-                    if (effect.turns == 1) { effect.endEffect.Invoke(); } //execute end effect if it exists
-                    effect.roundEffect.Invoke(); //execute the action
-                    effect.turns--; //decrease the turns left for the effect
+                    if (roundManager.currentTurn != effect.target) { continue; } //skip the effect if the target is not the current turn
+                    if (effect.turnPhaseOfEffect != StatusEffect.TurnPhaseOfEffect.Start) { continue; } //skip if the effetct is not an start effect
+                    
+                    effect.effectAct.Invoke(); //execute the action
+                    effect.currentDuration--; //decrease the turns left for the effect
+                    
+                    if (effect.currentDuration == 0) { effect.endEffectAct.Invoke(); } //execute end effect if it exists
 
                 }
 
@@ -75,70 +74,30 @@ public class ActiveEffectManager : MonoBehaviour
         }
 
     }
-    
 
-    public void AddEffect(Skill skill, int turns, RoundManager.TurnPhase phase , Entity target , Entity caster, Action triggerEffect, Action triggerEndEffect ) {
-        
-        effectNode effect = new effectNode(turns, triggerEffect, phase, triggerEndEffect, target, caster); //create a new node for the effect
 
-        activeEffects.Add(effect); //add the effect to the list of active effects
+    public void AddEffect(StatusEffect staEfct, Entity caster, Entity target, Action effect, Action endEffect)
+    {
 
-        if (phase == RoundManager.TurnPhase.Start) {
-            startEffects.Add(effect); //add the effect to the list of start effects
-        } else if (phase == RoundManager.TurnPhase.End) {
-            endEffects.Add(effect); //add the effect to the list of end effects
-        } else {
-            Debug.Log("Error: Invalid phase for effect: " + phase); //log an error message if the phase is invalid
-        }
-        
+        staEfct.caster = caster;
+        staEfct.target = target;
+        staEfct.effectAct = effect;
+        staEfct.endEffectAct = endEffect;
+
+        activeEffects.Add(staEfct); //add the effect to the list of active effects  
+        StatusHudManager.Instance.addStatusEffectToDisplay(staEfct);
         
     }
 
 
     private void RemoveDeadEffects() {
 
-        List<effectNode> effectsToRemove = new List<effectNode>(); //create a list of effects to remove
-
-        foreach (effectNode effect in activeEffects) {
-            if (effect.turns < 1) {
-                effectsToRemove.Add(effect);
-            } 
-                
-        }
-
-        foreach (effectNode effect in effectsToRemove) {
-        
-            activeEffects.Remove(effect); //remove the effect from the list of active effects
-            endEffects.Remove(effect); //remove the effect from the list of end effects
-            startEffects.Remove(effect); //remove the effect from the list of start effects
-        
-                
-        }
+        activeEffects.RemoveAll(effect => effect.currentDuration < 1);
         
     }
 
     
 }
 
-[System.Serializable]
-public class effectNode
-{
-    public int turns;
-    public Action roundEffect;
-    RoundManager.TurnPhase phase;
-    public Action endEffect;
-    public Entity target;
-    public Entity caster;
 
-    public effectNode(int turns, Action roundEffect, RoundManager.TurnPhase phase, Action endEffect, Entity target, Entity caster)
-    {
-        this.target = target;
-        this.caster = caster;
-    
-        this.turns = turns;
-        this.roundEffect = roundEffect;
-        this.phase = phase;
-        this.endEffect = endEffect;
-    }
-}
 

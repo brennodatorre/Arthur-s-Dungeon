@@ -1,10 +1,10 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.EditorTools;
+
 using UnityEngine;
 using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 
 public class StatusHudManager : MonoBehaviour
 {
@@ -19,6 +19,9 @@ public class StatusHudManager : MonoBehaviour
     public GameObject supActionDisplay;
     public GameObject livesDisplay;
     public GameObject LevelBeatenDisplay;
+    public GameObject statusEffectPrefab;
+
+
     [HideInInspector] public Image mainActionDisplayImage;
     [HideInInspector] public Image supActionDisplayImage;
     [HideInInspector] public TooltipManager mainActionDisplayToolM;
@@ -34,6 +37,10 @@ public class StatusHudManager : MonoBehaviour
 
     private Color mainActionColor;
     private Color supActionColor;
+
+    private int roundsNumMem =999;
+    private List<GameObject> statusEffectIconList = new List<GameObject>();
+
 
 
     private void Awake()
@@ -62,6 +69,9 @@ public class StatusHudManager : MonoBehaviour
         mainActionColor = mainActionDisplayImage.color;
         supActionColor = supActionDisplayImage.color;
     }
+
+
+
 
     // Update is called once per frame
     void Update()
@@ -101,9 +111,12 @@ public class StatusHudManager : MonoBehaviour
             else { supActionDisplayImage.color = supActionColor; }
         }
 
-        // updates memomry of main and sup actions
+        if (roundsNumMem != RoundManager.Instance.numberOfRounds) { UpdateStatusEffectDisplay(); }
+
+        // updates memomry
         mainActionCount = player.currentMainActions;
         supActionCount = player.currentSupActions;
+        roundsNumMem = RoundManager.Instance.numberOfRounds;
 
     }
 
@@ -117,4 +130,28 @@ public class StatusHudManager : MonoBehaviour
     {
         LevelBeatenDisplay.GetComponent<TextMeshProUGUI>().text = "LEVEL: " + PlayerData.Instance.levelsBeat;
     }
+
+    public void addStatusEffectToDisplay(StatusEffect stat)
+    {
+        GameObject prefab = Instantiate(statusEffectPrefab, stat.target.statEffectDisplay.transform);
+
+        statusEffectIconList.Add(prefab);
+
+        prefab.GetComponent<StatusEffectIcon>()._statusEffect = stat;
+
+        prefab.GetComponent<Image>().sprite = stat.sprite;
+        prefab.GetComponentInChildren<TooltipManager>().description = stat.effectName + " " + stat.currentDuration + " / " + stat.duration + "\n\n" + stat.description;
+
+    }
+
+    private void UpdateStatusEffectDisplay()
+    {
+        foreach (GameObject st in statusEffectIconList)
+        {
+            StatusEffect stat = st.GetComponent<StatusEffectIcon>()._statusEffect;
+
+            st.GetComponentInChildren<TooltipManager>().description = stat.effectName + " " + stat.currentDuration + " / " + stat.duration + "\n\n" + stat.description;
+        }
+    }
+    
 }

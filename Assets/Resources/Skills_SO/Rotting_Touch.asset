@@ -25,3 +25,4 @@ MonoBehaviour:
   isStackable: 0
   limitPerTurn: 999
   currentUsesPerTurn: 0
+  statusEffect: {fileID: 11400000, guid: 8755702190535eb42b3fdf09acfdc1aa, type: 2}

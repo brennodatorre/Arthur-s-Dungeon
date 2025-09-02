@@ -15,19 +15,27 @@ public class Skill : ScriptableObject
     public int mpCost;
     public int cooldown;
     public int currentCooldown;
+    [TextArea(3, 10)]
     public string description;
     public int fableCost;
-
     public AudioClip soundEffect;
+    
 
+    [Space(10)]
     public SkillOrigin origin;
     public SkillTarget targetType;
     public SkillActionType actionType = SkillActionType.Sup;
 
+    [Space (10)]
     public bool isStackable;
+    [Tooltip ("The number of times this skill can be used per turn")]
+    public int limitPerTurn = 999; 
+    [Tooltip("The number of times this skill has been used in the current turn")]
+    public int currentUsesPerTurn = 0;
 
-    public int limitPerTurn = 999; // The number of times this skill can be used per turn
-    public int currentUsesPerTurn = 0; // The number of times this skill has been used in the current turn
+
+    [Space(10)]
+    public StatusEffect statusEffect;
 
     
 
@@ -55,7 +63,7 @@ public class Skill : ScriptableObject
         currentUsesPerTurn = 0; // Reset the uses per turn to 0
     }
 
-    public bool CanBeUsed(Entity caster, Entity target)
+    public bool CanBeUsed(Entity caster, Entity target, Skill skl)
     {
         if (
             currentCooldown == 0 &&
@@ -65,7 +73,7 @@ public class Skill : ScriptableObject
             ((actionType == SkillActionType.Sup ? caster.currentSupActions > 0 : false) ||
             (actionType == SkillActionType.Main ? caster.currentMainActions > 0 : false) ||
             actionType == SkillActionType.Bonus ? true : false) &&
-            checkIfStackCanBeApplied(target) // Check if the skill can be applied to the target
+            checkIfStackCanBeApplied(target, skl) // Check if the skill can be applied to the target
         ) 
         {
             currentUsesPerTurn++; // Increment the uses per turn
@@ -78,8 +86,8 @@ public class Skill : ScriptableObject
         
     }
 
-    private bool checkIfStackCanBeApplied(Entity target) {
-        if (target.hasEffect(this)) // Check if the target has the effect of this skill
+    private bool checkIfStackCanBeApplied(Entity target, Skill skl) {
+        if (target.hasEffect(skl)) // Check if the target has the effect of this skill
         {
             if (isStackable) // Check if the skill is stackable
             {

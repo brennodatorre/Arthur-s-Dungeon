@@ -3,23 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 
 using System.Linq;
-
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.RenderGraphModule;
+using Image = UnityEngine.UI.Image;
 
 [System.Serializable]
 public class Entity : MonoBehaviour
 {
     private RoundManager roundManager;
-    private SpriteRenderer spriteRenderer;
+    private Image sprite;
     private LogManager logManager; 
     private AudioManager audioManager;
 
     public enum EntityType { Player, Enemy, NPC };
     public enum EntityOrigin {ROSES, HEX, LANDREAS, ARTHUR, SYSTEM, UNKNOWN, SURVIVOR, FLAME }
 
-    
-    [Space]
+
+    public GameObject statEffectDisplay;
+
+
+    [Space(5)]
     [Header("Base Status")]
     [SerializeField] public EntityType entityType;
     public EntityOrigin entityOrigin;
@@ -80,7 +84,7 @@ public class Entity : MonoBehaviour
 
     [SerializeField] public List<Skill> skills = new List<Skill>();
     [HideInInspector]public List<Skill> skillsInstance = new List<Skill>(); // to not edit original copy
-    [SerializeField] public List<Skill> activeSkillEffects = new List<Skill>();
+    [SerializeField] public List<StatusEffect> activeSkillEffects = new List<StatusEffect>();
 
 
 
@@ -108,7 +112,7 @@ public class Entity : MonoBehaviour
     {
 
         roundManager = GameObject.Find("CombatManager").GetComponent<RoundManager>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        sprite = GetComponent<Image>();
         logManager = FindObjectOfType<LogManager>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
 
@@ -235,7 +239,7 @@ public class Entity : MonoBehaviour
     {
 
         if (roundManager == null) { roundManager = GameObject.Find("RoundManager").GetComponent<RoundManager>(); }
-        if (spriteRenderer == null) { spriteRenderer = GetComponent<SpriteRenderer>(); }
+        if (sprite == null) { sprite = GetComponent<Image>(); }
 
         int actualDamage = damage - def;
         if (actualDamage > 0)
@@ -250,7 +254,7 @@ public class Entity : MonoBehaviour
             else
             {
                 // Flash red to indicate damage taken
-                StartCoroutine(FlashSprite(spriteRenderer, Color.red));
+                StartCoroutine(FlashSprite(sprite, Color.red));
 
                 //show damage popup
                 StartCoroutine(roundManager.ShowDamagePopup(actualDamage, transform.position, Color.red));
@@ -261,7 +265,7 @@ public class Entity : MonoBehaviour
             actualDamage = 0;
 
             // Flash White to indicate block
-            StartCoroutine( FlashSprite(spriteRenderer, Color.white));
+            StartCoroutine( FlashSprite(sprite, Color.white));
 
             //show damage popup
             StartCoroutine( roundManager.ShowDamagePopup(actualDamage, transform.position, Color.gray));
@@ -282,7 +286,7 @@ public class Entity : MonoBehaviour
             {
 
                 // Flash red to indicate damage taken
-                roundManager.clashQueue.Enqueue("FlashRed", () => FlashSprite(spriteRenderer, Color.red));
+                roundManager.clashQueue.Enqueue("FlashRed", () => FlashSprite(sprite, Color.red));
 
                 //show damage popup
                 roundManager.clashQueue.Enqueue("showDamagePopup", () => roundManager.ShowDamagePopup(damage, transform.position, Color.red));
@@ -298,8 +302,10 @@ public class Entity : MonoBehaviour
         mp -= value;
     }
 
-    public void gainMP(int value) {
+    public void gainMP(int value)
+    {
         mp += value;
+        if (mp > maxMP) { mp = maxMP; }
     }
 
     public void SetDef(int value) {
@@ -376,18 +382,19 @@ public class Entity : MonoBehaviour
 
             StartCoroutine(DissolveUponDeath()); //dissolves the entity upon death
 
-            if (roundManager.enemies.Length == 0) // fix this for mult enemy damage, it will trigger that many times if u end the combat by killing more than one enemy
+            ///// fix this for mult enemy damage, it will trigger that many times if u end the combat by killing more than one enemy \\\\\\
+            if (roundManager.enemies.Length == 0)
             {  //goes to next combat level
 
                 PlayerData.Instance.levelsBeat++;
                 PlayerData.Instance.currentLevelsBeat++;
-                doInBtwnLevelPlayerRegen(); 
+                doInBtwnLevelPlayerRegen();
                 PlayerData.Instance.savePlayerData(roundManager.player);
 
                 StatusHudManager.Instance.updateLevelCounterUI();
 
 
-                
+
                 StartCoroutine(MySceneManager.Instance.openSceneWithTransition("TESTS", false));
             }
 
@@ -399,8 +406,11 @@ public class Entity : MonoBehaviour
     }
 
     public bool hasEffect(Skill skill) {
-        foreach (Skill effect in activeSkillEffects) {
-            if (effect == skill) {
+        if (skill.statusEffect == null) { return false; }
+        foreach (StatusEffect effect in activeSkillEffects)
+        {
+            if (effect.effectName == skill.statusEffect.effectName)
+            {
                 return true; // Return true if the effect is found
             }
         }
@@ -416,23 +426,23 @@ public class Entity : MonoBehaviour
 
 
     //flash the entity a inputed color
-    public IEnumerator FlashSprite(SpriteRenderer spriteRenderer, Color color, float duration = 0.2f)
+    public IEnumerator FlashSprite(Image sprite, Color color, float duration = 0.2f)
     {
         // Get the original material and set the new material
-        Material originalMaterial = GetComponent<Renderer>().material;
-        originalMaterial = GetComponent<Renderer>().material = originalMaterial;
+        Material originalMaterial = GetComponent<Image>().material;
+        originalMaterial = GetComponent<Image>().material = originalMaterial;
 
-        spriteRenderer.material = Resources.Load<Material>("Materials/whiteMaterial");
+        sprite.material = Resources.Load<Material>("Materials/whiteMaterial");
 
         // Set the color to the new color
-        Color original = spriteRenderer.color;
-        spriteRenderer.color = color;
+        Color original = sprite.color;
+        sprite.color = color;
 
         yield return new WaitForSeconds(duration);
 
         // Reset the material and color to original
-        spriteRenderer.material = originalMaterial;
-        spriteRenderer.color = original;
+        sprite.material = originalMaterial;
+        sprite.color = original;
 
     }
 
@@ -440,7 +450,9 @@ public class Entity : MonoBehaviour
     public IEnumerator DissolveUponDeath()
     {
 
-        Material mat = spriteRenderer.material;
+        Material mat = new Material (sprite.material);
+
+        sprite.material = mat;
 
         float fade = 1;
 
@@ -451,14 +463,17 @@ public class Entity : MonoBehaviour
             yield return null; //wait for next frame
         }
 
+        
+
     }
 
     public void doInBtwnLevelPlayerRegen()
     {
         int h = Mathf.CeilToInt(getMaxHP() / 10f);
         int m = Mathf.CeilToInt(getMaxMP() / 10f);
-        setHP(getHP() + h);
-        setMP(getHP() + m);
+        roundManager.player.heal( h);
+        roundManager.player.gainMP( m );
+
 
     }
 

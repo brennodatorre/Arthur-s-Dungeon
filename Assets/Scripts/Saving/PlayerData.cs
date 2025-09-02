@@ -117,7 +117,7 @@ public class PlayerData : MonoBehaviour
 
     [SerializeField] public List<Skill> skills = new List<Skill>();
     [HideInInspector] public List<Skill> skillsInstance = new List<Skill>();
-    [SerializeField] public List<Skill> activeSkillEffects = new List<Skill>();
+    [SerializeField] public List<StatusEffect> activeSkillEffects = new List<StatusEffect>();
 
 
     void Awake()
@@ -175,7 +175,7 @@ public class PlayerData : MonoBehaviour
 
         skills = new List<Skill>(player.skills);
         skillsInstance = new List<Skill>(player.skillsInstance);
-        activeSkillEffects = new List<Skill>(player.activeSkillEffects);
+        activeSkillEffects = new List<StatusEffect>();
 
         Debug.Log("Player data saved.");
     }
@@ -212,7 +212,7 @@ public class PlayerData : MonoBehaviour
 
         player.skills = new List<Skill>(skills);
         player.skillsInstance = new List<Skill>(skillsInstance);
-        player.activeSkillEffects = new List<Skill>(activeSkillEffects);
+        player.activeSkillEffects = new List<StatusEffect>(activeSkillEffects);
 
         Debug.Log("Player data loaded.");
     }
@@ -258,7 +258,7 @@ public class PlayerData : MonoBehaviour
     }
 
 
-    //deals prevents fableRecords from being becreased 
+    //deals prevents fableRecords from being decreased 
     public void addFablePoints(int amount)
     {
         if (amount < 0)

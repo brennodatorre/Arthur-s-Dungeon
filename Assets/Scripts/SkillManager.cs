@@ -27,6 +27,9 @@ public class SkillManager : MonoBehaviour
         }
     }
 
+
+
+
     public void doSkill(Entity target, Entity caster, Skill skill)
     {
         // deals with self targeting skills (casting a self target into someone else)
@@ -41,7 +44,7 @@ public class SkillManager : MonoBehaviour
 
         }
 
-        if (skill.CanBeUsed(caster, target))
+        if (skill.CanBeUsed(caster, target, skill))
         {
             //use up the sup action if the skill is a support action
             if (skill.actionType == Skill.SkillActionType.Sup) { caster.currentSupActions--; }
@@ -112,6 +115,8 @@ public class SkillManager : MonoBehaviour
 
 
 
+
+
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -178,7 +183,7 @@ public class SkillManager : MonoBehaviour
         DiceRoll damageAmount = new DiceRoll(); //create a new DiceRoll
         damageAmount.AddDice(1, 4); //
 
-        target.activeSkillEffects.Add(skill); //add the skill to the active effects list
+
 
         target.currentATK.AddDice(1, 4); //add 1d4 to the attack amount
 
@@ -187,11 +192,14 @@ public class SkillManager : MonoBehaviour
 
 
         //////////////////////////////////////////////////
+        
+        StatusEffect inst = Instantiate(skill.statusEffect);
+        target.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
 
-        activeEffectManager.AddEffect(skill, 1, RoundManager.TurnPhase.End, target, caster, () => { }, () =>
+        activeEffectManager.AddEffect(inst, caster, target,  () => { }, () =>
         {
 
-            target.activeSkillEffects.Remove(skill); //remove the effect from the active effects list
+            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
 
             target.currentATK.RemoveDice(1, 4, caster.currentATK); //remove 1d4 from the attack amount
 
@@ -199,6 +207,7 @@ public class SkillManager : MonoBehaviour
         });
 
     }
+
 
     private IEnumerator doPlatedSoul(Entity target, Entity caster, Skill skill)
     {
@@ -209,7 +218,7 @@ public class SkillManager : MonoBehaviour
 
 
 
-        target.activeSkillEffects.Add(skill); //add the skill to the active effects list
+
 
         target.def += 3; //add 3 to the defense amount
 
@@ -219,9 +228,12 @@ public class SkillManager : MonoBehaviour
 
         //////////////////////////////////////////////////
 
-        activeEffectManager.AddEffect(skill, 3, RoundManager.TurnPhase.Start, target, caster, () => { }, () =>
+        StatusEffect inst = Instantiate(skill.statusEffect);
+        target.activeSkillEffects.Add(inst); //add the skill to the active effects list
+
+        activeEffectManager.AddEffect(inst, caster, target, () => { }, () =>
         {
-            target.activeSkillEffects.Remove(skill); //remove the effect from the active effects list
+            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
 
             target.def += -3; //remove 1d4 from the attack amount
         }
@@ -275,7 +287,7 @@ public class SkillManager : MonoBehaviour
 
         audioManager.PlaySound(skill.soundEffect); //play skill sound
 
-        target.activeSkillEffects.Add(skill); //add the skill to the active effects list
+
 
         logManager.AddLog(caster.name + " casted " + skill.skillName);
 
@@ -283,10 +295,13 @@ public class SkillManager : MonoBehaviour
 
         //////////////////////////////////////////////////
 
-        activeEffectManager.AddEffect(skill, 4, RoundManager.TurnPhase.End, target, caster, () => { }, () =>
+        StatusEffect inst = Instantiate(skill.statusEffect);
+        target.activeSkillEffects.Add(inst); //add the skill to the active effects list
+
+        activeEffectManager.AddEffect(inst,  caster, target, () => { }, () =>
         {
 
-            target.activeSkillEffects.Remove(skill); //remove the effect from the active effects list
+            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
 
             target.currentATK.RemoveDice(1, 6, caster.currentATK); //remove 1d4 from the attack amount
 
@@ -327,17 +342,16 @@ public class SkillManager : MonoBehaviour
         {
             logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name + " for " + damageTaken + " damage.");
 
-            int bleedDuration = 3;
 
-            logManager.AddLog(target.name + " is now [bleeding] for " + bleedDuration + " turns.");
 
-            target.activeSkillEffects.Add(skill); //add the skill to the active effects list
 
            
             /// ////////////////////////////////////////////////////////////////////
             
+            StatusEffect inst = Instantiate(skill.statusEffect);
+            target.activeSkillEffects.Add(inst); //add the skill to the active effects list
 
-            activeEffectManager.AddEffect(skill, bleedDuration, RoundManager.TurnPhase.Start, target, caster, () =>
+            activeEffectManager.AddEffect(inst, caster, target, () =>
             {
                 DiceRoll bleedDamage = new DiceRoll(); //create a new DiceRoll
                 bleedDamage.AddDice(1, 4); //
@@ -349,7 +363,7 @@ public class SkillManager : MonoBehaviour
             },
             () =>
             {
-                target.activeSkillEffects.Remove(skill); //remove the effect from the active effects list
+                target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
             });
 
 

@@ -33,11 +33,13 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public TooltipType tooltipType = TooltipType.None;
     public Vector3 offset = new Vector3(0, 0, 0);
     public bool displayToolTip = true;
+    public bool detectChildren = false;
 
 
     public string description;
 
 
+    private bool isTooltipShowing = false;
 
 
 
@@ -69,6 +71,10 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!detectChildren && eventData.pointerEnter != gameObject) return; // Ignore if it's actually a child being hovered
+
+        
+        
         // blocks tooltip
         if (displayToolTip == false) { return; }
 
@@ -93,6 +99,9 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         pointerCoroutine = StartCoroutine(updateText());
 
+        isTooltipShowing = true;
+        
+
 
     }
 
@@ -101,12 +110,19 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!detectChildren &&eventData.pointerEnter != gameObject) return; // Ignore if it's actually a child being hovered
+
+        
+        
         // blocks tooltip
         if (displayToolTip == false) { return; }
 
         tooltipPanel.SetActive(false);
 
         if (pointerCoroutine != null) { StopCoroutine(pointerCoroutine); }
+
+        isTooltipShowing = false;
+        
 
     }
 
