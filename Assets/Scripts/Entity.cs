@@ -116,21 +116,25 @@ public class Entity : MonoBehaviour
         logManager = FindObjectOfType<LogManager>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
 
-        if(baseATK.dices.Count ==0) {baseATK.AddDice(0,0);}
 
+        sprite.material = getOriginMaterial();
+
+        if (baseATK.dices.Count == 0) { baseATK.AddDice(0, 0); }
+        
         //copies baseATK dices to currentATK
-        foreach (Dice dice in baseATK.dices) {
+        foreach (Dice dice in baseATK.dices)
+        {
             this.currentATK.AddDice(dice.count, dice.sides);
         }
-
-        
         currentATK.AddModifier (baseATK.getModifier());
 
         //clear the skill instance so there wont be duplicates
         skillsInstance.Clear(); 
 
-        foreach (Skill skill in skills) {
-            skillsInstance.Add(Instantiate(skill)); //add the skill to the instance list
+        //Instantiate Entity's skills
+        foreach (Skill skill in skills)
+        {
+            skillsInstance.Add(Instantiate(skill));
         }
        
     }
@@ -380,7 +384,7 @@ public class Entity : MonoBehaviour
             }
 
 
-            StartCoroutine(DissolveUponDeath()); //dissolves the entity upon death
+            StartCoroutine(AnimationManager.Instance.DissolveUponDeath(sprite)); //dissolves the entity upon death
 
             ///// fix this for mult enemy damage, it will trigger that many times if u end the combat by killing more than one enemy \\\\\\
             if (roundManager.enemies.Length == 0)
@@ -446,27 +450,6 @@ public class Entity : MonoBehaviour
 
     }
 
-    //does Dissolve effect on the entity upon death
-    public IEnumerator DissolveUponDeath()
-    {
-
-        Material mat = new Material (sprite.material);
-
-        sprite.material = mat;
-
-        float fade = 1;
-
-        while (fade > 0)
-        {
-            fade -= Time.deltaTime * 0.5f; //fade out over time
-            mat.SetFloat("_Fade", fade);
-            yield return null; //wait for next frame
-        }
-
-        
-
-    }
-
     public void doInBtwnLevelPlayerRegen()
     {
         int h = Mathf.CeilToInt(getMaxHP() / 10f);
@@ -478,8 +461,34 @@ public class Entity : MonoBehaviour
     }
 
 
+    /// /////////////////////////////////////////////////// Set up Entity \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+    private Material getOriginMaterial() {
 
+        switch (this.entityOrigin)
+        {
+            case EntityOrigin.ARTHUR:
+                return MaterialPallet.Instance.dissolveBlue;
+            case EntityOrigin.FLAME:
+                return MaterialPallet.Instance.dissolvePurple;
+            case EntityOrigin.SURVIVOR:
+                return MaterialPallet.Instance.dissolveYellow;
+            case EntityOrigin.HEX:
+                return MaterialPallet.Instance.dissolveGreen;
+            case EntityOrigin.ROSES:
+                return MaterialPallet.Instance.dissolveRed;
+            case EntityOrigin.LANDREAS:
+                return MaterialPallet.Instance.dissolvePink;
+            case EntityOrigin.UNKNOWN:
+                return MaterialPallet.Instance.dissolveWhite;
+            case EntityOrigin.SYSTEM:
+                return MaterialPallet.Instance.dissolveBlue;
+            default:
+                return null;
+                
+        }
+
+    }
 
     ////////////////////////////////////// Getters and Setters for HP, MP, Max HP, and Max MP ////////////////////////////////////////////////////
 
@@ -511,7 +520,6 @@ public class Entity : MonoBehaviour
         
     }
     
-
     public string getStatusAsString(){
         string stts = "";
 

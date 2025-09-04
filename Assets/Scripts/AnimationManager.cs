@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Runtime.CompilerServices;
+using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class AnimationManager : MonoBehaviour
@@ -35,9 +37,9 @@ public class AnimationManager : MonoBehaviour
         {
             Destroy(gameObject); // Avoid duplicates
         }
-        
 
-        
+
+
 
 
 
@@ -49,29 +51,53 @@ public class AnimationManager : MonoBehaviour
         clashSparkStartPos = clashSparkPS.transform.position;
         canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); ;
 
-        clashSparkStartPos = canvas.transform.position; 
+        clashSparkStartPos = canvas.transform.position;
         clashSparkPS.transform.position = clashSparkStartPos;
 
     }
 
 
 
-    public void doSlashAnimation(Entity target){
+    public void doSlashAnimation(Entity target)
+    {
 
         StartCoroutine(playSlashAnima(target));
-        
+
     }
 
     public void doClashAnimation()
     {
-        
+
 
         Vector2 randomOffset = Random.insideUnitCircle * clashSparkOffset; // Random offset within a circle of radius X
         clashSparkPS.transform.position = clashSparkStartPos;
         clashSparkPS.transform.position += new Vector3(randomOffset.x, randomOffset.y, 0f); //sets a new random position for the PS
         clashSparkPS.Play();
         //clashSparkPS.transform.position = clashSparkStartPos;
-        
+
+
+    }
+
+    //does Dissolve effect on the entity upon death
+    public IEnumerator DissolveUponDeath(Image sprite, bool revert = false)
+    {
+
+        Material mat = new Material(sprite.material);
+        sprite.material = mat;
+
+        float fade = 1;
+        if (revert) { fade = 0; }
+
+        while (revert ? fade < 1 : fade > 0)
+        {
+            if (revert) { fade += Time.deltaTime * 0.5f; } //fade in over time
+            else { fade -= Time.deltaTime * 0.5f; } //fade out over time
+
+            mat.SetFloat("_Fade", fade);
+            yield return null; //wait for next frame
+        }
+
+
 
     }
 
@@ -112,6 +138,18 @@ public class AnimationManager : MonoBehaviour
 
 
 
+    }
+
+    public IEnumerator doBarChangeAnimation(Image bar, float ratio)
+    {
+        bool ratioIsBigger = ratio > bar.fillAmount;
+        while (ratioIsBigger ? bar.fillAmount < ratio : bar.fillAmount > ratio)
+        {
+            if (ratioIsBigger) { bar.fillAmount += Time.deltaTime * 0.5f; }
+            else { bar.fillAmount -= Time.deltaTime * 0.5f; }
+
+            yield return null;
+        }
     }
 
 }

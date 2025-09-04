@@ -33,7 +33,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public TooltipType tooltipType = TooltipType.None;
     public Vector3 offset = new Vector3(0, 0, 0);
     public bool displayToolTip = true;
-    public bool detectChildren = false;
+    public bool detectChildren = true;
 
 
     public string description;

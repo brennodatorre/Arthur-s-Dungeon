@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CursorManager : MonoBehaviour
@@ -12,10 +13,14 @@ public class CursorManager : MonoBehaviour
 
 
     [SerializeField] public GameObject customCursor;
+    public Image ccImage;
     [SerializeField] private Canvas canvas;
+    private GraphicRaycaster raycaster;
+    private EventSystem eventSystem;
     [SerializeField] private Sprite base_cursor; // The default cursor sprite
     [SerializeField] private Sprite onClick_cursor; // The clicked cursor sprite
     [SerializeField] private Sprite blade_cursor; // The hovered cursor sprite
+    [SerializeField] private Image paht_circle;
 
     private RoundManager roundManager;
     private MySceneManager sceneManager;
@@ -24,6 +29,14 @@ public class CursorManager : MonoBehaviour
     public int base_cursorSize = 1; // Size of the cursor in pixels
     public int onClick_cursorSize = 1; // Size of the cursor in pixels
     public int blade_cursorSize = 1; // Size of the cursor in pixels
+
+
+    [Space(10)]
+    private PressAndHoldTarget holdable;
+    private Coroutine holdingCoroutine;
+    private float holdTime = 0f;
+    [SerializeField] private float holdDuration;
+
 
 
     void Awake()
@@ -38,7 +51,12 @@ public class CursorManager : MonoBehaviour
             Destroy(gameObject); // Avoid duplicates
         }
 
-        setCursor(false,false);
+
+        raycaster = canvas.GetComponent<GraphicRaycaster>();
+        eventSystem = EventSystem.current;
+
+        setCursor(false, false);
+        
 
     }
 
@@ -59,7 +77,7 @@ public class CursorManager : MonoBehaviour
 
         if (customCursor == null) { customCursor = GameObject.FindGameObjectWithTag("customCursor"); }
         if (sceneManager == null) { sceneManager = MySceneManager.Instance;}
-        if (canvas == null ){ StartCoroutine(LoudingDelay()); return; }
+        if (canvas == null ){ StartCoroutine(LoadingDelay()); return; }
         if (roundManager == null) {roundManager = RoundManager.Instance; }
 
 
@@ -82,7 +100,7 @@ public class CursorManager : MonoBehaviour
 
             if (sceneManager.sceneType == MySceneManager.SceneType.COMBAT && roundManager.currentPhase == RoundManager.TurnPhase.targetingATK) // if the targeting phase is active
             {
-                customCursor.GetComponent<Image>().sprite = blade_cursor; // Change to hovered cursor sprite
+                ccImage.sprite = blade_cursor; // Change to hovered cursor sprite
                 // Adjust the position to center the cursor
                 customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(-32, 44);
                 updateCursorScale(blade_cursorSize); // change the size of the cursor
@@ -93,12 +111,24 @@ public class CursorManager : MonoBehaviour
             // }
             else if (Input.GetMouseButton(0)) // left click
             {
-                customCursor.GetComponent<Image>().sprite = onClick_cursor; // Change to clicked cursor sprite
+
+
+                ccImage.sprite = onClick_cursor; // Change to clicked cursor sprite
                 updateCursorScale(onClick_cursorSize); // change the size of the cursor
+
+                if (holdable == null) detectPAHTObjct(); //if not alreay, try detecting paht
+
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                if (holdable != null) { PressAndHoldTarget.StopHoldGlobal(); }
+                ccImage.sprite = base_cursor; // Change back to default cursor sprite
+                updateCursorScale(base_cursorSize); // change the size of the cursor
             }
             else
             {
-                customCursor.GetComponent<Image>().sprite = base_cursor; // Change back to default cursor sprite
+
+                ccImage.sprite = base_cursor; // Change back to default cursor sprite
                 updateCursorScale(base_cursorSize); // change the size of the cursor
             }
 
@@ -112,9 +142,106 @@ public class CursorManager : MonoBehaviour
 
     }
 
+    // delas with clicking and holing a press and hold object
+    private void detectPAHTObjct()
+    {
+        //Check UI first
+        PointerEventData pointerData = new PointerEventData(eventSystem)
+        {
+            position = Input.mousePosition
+        };
+        List<RaycastResult> results = new List<RaycastResult>();
+        raycaster.Raycast(pointerData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            PressAndHoldTarget ph = result.gameObject.GetComponent<PressAndHoldTarget>();
+            if (ph != null)
+            {
+                holdable = ph;
+                break; // pick the first one hit
+            }
+        }
 
 
-    private IEnumerator LoudingDelay()
+        // If no UI object, check world objects
+        if (holdable == null)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+            {
+                holdable = hit.collider.GetComponent<PressAndHoldTarget>();
+            }
+        }
+        
+        ///
+        /// ///////////////////// FIX \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        /// // If no UI or 3D object, check 2D world objects
+        if (holdable == null)
+        {
+            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit2D = Physics2D.Raycast(worldPoint, Vector2.zero);
+
+            if (hit2D.collider != null)
+            {
+                holdable = hit2D.collider.GetComponent<PressAndHoldTarget>();
+            }
+        }
+        if (holdable == null)
+        { 
+            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D col = Physics2D.OverlapPoint(worldPoint);
+            if (col != null)
+            {
+                holdable = col.GetComponent<PressAndHoldTarget>();
+            }
+        }
+    
+
+        //  Start hold if any
+        if (holdable != null)
+        {
+            holdable.StartHold();
+
+            if (holdingCoroutine != null) StopCoroutine(holdingCoroutine);
+            holdingCoroutine = StartCoroutine(startPAHTHolding());
+        }
+
+    }
+
+    public IEnumerator startPAHTHolding()
+    {
+    
+        while (holdTime <= holdDuration)
+        {
+            holdTime += Time.deltaTime;
+            paht_circle.fillAmount = holdTime / holdDuration;
+
+            yield return null;
+        }
+    }
+    public void stopPAHTHolding()
+    {
+        if ( holdingCoroutine != null) StopCoroutine(holdingCoroutine);
+
+        holdingCoroutine = StartCoroutine(stopPAHTHoldingCoroutine());
+    }
+    private IEnumerator stopPAHTHoldingCoroutine()
+    {
+        
+        holdable = null;
+        while (holdTime >= 0f)
+        {
+            holdTime -= 2f * Time.deltaTime;
+            paht_circle.fillAmount = holdTime / holdDuration;
+            yield return null;
+        }
+
+    }
+
+
+
+    private IEnumerator LoadingDelay()
     {
         yield return null; // wait 1 frame
         GameObject mainCanvasObj = GameObject.FindGameObjectWithTag("MainCanvas");
