@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 750153865408825636}
   - component: {fileID: 2652690053435651201}
   - component: {fileID: 6290638984861530196}
+  - component: {fileID: 268524627770257616}
   m_Layer: 0
   m_Name: Maculated_angel
   m_TagString: Hero
@@ -1936,6 +1937,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &268524627770257616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5709880237819132171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 433091bf42c7e604e9dc0b061a1fe60b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wasCompleted: 0
 --- !u!1001 &6891405473209975104
 PrefabInstance:
   m_ObjectHideFlags: 0

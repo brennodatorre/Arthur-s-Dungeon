@@ -10,6 +10,7 @@ using UnityEngine.Video;
 
 using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
+using Unity.VisualScripting;
 
 
 [System.Serializable]
@@ -64,6 +65,10 @@ public class RoundManager : MonoBehaviour
 
 
 
+    [HideInInspector] public bool combatIsDone = false;
+
+
+
     
     void Awake()
     {
@@ -103,6 +108,7 @@ public class RoundManager : MonoBehaviour
 
     public void Start()
     {
+        combatIsDone = false;
         numberOfRounds = 0;
 
         StatusHudManager.Instance.updateLivesCounterUI();
@@ -226,15 +232,13 @@ public class RoundManager : MonoBehaviour
 
         player.GetComponent<Collider2D>().enabled = !enable; //does not allow player self hit
 
-        foreach (var enemy in enemies)
+        foreach (var enemy in enemies) // for each enemy
         {
-            var enemyCollider = enemy.GetComponent<Collider2D>();
-            if (enemyCollider != null)
-                enemyCollider.enabled = enable;
-
             Image enemyRender = enemy.GetComponent<Image>();
-            if (enemyRender != null && !enemy.isDead)
-                enemyRender.color = enable ? new Color(1f, 0f, 0f) : Color.white;
+            var enemyCollider = enemy.GetComponent<Collider2D>();
+
+            if (enemyCollider != null) { enemyCollider.enabled = enable; } // enable collider
+            if (enemyRender != null && !enemy.isDead) { enemyRender.color = enable ? new Color(1f, 0f, 0f) : Color.white; } //sets color
         }
 
 
@@ -246,6 +250,8 @@ public class RoundManager : MonoBehaviour
 
         foreach (var entity in entities)
         {
+            entity.GetComponent<PressAndHoldTarget>().enabled = enable;
+
             var entityColiider = entity.GetComponent<Collider2D>();
             if (entityColiider != null && entity.entityType == Entity.EntityType.Enemy)
                 entityColiider.enabled = enable;
@@ -272,21 +278,34 @@ public class RoundManager : MonoBehaviour
             playerIsAttacking = true; //set the player as attacking
 
             actionQueue.Enqueue("PlayerAttack", () => currentTurn.doBasicAtkCaller(target));
-            
+
         }
         else if (currentPhase == TurnPhase.targetingSKILL)
         {
             EnableSkillTargetingUI(false);
 
             //unlock the skill buttons in case there are more skills to use
-            buttonManager.toggleBtns(true, buttonManager.skillButtons); 
+            buttonManager.toggleBtns(true, buttonManager.skillButtons);
 
             buttonManager.skillMenu.SetActive(false);
             act_menu.SetActive(false);
 
             buttonManager.inSkillOverlay = false;
 
-            skillManager.doSkill(target, currentTurn, skillSelected);
+            if (skillSelected.isPAHTSkill) // if the skill is a paht 
+            {
+                // if paht was completed do the skill
+                if (CursorManager.Instance.holdableMEM.askIfPAHTWasCompleted())
+                {
+                    skillManager.doSkill(target, currentTurn, skillSelected);
+                }
+                else
+                {
+                    // else, open the skill menu
+                    buttonManager.skillMenu.SetActive(true);
+                }
+            }
+            else { skillManager.doSkill(target, currentTurn, skillSelected); }
 
         }
         // else if (currentPhase == TurnPhase.targetingITEM) 

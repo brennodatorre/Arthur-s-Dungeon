@@ -72,6 +72,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!detectChildren && eventData.pointerEnter != gameObject) return; // Ignore if it's actually a child being hovered
+        if (RoundManager.Instance.playerIsTargeting && tooltipType == TooltipType.Entity) { return; } //dont show tooltip if targetting a creature
 
         
         

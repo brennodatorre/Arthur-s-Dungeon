@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9131ef76b2c8924695aff3257888b20, type: 3}
-  m_Name: Spinal_Jaw
+  m_Name: Suicide
   m_EditorClassIdentifier: 
-  skillName: Spinal Jaw
-  mpCost: 4
+  skillName: Suicide
+  mpCost: 0
   cooldown: 0
   currentCooldown: 0
-  description: 1d8 damage -> if > 0, apply bleed
-  fableCost: 3
-  soundEffect: {fileID: 8300000, guid: d7e33bb457e2b114ea1bf5517375491c, type: 3}
-  origin: 0
-  targetType: 0
-  actionType: 1
-  isPAHTSkill: 0
+  description: End your own life.
+  fableCost: 0
+  soundEffect: {fileID: 0}
+  origin: 5
+  targetType: 2
+  actionType: 2
+  isPAHTSkill: 1
   isStackable: 0
   limitPerTurn: 999
   currentUsesPerTurn: 0
-  statusEffect: {fileID: 11400000, guid: 4a123cd4c22860c4c92507947cfc0c9a, type: 2}
+  statusEffect: {fileID: 0}

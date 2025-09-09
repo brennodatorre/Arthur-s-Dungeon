@@ -84,6 +84,11 @@ public class SkillManager : MonoBehaviour
 
                 roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doSpinalJaw(target, caster, skill)); //add the action to the queue
             }
+            else if (skill.skillName == "Suicide")
+            {
+
+                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doSuicide(target, caster, skill)); //add the action to the queue
+            }
             else
             {
                 Debug.Log("Skill not implemented yet.");
@@ -165,7 +170,7 @@ public class SkillManager : MonoBehaviour
 
         var heal = healAmount.Roll(); //roll the healing amount
         caster.heal(heal); //heal the target for 10 HP
-        
+
 
         logManager.AddLog(caster.name + " casted Healing Tear on " + target.name + " for " + heal + " HP.");
 
@@ -176,7 +181,7 @@ public class SkillManager : MonoBehaviour
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
-        
+
 
         audioManager.PlaySound(skill.soundEffect); //play skill sound
 
@@ -192,11 +197,11 @@ public class SkillManager : MonoBehaviour
 
 
         //////////////////////////////////////////////////
-        
+
         StatusEffect inst = Instantiate(skill.statusEffect);
         target.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
 
-        activeEffectManager.AddEffect(inst, caster, target,  () => { }, () =>
+        activeEffectManager.AddEffect(inst, caster, target, () => { }, () =>
         {
 
             target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
@@ -298,7 +303,7 @@ public class SkillManager : MonoBehaviour
         StatusEffect inst = Instantiate(skill.statusEffect);
         target.activeSkillEffects.Add(inst); //add the skill to the active effects list
 
-        activeEffectManager.AddEffect(inst,  caster, target, () => { }, () =>
+        activeEffectManager.AddEffect(inst, caster, target, () => { }, () =>
         {
 
             target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
@@ -322,7 +327,8 @@ public class SkillManager : MonoBehaviour
 
     }
 
-    private IEnumerator doSpinalJaw(Entity target, Entity caster, Skill skill){
+    private IEnumerator doSpinalJaw(Entity target, Entity caster, Skill skill)
+    {
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
@@ -345,9 +351,9 @@ public class SkillManager : MonoBehaviour
 
 
 
-           
+
             /// ////////////////////////////////////////////////////////////////////
-            
+
             StatusEffect inst = Instantiate(skill.statusEffect);
             target.activeSkillEffects.Add(inst); //add the skill to the active effects list
 
@@ -358,7 +364,7 @@ public class SkillManager : MonoBehaviour
                 int Bdamage = bleedDamage.Roll(); //roll the damage amount
 
                 target.takeTrueDamage(Bdamage); //deal true damage to the target
-                
+
                 logManager.AddLog(target.name + " took " + Bdamage + " bleed damage. ");
             },
             () =>
@@ -367,13 +373,27 @@ public class SkillManager : MonoBehaviour
             });
 
 
-            
+
 
         }
 
-       
+
     }
 
+        private IEnumerator doSuicide(Entity target, Entity caster, Skill skill)
+    {
+
+        yield return new WaitForSeconds(0f); //wait for 0 seconds
+
+        audioManager.PlaySound(skill.soundEffect); //play skill sound
+
+
+        target.takeTrueDamage (999999999); //add 3 to the defense amount
+
+        logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
+
+
+    }
 
 
 }

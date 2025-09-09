@@ -55,7 +55,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Fade: 1
-    - _Scale: 50
+    - _Scale: 0.07
     m_Colors:
     - _Color: {r: 1, g: 0.24622187, b: 0, a: 0}
   m_BuildTextureStacks: []

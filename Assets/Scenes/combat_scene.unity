@@ -5032,6 +5032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433091bf42c7e604e9dc0b061a1fe60b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wasCompleted: 0
 --- !u!1 &1443876884
 GameObject:
   m_ObjectHideFlags: 0
@@ -7071,6 +7072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433091bf42c7e604e9dc0b061a1fe60b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wasCompleted: 0
 --- !u!1 &2052994429
 GameObject:
   m_ObjectHideFlags: 0
@@ -7773,8 +7775,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5088845302873550657, guid: 6c6cb3c46c1c38248ada65caf0891057, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5088845302873550657, guid: 6c6cb3c46c1c38248ada65caf0891057, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 51516fbced42dab459d5fc100a40241d, type: 2}
+    - target: {fileID: 5088845302873550657, guid: 6c6cb3c46c1c38248ada65caf0891057, type: 3}
       propertyPath: m_FillAmount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614153652405211325, guid: 6c6cb3c46c1c38248ada65caf0891057, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614153652405211325, guid: 6c6cb3c46c1c38248ada65caf0891057, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7893,7 +7911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: skills.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: skills.Array.data[0]
@@ -7910,7 +7928,7 @@ PrefabInstance:
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: skills.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 005afb1d946bd1b4bbf14bab003931b9, type: 2}
+      objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: skills.Array.data[4]
       value: 

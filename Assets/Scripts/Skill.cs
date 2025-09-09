@@ -25,8 +25,10 @@ public class Skill : ScriptableObject
     public SkillOrigin origin;
     public SkillTarget targetType;
     public SkillActionType actionType = SkillActionType.Sup;
+    [Tooltip ("if the skill needs to be pressed and held totally in order to activate")]
+    public bool isPAHTSkill = false; //press and hold target
 
-    [Space (10)]
+    [Space(10)]
     public bool isStackable;
     [Tooltip ("The number of times this skill can be used per turn")]
     public int limitPerTurn = 999; 

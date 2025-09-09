@@ -387,7 +387,7 @@ public class Entity : MonoBehaviour
             StartCoroutine(AnimationManager.Instance.DissolveUponDeath(sprite)); //dissolves the entity upon death
 
             ///// fix this for mult enemy damage, it will trigger that many times if u end the combat by killing more than one enemy \\\\\\
-            if (roundManager.enemies.Length == 0)
+            if (roundManager.enemies.Length == 0 && !roundManager.combatIsDone)
             {  //goes to next combat level
 
                 PlayerData.Instance.levelsBeat++;
@@ -396,6 +396,8 @@ public class Entity : MonoBehaviour
                 PlayerData.Instance.savePlayerData(roundManager.player);
 
                 StatusHudManager.Instance.updateLevelCounterUI();
+
+                roundManager.combatIsDone = true;
 
 
 

@@ -214,14 +214,21 @@ public class ButtonManager : MonoBehaviour
             buttonObj.GetComponent<TooltipManager>().btn = buttonObj;
             buttonObj.GetComponent<TooltipManager>().tooltipType = TooltipManager.TooltipType.Skill;
 
+            // if it is a skill that uses the PAHT function, add it to the button
+            // if (skill.isPAHTSkill) { buttonObj.AddComponent<PressAndHoldTarget>(); } // this is commented out becuse the target entity is the one that should have the paht rn
+
             //Sets the ball displayers based on the skill action type 
             // // as long as hierarchy does not change: Main (3), Sup (2), Bonus (1)
-            if (skill.actionType == Skill.SkillActionType.Sup) {
-                buttonObj.transform.GetChild(1).GetChild(1).gameObject.SetActive(false); 
-                buttonObj.transform.GetChild(1).GetChild(2).gameObject.SetActive(true);            }
-            else if (skill.actionType == Skill.SkillActionType.Main) {
-                buttonObj.transform.GetChild(1).GetChild(1).gameObject.SetActive(false); 
-                buttonObj.transform.GetChild(1).GetChild(3).gameObject.SetActive(true);  }
+            if (skill.actionType == Skill.SkillActionType.Sup)
+            {
+                buttonObj.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+                buttonObj.transform.GetChild(1).GetChild(2).gameObject.SetActive(true);
+            }
+            else if (skill.actionType == Skill.SkillActionType.Main)
+            {
+                buttonObj.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+                buttonObj.transform.GetChild(1).GetChild(3).gameObject.SetActive(true);
+            }
 
             
             

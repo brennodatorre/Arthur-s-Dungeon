@@ -32,7 +32,8 @@ public class CursorManager : MonoBehaviour
 
 
     [Space(10)]
-    private PressAndHoldTarget holdable;
+    public PressAndHoldTarget holdable;
+    public PressAndHoldTarget holdableMEM;
     private Coroutine holdingCoroutine;
     private float holdTime = 0f;
     [SerializeField] private float holdDuration;
@@ -116,7 +117,6 @@ public class CursorManager : MonoBehaviour
                 ccImage.sprite = onClick_cursor; // Change to clicked cursor sprite
                 updateCursorScale(onClick_cursorSize); // change the size of the cursor
 
-                if (holdable == null) detectPAHTObjct(); //if not alreay, try detecting paht
 
             }
             else if (Input.GetMouseButtonUp(0))
@@ -143,75 +143,20 @@ public class CursorManager : MonoBehaviour
     }
 
     // delas with clicking and holing a press and hold object
-    private void detectPAHTObjct()
+    public void startPAHTHolding()
     {
-        //Check UI first
-        PointerEventData pointerData = new PointerEventData(eventSystem)
-        {
-            position = Input.mousePosition
-        };
-        List<RaycastResult> results = new List<RaycastResult>();
-        raycaster.Raycast(pointerData, results);
-
-        foreach (RaycastResult result in results)
-        {
-            PressAndHoldTarget ph = result.gameObject.GetComponent<PressAndHoldTarget>();
-            if (ph != null)
-            {
-                holdable = ph;
-                break; // pick the first one hit
-            }
-        }
-
-
-        // If no UI object, check world objects
-        if (holdable == null)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, 100f))
-            {
-                holdable = hit.collider.GetComponent<PressAndHoldTarget>();
-            }
-        }
-        
-        ///
-        /// ///////////////////// FIX \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        /// // If no UI or 3D object, check 2D world objects
-        if (holdable == null)
-        {
-            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit2D = Physics2D.Raycast(worldPoint, Vector2.zero);
-
-            if (hit2D.collider != null)
-            {
-                holdable = hit2D.collider.GetComponent<PressAndHoldTarget>();
-            }
-        }
-        if (holdable == null)
-        { 
-            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Collider2D col = Physics2D.OverlapPoint(worldPoint);
-            if (col != null)
-            {
-                holdable = col.GetComponent<PressAndHoldTarget>();
-            }
-        }
-    
-
         //  Start hold if any
         if (holdable != null)
         {
-            holdable.StartHold();
-
             if (holdingCoroutine != null) StopCoroutine(holdingCoroutine);
-            holdingCoroutine = StartCoroutine(startPAHTHolding());
+            holdingCoroutine = StartCoroutine(startPAHTHoldingCoroutine());
         }
 
     }
 
-    public IEnumerator startPAHTHolding()
+    private IEnumerator startPAHTHoldingCoroutine()
     {
-    
+        print("coroutine started");
         while (holdTime <= holdDuration)
         {
             holdTime += Time.deltaTime;
@@ -219,12 +164,26 @@ public class CursorManager : MonoBehaviour
 
             yield return null;
         }
+        holdable.gotCompleted();
+        stopPAHTHolding(true);
+        
     }
-    public void stopPAHTHolding()
+    public void stopPAHTHolding(bool instantanious = false)
     {
         if ( holdingCoroutine != null) StopCoroutine(holdingCoroutine);
 
-        holdingCoroutine = StartCoroutine(stopPAHTHoldingCoroutine());
+        if (instantanious)
+        {
+            holdable = null;
+            paht_circle.fillAmount = 0;
+            holdTime = 0f;
+        }
+        else
+        {
+            holdingCoroutine = StartCoroutine(stopPAHTHoldingCoroutine());
+        }
+
+        
     }
     private IEnumerator stopPAHTHoldingCoroutine()
     {
