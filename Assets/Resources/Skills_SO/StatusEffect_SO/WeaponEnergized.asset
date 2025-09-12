@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7670f45e0ed7396448f610041b22aad5, type: 3}
+  m_Name: WeaponEnergized
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 1359925527, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
+  effectName: Weapon Energized
+  description: Adds +3 to ATK
+  duration: 3
+  currentDuration: 3
+  turnPhaseOfEffect: 1
+  effectType: 0
+  effectFromSkill: {fileID: 11400000, guid: 09353512aaab87d47b590307ffa5df84, type: 2}
+  caster: {fileID: 0}
+  target: {fileID: 0}

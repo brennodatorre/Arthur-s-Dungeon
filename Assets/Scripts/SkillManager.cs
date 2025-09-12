@@ -89,6 +89,11 @@ public class SkillManager : MonoBehaviour
 
                 roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doSuicide(target, caster, skill)); //add the action to the queue
             }
+            else if (skill.skillName == "Electrify Weapon")
+            {
+
+                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doElectrifyWeapon(target, caster, skill)); //add the action to the queue
+            }
             else
             {
                 Debug.Log("Skill not implemented yet.");
@@ -207,6 +212,39 @@ public class SkillManager : MonoBehaviour
             target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
 
             target.currentATK.RemoveDice(1, 4, caster.currentATK); //remove 1d4 from the attack amount
+
+
+        });
+
+    }
+
+    private IEnumerator doElectrifyWeapon(Entity target, Entity caster, Skill skill)
+    {
+
+        yield return new WaitForSeconds(0f); //wait for 0 seconds
+
+
+
+        audioManager.PlaySound(skill.soundEffect); //play skill sound
+
+
+        target.currentATK.AddModifier(3); //add 1d4 to the attack amount
+
+        logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
+
+
+
+        //////////////////////////////////////////////////
+
+        StatusEffect inst = Instantiate(skill.statusEffect);
+        target.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
+
+        activeEffectManager.AddEffect(inst, caster, target, () => { }, () =>
+        {
+
+            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+
+            target.currentATK.AddModifier(-3); //remove 1d4 from the attack amount
 
 
         });

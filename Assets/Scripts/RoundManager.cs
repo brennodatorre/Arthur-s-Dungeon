@@ -23,9 +23,10 @@ public class RoundManager : MonoBehaviour
     public ButtonManager buttonManager;
     public AnimationManager animationManager;
     public CombatSetter combatSetter;
+    public MaterialPallet matPallet;
 
 
-     [SerializeField] public enum TurnPhase
+    [SerializeField] public enum TurnPhase
     {
         Start,
         Action,
@@ -108,6 +109,9 @@ public class RoundManager : MonoBehaviour
 
     public void Start()
     {
+
+        matPallet = MaterialPallet.Instance;
+
         combatIsDone = false;
         numberOfRounds = 0;
 
@@ -235,10 +239,16 @@ public class RoundManager : MonoBehaviour
         foreach (var enemy in enemies) // for each enemy
         {
             Image enemyRender = enemy.GetComponent<Image>();
+
             var enemyCollider = enemy.GetComponent<Collider2D>();
 
             if (enemyCollider != null) { enemyCollider.enabled = enable; } // enable collider
-            if (enemyRender != null && !enemy.isDead) { enemyRender.color = enable ? new Color(1f, 0f, 0f) : Color.white; } //sets color
+            if (enemyRender != null && !enemy.isDead)//sets color
+            {
+                enemyRender.material = enable ?
+                    matPallet.getColoredMaterial(matPallet.red, matPallet.outlineSpriteMaterial) : //red outline if atk targetting
+                    matPallet.getColoredMaterial(matPallet.getEntityOriginColor(enemy), matPallet.dissolveMaterial); // back to normal dissolve matrial
+            } 
         }
 
 
@@ -250,15 +260,21 @@ public class RoundManager : MonoBehaviour
 
         foreach (var entity in entities)
         {
-            entity.GetComponent<PressAndHoldTarget>().enabled = enable;
+            //tell their paht object that they can start being targetted if the skill used is paht
+            if (skillSelected.isPAHTSkill) entity.GetComponent<PressAndHoldTarget>().isWaiting = enable;
 
             var entityColiider = entity.GetComponent<Collider2D>();
+            Image entityRender = entity.GetComponent<Image>();
+
             if (entityColiider != null && entity.entityType == Entity.EntityType.Enemy)
                 entityColiider.enabled = enable;
 
-            Image entityRender = entity.GetComponent<Image>();
-            if (entityRender != null  && !entity.isDead)
-                entityRender.color = enable ? new Color(0f, 0f, 1f) : Color.white;
+            if (entityRender != null && !entity.isDead)//sets color
+            {
+                entityRender.material = enable ?
+                    matPallet.getColoredMaterial(matPallet.blue, matPallet.outlineSpriteMaterial) : //red outline if atk targetting
+                    matPallet.getColoredMaterial(matPallet.getEntityOriginColor(entity), matPallet.dissolveMaterial); // back to normal dissolve matrial
+            } 
         }
     }
 
@@ -282,12 +298,14 @@ public class RoundManager : MonoBehaviour
         }
         else if (currentPhase == TurnPhase.targetingSKILL)
         {
+
             EnableSkillTargetingUI(false);
 
             //unlock the skill buttons in case there are more skills to use
             buttonManager.toggleBtns(true, buttonManager.skillButtons);
 
             buttonManager.skillMenu.SetActive(false);
+
             act_menu.SetActive(false);
 
             buttonManager.inSkillOverlay = false;
@@ -298,6 +316,7 @@ public class RoundManager : MonoBehaviour
                 if (CursorManager.Instance.holdableMEM.askIfPAHTWasCompleted())
                 {
                     skillManager.doSkill(target, currentTurn, skillSelected);
+                    currentPhase = TurnPhase.Action;  
                 }
                 else
                 {
@@ -305,7 +324,13 @@ public class RoundManager : MonoBehaviour
                     buttonManager.skillMenu.SetActive(true);
                 }
             }
-            else { skillManager.doSkill(target, currentTurn, skillSelected); }
+            else
+            {
+                skillManager.doSkill(target, currentTurn, skillSelected);
+                currentPhase = TurnPhase.Action;  
+            }
+
+             
 
         }
         // else if (currentPhase == TurnPhase.targetingITEM) 

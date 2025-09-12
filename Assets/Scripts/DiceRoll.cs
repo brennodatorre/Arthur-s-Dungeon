@@ -153,6 +153,6 @@ public class DiceRoll
         if (modifier != 0)
             parts.Add($"{(modifier > 0 ? "+" : "")}{modifier}");
 
-        return string.Join(" + ", parts);
+        return string.Join(" ", parts);
     }
 }

@@ -254,10 +254,11 @@ public class ButtonManager : MonoBehaviour
 
                     //toggles skill targetting
                     roundManager.currentPhase = RoundManager.TurnPhase.targetingSKILL;
-                    roundManager.EnableSkillTargetingUI(true);
-
                     //tells skillManager which skill was selected
                     roundManager.skillSelected = skill;
+                    roundManager.EnableSkillTargetingUI(true);
+
+
                 }
                 else {
                     inSkillOverlay = false;

@@ -10,11 +10,13 @@ public class PressAndHoldTarget : MonoBehaviour, IPointerDownHandler
     public static PressAndHoldTarget target;
 
     [SerializeField] private bool wasCompleted = false;
+    public bool isWaiting = false;
+    
 
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        
+        if (!isWaiting) { return; }
         target = this;
         CursorManager.Instance.holdable = target;
         CursorManager.Instance.holdableMEM = target;

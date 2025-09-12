@@ -160,6 +160,14 @@ public class StatusHudManager : MonoBehaviour
         {
             StatusEffect stat = st.GetComponent<StatusEffectIcon>()._statusEffect;
 
+            // removes icon when duration is over
+            if (stat.currentDuration < 1)
+            {
+                statusEffectIconList.Remove(st);
+                Destroy(st);
+                return;
+            }
+
             st.GetComponentInChildren<TooltipManager>().description = stat.effectName + " " + stat.currentDuration + " / " + stat.duration + "\n\n" + stat.description;
         }
     }

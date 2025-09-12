@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2632364022476222643}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -45,10 +45,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   customCursor: {fileID: 0}
+  ccImage: {fileID: 0}
   canvas: {fileID: 0}
   base_cursor: {fileID: 148288479, guid: 46fd4460e9aafb34389c17dc6cf03c8f, type: 3}
   onClick_cursor: {fileID: 2066456052, guid: 46fd4460e9aafb34389c17dc6cf03c8f, type: 3}
   blade_cursor: {fileID: 167246651, guid: 46fd4460e9aafb34389c17dc6cf03c8f, type: 3}
+  paht_circle: {fileID: 0}
   base_cursorSize: 2
   onClick_cursorSize: 2
   blade_cursorSize: 3
+  holdable: {fileID: 0}
+  holdableMEM: {fileID: 0}
+  holdDuration: 1.5

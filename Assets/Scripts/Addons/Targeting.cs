@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Targeting : MonoBehaviour, IPointerClickHandler
 {
-    private Entity entity ;
+    private Entity entity;
     private RoundManager roundManager;
 
 
@@ -14,7 +14,7 @@ public class Targeting : MonoBehaviour, IPointerClickHandler
         roundManager = RoundManager.Instance;
 
         entity = GetComponent<Entity>();
-        
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -34,6 +34,8 @@ public class Targeting : MonoBehaviour, IPointerClickHandler
         }
 
     }
+
+
 
 
 }

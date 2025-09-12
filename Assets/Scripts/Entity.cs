@@ -117,7 +117,7 @@ public class Entity : MonoBehaviour
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
 
 
-        sprite.material = getOriginMaterial();
+        sprite.material = MaterialPallet.Instance.getColoredMaterial(MaterialPallet.Instance.getEntityOriginColor(this), MaterialPallet.Instance.dissolveMaterial);
 
         if (baseATK.dices.Count == 0) { baseATK.AddDice(0, 0); }
         
@@ -459,36 +459,6 @@ public class Entity : MonoBehaviour
         roundManager.player.heal( h);
         roundManager.player.gainMP( m );
 
-
-    }
-
-
-    /// /////////////////////////////////////////////////// Set up Entity \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    private Material getOriginMaterial() {
-
-        switch (this.entityOrigin)
-        {
-            case EntityOrigin.ARTHUR:
-                return MaterialPallet.Instance.dissolveBlue;
-            case EntityOrigin.FLAME:
-                return MaterialPallet.Instance.dissolvePurple;
-            case EntityOrigin.SURVIVOR:
-                return MaterialPallet.Instance.dissolveYellow;
-            case EntityOrigin.HEX:
-                return MaterialPallet.Instance.dissolveGreen;
-            case EntityOrigin.ROSES:
-                return MaterialPallet.Instance.dissolveRed;
-            case EntityOrigin.LANDREAS:
-                return MaterialPallet.Instance.dissolvePink;
-            case EntityOrigin.UNKNOWN:
-                return MaterialPallet.Instance.dissolveWhite;
-            case EntityOrigin.SYSTEM:
-                return MaterialPallet.Instance.dissolveBlue;
-            default:
-                return null;
-                
-        }
 
     }
 
