@@ -92,6 +92,7 @@ public class ActiveEffectManager : MonoBehaviour
 
     private void RemoveDeadEffects() {
 
+
         activeEffects.RemoveAll(effect => effect.currentDuration < 1);
         
     }

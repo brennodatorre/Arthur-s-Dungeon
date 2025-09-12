@@ -25,6 +25,10 @@ public class AnimationManager : MonoBehaviour
     Vector3 clashSparkStartPos;
 
 
+    [Space(7)]
+    public float shakeAnimationMagnitude = 0.1f;
+
+
 
     void Awake()
     {
@@ -65,6 +69,31 @@ public class AnimationManager : MonoBehaviour
 
     }
 
+    private IEnumerator playSlashAnima(Entity target)
+    {
+
+        animatorOBJ.GetComponent<UnityEngine.UI.Image>().enabled = true;
+
+        animatorOBJ.transform.position = target.transform.position + slashAnimaOffset;
+
+        animator.SetTrigger("doSlash");
+
+        yield return null; //waits for next turn
+
+
+        AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
+        float animationLength = clipInfo.Length > 0 ? clipInfo[0].clip.length : 0.5f;
+
+
+        yield return new WaitForSeconds(animationLength);
+
+
+        animatorOBJ.GetComponent<UnityEngine.UI.Image>().enabled = false;
+
+
+
+    }
+
     public void doClashAnimation()
     {
 
@@ -78,7 +107,6 @@ public class AnimationManager : MonoBehaviour
 
     }
 
-    //does Dissolve effect on the entity upon death
     public IEnumerator DissolveUponDeath(Image sprite, bool revert = false)
     {
 
@@ -115,31 +143,6 @@ public class AnimationManager : MonoBehaviour
         }
     }
 
-    private IEnumerator playSlashAnima(Entity target)
-    {
-
-        animatorOBJ.GetComponent<UnityEngine.UI.Image>().enabled = true;
-
-        animatorOBJ.transform.position = target.transform.position + slashAnimaOffset;
-
-        animator.SetTrigger("doSlash");
-
-        yield return null; //waits for next turn
-
-
-        AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
-        float animationLength = clipInfo.Length > 0 ? clipInfo[0].clip.length : 0.5f;
-
-
-        yield return new WaitForSeconds(animationLength);
-
-
-        animatorOBJ.GetComponent<UnityEngine.UI.Image>().enabled = false;
-
-
-
-    }
-
     public IEnumerator doBarChangeAnimation(Image bar, float ratio)
     {
         bool ratioIsBigger = ratio > bar.fillAmount;
@@ -151,5 +154,33 @@ public class AnimationManager : MonoBehaviour
             yield return null;
         }
     }
+
+    public Coroutine doShakeAnimation(GameObject ob, float duration = 0.5f)
+    {
+        return StartCoroutine(ShakeAnimation(ob, duration));
+    }
+
+    private IEnumerator ShakeAnimation(GameObject ob, float duration = 0.5f)
+    {
+        Vector3 originalPos = ob.transform.position;
+        float elapsed = 0.0f;
+        
+
+        while (elapsed < duration)
+        {
+            float x = Random.Range(-1f, 1f) * shakeAnimationMagnitude;
+            float y = Random.Range(-1f, 1f) * shakeAnimationMagnitude;
+
+            ob.transform.position = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        ob.transform.position = originalPos;
+    }
+
+
 
 }

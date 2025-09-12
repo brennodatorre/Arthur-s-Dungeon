@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class PressAndHoldTarget : MonoBehaviour, IPointerDownHandler
 {
+    private Coroutine shakeCoroutine;
 
     public static PressAndHoldTarget target;
 
@@ -17,6 +18,7 @@ public class PressAndHoldTarget : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         if (!isWaiting) { return; }
+        shakeCoroutine = AnimationManager.Instance.doShakeAnimation(gameObject, CursorManager.Instance.pahtDuration);
         target = this;
         CursorManager.Instance.holdable = target;
         CursorManager.Instance.holdableMEM = target;
@@ -28,6 +30,7 @@ public class PressAndHoldTarget : MonoBehaviour, IPointerDownHandler
     {
         if (target != null)
         {
+            target.StopCoroutine(target.shakeCoroutine);
             target = null;
             CursorManager.Instance.holdable = null;
             CursorManager.Instance.stopPAHTHolding();

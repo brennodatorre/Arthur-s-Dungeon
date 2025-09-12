@@ -36,7 +36,7 @@ public class CursorManager : MonoBehaviour
     public PressAndHoldTarget holdableMEM;
     private Coroutine holdingCoroutine;
     private float holdTime = 0f;
-    [SerializeField] private float holdDuration;
+    public float pahtDuration;
 
 
 
@@ -157,10 +157,10 @@ public class CursorManager : MonoBehaviour
     private IEnumerator startPAHTHoldingCoroutine()
     {
         print("coroutine started");
-        while (holdTime <= holdDuration)
+        while (holdTime <= pahtDuration)
         {
             holdTime += Time.deltaTime;
-            paht_circle.fillAmount = holdTime / holdDuration;
+            paht_circle.fillAmount = holdTime / pahtDuration;
 
             yield return null;
         }
@@ -192,7 +192,7 @@ public class CursorManager : MonoBehaviour
         while (holdTime >= 0f)
         {
             holdTime -= 2f * Time.deltaTime;
-            paht_circle.fillAmount = holdTime / holdDuration;
+            paht_circle.fillAmount = holdTime / pahtDuration;
             yield return null;
         }
 

@@ -27,15 +27,18 @@ public class AudioManager : MonoBehaviour
     public AudioClip item_button_sound;
     public AudioClip run_button_sound;
 
-    [Space(3)]
+    [Space(7)]
     public AudioClip qteSpeedSound;
     public AudioClip qteFail;
     public AudioClip qteSucess;
 
-    [Space(3)]
+    [Space(7)]
     public AudioClip skill_unable_sound;
     public AudioClip death_sound;
     public AudioClip skill_page_select_sound;
+
+    [Space(7)]
+    public AudioClip statusEffect_end_sound;
 
     
 

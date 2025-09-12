@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -121,7 +122,7 @@ public class StatusHudManager : MonoBehaviour
             else { StartCoroutine(AnimationManager.Instance.DissolveUponDeath(supActionDisplayImage, true)); }
         }
 
-        if (roundsNumMem != RoundManager.Instance.numberOfRounds) { UpdateStatusEffectDisplay(); }
+        if (roundsNumMem != RoundManager.Instance.numberOfRounds) { StartCoroutine(UpdateStatusEffectDisplay()); }
 
         // updates memomry
         mainActionCount = player.currentMainActions;
@@ -154,8 +155,10 @@ public class StatusHudManager : MonoBehaviour
 
     }
 
-    private void UpdateStatusEffectDisplay()
+    private IEnumerator UpdateStatusEffectDisplay()
     {
+        List<GameObject> statusToBeRemoved = new List<GameObject>();
+
         foreach (GameObject st in statusEffectIconList)
         {
             StatusEffect stat = st.GetComponent<StatusEffectIcon>()._statusEffect;
@@ -163,13 +166,19 @@ public class StatusHudManager : MonoBehaviour
             // removes icon when duration is over
             if (stat.currentDuration < 1)
             {
-                statusEffectIconList.Remove(st);
+                yield return AnimationManager.Instance.doShakeAnimation(st, 1f);
+                AudioManager.Instance.PlaySound(AudioManager.Instance.statusEffect_end_sound);
+                statusToBeRemoved.Add(st);
+                
                 Destroy(st);
-                return;
+
             }
 
-            st.GetComponentInChildren<TooltipManager>().description = stat.effectName + " " + stat.currentDuration + " / " + stat.duration + "\n\n" + stat.description;
+            st.GetComponentInChildren<TooltipManager>().description =
+                stat.effectName + " " + stat.currentDuration + " / " + stat.duration + "\n\n" + stat.description;
         }
+        
+        foreach (GameObject st in statusToBeRemoved) { statusEffectIconList.Remove(st); }
     }
 
 
