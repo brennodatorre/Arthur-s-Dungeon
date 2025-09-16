@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6899230119450678219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae5299653b02b74c96e974d7e60a2f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GUID: 1c557491-0d10-4f3e-839d-072040c6219c
+  image: {fileID: 0}
+  hasHappened: 0
+  dialogue: New dialogue line
+  options: []
+  previousDialogue: 789be6a7-4319-4325-a52e-2e773b533251
+  conditions:
+  - type: 0
+    key: x
+    expectedValue: 0
+  - type: 3
+    key: 
+    expectedValue: 0
+  nodePosition:
+    serializedVersion: 2
+    x: 667.2
+    y: 485.59998
+    width: 244.79999
+    height: 184
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a2c6cd6cc85234ba9a1b97ff82cfdb, type: 3}
+  m_Name: NewDialogueGraph
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 7086276765345736724}
+  - {fileID: 5240951946177977390}
+  - {fileID: -6899230119450678219}
+--- !u!114 &5240951946177977390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae5299653b02b74c96e974d7e60a2f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GUID: 65413f54-4670-41b8-9e4d-7ffac30bbbde
+  image: {fileID: 0}
+  hasHappened: 0
+  dialogue: New dialogue line
+  options: []
+  previousDialogue: 789be6a7-4319-4325-a52e-2e773b533251
+  conditions: []
+  nodePosition:
+    serializedVersion: 2
+    x: 649.60004
+    y: 292.8
+    width: 244.79999
+    height: 137.6
+--- !u!114 &7086276765345736724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae5299653b02b74c96e974d7e60a2f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GUID: 789be6a7-4319-4325-a52e-2e773b533251
+  image: {fileID: 0}
+  hasHappened: 0
+  dialogue: New dialogue line
+  options:
+  - 65413f54-4670-41b8-9e4d-7ffac30bbbde
+  - 1c557491-0d10-4f3e-839d-072040c6219c
+  previousDialogue: 
+  conditions:
+  - type: 3
+    key: t4esfs t
+    expectedValue: 1
+  - type: 3
+    key: 
+    expectedValue: 0
+  nodePosition:
+    serializedVersion: 2
+    x: 307.2
+    y: 312
+    width: 244.79999
+    height: 184
