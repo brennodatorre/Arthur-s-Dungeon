@@ -32,11 +32,15 @@ public class CursorManager : MonoBehaviour
 
 
     [Space(10)]
+    [Header("PAHT Settings")]
     public PressAndHoldTarget holdable;
     public PressAndHoldTarget holdableMEM;
     private Coroutine holdingCoroutine;
     private float holdTime = 0f;
     public float pahtDuration;
+
+    [Space(10)]
+    public bool isDragging = false;
 
 
 

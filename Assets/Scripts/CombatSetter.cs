@@ -8,16 +8,7 @@ using Random = UnityEngine.Random;
 public class CombatSetter : MonoBehaviour
 {
 
-    public GameObject level1;
 
-    [Space]
-    public int lv2_treshhold;
-    public GameObject level2;
-    [Space]
-    public int lv3_treshhold;
-    public GameObject level3;
-
-    [Space(10)]
     public GameObject RandomLevelObj;
     public List<GameObject> allEnemyPrefabList = new List<GameObject>();
     [Space]
@@ -60,11 +51,6 @@ public class CombatSetter : MonoBehaviour
 
     public void openLevel()
     {
-        level1.SetActive(false);
-        level2.SetActive(false);
-        level3.SetActive(false);
-
-
 
         setRandomCombatRoaster();
         startRandomCombat();

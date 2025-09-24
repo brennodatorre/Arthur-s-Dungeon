@@ -52,7 +52,7 @@ public class ButtonManager : MonoBehaviour
 
     
     [Space]
-    [HideInInspector] public List<GameObject> skillButtons = new List<GameObject>(); 
+     public List<GameObject> skillButtons = new List<GameObject>(); 
     public List<GameObject> actionButtons = new List<GameObject>();
     public GameObject lastButtonPressed;
 
@@ -196,16 +196,18 @@ public class ButtonManager : MonoBehaviour
 
         //activateb the go back to action menu button
         backButton.SetActive(true);
-        
 
+        int childrenOfGrid = skillMenuGrid.transform.childCount;
 
 
         foreach (Skill skill in roundManager.currentTurn.skillsInstance)
         {
             //creates a button for each skill in the players skill list
             GameObject buttonObj = Instantiate(buttonPrefab, skillMenuGrid.transform);
+            buttonObj.transform.SetSiblingIndex(childrenOfGrid); //puts the new button at the end of the liss (leaves background stuff on the back of the grid)
             buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = skill.skillName  + " (" + skill.mpCost + ") ";
 
+            buttonObj.name = skill.skillName + "( SkillButton)";
             buttonObj.GetComponent<TooltipManager>().description = skill.description;
             buttonObj.GetComponent<TooltipManager>().tooltipPanel = tooltipPanel;
             buttonObj.GetComponent<TooltipManager>().detectChildren = true;
@@ -213,21 +215,20 @@ public class ButtonManager : MonoBehaviour
             buttonObj.GetComponent<TooltipManager>().cursorManager = cursorManager;
             buttonObj.GetComponent<TooltipManager>().btn = buttonObj;
             buttonObj.GetComponent<TooltipManager>().tooltipType = TooltipManager.TooltipType.Skill;
+            buttonObj.AddComponent<DragAndDropItem>();
 
-            // if it is a skill that uses the PAHT function, add it to the button
-            // if (skill.isPAHTSkill) { buttonObj.AddComponent<PressAndHoldTarget>(); } // this is commented out becuse the target entity is the one that should have the paht rn
 
             //Sets the ball displayers based on the skill action type 
             // // as long as hierarchy does not change: Main (3), Sup (2), Bonus (1)
             if (skill.actionType == Skill.SkillActionType.Sup)
             {
-                buttonObj.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
-                buttonObj.transform.GetChild(1).GetChild(2).gameObject.SetActive(true);
+                buttonObj.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                buttonObj.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
             }
             else if (skill.actionType == Skill.SkillActionType.Main)
             {
-                buttonObj.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
-                buttonObj.transform.GetChild(1).GetChild(3).gameObject.SetActive(true);
+                buttonObj.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                buttonObj.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
             }
 
             
@@ -235,6 +236,7 @@ public class ButtonManager : MonoBehaviour
 
  
             Button button = buttonObj.GetComponent<Button>();
+
             button.onClick.AddListener(() => 
             {
                 
@@ -244,7 +246,7 @@ public class ButtonManager : MonoBehaviour
                 //gets all the buttons in the skill menu grid and adds them to the skillButtons list
                 foreach (Transform child in skillMenuGrid.transform)
                 {
-                    skillButtons.Add(child.gameObject);
+                    if (child.GetComponent<Button>() != null) skillButtons.Add(child.gameObject);
                 }
 
                 if (!inSkillOverlay){
@@ -302,7 +304,6 @@ public class ButtonManager : MonoBehaviour
     public void toggleBtns(bool switcher, List<GameObject> actionButtons )
     {
         
-
         foreach (GameObject actionBtn in actionButtons)
         {
             actionBtn.GetComponent<Button>().interactable = switcher;
