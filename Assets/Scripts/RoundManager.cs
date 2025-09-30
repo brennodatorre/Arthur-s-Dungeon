@@ -20,6 +20,7 @@ public class RoundManager : MonoBehaviour
     public static RoundManager Instance;
 
     public SkillManager skillManager;
+    public ItemManager itemManager;
     public ButtonManager buttonManager;
     public AnimationManager animationManager;
     public CombatSetter combatSetter;
@@ -44,11 +45,13 @@ public class RoundManager : MonoBehaviour
     [SerializeField] public ActionQueue actionQueue;
     [SerializeField] public ActionQueue clashQueue;
     public GameObject act_menu;
+    
 
     [Space(5)]
     public Entity currentTurn;
     public Entity target;
     public Skill skillSelected;
+    public Item itemSelected;
     public TurnPhase currentPhase; //the current phase of the turn
 
     [Space(10)]
@@ -254,14 +257,15 @@ public class RoundManager : MonoBehaviour
 
     }
 
-    public void EnableSkillTargetingUI(bool enable)
+    public void toggleEntityTargetingUI(bool enable)
     {
 
 
         foreach (var entity in entities)
         {
             //tell their paht object that they can start being targetted if the skill used is paht
-            if (skillSelected.isPAHTSkill) entity.GetComponent<PressAndHoldTarget>().isWaiting = enable;
+            if (skillSelected != null && skillSelected.isPAHTSkill && buttonManager.inSkillOverlay) entity.GetComponent<PressAndHoldTarget>().isWaiting = enable;
+            else if (itemSelected != null && itemSelected.isPAHTItem && buttonManager.inItemOverlay) entity.GetComponent<PressAndHoldTarget>().isWaiting = enable;
 
             var entityColiider = entity.GetComponent<Collider2D>();
             Image entityRender = entity.GetComponent<Image>();
@@ -272,11 +276,14 @@ public class RoundManager : MonoBehaviour
             if (entityRender != null && !entity.isDead)//sets color
             {
                 entityRender.material = enable ?
-                    matPallet.getColoredMaterial(matPallet.blue, matPallet.outlineSpriteMaterial) : //red outline if atk targetting
+                    matPallet.getColoredMaterial(matPallet.blue, matPallet.outlineSpriteMaterial) : //blue outline if atk targetting
                     matPallet.getColoredMaterial(matPallet.getEntityOriginColor(entity), matPallet.dissolveMaterial); // back to normal dissolve matrial
             } 
         }
     }
+    
+
+
 
     public void OnTargetSelected(Entity selected)
     {
@@ -299,9 +306,10 @@ public class RoundManager : MonoBehaviour
         else if (currentPhase == TurnPhase.targetingSKILL)
         {
 
-            EnableSkillTargetingUI(false);
+            toggleEntityTargetingUI(false);
 
             //unlock the skill buttons in case there are more skills to use
+            buttonManager.unblockSkillButtons(buttonManager.skillButtons, buttonManager.lastButtonPressed);
             buttonManager.toggleBtns(true, buttonManager.skillButtons);
 
             buttonManager.skillMenu.SetActive(false);
@@ -316,7 +324,7 @@ public class RoundManager : MonoBehaviour
                 if (CursorManager.Instance.holdableMEM.askIfPAHTWasCompleted())
                 {
                     skillManager.doSkill(target, currentTurn, skillSelected);
-                    currentPhase = TurnPhase.Action;  
+                    currentPhase = TurnPhase.Action;
                 }
                 else
                 {
@@ -327,21 +335,51 @@ public class RoundManager : MonoBehaviour
             else
             {
                 skillManager.doSkill(target, currentTurn, skillSelected);
-                currentPhase = TurnPhase.Action;  
+                currentPhase = TurnPhase.Action;
             }
 
-             
+
 
         }
-        // else if (currentPhase == TurnPhase.targetingITEM) 
-        // {
-        //     EnableItemTargetingUI(false);
-        //     act_menu.SetActive(false);
-        //    
-        // }
-       
-        
-    
+        else if (currentPhase == TurnPhase.targetingITEM)
+        {
+            toggleEntityTargetingUI(false);
+            
+            //unlock the skill buttons in case there are more skills to use
+            buttonManager.unblockSkillButtons(buttonManager.itemButtons, buttonManager.lastButtonPressed);
+            buttonManager.toggleBtns(true, buttonManager.itemButtons);
+
+            buttonManager.itemMenu.SetActive(false);
+
+            act_menu.SetActive(false);
+
+            buttonManager.inItemOverlay = false;
+
+            if (itemSelected.isPAHTItem) // if the item is a paht 
+            {
+                // if paht was completed use the item
+                if (CursorManager.Instance.holdableMEM.askIfPAHTWasCompleted())
+                {
+                    itemManager.useItem(target, currentTurn, itemSelected);
+                    currentPhase = TurnPhase.Action;
+                }
+                else
+                {
+                    // else, open the skill menu
+                    buttonManager.itemMenu.SetActive(true);
+                }
+            }
+            else
+            {
+                itemManager.useItem(target, currentTurn, itemSelected);
+                currentPhase = TurnPhase.Action;
+            }
+            
+           
+        }
+
+
+
     }
 
     public IEnumerator ShowDamagePopup(float damage, Vector3 position, Color color)

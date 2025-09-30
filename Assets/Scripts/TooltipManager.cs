@@ -15,6 +15,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         None,
         Entity,
         Skill,
+        Item,
         UIElement
     }
 
@@ -148,7 +149,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             tooltipText.text = entity.getStatusAsString();
         }
-        else if (tooltipType == TooltipType.Skill)
+        else if (tooltipType == TooltipType.Skill || tooltipType == TooltipType.Item)
         {
             tooltipText.text = description;
         }

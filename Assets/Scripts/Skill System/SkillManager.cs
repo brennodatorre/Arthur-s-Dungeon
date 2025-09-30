@@ -40,9 +40,9 @@ public class SkillManager : MonoBehaviour
             roundManager.buttonManager.closeSkillMenu(); //close the skill menu after the action is done
             return;
         }
-        {
+        
 
-        }
+        
 
         if (skill.CanBeUsed(caster, target, skill))
         {

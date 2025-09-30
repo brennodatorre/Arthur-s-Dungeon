@@ -1,3 +1,4 @@
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ public class DragAndDropItem : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        canvas = GameObject.FindWithTag("MainCanvas").GetComponent<Canvas>();
+        canvas = gameObject.GetComponentInParent<Canvas>();
         if (this.GetComponent<CanvasGroup>() == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
         else canvasGroup = this.GetComponent<CanvasGroup>();
 
@@ -27,17 +28,34 @@ public class DragAndDropItem : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         CursorManager.Instance.isDragging = true;
 
+    
 
         originalParent = transform.parent; // gets the original container
         originalIndex = transform.GetSiblingIndex();
+        var scale = transform.localScale;
 
         transform.SetParent(canvas.transform); // bring to top layer
         canvasGroup.blocksRaycasts = false;   // allow raycasts to go through
         canvasGroup.alpha = 0.8f;
 
-        placeHolder = Instantiate(gameObject, originalParent);
-        placeHolder.GetComponent<CanvasGroup>().blocksRaycasts = false;
-        placeHolder.GetComponent<CanvasGroup>().alpha = 0.1f; 
+        
+     placeHolder = new GameObject("placeholder");
+    var phRect = placeHolder.AddComponent<RectTransform>();
+    phRect.sizeDelta = rectTransform.sizeDelta;
+    phRect.localScale = rectTransform.localScale;
+
+    var le = placeHolder.AddComponent<LayoutElement>();
+    le.preferredWidth = rectTransform.sizeDelta.x;
+    le.preferredHeight = rectTransform.sizeDelta.y;
+    le.flexibleWidth = 0;
+    le.flexibleHeight = 0;
+
+    var cg = placeHolder.AddComponent<CanvasGroup>();
+    cg.blocksRaycasts = false;
+    cg.alpha = 0.0f; // invisible ghost; use 0.1f if you want faint preview
+
+    
+        
 
         originalParent.GetComponent<DragAndDropContainer>().openSpaceForNewItem(placeHolder, eventData.position);
     }
@@ -47,7 +65,7 @@ public void OnDrag(PointerEventData eventData)
     rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
 
     // Find the hovered container under the mouse
-    var hoveredContainer = eventData.pointerEnter?.GetComponentInParent<DragAndDropContainer>();
+        var hoveredContainer = eventData.pointerEnter?.GetComponentInParent<DragAndDropContainer>();
     if (hoveredContainer != null)
     {
         // If placeholder is not in the hovered container, reparent it

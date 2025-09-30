@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor.EditorTools;
 
 
 public class ButtonManager : MonoBehaviour
@@ -36,7 +37,7 @@ public class ButtonManager : MonoBehaviour
     public GameObject skillMenu;
     public GameObject skillMenuGrid;
     public GameObject itemMenu;
-    //public GameObject itemMenuGrid;
+    public GameObject itemMenuGrid;
 
     [Space]
     [Header("Buttons")]
@@ -52,7 +53,8 @@ public class ButtonManager : MonoBehaviour
 
     
     [Space]
-     public List<GameObject> skillButtons = new List<GameObject>(); 
+    public List<GameObject> skillButtons = new List<GameObject>(); 
+    public List<GameObject> itemButtons = new List<GameObject>(); 
     public List<GameObject> actionButtons = new List<GameObject>();
     public GameObject lastButtonPressed;
 
@@ -120,7 +122,9 @@ public class ButtonManager : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.E) && canTriggerItem)
             {
-                itemMenuButton();
+                //if not on item menu, open it, else close it
+                if (currentMenu != OnMenu.Item) { itemMenuButton(); }
+                else { closeItemMenu(true); }
             }
             else if (Input.GetKeyDown(KeyCode.R) && canTriggerRun)
             {
@@ -173,10 +177,10 @@ public class ButtonManager : MonoBehaviour
     }
     public void itemMenuButton()
     {
-        //currentMenu = OnMenu.Item;
+        currentMenu = OnMenu.Item;
         lastButtonPressed = item_button;
         audioManager.PlayItemButtonSound();
-        //openItemMenu();
+        openItemMenu();
     }
     public void runMenuButton()
     {
@@ -216,6 +220,7 @@ public class ButtonManager : MonoBehaviour
             buttonObj.GetComponent<TooltipManager>().btn = buttonObj;
             buttonObj.GetComponent<TooltipManager>().tooltipType = TooltipManager.TooltipType.Skill;
             buttonObj.AddComponent<DragAndDropItem>();
+   
 
 
             //Sets the ball displayers based on the skill action type 
@@ -251,27 +256,124 @@ public class ButtonManager : MonoBehaviour
 
                 if (!inSkillOverlay){
                     inSkillOverlay = true;
+                    roundManager.skillSelected = skill;//tells skillManager which skill was selected
+
+                    
+                    blockSkillButtons(skillButtons, button.gameObject);
                     toggleBtns(false, skillButtons); //lock the skill buttons
                     lastButtonPressed.GetComponent<Button>().interactable = true; //unlock the last button pressed(the skill button that was pressed)
 
-                    //toggles skill targetting
-                    roundManager.currentPhase = RoundManager.TurnPhase.targetingSKILL;
-                    //tells skillManager which skill was selected
-                    roundManager.skillSelected = skill;
-                    roundManager.EnableSkillTargetingUI(true);
+                    
+                    roundManager.currentPhase = RoundManager.TurnPhase.targetingSKILL;//toggles skill targetting
+                    
+                    
+                    roundManager.toggleEntityTargetingUI(true);
 
 
                 }
                 else {
                     inSkillOverlay = false;
+                    
+                    unblockSkillButtons(skillButtons, button.gameObject);
                     toggleBtns(true, skillButtons); //unlock the skill buttons
-                    roundManager.EnableSkillTargetingUI(false); //disable the skill targetting UI
+                    roundManager.toggleEntityTargetingUI(false); //disable the skill targetting UI
                     roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
                 }
             });
         }
         
-    } 
+    }
+
+    public void openItemMenu()
+    { 
+        actMenu.SetActive(false);
+        itemMenu.SetActive(true);
+
+        //activateb the go back to action menu button
+        backButton.SetActive(true);
+
+        int childrenOfGrid = itemMenuGrid.transform.childCount;
+
+
+        foreach (Item item in roundManager.currentTurn.itemsInstance)
+        {
+            //creates a button for each skill in the players skill list
+            GameObject buttonObj = Instantiate(buttonPrefab, itemMenuGrid.transform);
+            buttonObj.transform.SetSiblingIndex(childrenOfGrid); //puts the new button at the end of the liss (leaves background stuff on the back of the grid)
+            buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = item.itemName;
+
+            buttonObj.name = item.itemName + " (ItemButton)";
+            buttonObj.GetComponent<TooltipManager>().description = item.description;
+            buttonObj.GetComponent<TooltipManager>().tooltipPanel = tooltipPanel;
+            buttonObj.GetComponent<TooltipManager>().detectChildren = true;
+            buttonObj.GetComponent<TooltipManager>().tooltipText = tooltipText;
+            buttonObj.GetComponent<TooltipManager>().cursorManager = cursorManager;
+            buttonObj.GetComponent<TooltipManager>().btn = buttonObj;
+            buttonObj.GetComponent<TooltipManager>().tooltipType = TooltipManager.TooltipType.Item;
+            buttonObj.AddComponent<DragAndDropItem>();
+   
+
+
+            //Sets the ball displayers based on the skill action type 
+            // // as long as hierarchy does not change: Main (3), Sup (2), Bonus (1)
+            // if (item.actionType == Skill.SkillActionType.Sup)
+            // {
+            //     buttonObj.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+            //     buttonObj.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+            // }
+            // else if (skill.actionType == Skill.SkillActionType.Main)
+            // {
+            //     buttonObj.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+            //     buttonObj.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
+            // }
+
+            
+            
+
+ 
+            Button button = buttonObj.GetComponent<Button>();
+
+            button.onClick.AddListener(() => 
+            {
+                
+                lastButtonPressed = buttonObj;
+
+                itemButtons.Clear(); //clears the skill buttons list
+                //gets all the buttons in the item menu grid and adds them to the skillButtons list
+                foreach (Transform child in itemMenuGrid.transform)
+                {
+                    if (child.GetComponent<Button>() != null) itemButtons.Add(child.gameObject);
+                }
+
+                if (!inItemOverlay){
+                    inItemOverlay = true;
+                    roundManager.itemSelected = item;//tells roundManager which skill was selected
+
+                    
+                    blockSkillButtons(itemButtons, button.gameObject);
+                    toggleBtns(false, itemButtons); //lock the skill buttons
+                    lastButtonPressed.GetComponent<Button>().interactable = true; //unlock the last button pressed(the skill button that was pressed)
+
+                    
+                    roundManager.currentPhase = RoundManager.TurnPhase.targetingITEM;//toggles skill targetting
+                    
+                    
+                    roundManager.toggleEntityTargetingUI(true);
+
+
+                }
+                else {
+                    inItemOverlay = false;
+                    
+                    unblockSkillButtons(itemButtons, button.gameObject);
+                    toggleBtns(true, itemButtons); //unlock the skill buttons
+                    roundManager.toggleEntityTargetingUI(false); //disable the skill targetting UI
+                    roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
+                }
+            });
+        }
+        
+    }
 
 
     public void closeSkillMenu(bool withSound = false)
@@ -279,7 +381,7 @@ public class ButtonManager : MonoBehaviour
         if (inSkillOverlay)
         {
             inSkillOverlay = false;
-            roundManager.EnableSkillTargetingUI(false); //disable the skill targetting UI
+            roundManager.toggleEntityTargetingUI(false); //disable the skill targetting UI
             roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
         }
 
@@ -289,7 +391,7 @@ public class ButtonManager : MonoBehaviour
         for (int i = skillMenuGrid.transform.childCount - 1; i >= 0; i--)
         {
             Transform child = skillMenuGrid.transform.GetChild(i);
-            Destroy(child.gameObject);
+            if (child.gameObject.GetComponentInChildren<Button>() != null) { Destroy(child.gameObject); }
         }
 
         backButton.SetActive(false);
@@ -298,17 +400,83 @@ public class ButtonManager : MonoBehaviour
         inSkillOverlay = false;
         currentMenu = OnMenu.Action;
     }
+
+    public void closeItemMenu(bool withSound = false)
+    {
+        if (inItemOverlay)
+        {
+            inItemOverlay = false;
+            roundManager.toggleEntityTargetingUI(false); //disable the item targetting UI
+            roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
+        }
+
+        if (withSound == true) { audioManager.PlaySkillButtonSound(); }
+
+        // Clears the item menu grid
+        for (int i = itemMenuGrid.transform.childCount - 1; i >= 0; i--)
+        {
+            Transform child = itemMenuGrid.transform.GetChild(i);
+            if (child.gameObject.GetComponentInChildren<Button>() != null) { Destroy(child.gameObject); }
+        }
+
+        backButton.SetActive(false);
+        itemMenu.SetActive(false);
+        actMenu.SetActive(true);
+        inItemOverlay = false;
+        currentMenu = OnMenu.Action;
+    }
     
 
     //togle the list of buttons passed 
-    public void toggleBtns(bool switcher, List<GameObject> actionButtons )
+    public void toggleBtns(bool switcher, List<GameObject> actionButtons)
     {
-        
+
         foreach (GameObject actionBtn in actionButtons)
         {
             actionBtn.GetComponent<Button>().interactable = switcher;
+
         }
 
+    }
+
+
+    public void blockSkillButtons(List<GameObject> skillButtons, GameObject pressedBtn)
+    {
+        foreach (GameObject btn in skillButtons)
+        {
+            if (btn == pressedBtn) continue;
+
+            CanvasGroup cg;
+
+            btn.GetComponentInChildren<TextMeshProUGUI>().alpha = 0f;
+
+            if (btn.GetComponent<CanvasGroup>() == null) btn.AddComponent<CanvasGroup>();
+            cg = btn.GetComponent<CanvasGroup>();
+
+            cg.alpha = .1f;
+
+
+        }
+
+        pressedBtn.transform.position += new Vector3(0, 5, 0);
+    }
+    public void unblockSkillButtons(List<GameObject> skillButtons, GameObject pressedBtn)
+    { 
+        foreach (GameObject btn in skillButtons)
+        {
+            if (btn == pressedBtn) continue;
+
+            CanvasGroup cg;
+
+            btn.GetComponentInChildren<TextMeshProUGUI>().alpha = 1f;
+
+            if (btn.GetComponent<CanvasGroup>() == null) btn.AddComponent<CanvasGroup>();
+            cg = btn.GetComponent<CanvasGroup>();
+
+            cg.alpha = 1f;
+        }
+
+        pressedBtn.transform.position -= new Vector3(0, 5, 0);
     }
 
     public void closeAllMenus()

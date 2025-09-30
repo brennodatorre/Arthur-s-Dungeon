@@ -32,6 +32,12 @@ public class Targeting : MonoBehaviour, IPointerClickHandler
 
 
         }
+        if (roundManager.currentPhase == RoundManager.TurnPhase.targetingITEM)
+        {
+            roundManager.OnTargetSelected(entity); // call the method in RoundManager to set the target
+
+
+        }
 
     }
 

@@ -38,6 +38,16 @@ public class PlayerData : MonoBehaviour
 
     List<Skill> initialSkills = new List<Skill>();
     List<Skill> initialSkillsInstance = new List<Skill>();
+    List<Item> initialItems = new List<Item>();
+    List<Item> initialItemsInstance = new List<Item>();
+
+
+    /// <summary>
+    /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// </summary> <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
 
     [Header("Player Deathless Data")]
     [SerializeField] public int actualMaxHP;
@@ -78,7 +88,10 @@ public class PlayerData : MonoBehaviour
     public bool isDead = false;
 
 
-
+    /// <summary>
+    /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// </summary>
+   
 
 
     [Space(10)]
@@ -118,6 +131,18 @@ public class PlayerData : MonoBehaviour
     [SerializeField] public List<Skill> skills = new List<Skill>();
     [HideInInspector] public List<Skill> skillsInstance = new List<Skill>();
     [SerializeField] public List<StatusEffect> activeSkillEffects = new List<StatusEffect>();
+    [SerializeField] public List<Item> items = new List<Item>();
+    [HideInInspector] public List<Item> itemsInstance = new List<Item>();
+
+
+
+
+
+
+
+
+
+
 
 
     void Awake()
@@ -175,7 +200,11 @@ public class PlayerData : MonoBehaviour
 
         skills = new List<Skill>(player.skills);
         skillsInstance = new List<Skill>(player.skillsInstance);
+
         activeSkillEffects = new List<StatusEffect>();
+
+        items = new List<Item>(player.items);
+        itemsInstance = new List<Item>(player.itemsInstance);
 
         Debug.Log("Player data saved.");
     }
@@ -213,6 +242,8 @@ public class PlayerData : MonoBehaviour
         player.skills = new List<Skill>(skills);
         player.skillsInstance = new List<Skill>(skillsInstance);
         player.activeSkillEffects = new List<StatusEffect>(activeSkillEffects);
+        player.items = new List<Item>(items);
+        player.itemsInstance = new List<Item>(itemsInstance);
 
         Debug.Log("Player data loaded.");
     }
@@ -324,6 +355,9 @@ public class PlayerData : MonoBehaviour
         initialSkills = new List<Skill>(skills);
         initialSkillsInstance = new List<Skill>(skillsInstance);
 
+        initialItems = new List<Item>(items);
+        initialItemsInstance = new List<Item>(itemsInstance);
+
 
 
         Debug.Log("Player initial data saved.");
@@ -371,6 +405,8 @@ public class PlayerData : MonoBehaviour
 
         skills = new List<Skill>(initialSkills);
         skillsInstance = new List<Skill>(initialSkillsInstance);
+        items = new List<Item>(initialItems);
+        itemsInstance = new List<Item>(initialItemsInstance);
 
         // --- refresh floating from actual ---
         revitalizePlayer();

@@ -87,6 +87,10 @@ public class Entity : MonoBehaviour
     [SerializeField] public List<StatusEffect> activeSkillEffects = new List<StatusEffect>();
 
 
+    [Space(10)]
+    [Header("Items")]
+    [SerializeField] public List<Item> items = new List<Item>();
+    [HideInInspector]public List<Item> itemsInstance = new List<Item>(); // to not edit original copy
 
     [Space(10)]
     [Header("Fable Status")]
@@ -120,21 +124,27 @@ public class Entity : MonoBehaviour
         sprite.material = MaterialPallet.Instance.getColoredMaterial(MaterialPallet.Instance.getEntityOriginColor(this), MaterialPallet.Instance.dissolveMaterial);
 
         if (baseATK.dices.Count == 0) { baseATK.AddDice(0, 0); }
-        
+
         //copies baseATK dices to currentATK
         foreach (Dice dice in baseATK.dices)
         {
             this.currentATK.AddDice(dice.count, dice.sides);
         }
-        currentATK.AddModifier (baseATK.getModifier());
+        currentATK.AddModifier(baseATK.getModifier());
 
-        //clear the skill instance so there wont be duplicates
-        skillsInstance.Clear(); 
+        //clear the skill and item instance so there wont be duplicates
+        skillsInstance.Clear();
+        itemsInstance.Clear();
 
         //Instantiate Entity's skills
         foreach (Skill skill in skills)
         {
             skillsInstance.Add(Instantiate(skill));
+        }
+
+        //Instantiate Entity;s item
+        foreach (Item item in items) {
+            itemsInstance.Add(Instantiate(item));
         }
        
     }
