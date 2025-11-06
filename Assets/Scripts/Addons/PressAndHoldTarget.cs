@@ -11,13 +11,14 @@ public class PressAndHoldTarget : MonoBehaviour, IPointerDownHandler
     public static PressAndHoldTarget target;
 
     [SerializeField] private bool wasCompleted = false;
-    public bool isWaiting = false;
+    public bool isWaiting = false; // lets object be PAHT targeted
     
 
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!isWaiting) { return; }
+
+        if (!isWaiting ) { return; }
         shakeCoroutine = AnimationManager.Instance.doShakeAnimation(gameObject, CursorManager.Instance.pahtDuration);
         target = this;
         CursorManager.Instance.holdable = target;

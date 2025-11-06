@@ -38,6 +38,7 @@ public class CursorManager : MonoBehaviour
     private Coroutine holdingCoroutine;
     private float holdTime = 0f;
     public float pahtDuration;
+    public bool lookingForPAHT = false; 
 
     [Space(10)]
     public bool isDragging = false;

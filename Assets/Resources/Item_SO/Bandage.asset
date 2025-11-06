@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Bandage
   description: heals by 5
+  itemOrigin: 4
   actionType: 2
   targetType: 0
   isPAHTItem: 0

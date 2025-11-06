@@ -13,6 +13,7 @@ public class Item : ScriptableObject
 
     public string itemName;
     public string description;
+    public Entity.EntityOrigin itemOrigin;
     public ItemActionType actionType;
     public ItemTarget targetType;
     public bool isPAHTItem;

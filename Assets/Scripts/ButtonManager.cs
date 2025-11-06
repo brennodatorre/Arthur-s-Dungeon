@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEditor.EditorTools;
+using UnityEditor.Search;
 
 
 public class ButtonManager : MonoBehaviour
@@ -33,6 +34,7 @@ public class ButtonManager : MonoBehaviour
     [Space]
     [Header("GUI Elements")]
     public GameObject buttonPrefab;
+    public GameObject itemButtonPrefab;
     public GameObject actMenu;
     public GameObject skillMenu;
     public GameObject skillMenuGrid;
@@ -110,6 +112,29 @@ public class ButtonManager : MonoBehaviour
         //Dels with shortcut inputting
         if (roundManager != null && roundManager.playerCanAct)
         {
+            //right mouse to cancel selection
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                //skill selection
+                if (inSkillOverlay)
+                {
+
+                    inSkillOverlay = false;
+                    unblockSkillButtons(skillButtons, lastButtonPressed.gameObject);
+                    toggleBtns(true, skillButtons); //unlock the skill buttons
+                    roundManager.toggleEntityTargetingUI(false); //disable the skill targetting UI
+                    roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
+                }
+                //item selection
+                else if (inItemOverlay)
+                {
+                    inItemOverlay = false;
+                    unblockItemButtons(itemButtons, lastButtonPressed.gameObject);
+                    toggleBtns(true, itemButtons); //unlock the skill buttons
+                    roundManager.toggleEntityTargetingUI(false); //disable the skill targetting UI
+                    roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
+                }
+            }
             if (Input.GetKeyDown(KeyCode.Q) && canTriggerAtk)
             {
                 atkMenuButton(atk_button);
@@ -272,8 +297,8 @@ public class ButtonManager : MonoBehaviour
 
                 }
                 else {
+
                     inSkillOverlay = false;
-                    
                     unblockSkillButtons(skillButtons, button.gameObject);
                     toggleBtns(true, skillButtons); //unlock the skill buttons
                     roundManager.toggleEntityTargetingUI(false); //disable the skill targetting UI
@@ -298,9 +323,9 @@ public class ButtonManager : MonoBehaviour
         foreach (Item item in roundManager.currentTurn.itemsInstance)
         {
             //creates a button for each skill in the players skill list
-            GameObject buttonObj = Instantiate(buttonPrefab, itemMenuGrid.transform);
+            GameObject buttonObj = Instantiate(itemButtonPrefab, itemMenuGrid.transform);
             buttonObj.transform.SetSiblingIndex(childrenOfGrid); //puts the new button at the end of the liss (leaves background stuff on the back of the grid)
-            buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = item.itemName;
+            //buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = item.itemName;
 
             buttonObj.name = item.itemName + " (ItemButton)";
             buttonObj.GetComponent<TooltipManager>().description = item.description;
@@ -311,25 +336,8 @@ public class ButtonManager : MonoBehaviour
             buttonObj.GetComponent<TooltipManager>().btn = buttonObj;
             buttonObj.GetComponent<TooltipManager>().tooltipType = TooltipManager.TooltipType.Item;
             buttonObj.AddComponent<DragAndDropItem>();
-   
-
-
-            //Sets the ball displayers based on the skill action type 
-            // // as long as hierarchy does not change: Main (3), Sup (2), Bonus (1)
-            // if (item.actionType == Skill.SkillActionType.Sup)
-            // {
-            //     buttonObj.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-            //     buttonObj.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
-            // }
-            // else if (skill.actionType == Skill.SkillActionType.Main)
-            // {
-            //     buttonObj.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-            //     buttonObj.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
-            // }
-
             
-            
-
+        
  
             Button button = buttonObj.GetComponent<Button>();
 
@@ -350,7 +358,7 @@ public class ButtonManager : MonoBehaviour
                     roundManager.itemSelected = item;//tells roundManager which skill was selected
 
                     
-                    blockSkillButtons(itemButtons, button.gameObject);
+                    blockItemButtons(itemButtons, button.gameObject);
                     toggleBtns(false, itemButtons); //lock the skill buttons
                     lastButtonPressed.GetComponent<Button>().interactable = true; //unlock the last button pressed(the skill button that was pressed)
 
@@ -365,7 +373,7 @@ public class ButtonManager : MonoBehaviour
                 else {
                     inItemOverlay = false;
                     
-                    unblockSkillButtons(itemButtons, button.gameObject);
+                    unblockItemButtons(itemButtons, button.gameObject);
                     toggleBtns(true, itemButtons); //unlock the skill buttons
                     roundManager.toggleEntityTargetingUI(false); //disable the skill targetting UI
                     roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
@@ -458,10 +466,14 @@ public class ButtonManager : MonoBehaviour
 
         }
 
+        // moves the selected button up
         pressedBtn.transform.position += new Vector3(0, 5, 0);
+        //sets glow outline to item selected
+        //pressedBtn.GetComponentInChildren<Image>().material = roundManager.matPallet.getColoredMaterial(roundManager.matPallet.white, roundManager.matPallet.outlineSpriteMaterial);
+    
     }
     public void unblockSkillButtons(List<GameObject> skillButtons, GameObject pressedBtn)
-    { 
+    {
         foreach (GameObject btn in skillButtons)
         {
             if (btn == pressedBtn) continue;
@@ -476,7 +488,57 @@ public class ButtonManager : MonoBehaviour
             cg.alpha = 1f;
         }
 
+        // moves the selected button back to original position
         pressedBtn.transform.position -= new Vector3(0, 5, 0);
+        // removes glow outline from item selected
+        //pressedBtn.GetComponentInChildren<Image>().material = roundManager.matPallet.getColoredMaterial(roundManager.matPallet.getItemOriginColor(roundManager.itemSelected), roundManager.matPallet.dissolveMaterial);
+    }
+
+    public void blockItemButtons(List<GameObject> itemButtons, GameObject pressedBtn)
+    {
+        foreach (GameObject btn in itemButtons)
+        {
+            if (btn == pressedBtn) continue;
+
+            CanvasGroup cg;
+
+            btn.GetComponentInChildren<TextMeshProUGUI>().alpha = 0f;
+
+            if (btn.GetComponent<CanvasGroup>() == null) btn.AddComponent<CanvasGroup>();
+            cg = btn.GetComponent<CanvasGroup>();
+
+            cg.alpha = .1f;
+
+
+        }
+
+        // moves the selected button up
+        pressedBtn.transform.position += new Vector3(0, 5, 0);
+        //sets glow outline to item selected
+        pressedBtn.GetComponentInChildren<Image>().material = roundManager.matPallet.getColoredMaterial(roundManager.matPallet.white, roundManager.matPallet.outlineSpriteMaterial);
+
+    }
+    
+        public void unblockItemButtons(List<GameObject> itemButtons, GameObject pressedBtn)
+    {
+        foreach (GameObject btn in itemButtons)
+        {
+            if (btn == pressedBtn) continue;
+
+            CanvasGroup cg;
+
+            btn.GetComponentInChildren<TextMeshProUGUI>().alpha = 1f;
+
+            if (btn.GetComponent<CanvasGroup>() == null) btn.AddComponent<CanvasGroup>();
+            cg = btn.GetComponent<CanvasGroup>();
+
+            cg.alpha = 1f;
+        }
+
+        // moves the selected button back to original position
+        pressedBtn.transform.position -= new Vector3(0, 5, 0);
+        // removes glow outline from item selected
+        pressedBtn.GetComponentInChildren<Image>().material = roundManager.matPallet.getColoredMaterial(roundManager.matPallet.getItemOriginColor(roundManager.itemSelected), roundManager.matPallet.dissolveMaterial);
     }
 
     public void closeAllMenus()

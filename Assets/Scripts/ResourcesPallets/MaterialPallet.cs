@@ -29,6 +29,31 @@ public class MaterialPallet : MonoBehaviour
     public Color getEntityOriginColor(Entity _entity)
     {
         switch (_entity.entityOrigin)
+        {
+            case Entity.EntityOrigin.FLAME:
+                return purple;
+            case Entity.EntityOrigin.ARTHUR:
+                return blue;
+            case Entity.EntityOrigin.ROSES:
+                return red;
+            case Entity.EntityOrigin.HEX:
+                return green;
+            case Entity.EntityOrigin.SYSTEM:
+                return Orange;
+            case Entity.EntityOrigin.LANDREAS:
+                return pink;
+            case Entity.EntityOrigin.UNKNOWN:
+                return white;
+            case Entity.EntityOrigin.SURVIVOR:
+                return yellow;
+            default:
+                return Color.black;
+        }
+    }
+    
+    public Color getItemOriginColor(Item _item)
+    {
+        switch (_item.itemOrigin)
         { 
             case Entity.EntityOrigin.FLAME:
                 return purple;

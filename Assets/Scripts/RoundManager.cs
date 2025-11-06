@@ -264,8 +264,10 @@ public class RoundManager : MonoBehaviour
         foreach (var entity in entities)
         {
             //tell their paht object that they can start being targetted if the skill used is paht
-            if (skillSelected != null && skillSelected.isPAHTSkill && buttonManager.inSkillOverlay) entity.GetComponent<PressAndHoldTarget>().isWaiting = enable;
-            else if (itemSelected != null && itemSelected.isPAHTItem && buttonManager.inItemOverlay) entity.GetComponent<PressAndHoldTarget>().isWaiting = enable;
+            if (skillSelected != null && skillSelected.isPAHTSkill && buttonManager.inSkillOverlay) entity.GetComponent<PressAndHoldTarget>().isWaiting = true;
+            else if (itemSelected != null && itemSelected.isPAHTItem && buttonManager.inItemOverlay) entity.GetComponent<PressAndHoldTarget>().isWaiting = true;
+            else { entity.GetComponent<PressAndHoldTarget>().isWaiting = false; }
+            
 
             var entityColiider = entity.GetComponent<Collider2D>();
             Image entityRender = entity.GetComponent<Image>();
