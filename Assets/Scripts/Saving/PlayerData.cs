@@ -6,139 +6,76 @@ public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
 
-    //player starting status
-    bool initialStatusSaved = false;
-
-    int initialMaxHP;
-    int initiaMaxMP;
-    int initiaDef;
-    int initialLives;
-
-    DiceRoll initiaBaseATK;
-    int initiaAtkAdvantage;
-    int initiaMainActions;
-    int initiaSupActions;
-
-
-    int initiaDEXTREZA;
-    int initiaATLETISMO;
-    int initiaAURA;
-    int initiaCHARISMA;
-    int initiaSORTE;
-    int initiaINTUICAO;
-    int initiaHEX;
-    int initiaASTUCIA;
-    int initiaVONTADE;
-    int initiaREFLEXOS;
-    int initiaPERSEPCAO;
-    int initiaFURTIVIDADE;
-    int initiaCONSTITUICAO;
-    int initiaDOMINANCIA;
-
-
-    List<Skill> initialSkills = new List<Skill>();
-    List<Skill> initialSkillsInstance = new List<Skill>();
-    List<Item> initialItems = new List<Item>();
-    List<Item> initialItemsInstance = new List<Item>();
-
-
-    /// <summary>
-    /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// </summary> <summary>
     /// 
-    /// </summary>
-    /// <returns></returns>
+    /// Newgame context (OR context ( Current Life context ) )
+    /// 
+    [System.Serializable]
+    public struct PlayerDataStruct
+    {
+        public string playerName;
+        public int hp;
+        public int maxHP;
+        public int mp;
+        public int maxMP;
+        public int def;
 
-    [Header("Player Deathless Data")]
-    [SerializeField] public int actualMaxHP;
-    [SerializeField] public int actualMaxMP;
-    [SerializeField] public int actualDef;
+        public DiceRoll baseATK;
+        public int atkAdvantage;
 
-    [SerializeField] public DiceRoll actualBaseATK = new DiceRoll();
-    [SerializeField] public int actualAtkAdvantage = 0; //advantage for the attack roll
-    [SerializeField] public int actualMainActions = 1;
-    [SerializeField] public int actualSupActions = 1;
+        public int totalMainActions ;
+        public int totalSupActions ;
 
-    [Space]
-    [SerializeField] public int actualDEXTREZA = 1;
-    [SerializeField] public int actualATLETISMO = 1;
-    [SerializeField] public int actualAURA = 1;
-    [SerializeField] public int actualCHARISMA = 1;
-    [SerializeField] public int actualSORTE = 1;
-    [SerializeField] public int actualINTUICAO = 1;
-    [SerializeField] public int actualHEX = 1;
-    [SerializeField] public int actualASTUCIA = 1;
-    [SerializeField] public int actualVONTADE = 1;
-    [SerializeField] public int actualREFLEXOS = 1;
-    [SerializeField] public int actualPERSEPCAO = 1;
-    [SerializeField] public int actualFURTIVIDADE = 1;
-    [SerializeField] public int actualCONSTITUICAO = 1;
-    [SerializeField] public int actualDOMINANCIA = 1;
-
-
-    [Space(5)]
-    [SerializeField] private int fableRecord = 0;
-    [SerializeField] private int fablePoints = 0;
-    public int levelsBeat; // totoal levels beaten
-    public int currentLevelsBeat; // levels beaten this death loop
-    public int lives;
-    public int death_counter = 0;
-    public int kill_counter = 0;
-
-    public bool isDead = false;
+        [Space (10)]
+        [Header ("Player Attributes")]
+        public int DEX ;
+        public int ATLETISM ;
+        public int AURA ;
+        public int CHARISM ;
+        public int LUCK ;
+        public int INTUITION ;
+        public int HEX ;
+        public int INT ;
+        public int WILL ;
+        public int REFLEX ;
+        public int PERSEPTION;
+        public int FURTIVITY ;
+        public int CONSTITUTION ;
+        public int DOMINANCE ;
 
 
-    /// <summary>
-    /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// </summary>
-   
+        [Space (10)]
+        [Header ("Player Data")]
+        [SerializeField] public List<Skill> skills ;
+
+        [SerializeField] public List<Item> items ;
+
+        [SerializeField] public List<StatusEffect> StatusEffects ;
 
 
-    [Space(10)]
-    [Header("Player Floating Data")]
-    [SerializeField] public string playerName;
-    [SerializeField] private int hp;
-    [SerializeField] private int maxHP;
-    [SerializeField] private int mp;
-    [SerializeField] private int maxMP;
-    [SerializeField] public int def;
+        [Space(10)]
+        [Header ("OR Data")]
+        public int fableRecord ;
+        public int fablePoints ;
+        public int levelsBeat; // totoal levels beaten
+        public int currentLevelsBeat; // levels beaten this death loop
+        public int lives;
+        public int death_counter ;
+        public int kill_counter;
 
-    [SerializeField] public DiceRoll baseATK = new DiceRoll();
-    [SerializeField] public int atkAdvantage = 0;
 
-    [SerializeField] public int totalMainActions = 1;
-    [SerializeField] public int totalSupActions = 1;
-
-    [Space(3)]
-    [SerializeField] public int DEXTREZA = 1;
-    [SerializeField] public int ATLETISMO = 1;
-    [SerializeField] public int AURA = 1;
-    [SerializeField] public int CHARISMA = 1;
-    [SerializeField] public int SORTE = 1;
-    [SerializeField] public int INTUICAO = 1;
-    [SerializeField] public int HEX = 1;
-    [SerializeField] public int ASTUCIA = 1;
-    [SerializeField] public int VONTADE = 1;
-    [SerializeField] public int REFLEXOS = 1;
-    [SerializeField] public int PERSEPCAO = 1;
-    [SerializeField] public int FURTIVIDADE = 1;
-    [SerializeField] public int CONSTITUICAO = 1;
-    [SerializeField] public int DOMINANCIA = 1;
+        [Space(10)]
+        [Header ("Event Data")]
+        public int Ilhas;
 
 
 
-
-    [SerializeField] public List<Skill> skills = new List<Skill>();
-    [HideInInspector] public List<Skill> skillsInstance = new List<Skill>();
-    [SerializeField] public List<StatusEffect> activeSkillEffects = new List<StatusEffect>();
-    [SerializeField] public List<Item> items = new List<Item>();
-    [HideInInspector] public List<Item> itemsInstance = new List<Item>();
+    }
 
 
-
-
-
-
+    [SerializeField]
+    private PlayerDataStruct NewGameData = new PlayerDataStruct();
+    [SerializeField]
+    private PlayerDataStruct GameData = new PlayerDataStruct();
 
 
 
@@ -157,136 +94,142 @@ public class PlayerData : MonoBehaviour
             Destroy(gameObject); // Avoid duplicates
         }
 
+        GameData = NewGameData;
+        
+
 
     }
 
-    void Start()
-    {
-        // saves initial values for true death
-        if (!initialStatusSaved) { saveInitialStatus();  initialStatusSaved = true; }
-    }
-
+    /// <summary>
+    /// Saves data From Entity player into GameData
+    /// </summary>
+    /// <param name="player"></param>
     public void savePlayerData(Entity player)
     {
-
+     
+        ActiveEffectManager.RemoveAllEffects(player.activeSkillEffects);
 
         // Copy over the data
-        playerName = player.name;
-        hp = player.getHP();
-        maxHP = player.getMaxHP();
-        mp = player.getMP();
-        maxMP = player.getMaxMP();
-        def = player.def;
-        baseATK = player.baseATK;
-        atkAdvantage = player.atkAdvantage;
-        totalMainActions = player.totalMainActions;
-        totalSupActions = player.totalSupActions;
-        DEXTREZA = player.DEXTREZA;
-        ATLETISMO = player.ATLETISMO;
-        AURA = player.AURA;
-        CHARISMA = player.CHARISMA;
-        SORTE = player.SORTE;
-        INTUICAO = player.INTUICAO;
-        HEX = player.HEX;
-        ASTUCIA = player.ASTUCIA;
-        VONTADE = player.VONTADE;
-        REFLEXOS = player.REFLEXOS;
-        PERSEPCAO = player.PERSEPCAO;
-        FURTIVIDADE = player.FURTIVIDADE;
-        CONSTITUICAO = player.CONSTITUICAO;
-        DOMINANCIA = player.DOMINANCIA;
-        isDead = player.isDead;
+        GameData.playerName = player.name;
+        GameData.hp = player.getHP();
+        GameData.maxHP = player.getMaxHP();
+        GameData.mp = player.getMP();
+        GameData.maxMP = player.getMaxMP();
+        GameData.def = player.def;
+        GameData.baseATK = player.baseATK;
+        GameData.atkAdvantage = player.atkAdvantage;
+        GameData.totalMainActions = player.totalMainActions;
+        GameData.totalSupActions = player.totalSupActions;
+        GameData.DEX = player.DEX;
+
+        GameData.ATLETISM= player.ATLETISM;
+        GameData.AURA = player.AURA;
+        GameData.CHARISM= player.CHARISM;
+        GameData.LUCK = player.LUCK;
+        GameData.INTUITION = player.INTUITION;
+        GameData.HEX = player.HEX;
+        GameData.INT = player.INT;
+        GameData.WILL = player.WILL;
+        GameData.REFLEX = player.REFLEX;
+        GameData.PERSEPTION = player.PERSEPTION;
+        GameData.FURTIVITY= player.FURTIVITY;
+        GameData.CONSTITUTION = player.CONSTITUTION;
+        GameData.DOMINANCE = player.DOMINANCE;
+        
 
 
-        skills = new List<Skill>(player.skills);
-        skillsInstance = new List<Skill>(player.skillsInstance);
+        
+        GameData.skills = new List<Skill>(player.skills);
 
-        activeSkillEffects = new List<StatusEffect>();
+        
 
-        items = new List<Item>(player.items);
-        itemsInstance = new List<Item>(player.itemsInstance);
+        GameData.StatusEffects = new List<StatusEffect>(player.activeSkillEffects);
+
+        GameData.items = new List<Item>(player.items);
+        
 
         Debug.Log("Player data saved.");
     }
 
+    /// <summary>
+    /// Saves data From GameData into Entity player
+    /// </summary>
+    /// <param name="player"></param>
     public void LoadPlayerData(Entity player)
     {
         // Paste the saved data into the player
-        player.name = playerName;
-        player.setHP(hp);
-        player.setMaxHP(maxHP);
-        player.setMP(mp);
-        player.setMaxMP(maxMP);
-        player.def = def;
-        player.baseATK = baseATK;
-        player.atkAdvantage = atkAdvantage;
-        player.DEXTREZA = DEXTREZA;
-        player.ATLETISMO = ATLETISMO;
-        player.AURA = AURA;
-        player.CHARISMA = CHARISMA;
-        player.SORTE = SORTE;
-        player.INTUICAO = INTUICAO;
-        player.HEX = HEX;
-        player.ASTUCIA = ASTUCIA;
-        player.VONTADE = VONTADE;
-        player.REFLEXOS = REFLEXOS;
-        player.PERSEPCAO = PERSEPCAO;
-        player.FURTIVIDADE = FURTIVIDADE;
-        player.CONSTITUICAO = CONSTITUICAO;
-        player.DOMINANCIA = DOMINANCIA;
-        player.totalMainActions = totalMainActions;
-        player.totalSupActions = totalSupActions;
-        player.isDead = isDead;
+        player.setHP(GameData.hp);
+        player.setMaxHP(GameData.maxHP);
+        player.setMP(GameData.mp);
+        player.setMaxMP(GameData.maxMP);
+        player.def = GameData.def;
+        player.baseATK = GameData.baseATK;
+        player.atkAdvantage = GameData.atkAdvantage;
+        player.totalMainActions = GameData.totalMainActions;
+        player.totalSupActions = GameData.totalSupActions;
+        player.DEX = GameData.DEX;
+        player.ATLETISM = GameData.ATLETISM;
+        player.AURA = GameData.AURA;
+        player.CHARISM = GameData.CHARISM;
+        player.LUCK = GameData.LUCK;
+        player.INTUITION = GameData.INTUITION;
+        player.HEX = GameData.HEX;
+        player.INT = GameData.INT;
+        player.WILL = GameData.WILL;
+        player.REFLEX = GameData.REFLEX;
+        player.PERSEPTION = GameData.PERSEPTION;
+        player.FURTIVITY = GameData.FURTIVITY;
+        player.CONSTITUTION = GameData.CONSTITUTION;
+        player.DOMINANCE = GameData.DOMINANCE;
+        
 
 
-        player.skills = new List<Skill>(skills);
-        player.skillsInstance = new List<Skill>(skillsInstance);
-        player.activeSkillEffects = new List<StatusEffect>(activeSkillEffects);
-        player.items = new List<Item>(items);
-        player.itemsInstance = new List<Item>(itemsInstance);
+        
+        player.skills = new List<Skill>(GameData.skills);
 
+        player.activeSkillEffects = new List<StatusEffect>(GameData.StatusEffects);
+
+        player.items = new List<Item>(GameData.items);
         Debug.Log("Player data loaded.");
     }
 
-    //resets the player floating data to their actual data
+    /// <summary>
+    /// Sets the GameData into the default NewGameData
+    /// </summary>
+    public void resetPlayerStatus()
+    {
+        GameData = NewGameData;
+
+        Debug.Log("Player data reset to new game data.");
+    }
+
+
+    /// <summary>
+    /// Fully restores the player's HP and MP to max values
+    /// </summary>
     public void revitalizePlayer()
     {
-
-
-        activeSkillEffects.Clear(); // Clear active skill effects
-        isDead = false; //
-
-
-
-        hp = actualMaxHP;
-        maxHP = actualMaxHP;
-        mp = actualMaxMP;
-        maxMP = actualMaxMP;
-        def = actualDef;
-        baseATK = actualBaseATK;
-        atkAdvantage = actualAtkAdvantage;
-
-        totalMainActions = actualMainActions;
-        totalSupActions = actualSupActions;
-
-        DEXTREZA = actualDEXTREZA;
-        ATLETISMO = actualATLETISMO;
-        AURA = actualAURA;
-        CHARISMA = actualCHARISMA;
-        SORTE = actualSORTE;
-        INTUICAO = actualINTUICAO;
-        HEX = actualHEX;
-        ASTUCIA = actualASTUCIA;
-        VONTADE = actualVONTADE;
-        REFLEXOS = actualREFLEXOS;
-        PERSEPCAO = actualPERSEPCAO;
-        FURTIVIDADE = actualFURTIVIDADE;
-        CONSTITUICAO = actualCONSTITUICAO;
-        DOMINANCIA = actualDOMINANCIA;
+        GameData.hp = GameData.maxHP;
+        GameData.mp = GameData.maxMP;
 
 
         Debug.Log("Player data revitalized.");
     }
+
+
+
+
+///
+/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   
+   
+
 
 
     //deals prevents fableRecords from being decreased 
@@ -295,8 +238,8 @@ public class PlayerData : MonoBehaviour
         if (amount < 0)
         { throw new System.ArgumentOutOfRangeException(nameof(amount), "Value must be positive."); }
 
-        fablePoints += amount;
-        fableRecord += amount;
+        GameData.fablePoints += amount;
+        GameData.fableRecord += amount;
     }
     ////...
     public void loseFablePoints(int amount)
@@ -305,113 +248,129 @@ public class PlayerData : MonoBehaviour
         { throw new System.ArgumentOutOfRangeException(nameof(amount), "Value must be positive."); }
 
 
-        fablePoints -= amount;
+        GameData.fablePoints -= amount;
 
     }
+
+
+
+
+
+
+   
+    /// Modifies the player's lives by the specified amount, positive or negative
+    /// </summary>
+    public void setPlayerLives(int amount)
+    {
+        GameData.lives += amount;
+    }
+    /// <summary>
+    /// Modifies the player's Ilhas by the specified amount, positive or negative
+    /// </summary>
+    public void setIlhas(int amount)
+    {
+        GameData.Ilhas += amount;
+    }
+    public void setMaxHP(int amount)
+    {
+        GameData.maxHP += amount;
+    }
+    public void setMaxMP(int amount)
+    {
+        GameData.maxMP += amount;
+    }
+    public void setDEF(int amount)
+    {
+        GameData.def += amount;
+    }
+    ///
+    public void resetLevelsBeat()
+    {
+        GameData.currentLevelsBeat = 0;
+    }
+    public void incrementLevelsBeat()
+    {
+        GameData.levelsBeat += 1;
+        GameData.currentLevelsBeat += 1;
+    }
+    public void incrementKillCounter()
+    {
+        GameData.kill_counter += 1;
+        
+    }
+    public void incrementDeathCounter()
+    {
+        GameData.death_counter += 1;
+
+    }
+
+
     ///...
     public int getCurrentFablePoints()
     {
-        return fablePoints;
+        return GameData.fablePoints;
     }
     ///... 
     public int getFableRecord()
     {
-        return fableRecord;
+        return GameData.fableRecord;
     }
-
-
-    private void saveInitialStatus()
+    ///
+    public int getLives()
     {
-
-        activeSkillEffects.Clear(); // Clear active skill effects
-        isDead = false; //
-        initialLives = lives;
-
-        initialMaxHP = actualMaxHP;
-        initiaMaxMP = actualMaxMP;
-        initiaDef = actualDef;
-
-        initiaBaseATK = new DiceRoll(actualBaseATK); // if DiceRoll has a copy constructor
-        initiaAtkAdvantage = actualAtkAdvantage;
-        initiaMainActions = actualMainActions;
-        initiaSupActions = actualSupActions;
-
-        initiaDEXTREZA = actualDEXTREZA;
-        initiaATLETISMO = actualATLETISMO;
-        initiaAURA = actualAURA;
-        initiaCHARISMA = actualCHARISMA;
-        initiaSORTE = actualSORTE;
-        initiaINTUICAO = actualINTUICAO;
-        initiaHEX = actualHEX;
-        initiaASTUCIA = actualASTUCIA;
-        initiaVONTADE = actualVONTADE;
-        initiaREFLEXOS = actualREFLEXOS;
-        initiaPERSEPCAO = actualPERSEPCAO;
-        initiaFURTIVIDADE = actualFURTIVIDADE;
-        initiaCONSTITUICAO = actualCONSTITUICAO;
-        initiaDOMINANCIA = actualDOMINANCIA;
-
-
-        initialSkills = new List<Skill>(skills);
-        initialSkillsInstance = new List<Skill>(skillsInstance);
-
-        initialItems = new List<Item>(items);
-        initialItemsInstance = new List<Item>(itemsInstance);
-
-
-
-        Debug.Log("Player initial data saved.");
+        return GameData.lives;
     }
-
-    //resets for initial informartion
-    public void resetPlayerStatus()
+    public int getDeathCounter()
     {
-
-        activeSkillEffects.Clear();
-        isDead = false;
-        lives = initialLives;
-        fableRecord = 0;
-        fablePoints = 0;
-        levelsBeat = 0; // totoal levels beaten
-        currentLevelsBeat = 0; // levels beaten this death loop
-        death_counter = 0;
-        kill_counter = 0;
-
-
-
-        // --- initial → actual ---
-        actualMaxHP = initialMaxHP;
-        actualMaxMP = initiaMaxMP;
-        actualDef = initiaDef;
-        actualBaseATK = new DiceRoll(initiaBaseATK); // deep copy
-        actualAtkAdvantage = initiaAtkAdvantage;
-        actualMainActions = initiaMainActions;
-        actualSupActions = initiaSupActions;
-
-        actualDEXTREZA = initiaDEXTREZA;
-        actualATLETISMO = initiaATLETISMO;
-        actualAURA = initiaAURA;
-        actualCHARISMA = initiaCHARISMA;
-        actualSORTE = initiaSORTE;
-        actualINTUICAO = initiaINTUICAO;
-        actualHEX = initiaHEX;
-        actualASTUCIA = initiaASTUCIA;
-        actualVONTADE = initiaVONTADE;
-        actualREFLEXOS = initiaREFLEXOS;
-        actualPERSEPCAO = initiaPERSEPCAO;
-        actualFURTIVIDADE = initiaFURTIVIDADE;
-        actualCONSTITUICAO = initiaCONSTITUICAO;
-        actualDOMINANCIA = initiaDOMINANCIA;
-
-        skills = new List<Skill>(initialSkills);
-        skillsInstance = new List<Skill>(initialSkillsInstance);
-        items = new List<Item>(initialItems);
-        itemsInstance = new List<Item>(initialItemsInstance);
-
-        // --- refresh floating from actual ---
-        revitalizePlayer();
-
-        Debug.Log("Player actual data reset to initial stats.");
+        return GameData.death_counter;
     }
+    public int getIlhas()
+    {
+        return GameData.Ilhas;
+    }
+    public DiceRoll getBaseATK()
+    {
+        return GameData.baseATK;
+    }
+    public int getLevelsBeat()
+    {
+        return GameData.levelsBeat;
+    }
+    public List<Skill> getSkills()
+    {
+        return GameData.skills;
+    }
+    public List<Item> getItems()
+    {
+        return GameData.items;
+    }
+    public List<StatusEffect> getActiveSkillEffects()
+    {
+        return GameData.StatusEffects;
+    }
+
+    
+
+
+
+    /// <summary>
+    /// Adds a Item to the player's inventoy
+    /// </summary>
+    public void addItemToInventory(Item item)
+    {
+        GameData.items.Add(Instantiate(item));
+    }
+
+    /// <summary>
+    /// Adds a Skill to the player's skill list
+    /// </summary>
+    public void addSkill(Skill skill)
+    {
+        GameData.skills.Add(Instantiate(skill));
+    }
+
+
+
+
 
 }

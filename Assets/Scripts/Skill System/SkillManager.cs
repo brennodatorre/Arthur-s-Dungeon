@@ -44,7 +44,7 @@ public class SkillManager : MonoBehaviour
 
         
 
-        if (skill.CanBeUsed(caster, target, skill))
+        if (skill.CanBeUsed(caster, target))
         {
             //use up the sup action if the skill is a support action
             if (skill.actionType == Skill.SkillActionType.Sup) { caster.currentSupActions--; }
@@ -100,11 +100,7 @@ public class SkillManager : MonoBehaviour
             }
 
         }
-        else
-        {
-            audioManager.PlaySound(audioManager.skill_unable_sound);
-            logManager.AddLog(caster.name + " cannot use " + skill.skillName + " on " + target.name + ".");
-        }
+       
 
         if (caster.currentMainActions <= 0)
         {
@@ -294,7 +290,7 @@ public class SkillManager : MonoBehaviour
         audioManager.PlaySound(skill.soundEffect); //play the skill sound
 
         int casterRoll = 0;
-        if (caster.DEXTREZA > caster.ATLETISMO) { casterRoll = caster.rollTest(Entity.Trait.DEXTREZA); } //roll a test based on the caster's DEXTREZA
+        if (caster.DEX > caster.ATLETISM) { casterRoll = caster.rollTest(Entity.Trait.DEXTREZA); } //roll a test based on the caster's DEXTREZA
         else { casterRoll = caster.rollTest(Entity.Trait.ATLETISMO); } //roll a test based on the caster's ATLETISMO
 
         int targetRoll = target.rollTest(Entity.Trait.REFLEXOS); //roll a test based on the target's CONSTITUICAO

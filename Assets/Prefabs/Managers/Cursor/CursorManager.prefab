@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 170badcbdf6272e4aac971e19aebd118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customCursor: {fileID: 0}
+  customCursor: {fileID: 3924302585865332348, guid: 016a4d5c62a4bc747aa90e22ba9cddde, type: 3}
   ccImage: {fileID: 0}
   canvas: {fileID: 0}
   base_cursor: {fileID: 148288479, guid: 46fd4460e9aafb34389c17dc6cf03c8f, type: 3}
@@ -56,4 +56,6 @@ MonoBehaviour:
   blade_cursorSize: 3
   holdable: {fileID: 0}
   holdableMEM: {fileID: 0}
-  holdDuration: 1.5
+  pahtDuration: 1.5
+  lookingForPAHT: 0
+  isDragging: 0

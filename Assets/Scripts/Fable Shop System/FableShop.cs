@@ -17,6 +17,9 @@ public class FableShop : MonoBehaviour
     private CursorManager cursorManager;
 
 
+
+
+
     public int numberOfPagesOnShop = 1;
 
     [Tooltip("Chance to get a skill on the shop, 0-100")]
@@ -68,7 +71,7 @@ public class FableShop : MonoBehaviour
         // create copies of all skills the playes does not have and save them into unlockableSkills
         foreach (Skill skill in skillManager.skills)
         {
-            if (!PlayerData.Instance.skills.Any(s => s.skillName == skill.skillName))
+            if (!PlayerData.Instance.getSkills().Any(s => s.skillName == skill.skillName))
             {
                 unlockableSkills.Add(Instantiate(skill));
             }
@@ -204,7 +207,7 @@ public class FableShop : MonoBehaviour
             {
                 if (pageOb.GetComponent<skillPage>() != null && pageOb.GetComponent<skillPage>().selected)
                 {
-                    PlayerData.Instance.skills.Add(pageOb.GetComponent<skillPage>().skill);
+                    PlayerData.Instance.addSkill(pageOb.GetComponent<skillPage>().skill);
                     //PlayerData.Instance.loseFablePoints(amountDue);
                 }
                 else if (pageOb.GetComponent<UpgradePage>() != null && pageOb.GetComponent<UpgradePage>().selected)

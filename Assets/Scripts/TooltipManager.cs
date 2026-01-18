@@ -27,7 +27,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private RectTransform canvasRect;
 
 
-    public GameObject tooltipPanel;
+    [HideInInspector] public GameObject tooltipPanel;
     public GameObject btn;
 
     [Space(10)]
@@ -62,7 +62,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     void Start()
     {
-        if (tooltipPanel == null) { tooltipPanel = ButtonManager.Instance.tooltipPanel; }
+        if (tooltipPanel == null ) { tooltipPanel = MySceneManager.Instance.tooltipPanel; }
 
         tooltipText = tooltipPanel.GetComponentInChildren<TextMeshProUGUI>();
         tooltipRect = tooltipPanel.GetComponent<RectTransform>();
@@ -73,7 +73,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!detectChildren && eventData.pointerEnter != gameObject) return; // Ignore if it's actually a child being hovered
-        if (RoundManager.Instance.playerIsTargeting && tooltipType == TooltipType.Entity) { return; } //dont show tooltip if targetting a creature
+        if (RoundManager.Instance != null &&RoundManager.Instance.playerIsTargeting && tooltipType == TooltipType.Entity) { return; } //dont show tooltip if targetting a creature
         if (CursorManager.Instance.isDragging) return; //dont show tooltip if dragging a item
         
         

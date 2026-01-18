@@ -134,12 +134,12 @@ public class StatusHudManager : MonoBehaviour
     public void updateLivesCounterUI()
     {
         TooltipManager liveTM = livesDisplay.GetComponent<TooltipManager>();
-        liveTM.description = "Lives " + (PlayerData.Instance.lives - PlayerData.Instance.death_counter) + " / " + PlayerData.Instance.lives;
+        liveTM.description = "Lives " + (PlayerData.Instance.getLives() - PlayerData.Instance.getDeathCounter()) + " / " + PlayerData.Instance.getLives();
     }
 
     public void updateLevelCounterUI()
     {
-        LevelBeatenDisplay.GetComponent<TextMeshProUGUI>().text = "LEVEL: " + PlayerData.Instance.levelsBeat;
+        LevelBeatenDisplay.GetComponent<TextMeshProUGUI>().text = "LEVEL: " + PlayerData.Instance.getLevelsBeat();
     }
 
     public void addStatusEffectToDisplay(StatusEffect stat)

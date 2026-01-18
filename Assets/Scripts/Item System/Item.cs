@@ -13,6 +13,9 @@ public class Item : ScriptableObject
 
     public string itemName;
     public string description;
+
+    public Sprite sprite;
+    public int value;
     public Entity.EntityOrigin itemOrigin;
     public ItemActionType actionType;
     public ItemTarget targetType;

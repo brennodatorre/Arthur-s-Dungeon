@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7028394967816069205
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6657212594569321718}
+  - component: {fileID: 8851507878905727939}
+  m_Layer: 0
+  m_Name: ButtonManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6657212594569321718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7028394967816069205}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.8385458, y: -13.919565, z: 1285.5846}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8851507878905727939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7028394967816069205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3edb5027511fa5f43a9037748271314c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonPrefab: {fileID: 4846747414053689519, guid: 509715eb82cbc4847b3c9fe7382263e6, type: 3}
+  itemButtonPrefab: {fileID: 6262534691379935924, guid: 83c9102ca05631a4980db63aae685cfa, type: 3}
+  actMenu: {fileID: 0}
+  skillMenu: {fileID: 0}
+  skillMenuGrid: {fileID: 0}
+  itemMenu: {fileID: 0}
+  itemMenuGrid: {fileID: 0}
+  atk_button: {fileID: 0}
+  skill_button: {fileID: 0}
+  item_button: {fileID: 0}
+  run_button: {fileID: 0}
+  backButton: {fileID: 0}
+  tooltipPanel: {fileID: 0}
+  tooltipText: {fileID: 0}
+  skillButtons: []
+  itemButtons: []
+  actionButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  lastButtonPressed: {fileID: 0}
+  inAtkOverlay: 0
+  inSkillOverlay: 0
+  inItemOverlay: 0
+  currentMenu: 0

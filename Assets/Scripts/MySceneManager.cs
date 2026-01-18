@@ -1,5 +1,6 @@
 using System.Collections;
-
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
@@ -10,11 +11,15 @@ public class MySceneManager : MonoBehaviour
 
     [HideInInspector] public static MySceneManager Instance;
 
-    public enum SceneType { COMBAT, MAINMENU, TUTORIAL, DEATHSHOP, TEST }
-    public SceneType sceneType;
+    public enum SceneType { COMBAT, MAINMENU, TUTORIAL, DEATHSHOP, EVENT, TEST }
+    public SceneType currentSceneType;
     public Entity player;
 
+    public SceneDatabase eventSceneDatabase;
+
     private AudioManager audioManager;
+    private CursorManager cursorManager;
+    public GameObject tooltipPanel;
 
     public float intentDelay = 0;
 
@@ -43,6 +48,9 @@ public class MySceneManager : MonoBehaviour
     void Start()
     {
         audioManager = AudioManager.Instance;
+        cursorManager = CursorManager.Instance;
+
+
     }
 
 
@@ -84,10 +92,11 @@ public class MySceneManager : MonoBehaviour
         openScene(toScene, 1f);
     }
 
-
-    // this two helper function are used in order to call openScene with 
-    // UnityEvent type, which can only take one argument in the inspector
-    // This is being used for interactable objects atm
+    /// <summary>
+    /// this two helper function are used in order to call openScene with 
+    /// UnityEvent type, which can only take one argument in the inspector
+    /// This is being used for interactable objects atm
+    /// </summary>
     public void setIntentDelay(float delay) { intentDelay = delay; }
     public void openScene(string sceneName)
     {
@@ -97,34 +106,43 @@ public class MySceneManager : MonoBehaviour
     public void openScene(string sceneName, float delay)
     {
 
+        // saves the player data if coming from a combat scene
+        if (currentSceneType == MySceneManager.SceneType.COMBAT) PlayerData.Instance.savePlayerData(player);
+        
 
-        //if (sceneType == SceneType.COMBAT || sceneType == SceneType.DEATHSHOP) { PlayerData.Instance.savePlayerData(player); }
 
         if (sceneName == "COMBAT")
         {
             StartCoroutine(openSceneWithDelay("Combat_scene", delay));
-            sceneType = SceneType.COMBAT;
+            currentSceneType = SceneType.COMBAT;
             
         }
         else if (sceneName == "TUTORIAL")
         {
             StartCoroutine(openSceneWithDelay("Tutorial_scene", delay));
-            sceneType = SceneType.TUTORIAL;
+            currentSceneType = SceneType.TUTORIAL;
         }
         else if (sceneName == "DEATHSHOP")
         {
             StartCoroutine(openSceneWithDelay("OutsideReader_scene", delay));
-            sceneType = SceneType.DEATHSHOP;
+            currentSceneType = SceneType.DEATHSHOP;
             
         }
         else if (sceneName == "TESTS")
         {
             StartCoroutine(openSceneWithDelay("TESTS", delay));
-            sceneType = SceneType.TEST;
+            currentSceneType = SceneType.TEST;
+        }
+        else if (sceneName == "EVENT")
+        {
+            string randomEvent = eventSceneDatabase.openRandom();
+            StartCoroutine(openSceneWithDelay(randomEvent, delay));
+            currentSceneType = SceneType.EVENT;
         }
 
 
-        else { Debug.Log("IRREGULAR SCENE TYPE"); }
+
+        else { StartCoroutine(openSceneWithDelay(sceneName, delay));}
 
 
 

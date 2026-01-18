@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TESTS.unity
     guid: a0d1f84594f399340b94109b7b277f83
+  - enabled: 1
+    path: Assets/Scenes/Event/StreetVendor/StreetVendor.unity
+    guid: 71b57f13b6ac01844a743abe403bfd9f
   m_configObjects: {}

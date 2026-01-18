@@ -42,20 +42,20 @@ public class Entity : MonoBehaviour
     [Header("Traits")]
     
 
-    [SerializeField] public int DEXTREZA = 1;
-    [SerializeField] public int ATLETISMO = 1;
+    [SerializeField] public int DEX = 1;
+    [SerializeField] public int ATLETISM = 1;
     [SerializeField] public int AURA = 1;
-    [SerializeField] public int CHARISMA = 1;
-    [SerializeField] public int SORTE = 1;
-    [SerializeField] public int INTUICAO = 1;
+    [SerializeField] public int CHARISM = 1;
+    [SerializeField] public int LUCK = 1;
+    [SerializeField] public int INTUITION = 1;
     [SerializeField] public int HEX = 1;
-    [SerializeField] public int ASTUCIA = 1;
-    [SerializeField] public int VONTADE = 1;
-    [SerializeField] public int REFLEXOS = 1;
-    [SerializeField] public int PERSEPCAO = 1;
-    [SerializeField] public int FURTIVIDADE = 1;
-    [SerializeField] public int CONSTITUICAO = 1;
-    [SerializeField] public int DOMINANCIA = 1;
+    [SerializeField] public int INT = 1;
+    [SerializeField] public int WILL = 1;
+    [SerializeField] public int REFLEX = 1;
+    [SerializeField] public int PERSEPTION = 1;
+    [SerializeField] public int FURTIVITY = 1;
+    [SerializeField] public int CONSTITUTION = 1;
+    [SerializeField] public int DOMINANCE = 1;
 
 
     [Space(10)]
@@ -192,7 +192,7 @@ public class Entity : MonoBehaviour
 
 
     public int rollDEX() {
-        int result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(DEXTREZA);
+        int result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(DEX);
         return result;
 
     }
@@ -205,43 +205,43 @@ public class Entity : MonoBehaviour
         switch (trait)
         {
             case Trait.DEXTREZA:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(DEXTREZA - 1);
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(DEX - 1);
                 break;
             case Trait.ATLETISMO:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(ATLETISMO - 1);
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(ATLETISM - 1);
                 break;
             case Trait.AURA:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(AURA - 1);
                 break;
             case Trait.CARISMA:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(CHARISMA - 1);
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(CHARISM - 1);
                 break;
             case Trait.SORTE:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(SORTE - 1);
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(LUCK - 1);
                 break;
             case Trait.INTUICAO:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(INTUICAO - 1);
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(INTUITION - 1);
                 break;
             case Trait.HEX:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(HEX - 1);
                 break;
             case Trait.ASTUCIA:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(ASTUCIA - 1);
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(INT - 1);
                 break;
             case Trait.VONTADE:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(VONTADE - 1);
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(WILL - 1);
                 break;
             case Trait.REFLEXOS:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(REFLEXOS - 1);
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(REFLEX - 1);
                 break;
             case Trait.PERSEPCAO:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(PERSEPCAO - 1);
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(PERSEPTION - 1);
                 break;
             case Trait.FURTIVIDADE:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(FURTIVIDADE - 1);
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(FURTIVITY - 1);
                 break;
             case Trait.CONSTITUICAO:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(CONSTITUICAO - 1);
+                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(CONSTITUTION - 1);
                 break;
         }
 
@@ -351,18 +351,20 @@ public class Entity : MonoBehaviour
             roundManager.allies.Where(x => x != roundManager.player).ToArray();
             
 
-            PlayerData.Instance.currentLevelsBeat = 0; // resets current level beaten, to start new death loop
+            PlayerData.Instance.resetLevelsBeat(); // resets current level beaten, to start new death loop
             PlayerData.Instance.addFablePoints(fableWorth);
-            PlayerData.Instance.death_counter++;
+            PlayerData.Instance.incrementDeathCounter();
             StatusHudManager.Instance.updateLivesCounterUI();
 
-            if ((PlayerData.Instance.lives - PlayerData.Instance.death_counter) <= 0)
+
+            // if player has no more lives
+            if ((PlayerData.Instance.getLives() - PlayerData.Instance.getDeathCounter()) <= 0)
             {
                 PlayerData.Instance.resetPlayerStatus();
 
                 StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("TUTORIAL", true));
             }
-            else
+            else 
             {
                 //goes to fable shop on player death
                 StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("DEATHSHOP", true));
@@ -385,7 +387,7 @@ public class Entity : MonoBehaviour
                 roundManager.enemies = roundManager.enemies.Where(x => x != this).ToArray();
 
                 PlayerData.Instance.addFablePoints(fableWorth);
-                PlayerData.Instance.kill_counter++;
+                PlayerData.Instance.incrementKillCounter();
 
             }
             else
@@ -396,23 +398,22 @@ public class Entity : MonoBehaviour
 
             StartCoroutine(AnimationManager.Instance.DissolveUponDeath(sprite)); //dissolves the entity upon death
 
-            ///// fix this for mult enemy damage, it will trigger that many times if u end the combat by killing more than one enemy \\\\\\
-            if (roundManager.enemies.Length == 0 && !roundManager.combatIsDone)
-            {  //goes to next combat level
+            // ///// fix this for mult enemy damage, it will trigger that many times if u end the combat by killing more than one enemy \\\\\\
+            // if (roundManager.enemies.Length == 0 && !roundManager.combatIsDone)
+            // {  //goes to next combat level
 
-                PlayerData.Instance.levelsBeat++;
-                PlayerData.Instance.currentLevelsBeat++;
-                doInBtwnLevelPlayerRegen();
-                PlayerData.Instance.savePlayerData(roundManager.player);
+            //     PlayerData.Instance.incrementLevelsBeat();
+            //     doInBtwnLevelPlayerRegen();
+            //     PlayerData.Instance.savePlayerData(roundManager.player);
 
-                StatusHudManager.Instance.updateLevelCounterUI();
+            //     StatusHudManager.Instance.updateLevelCounterUI();
 
-                roundManager.combatIsDone = true;
-
+            //     roundManager.combatIsDone = true;
 
 
-                StartCoroutine(MySceneManager.Instance.openSceneWithTransition("TESTS", false));
-            }
+
+            //     StartCoroutine(MySceneManager.Instance.openSceneWithTransition("COMBAT", false));
+            // }
 
         
         
@@ -462,15 +463,7 @@ public class Entity : MonoBehaviour
 
     }
 
-    public void doInBtwnLevelPlayerRegen()
-    {
-        int h = Mathf.CeilToInt(getMaxHP() / 10f);
-        int m = Mathf.CeilToInt(getMaxMP() / 10f);
-        roundManager.player.heal( h);
-        roundManager.player.gainMP( m );
 
-
-    }
 
     ////////////////////////////////////// Getters and Setters for HP, MP, Max HP, and Max MP ////////////////////////////////////////////////////
 
@@ -512,8 +505,8 @@ public class Entity : MonoBehaviour
         stts += "Base ATK: " +baseATK.diceToString() + "\n";
         stts += "Current ATK: " + currentATK.diceToString() + "\n";
         stts += "Current ATK Advantages: " + atkAdvantage + "\n \n";
-        stts += "DEXTERITY: " + DEXTREZA + "\n";
-        stts += "ATHLEtics: " + ATLETISMO + "\n";
+        stts += "DEXTERITY: " + DEX + "\n";
+        stts += "ATHLEtics: " + ATLETISM + "\n";
 
         stts += "Has Supporting Action = " +currentSupActions + "\n";
 

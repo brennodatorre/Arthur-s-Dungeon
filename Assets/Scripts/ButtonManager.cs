@@ -90,7 +90,7 @@ public class ButtonManager : MonoBehaviour
 
         sceneManager = GameObject.Find("MySceneManager").GetComponent<MySceneManager>();
 
-        if (sceneManager.sceneType == MySceneManager.SceneType.COMBAT) 
+        if (sceneManager.currentSceneType == MySceneManager.SceneType.COMBAT) 
         {
             roundManager = GameObject.Find("CombatManager").GetComponent<RoundManager>();
             skillManager = GameObject.Find("SkillManager").GetComponent<SkillManager>();
@@ -101,7 +101,7 @@ public class ButtonManager : MonoBehaviour
 
     private void Update()
     {
-        if (MySceneManager.Instance.sceneType == MySceneManager.SceneType.TUTORIAL) { return; }
+        if (MySceneManager.Instance.currentSceneType == MySceneManager.SceneType.TUTORIAL) { return; }
 
         bool canTriggerAtk = (currentMenu == OnMenu.Action || inAtkOverlay) && !inSkillOverlay && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
         bool canTriggerSkill = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Skill || inSkillOverlay) && !inAtkOverlay  && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;

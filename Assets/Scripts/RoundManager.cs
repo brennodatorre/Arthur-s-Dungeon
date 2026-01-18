@@ -69,7 +69,6 @@ public class RoundManager : MonoBehaviour
 
 
 
-    [HideInInspector] public bool combatIsDone = false;
 
 
 
@@ -115,7 +114,7 @@ public class RoundManager : MonoBehaviour
 
         matPallet = MaterialPallet.Instance;
 
-        combatIsDone = false;
+        
         numberOfRounds = 0;
 
         StatusHudManager.Instance.updateLivesCounterUI();
@@ -212,6 +211,22 @@ public class RoundManager : MonoBehaviour
         currentPhase = TurnPhase.End; //set the current phase to end
 
         yield return null; //wait for the end of the frame to ensure all actions are processed
+
+        
+        
+        if (enemies.Length == 0 )
+        {  //goes to next combat level
+
+            PlayerData.Instance.incrementLevelsBeat();
+            doInBtwnLevelPlayerRegen();
+
+            StatusHudManager.Instance.updateLevelCounterUI();
+
+            //StartCoroutine(MySceneManager.Instance.openSceneWithTransition("COMBAT", false));
+            StartCoroutine(MySceneManager.Instance.openSceneWithTransition("EVENT", false));
+            
+        }
+
 
         // set the next turn to the next entity in the array, or loop back to the first entity if at the end
         int index = entities.IndexOf(currentTurn);
@@ -400,6 +415,16 @@ public class RoundManager : MonoBehaviour
     }
 
 
+
+    public void doInBtwnLevelPlayerRegen()
+    {
+        int h = Mathf.CeilToInt(player.getMaxHP() / 10f);
+        int m = Mathf.CeilToInt(player.getMaxMP() / 10f);
+        player.heal( h);
+        player.gainMP( m );
+
+
+    }
 
 
 }

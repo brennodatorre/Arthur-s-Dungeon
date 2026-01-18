@@ -15,8 +15,7 @@ public class CursorManager : MonoBehaviour
     [SerializeField] public GameObject customCursor;
     public Image ccImage;
     [SerializeField] private Canvas canvas;
-    private GraphicRaycaster raycaster;
-    private EventSystem eventSystem;
+
     [SerializeField] private Sprite base_cursor; // The default cursor sprite
     [SerializeField] private Sprite onClick_cursor; // The clicked cursor sprite
     [SerializeField] private Sprite blade_cursor; // The hovered cursor sprite
@@ -58,8 +57,6 @@ public class CursorManager : MonoBehaviour
         }
 
 
-        raycaster = canvas.GetComponent<GraphicRaycaster>();
-        eventSystem = EventSystem.current;
 
         setCursor(false, false);
         
@@ -68,18 +65,25 @@ public class CursorManager : MonoBehaviour
 
     void Start()
     {
-        if (MySceneManager.Instance.sceneType == MySceneManager.SceneType.TEST) { return; }
-
-        roundManager = RoundManager.Instance;
         sceneManager = MySceneManager.Instance;
+        if (sceneManager.currentSceneType == MySceneManager.SceneType.TEST) { return; }
+        else if (sceneManager.currentSceneType == MySceneManager.SceneType.COMBAT){
+            roundManager = RoundManager.Instance;
+        }
+
+        
+          
         canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); 
+        customCursor = Instantiate(customCursor, canvas.transform);
+        ccImage = customCursor.GetComponent<Image>();
+        
 
     }
 
 
     void Update() {
         // blocks update if on 3D Space
-        if (MySceneManager.Instance.sceneType == MySceneManager.SceneType.TEST) { return; }
+        if (MySceneManager.Instance.currentSceneType == MySceneManager.SceneType.TEST) { return; }
 
         if (customCursor == null) { customCursor = GameObject.FindGameObjectWithTag("customCursor"); }
         if (sceneManager == null) { sceneManager = MySceneManager.Instance;}
@@ -90,9 +94,9 @@ public class CursorManager : MonoBehaviour
 
         Vector3 mousePos = Input.mousePosition;
 
-        if (sceneManager.sceneType == MySceneManager.SceneType.TEST) setCursor(false,true);
+        if (sceneManager.currentSceneType == MySceneManager.SceneType.TEST) setCursor(false,true);
         
-        if (sceneManager.sceneType != MySceneManager.SceneType.TEST)
+        if (sceneManager.currentSceneType != MySceneManager.SceneType.TEST)
         {
             // Convert the mouse position to canvas space
             Vector2 localPoint;
@@ -104,7 +108,7 @@ public class CursorManager : MonoBehaviour
             // Adjust the position to center the cursor
             customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(32, -44);
 
-            if (sceneManager.sceneType == MySceneManager.SceneType.COMBAT && roundManager.currentPhase == RoundManager.TurnPhase.targetingATK) // if the targeting phase is active
+            if (sceneManager.currentSceneType == MySceneManager.SceneType.COMBAT && roundManager.currentPhase == RoundManager.TurnPhase.targetingATK) // if the targeting phase is active
             {
                 ccImage.sprite = blade_cursor; // Change to hovered cursor sprite
                 // Adjust the position to center the cursor

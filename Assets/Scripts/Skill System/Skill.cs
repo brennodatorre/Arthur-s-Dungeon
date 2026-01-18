@@ -65,31 +65,61 @@ public class Skill : ScriptableObject
         currentUsesPerTurn = 0; // Reset the uses per turn to 0
     }
 
-    public bool CanBeUsed(Entity caster, Entity target, Skill skl)
+    public bool CanBeUsed(Entity caster, Entity target)
     {
-        if (
-            currentCooldown == 0 &&
-            currentUsesPerTurn < limitPerTurn &&
-            caster.getMP() >= mpCost && // Check if the caster has enough MP
-            // Check if the caster has a support or main action available
-            ((actionType == SkillActionType.Sup ? caster.currentSupActions > 0 : false) ||
-            (actionType == SkillActionType.Main ? caster.currentMainActions > 0 : false) ||
-            actionType == SkillActionType.Bonus ? true : false) &&
-            checkIfStackCanBeApplied(target, skl) // Check if the skill can be applied to the target
-        ) 
+
+        bool canUse = true;
+
+        if (currentCooldown > 0 )
         {
-            currentUsesPerTurn++; // Increment the uses per turn
-            return true;
-        } 
-        else {
-            return false; // Return false if any of the conditions are not met
+            canUse = false;
+            LogManager.Instance.AddLog( skillName + " is on COOLDOWN");
         }
+        else if (currentUsesPerTurn >= limitPerTurn)
+        {
+            canUse = false;
+            LogManager.Instance.AddLog( skillName + " has reached its USAGE LIMIT for this turn");
+        }
+        else if (caster.getMP() < mpCost)
+        {
+            canUse = false;
+            LogManager.Instance.AddLog( "Not enough MP to use " + skillName );
+        } 
+        else if (actionType == SkillActionType.Sup && caster.currentSupActions <= 0)
+        {
+            canUse = false;
+            LogManager.Instance.AddLog( "No SUPPORT actions left to use " + skillName );
+        }
+        if (actionType == SkillActionType.Main && caster.currentMainActions <= 0)
+        {
+            canUse = false;
+            LogManager.Instance.AddLog( "No MAIN actions left to use " + skillName );
+        }
+        else if (!checkIfStackCanBeApplied(target))
+        {
+            canUse = false;
+            
+        }
+         
+
+
+        if (!canUse)
+        {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.skill_unable_sound);
+            return false;
+        }
+
+
+        currentUsesPerTurn++; // Increment the uses per turn
+        return true;
+        
+       
 
         
     }
 
-    private bool checkIfStackCanBeApplied(Entity target, Skill skl) {
-        if (target.hasEffect(skl)) // Check if the target has the effect of this skill
+    private bool checkIfStackCanBeApplied(Entity target) {
+        if (target.hasEffect(this)) // Check if the target has the effect of this skill
         {
             if (isStackable) // Check if the skill is stackable
             {
@@ -97,6 +127,7 @@ public class Skill : ScriptableObject
             } 
             else 
             {
+                LogManager.Instance.AddLog( "Target already has the effect " + statusEffect.effectName );
                 return false; // Return false if the skill is not stackable
             }
         } 

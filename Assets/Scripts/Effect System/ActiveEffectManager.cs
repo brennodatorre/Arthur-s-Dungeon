@@ -92,9 +92,43 @@ public class ActiveEffectManager : MonoBehaviour
 
     private void RemoveDeadEffects() {
 
+        
+
+        foreach (StatusEffect effect in activeEffects)
+        {
+            if (effect.currentDuration < 1)
+            {
+                effect.endEffectAct.Invoke();
+                
+                
+                
+            }
+        }
 
         activeEffects.RemoveAll(effect => effect.currentDuration < 1);
+
         
+    }
+
+    /// <summary>
+    /// Removes all Status Effects in the list, invoking their end effects
+    /// </summary>
+    public static void RemoveAllEffects(List<StatusEffect> effectsToRemove)
+    {
+
+        List<StatusEffect> effectsCopy = new List<StatusEffect>(effectsToRemove);
+
+        foreach (StatusEffect effect in effectsCopy)
+        {
+            effect.endEffectAct.Invoke();
+           
+            
+        }
+
+        effectsToRemove.RemoveAll(effect => true);
+
+        
+
     }
 
     

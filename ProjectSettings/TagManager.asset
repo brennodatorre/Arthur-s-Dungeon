@@ -10,6 +10,7 @@ TagManager:
   - Ground
   - customCursor
   - MainCanvas
+  - ItemOnShop
   layers:
   - Default
   - TransparentFX
