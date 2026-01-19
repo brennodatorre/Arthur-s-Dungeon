@@ -75,7 +75,8 @@ public class CursorManager : MonoBehaviour
           
         canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); 
         customCursor = Instantiate(customCursor, canvas.transform);
-        ccImage = customCursor.GetComponent<Image>();
+        paht_circle = customCursor.transform.GetChild(2).GetComponent<Image>();
+        ccImage = customCursor.transform.GetChild(3).GetComponent<Image>();
         
 
     }
@@ -85,64 +86,62 @@ public class CursorManager : MonoBehaviour
         // blocks update if on 3D Space
         if (MySceneManager.Instance.currentSceneType == MySceneManager.SceneType.TEST) { return; }
 
-        if (customCursor == null) { customCursor = GameObject.FindGameObjectWithTag("customCursor"); }
+
         if (sceneManager == null) { sceneManager = MySceneManager.Instance;}
         if (canvas == null ){ StartCoroutine(LoadingDelay()); return; }
-        if (roundManager == null) {roundManager = RoundManager.Instance; }
-
 
 
         Vector3 mousePos = Input.mousePosition;
 
         if (sceneManager.currentSceneType == MySceneManager.SceneType.TEST) setCursor(false,true);
         
-        if (sceneManager.currentSceneType != MySceneManager.SceneType.TEST)
+    
+        // Convert the mouse position to canvas space
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), mousePos, canvas.worldCamera, out localPoint);
+
+
+        // Update the custom cursor's anchored position to match the mouse position
+        customCursor.GetComponent<RectTransform>().anchoredPosition = localPoint;
+        // Adjust the position to center the cursor
+        customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(32, -44);
+
+        // if the targeting phase is active
+        if (sceneManager.currentSceneType == MySceneManager.SceneType.COMBAT && roundManager.currentPhase == RoundManager.TurnPhase.targetingATK) 
         {
-            // Convert the mouse position to canvas space
-            Vector2 localPoint;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), mousePos, canvas.worldCamera, out localPoint);
-
-
-            // Update the custom cursor's anchored position to match the mouse position
-            customCursor.GetComponent<RectTransform>().anchoredPosition = localPoint;
+            ccImage.sprite = blade_cursor; // Change to hovered cursor sprite
             // Adjust the position to center the cursor
-            customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(32, -44);
+            customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(-32, 44);
+            updateCursorScale(blade_cursorSize); // change the size of the cursor
+        }
+        // else if (roundManager.currentPhase == RoundManager.TurnPhase.targetingSKILL) // if the targeting phase is active
+        // {
 
-            if (sceneManager.currentSceneType == MySceneManager.SceneType.COMBAT && roundManager.currentPhase == RoundManager.TurnPhase.targetingATK) // if the targeting phase is active
-            {
-                ccImage.sprite = blade_cursor; // Change to hovered cursor sprite
-                // Adjust the position to center the cursor
-                customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(-32, 44);
-                updateCursorScale(blade_cursorSize); // change the size of the cursor
-            }
-            // else if (roundManager.currentPhase == RoundManager.TurnPhase.targetingSKILL) // if the targeting phase is active
-            // {
-
-            // }
-            else if (Input.GetMouseButton(0)) // left click
-            {
+        // }
+        else if (Input.GetMouseButton(0)) // left click
+        {
 
 
-                ccImage.sprite = onClick_cursor; // Change to clicked cursor sprite
-                updateCursorScale(onClick_cursorSize); // change the size of the cursor
-
-
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                if (holdable != null) { PressAndHoldTarget.StopHoldGlobal(); }
-                ccImage.sprite = base_cursor; // Change back to default cursor sprite
-                updateCursorScale(base_cursorSize); // change the size of the cursor
-            }
-            else
-            {
-
-                ccImage.sprite = base_cursor; // Change back to default cursor sprite
-                updateCursorScale(base_cursorSize); // change the size of the cursor
-            }
+            ccImage.sprite = onClick_cursor; // Change to clicked cursor sprite
+            updateCursorScale(onClick_cursorSize); // change the size of the cursor
 
 
         }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (holdable != null) { PressAndHoldTarget.StopHoldGlobal(); }
+            ccImage.sprite = base_cursor; // Change back to default cursor sprite
+            updateCursorScale(base_cursorSize); // change the size of the cursor
+        }
+        else
+        {
+
+            ccImage.sprite = base_cursor; // Change back to default cursor sprite
+            updateCursorScale(base_cursorSize); // change the size of the cursor
+        }
+
+
+    
 
 
 

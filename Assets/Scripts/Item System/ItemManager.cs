@@ -64,7 +64,7 @@ public class ItemManager : MonoBehaviour
 
         //removes used item
         caster.items.Remove(item);
-        caster.itemsInstance.Remove(item);
+        
         Destroy(ButtonManager.Instance.lastButtonPressed);
 
 
@@ -88,6 +88,8 @@ public class ItemManager : MonoBehaviour
         yield return null;
         target.heal(5);
         logManager.AddLog(caster.name + " used bandage on " + target.name + " for " + 5 + " HP.");
+        
+
     }
     
 }

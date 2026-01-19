@@ -25,6 +25,7 @@ public class Skill : ScriptableObject
     public SkillOrigin origin;
     public SkillTarget targetType;
     public SkillActionType actionType = SkillActionType.Sup;
+    public bool isOffensiveSkill = false;
     [Tooltip ("if the skill needs to be pressed and held totally in order to activate")]
     public bool isPAHTSkill = false; //press and hold target
 

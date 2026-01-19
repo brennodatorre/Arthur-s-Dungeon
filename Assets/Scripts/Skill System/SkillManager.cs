@@ -106,13 +106,14 @@ public class SkillManager : MonoBehaviour
         {
             roundManager.buttonManager.closeSkillMenu(); //close the skill menu after the action is done
             roundManager.act_menu.SetActive(false); //close the action menu after the action is done
-            //roundManager.act_menu.SetActive(false); //close the target menu after the action is done
+            
             roundManager.EndTurn(); //end the turn if the caster has no main actions left
         }
         else
         {
             //roundManager.EnableSkillTargetingUI(true);
-            roundManager.buttonManager.skillMenu.SetActive(true);
+            if (caster.entityType == Entity.EntityType.Player) roundManager.buttonManager.skillMenu.SetActive(true);
+            else { roundManager.EndTurn();}
         }
 
 
@@ -152,7 +153,7 @@ public class SkillManager : MonoBehaviour
 
     public void resetSkills(Entity caster)
     {
-        foreach (Skill skill in caster.skillsInstance)
+        foreach (Skill skill in caster.skills)
         {
             skill.ResetUsesPerTurn(); //reset the uses per turn for each skill
         }

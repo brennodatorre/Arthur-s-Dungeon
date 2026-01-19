@@ -10,6 +10,8 @@ public class StreetVendor_Manager : MonoBehaviour
 
     public GameObject shop;
     public ItemDatabase itemDatabase;
+    public GameObject walletText;
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +32,10 @@ public class StreetVendor_Manager : MonoBehaviour
                     PlayerData.Instance.addItemToInventory(item);
                     PlayerData.Instance.setIlhas(- item.value);
                     child.GetChild(1).GetComponent<Button>().interactable = false;
-                    child.GetChild(1).GetComponentInChildren<Image>().color = Color.gray;
+                    child.GetChild(1).GetComponentInChildren<Image>().color = Color.black;
+                } else
+                {
+                    MySceneManager.Instance.StartCoroutine(MySceneManager.Instance.doPopUp("Not enough Ilhas!"));
                 }
             });
 
@@ -42,6 +47,6 @@ public class StreetVendor_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        walletText.GetComponent<TextMeshProUGUI>().text = "Ilhas = " + PlayerData.Instance.getIlhas().ToString();
     }
 }

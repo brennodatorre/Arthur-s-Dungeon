@@ -229,7 +229,7 @@ public class ButtonManager : MonoBehaviour
         int childrenOfGrid = skillMenuGrid.transform.childCount;
 
 
-        foreach (Skill skill in roundManager.currentTurn.skillsInstance)
+        foreach (Skill skill in roundManager.currentTurn.skills)
         {
             //creates a button for each skill in the players skill list
             GameObject buttonObj = Instantiate(buttonPrefab, skillMenuGrid.transform);
@@ -320,12 +320,12 @@ public class ButtonManager : MonoBehaviour
         int childrenOfGrid = itemMenuGrid.transform.childCount;
 
 
-        foreach (Item item in roundManager.currentTurn.itemsInstance)
+        foreach (Item item in roundManager.currentTurn.items)
         {
             //creates a button for each skill in the players skill list
             GameObject buttonObj = Instantiate(itemButtonPrefab, itemMenuGrid.transform);
             buttonObj.transform.SetSiblingIndex(childrenOfGrid); //puts the new button at the end of the liss (leaves background stuff on the back of the grid)
-            //buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = item.itemName;
+            
 
             buttonObj.name = item.itemName + " (ItemButton)";
             buttonObj.GetComponent<TooltipManager>().description = item.description;
@@ -480,7 +480,7 @@ public class ButtonManager : MonoBehaviour
 
             CanvasGroup cg;
 
-            btn.GetComponentInChildren<TextMeshProUGUI>().alpha = 1f;
+           
 
             if (btn.GetComponent<CanvasGroup>() == null) btn.AddComponent<CanvasGroup>();
             cg = btn.GetComponent<CanvasGroup>();
@@ -502,8 +502,7 @@ public class ButtonManager : MonoBehaviour
 
             CanvasGroup cg;
 
-            btn.GetComponentInChildren<TextMeshProUGUI>().alpha = 0f;
-
+    
             if (btn.GetComponent<CanvasGroup>() == null) btn.AddComponent<CanvasGroup>();
             cg = btn.GetComponent<CanvasGroup>();
 

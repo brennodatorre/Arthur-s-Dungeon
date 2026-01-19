@@ -161,26 +161,35 @@ public class RoundManager : MonoBehaviour
 
     private IEnumerator StartTurn()
     {
+        //calculates the intent of each entity that is not the start of the round
+        if (currentTurn == entities[0])
+        {
+            foreach (Entity entity in entities)
+            {
+                if (entity.entityType == Entity.EntityType.Player) {continue;}
+
+                entity.GetComponent<Brain>().getIntent();
+            }
+        }
+
         currentPhase = TurnPhase.Start; //set the current phase to start
 
         yield return null; //wait for the end of the frame to ensure all actions are processed
         
         currentTurn.resetActions(); //reset the actions for the current turn
-        
+
+        currentPhase = TurnPhase.Action; //set the current phase to action
+
         if (currentTurn.entityType == Entity.EntityType.Enemy)
         {
 
-
-            yield return Delay(1f); 
-            currentPhase = TurnPhase.Action; //set the current phase to action
-            target = allies[UnityEngine.Random.Range(0, allies.Length)];
-            actionQueue.Enqueue("EnemyAttack", () => currentTurn.doBasicAtkCaller(target));
+            yield return Delay(1f);             
+            currentTurn.brain.doIntent(currentTurn, allies);
             
         }
         else if (currentTurn.entityType == Entity.EntityType.NPC)
         {
 
-            currentPhase = TurnPhase.Action; //set the current phase to action
             Debug.Log("NPC turn");
             yield return Delay(1f); 
             
@@ -191,10 +200,9 @@ public class RoundManager : MonoBehaviour
 
             actionQueue.Enqueue("delay" , () => Delay(1f));
             act_menu.SetActive(true);
-            currentPhase = TurnPhase.Action; //set the current phase to action
+           
             
 
-            
             
         }
         else
@@ -212,7 +220,7 @@ public class RoundManager : MonoBehaviour
 
         yield return null; //wait for the end of the frame to ensure all actions are processed
 
-        
+        if (currentTurn.entityType != Entity.EntityType.Player) currentTurn.GetComponent<Brain>().clearIntent(); //clear the intent of the current turn
         
         if (enemies.Length == 0 )
         {  //goes to next combat level

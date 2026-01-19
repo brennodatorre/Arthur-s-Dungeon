@@ -190,6 +190,7 @@ public class PlayerData : MonoBehaviour
         player.activeSkillEffects = new List<StatusEffect>(GameData.StatusEffects);
 
         player.items = new List<Item>(GameData.items);
+        
         Debug.Log("Player data loaded.");
     }
 
@@ -305,17 +306,16 @@ public class PlayerData : MonoBehaviour
     }
 
 
-    ///...
+
+
     public int getCurrentFablePoints()
     {
         return GameData.fablePoints;
     }
-    ///... 
     public int getFableRecord()
     {
         return GameData.fableRecord;
     }
-    ///
     public int getLives()
     {
         return GameData.lives;
@@ -353,20 +353,23 @@ public class PlayerData : MonoBehaviour
 
 
 
-    /// <summary>
-    /// Adds a Item to the player's inventoy
-    /// </summary>
     public void addItemToInventory(Item item)
     {
         GameData.items.Add(Instantiate(item));
     }
+    public void RemoveItem(Item item)
+    {
+        GameData.items.Remove(item);
+    }
 
-    /// <summary>
-    /// Adds a Skill to the player's skill list
-    /// </summary>
+
     public void addSkill(Skill skill)
     {
         GameData.skills.Add(Instantiate(skill));
+    }
+    public void RemoveSkill(Skill skill)
+    {
+        GameData.skills.Remove(skill);
     }
 
 

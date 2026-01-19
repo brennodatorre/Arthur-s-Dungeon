@@ -15,6 +15,7 @@ public class Entity : MonoBehaviour
     private Image sprite;
     private LogManager logManager; 
     private AudioManager audioManager;
+    public Brain brain;
 
     public enum EntityType { Player, Enemy, NPC };
     public enum EntityOrigin {ROSES, HEX, LANDREAS, ARTHUR, SYSTEM, UNKNOWN, SURVIVOR, FLAME }
@@ -82,15 +83,13 @@ public class Entity : MonoBehaviour
     [Space(10)]
     [Header("Skiils")]
 
-    [SerializeField] public List<Skill> skills = new List<Skill>();
-    [HideInInspector]public List<Skill> skillsInstance = new List<Skill>(); // to not edit original copy
+    [SerializeField]public List<Skill> skills = new List<Skill>(); // to not edit original copy
     [SerializeField] public List<StatusEffect> activeSkillEffects = new List<StatusEffect>();
 
 
     [Space(10)]
     [Header("Items")]
-    [SerializeField] public List<Item> items = new List<Item>();
-    [HideInInspector]public List<Item> itemsInstance = new List<Item>(); // to not edit original copy
+    [SerializeField] public List<Item> items = new List<Item>(); // to not edit original copy
 
     [Space(10)]
     [Header("Fable Status")]
@@ -132,20 +131,11 @@ public class Entity : MonoBehaviour
         }
         currentATK.AddModifier(baseATK.getModifier());
 
-        //clear the skill and item instance so there wont be duplicates
-        skillsInstance.Clear();
-        itemsInstance.Clear();
+        
+        
+        if (entityType != EntityType.Player) {brain = GetComponent<Brain>(); }
 
-        //Instantiate Entity's skills
-        foreach (Skill skill in skills)
-        {
-            skillsInstance.Add(Instantiate(skill));
-        }
-
-        //Instantiate Entity;s item
-        foreach (Item item in items) {
-            itemsInstance.Add(Instantiate(item));
-        }
+        
        
     }
 
@@ -161,7 +151,7 @@ public class Entity : MonoBehaviour
         //while combat is running, dont end the action/turn 
         while (roundManager.clashQueue.isRunning)
         {
-            Debug.Log("null");
+            //Debug.Log("null");
             yield return null;
         }
 
@@ -327,11 +317,11 @@ public class Entity : MonoBehaviour
     }
 
     public void AddSkill(Skill skill) {
-        skillsInstance.Add(skill);
+        skills.Add(skill);
     }
 
     public void RemoveSkill(Skill skill) {
-        skillsInstance.Remove(skill);
+        skills.Remove(skill);
     }
 
     public void die() {

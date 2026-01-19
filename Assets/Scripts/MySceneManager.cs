@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 
@@ -20,8 +23,13 @@ public class MySceneManager : MonoBehaviour
     private AudioManager audioManager;
     private CursorManager cursorManager;
     public GameObject tooltipPanel;
+    private GameObject lastPopUp;
 
     public float intentDelay = 0;
+    public float popUpDuration = 3f;
+    [Range(0, 1)] public float screenPercentForPopUp = 0.01f;
+
+
 
 
 
@@ -161,6 +169,31 @@ public class MySceneManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Does a pop up with the inputed message, which stays for popUpDuration seconds
+    /// </summary>
+    public IEnumerator doPopUp(String message)
+    {
+        if (lastPopUp != null)
+        {
+            Destroy(lastPopUp);
+        }
+
+        //creates a new tooltip panel
+        GameObject popUpPanel = Instantiate(this.tooltipPanel, tooltipPanel.transform.parent);
+        popUpPanel.transform.SetAsLastSibling(); //makes sure it's on top of other UI elements
+
+        lastPopUp = popUpPanel; //saves referejce
+
+        popUpPanel.GetComponentInChildren<TextMeshProUGUI>().text = message;
+
+        
+        popUpPanel.transform.position += new Vector3(0, Screen.height * screenPercentForPopUp, 0); //moves it a bit up so it's not right on the cursor
+
+        yield return new WaitForSeconds(popUpDuration);
+
+        Destroy(popUpPanel);
+    }
 
     
 }

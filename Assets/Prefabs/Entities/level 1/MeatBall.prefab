@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 786334473765341789}
   - component: {fileID: 2411624240104654749}
   - component: {fileID: 4407004358347439819}
+  - component: {fileID: 1359419372813269921}
   m_Layer: 0
   m_Name: MeatBall
   m_TagString: Enemy
@@ -64,20 +65,20 @@ MonoBehaviour:
   mp: 10
   maxMP: 10
   def: 0
-  DEXTREZA: 1
-  ATLETISMO: 1
+  DEX: 1
+  ATLETISM: 1
   AURA: 1
-  CHARISMA: 1
-  SORTE: 1
-  INTUICAO: 1
+  CHARISM: 1
+  LUCK: 1
+  INTUITION: 1
   HEX: 1
-  ASTUCIA: 1
-  VONTADE: 1
-  REFLEXOS: 1
-  PERSEPCAO: 1
-  FURTIVIDADE: 1
-  CONSTITUICAO: 1
-  DOMINANCIA: 1
+  INT: 1
+  WILL: 1
+  REFLEX: 1
+  PERSEPTION: 1
+  FURTIVITY: 1
+  CONSTITUTION: 1
+  DOMINANCE: 1
   baseATK:
     dices:
     - count: 1
@@ -93,8 +94,8 @@ MonoBehaviour:
   currentMainActions: 1
   currentSupActions: 1
   skills: []
-  skillsInstance: []
   activeSkillEffects: []
+  items: []
   fableWorth: 1
 --- !u!114 &2837820455805881497
 MonoBehaviour:
@@ -640,6 +641,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wasCompleted: 0
+  isWaiting: 0
+--- !u!114 &1359419372813269921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432741755785725440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08c86ee1230d5bf45b89f49af3dab0b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicAtkChance: 0.01
+  skillNeurons:
+  - _skill: {fileID: 11400000, guid: 22e4c1c3b66e065408c8cbbeb67d841f, type: 2}
+    weight: 57
 --- !u!1001 &5763604009936395370
 PrefabInstance:
   m_ObjectHideFlags: 0
