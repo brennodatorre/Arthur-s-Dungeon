@@ -5396,6 +5396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7618f1b665abc24478cb4274e06ec675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brain: {fileID: 0}
   statEffectDisplay: {fileID: 67981079}
   entityType: 0
   entityOrigin: 0
@@ -5434,7 +5435,6 @@ MonoBehaviour:
   currentMainActions: 1
   currentSupActions: 1
   skills: []
-  skillsInstance: []
   activeSkillEffects: []
   items: []
   fableWorth: 1
@@ -8777,7 +8777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.size
-      value: 8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: activeSkillEffects.Array.size
@@ -8794,7 +8794,7 @@ PrefabInstance:
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 09353512aaab87d47b590307ffa5df84, type: 2}
+      objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.data[1]
       value: 
@@ -9149,11 +9149,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8957688002863589866, guid: 509715eb82cbc4847b3c9fe7382263e6, type: 3}
       propertyPath: m_fontSize
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8957688002863589866, guid: 509715eb82cbc4847b3c9fe7382263e6, type: 3}
       propertyPath: m_fontSizeBase
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9132006716286154457, guid: 509715eb82cbc4847b3c9fe7382263e6, type: 3}
       propertyPath: m_AnchorMax.y
@@ -9194,7 +9194,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 90.1
+      value: 161.01
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_SizeDelta.y
@@ -9202,11 +9202,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 95.05
+      value: 130.505
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -65.604996
+      value: -61.505
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302489001076407149, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
+      propertyPath: m_fontSize
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302489001076407149, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 7dd7f5cbc947cc34b9691fc2828eb171, type: 2}
+    - target: {fileID: 4302489001076407149, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302489001076407149, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 3256645777341221851, guid: 7dd7f5cbc947cc34b9691fc2828eb171, type: 2}
+    - target: {fileID: 4302489001076407149, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5531574432542099366, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_Name

@@ -70,6 +70,26 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         canvasRect = canvas.GetComponent<RectTransform>();
     }
 
+
+    void OnDisable()
+    {
+        HideTooltip();
+    }
+
+    void OnDestroy()
+    {
+        HideTooltip();
+    }
+
+    private void HideTooltip()
+    {
+        if (tooltipPanel != null)   tooltipPanel.SetActive(false);
+
+        if (pointerCoroutine != null) StopCoroutine(pointerCoroutine);
+
+        isTooltipShowing = false;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!detectChildren && eventData.pointerEnter != gameObject) return; // Ignore if it's actually a child being hovered
@@ -80,7 +100,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         // blocks tooltip
         if (displayToolTip == false) { return; }
 
-        StartCoroutine(AnimateTooltipOpen());
+        if (!isTooltipShowing) StartCoroutine(AnimateTooltipOpen());
 
         setText();
 
@@ -119,11 +139,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         // blocks tooltip
         if (displayToolTip == false) { return; }
 
-        tooltipPanel.SetActive(false);
-
-        if (pointerCoroutine != null) { StopCoroutine(pointerCoroutine); }
-
-        isTooltipShowing = false;
+        HideTooltip();
         
 
     }
@@ -149,6 +165,10 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             tooltipText.text = entity.getStatusAsString();
         }
+        else if (tooltipType == TooltipType.Entity && entity.entityType == Entity.EntityType.Enemy)
+        {
+            tooltipText.text = entity.brain.intentMessage;
+        }
         else if (tooltipType == TooltipType.Skill || tooltipType == TooltipType.Item)
         {
             tooltipText.text = description;
@@ -165,6 +185,8 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public IEnumerator AnimateTooltipOpen()
     {
+
+        
         tooltipPanel.SetActive(true);
         tooltipPanel.transform.localScale = Vector3.zero;
 

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2652690053435651201}
   - component: {fileID: 6290638984861530196}
   - component: {fileID: 268524627770257616}
+  - component: {fileID: -1998346223450726422}
   m_Layer: 0
   m_Name: Maculated_angel
   m_TagString: Hero
@@ -55,6 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7618f1b665abc24478cb4274e06ec675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brain: {fileID: 0}
   statEffectDisplay: {fileID: 9062682801596363160}
   entityType: 1
   entityOrigin: 0
@@ -64,20 +66,20 @@ MonoBehaviour:
   mp: 10
   maxMP: 10
   def: 1
-  DEXTREZA: 3
-  ATLETISMO: 1
+  DEX: 1
+  ATLETISM: 1
   AURA: 1
-  CHARISMA: 1
-  SORTE: 1
-  INTUICAO: 1
+  CHARISM: 1
+  LUCK: 1
+  INTUITION: 1
   HEX: 1
-  ASTUCIA: 1
-  VONTADE: 1
-  REFLEXOS: 1
-  PERSEPCAO: 1
-  FURTIVIDADE: 1
-  CONSTITUICAO: 1
-  DOMINANCIA: 1
+  INT: 1
+  WILL: 1
+  REFLEX: 1
+  PERSEPTION: 1
+  FURTIVITY: 1
+  CONSTITUTION: 1
+  DOMINANCE: 1
   baseATK:
     dices:
     - count: 2
@@ -94,8 +96,8 @@ MonoBehaviour:
   currentSupActions: 1
   skills:
   - {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
-  skillsInstance: []
   activeSkillEffects: []
+  items: []
   fableWorth: 3
 --- !u!114 &4115347304832813577
 MonoBehaviour:
@@ -130,7 +132,7 @@ MonoBehaviour:
   btn: {fileID: 0}
   tooltipType: 0
   offset: {x: 0, y: 0, z: 0}
-  displayToolTip: 0
+  displayToolTip: 1
   detectChildren: 0
   description: 
 --- !u!60 &750153865408825636
@@ -1921,7 +1923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 245a843c07da6674c878ee538fe445fc, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1950,6 +1952,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wasCompleted: 0
+  isWaiting: 0
+--- !u!114 &-1998346223450726422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5709880237819132171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08c86ee1230d5bf45b89f49af3dab0b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicAtkChance: 100
+  skillNeurons: []
+  currentIntent: 2
+  intentMessage: 
+  skilllToUse: {fileID: 0}
 --- !u!1001 &6891405473209975104
 PrefabInstance:
   m_ObjectHideFlags: 0

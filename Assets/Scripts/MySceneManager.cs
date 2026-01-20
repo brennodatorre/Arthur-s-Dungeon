@@ -1,12 +1,10 @@
 using System;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using Debug = UnityEngine.Debug;
+
 
 
 public class MySceneManager : MonoBehaviour
@@ -14,7 +12,7 @@ public class MySceneManager : MonoBehaviour
 
     [HideInInspector] public static MySceneManager Instance;
 
-    public enum SceneType { COMBAT, MAINMENU, TUTORIAL, DEATHSHOP, EVENT, TEST }
+    public enum SceneType { COMBAT, MAINMENU, TUTORIAL, DEATHSHOP, EVENT, TEST, NEXT }
     public SceneType currentSceneType;
     public Entity player;
 
@@ -25,9 +23,21 @@ public class MySceneManager : MonoBehaviour
     public GameObject tooltipPanel;
     private GameObject lastPopUp;
 
+    [HideInInspector] public bool isInTransition = false;
+    public GameObject inputBlockerPrefab;
+    private GameObject inputBlocker;
+    private Canvas canvas;
+
     public float intentDelay = 0;
     public float popUpDuration = 3f;
+    [Tooltip("Percentage of the screen height the pop up will appear from the bottom")]
     [Range(0, 1)] public float screenPercentForPopUp = 0.01f;
+    public float eventRate= .3f;
+    public float currentEventRate= .3f;
+
+    
+
+
 
 
 
@@ -58,13 +68,34 @@ public class MySceneManager : MonoBehaviour
         audioManager = AudioManager.Instance;
         cursorManager = CursorManager.Instance;
 
+        canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
+        inputBlocker = Instantiate(inputBlockerPrefab, canvas.transform);
+        inputBlocker.SetActive(false);
+        inputBlocker.transform.SetAsLastSibling();
+    }
 
+
+    public SceneType getNextScene()
+    {
+        float rand = UnityEngine.Random.Range(0f, 1f);
+
+        if (rand < currentEventRate)
+        {
+            currentEventRate = eventRate;   
+            return SceneType.EVENT;
+        }
+        else
+        {
+            currentEventRate += 0.1f;
+            return SceneType.COMBAT;
+        }
     }
 
 
 
-    public IEnumerator openSceneWithTransition(string toScene, bool withDeathSound)
+    public IEnumerator openSceneWithTransition(SceneType toScene, bool withDeathSound)
     {
+        setInputBlocker(true);
 
         audioManager.ambienceOutput.Pause();
         if (withDeathSound) { audioManager.PlaySound(audioManager.death_sound); }
@@ -97,7 +128,7 @@ public class MySceneManager : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        openScene(toScene, 1f);
+        openNextScene(toScene, 1f);
     }
 
     /// <summary>
@@ -106,53 +137,51 @@ public class MySceneManager : MonoBehaviour
     /// This is being used for interactable objects atm
     /// </summary>
     public void setIntentDelay(float delay) { intentDelay = delay; }
-    public void openScene(string sceneName)
+    public void openScene()
     {
-        openScene(sceneName, intentDelay);
+        openNextScene(SceneType.NEXT, intentDelay);
         intentDelay = 0;
     }
-    public void openScene(string sceneName, float delay)
+    public void openNextScene(SceneType toScene, float delay = 0f)
     {
 
         // saves the player data if coming from a combat scene
         if (currentSceneType == MySceneManager.SceneType.COMBAT) PlayerData.Instance.savePlayerData(player);
         
-
-
-        if (sceneName == "COMBAT")
+        
+        switch (toScene)
         {
-            StartCoroutine(openSceneWithDelay("Combat_scene", delay));
-            currentSceneType = SceneType.COMBAT;
-            
-        }
-        else if (sceneName == "TUTORIAL")
-        {
-            StartCoroutine(openSceneWithDelay("Tutorial_scene", delay));
-            currentSceneType = SceneType.TUTORIAL;
-        }
-        else if (sceneName == "DEATHSHOP")
-        {
-            StartCoroutine(openSceneWithDelay("OutsideReader_scene", delay));
-            currentSceneType = SceneType.DEATHSHOP;
-            
-        }
-        else if (sceneName == "TESTS")
-        {
-            StartCoroutine(openSceneWithDelay("TESTS", delay));
-            currentSceneType = SceneType.TEST;
-        }
-        else if (sceneName == "EVENT")
-        {
-            string randomEvent = eventSceneDatabase.openRandom();
-            StartCoroutine(openSceneWithDelay(randomEvent, delay));
-            currentSceneType = SceneType.EVENT;
-        }
+            case SceneType.COMBAT:
+                StartCoroutine(openSceneWithDelay("Combat_scene", delay));
+                currentSceneType = SceneType.COMBAT;
+                break;
 
+            case SceneType.TUTORIAL:
+                StartCoroutine(openSceneWithDelay("Tutorial_scene", delay));
+                currentSceneType = SceneType.TUTORIAL;
+                break;
 
+            case SceneType.DEATHSHOP:
+                StartCoroutine(openSceneWithDelay("OutsideReader_scene", delay));
+                currentSceneType = SceneType.DEATHSHOP;
+                break;
 
-        else { StartCoroutine(openSceneWithDelay(sceneName, delay));}
+            case SceneType.TEST:
+                StartCoroutine(openSceneWithDelay("TESTS", delay));
+                currentSceneType = SceneType.TEST;
+                break;
 
+            case SceneType.EVENT:
+                string randomEvent = eventSceneDatabase.openRandom();
+                StartCoroutine(openSceneWithDelay(randomEvent, delay));
+                currentSceneType = SceneType.EVENT;
+                break;
+            case SceneType.NEXT: ///for algorithmic scene progression
+                SceneType nextScene = getNextScene();
+                openNextScene(nextScene, delay);
+                break;
 
+        }
 
     }
 
@@ -164,6 +193,16 @@ public class MySceneManager : MonoBehaviour
 
         SceneManager.LoadScene(sceneName);
 
+        setInputBlocker(false);
+
+    }
+
+
+    private void setInputBlocker(bool state)
+    {
+
+        isInTransition = state;
+        inputBlocker.SetActive(state);
 
 
     }
@@ -195,5 +234,8 @@ public class MySceneManager : MonoBehaviour
         Destroy(popUpPanel);
     }
 
-    
+    public void closeGame()
+    {
+        Application.Quit();
+    }
 }

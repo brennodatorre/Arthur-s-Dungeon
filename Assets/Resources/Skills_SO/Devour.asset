@@ -24,6 +24,11 @@ MonoBehaviour:
   actionType: 0
   isOffensiveSkill: 1
   isPAHTSkill: 0
+  mainDice:
+    dices:
+    - count: 1
+      sides: 4
+    modifier: 0
   isStackable: 0
   limitPerTurn: 999
   currentUsesPerTurn: 0

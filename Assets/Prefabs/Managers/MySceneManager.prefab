@@ -81,7 +81,14 @@ MonoBehaviour:
   player: {fileID: 0}
   eventSceneDatabase: {fileID: 11400000, guid: 6454e7b61ed985342bd491cd4aead0ec, type: 2}
   tooltipPanel: {fileID: 0}
+  isInTransition: 0
+  inputBlockerPrefab: {fileID: 50263475338386430, guid: 3d7cb2da450b699419209e70097167da, type: 3}
+  inputBlocker: {fileID: 0}
   intentDelay: 0
+  popUpDuration: 3
+  screenPercentForPopUp: 0.01
+  eventRate: 0.3
+  currentEventRate: 0.3
 --- !u!1 &9038365689623972768
 GameObject:
   m_ObjectHideFlags: 0

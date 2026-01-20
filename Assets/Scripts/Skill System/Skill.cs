@@ -28,6 +28,7 @@ public class Skill : ScriptableObject
     public bool isOffensiveSkill = false;
     [Tooltip ("if the skill needs to be pressed and held totally in order to activate")]
     public bool isPAHTSkill = false; //press and hold target
+    public DiceRoll mainDice = new DiceRoll();
 
     [Space(10)]
     public bool isStackable;

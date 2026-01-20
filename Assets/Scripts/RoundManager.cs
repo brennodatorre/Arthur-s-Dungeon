@@ -2,15 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Unity.VisualStudio.Editor;
+
 using TMPro;
 
 using UnityEngine;
-using UnityEngine.Video;
 
-using UnityEngine.UI;
+
+
 using Image = UnityEngine.UI.Image;
-using Unity.VisualScripting;
+
 
 
 [System.Serializable]
@@ -231,7 +231,7 @@ public class RoundManager : MonoBehaviour
             StatusHudManager.Instance.updateLevelCounterUI();
 
             //StartCoroutine(MySceneManager.Instance.openSceneWithTransition("COMBAT", false));
-            StartCoroutine(MySceneManager.Instance.openSceneWithTransition("EVENT", false));
+            StartCoroutine(MySceneManager.Instance.openSceneWithTransition(MySceneManager.SceneType.NEXT, false));
             
         }
 
@@ -266,9 +266,9 @@ public class RoundManager : MonoBehaviour
         {
             Image enemyRender = enemy.GetComponent<Image>();
 
-            var enemyCollider = enemy.GetComponent<Collider2D>();
+            // var enemyCollider = enemy.GetComponent<Collider2D>();
 
-            if (enemyCollider != null) { enemyCollider.enabled = enable; } // enable collider
+            // if (enemyCollider != null) { enemyCollider.enabled = enable; } // enable collider
             if (enemyRender != null && !enemy.isDead)//sets color
             {
                 enemyRender.material = enable ?
@@ -295,8 +295,8 @@ public class RoundManager : MonoBehaviour
             var entityColiider = entity.GetComponent<Collider2D>();
             Image entityRender = entity.GetComponent<Image>();
 
-            if (entityColiider != null && entity.entityType == Entity.EntityType.Enemy)
-                entityColiider.enabled = enable;
+            // if (entityColiider != null && entity.entityType == Entity.EntityType.Enemy)
+            //     entityColiider.enabled = enable;
 
             if (entityRender != null && !entity.isDead)//sets color
             {

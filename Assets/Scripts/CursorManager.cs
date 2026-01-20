@@ -12,7 +12,8 @@ public class CursorManager : MonoBehaviour
     [HideInInspector] public static CursorManager Instance;
 
 
-    [SerializeField] public GameObject customCursor;
+    [SerializeField] public GameObject customCursorPrefab;
+    private GameObject customCursor;
     public Image ccImage;
     [SerializeField] private Canvas canvas;
 
@@ -58,7 +59,7 @@ public class CursorManager : MonoBehaviour
 
 
 
-        setCursor(false, false);
+        
         
 
     }
@@ -67,6 +68,7 @@ public class CursorManager : MonoBehaviour
     {
         sceneManager = MySceneManager.Instance;
         if (sceneManager.currentSceneType == MySceneManager.SceneType.TEST) { return; }
+        
         else if (sceneManager.currentSceneType == MySceneManager.SceneType.COMBAT){
             roundManager = RoundManager.Instance;
         }
@@ -74,9 +76,11 @@ public class CursorManager : MonoBehaviour
         
           
         canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); 
-        customCursor = Instantiate(customCursor, canvas.transform);
+        customCursor = Instantiate(customCursorPrefab, canvas.transform);
         paht_circle = customCursor.transform.GetChild(2).GetComponent<Image>();
         ccImage = customCursor.transform.GetChild(3).GetComponent<Image>();
+
+        setCursor(false, false);
         
 
     }
@@ -85,7 +89,8 @@ public class CursorManager : MonoBehaviour
     void Update() {
         // blocks update if on 3D Space
         if (MySceneManager.Instance.currentSceneType == MySceneManager.SceneType.TEST) { return; }
-
+        
+        
 
         if (sceneManager == null) { sceneManager = MySceneManager.Instance;}
         if (canvas == null ){ StartCoroutine(LoadingDelay()); return; }

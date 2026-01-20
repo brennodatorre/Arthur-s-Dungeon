@@ -56,6 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7618f1b665abc24478cb4274e06ec675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brain: {fileID: 0}
   statEffectDisplay: {fileID: 7897697973447617714}
   entityType: 1
   entityOrigin: 0
@@ -130,7 +131,7 @@ MonoBehaviour:
   btn: {fileID: 0}
   tooltipType: 0
   offset: {x: 0, y: 0, z: 0}
-  displayToolTip: 0
+  displayToolTip: 1
   detectChildren: 0
   description: 
 --- !u!60 &5136719720674441649
@@ -612,7 +613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 883148d0d1f7e5343a3f593260e84793, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -654,10 +655,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c86ee1230d5bf45b89f49af3dab0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicAtkChance: 0.01
+  basicAtkChance: 0
   skillNeurons:
   - _skill: {fileID: 11400000, guid: 22e4c1c3b66e065408c8cbbeb67d841f, type: 2}
     weight: 57
+  currentIntent: 2
+  intentMessage: 
+  skilllToUse: {fileID: 0}
 --- !u!1001 &5763604009936395370
 PrefabInstance:
   m_ObjectHideFlags: 0

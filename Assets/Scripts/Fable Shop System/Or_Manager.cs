@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class Or_Manager : MonoBehaviour
 {
-    public MySceneManager mySceneManager;
 
     public GameObject shop;
     public GameObject shop_background;
@@ -91,6 +90,6 @@ public class Or_Manager : MonoBehaviour
 
 
     public void leaveOutsideReaderDomain(){
-        StartCoroutine(mySceneManager.openSceneWithTransition("COMBAT", false));
+        StartCoroutine(MySceneManager.Instance.openSceneWithTransition(MySceneManager.SceneType.NEXT, false));
     }
 }

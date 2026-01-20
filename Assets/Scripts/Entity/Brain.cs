@@ -27,6 +27,7 @@ public class Brain : MonoBehaviour
     public List<skillNeuron> skillNeurons = new List<skillNeuron>();
 
     public Intent currentIntent = Intent.NONE;
+    public string intentMessage = "";
     public Skill skilllToUse;
 
 
@@ -50,9 +51,19 @@ public class Brain : MonoBehaviour
             currentIntent = Intent.SKILL;
 
             skilllToUse = getRandomSkillNeuron();
+
+            if (skilllToUse == null)
+            {
+                currentIntent = Intent.ATTACK;
+                Debug.LogWarning(gameObject.name + " tried to use a skill but has no skills assigned, will use basic attack instead.");
+                return;
+            }
+
             Debug.Log(gameObject.name + " will use skill: " + skilllToUse.skillName);
             
         }
+
+        intentMessage = intentToString();
     }
 
     public void doIntent(Entity caster, Entity[] targets)
@@ -67,19 +78,13 @@ public class Brain : MonoBehaviour
                 break;
 
             case Intent.SKILL:
-                if (skilllToUse != null)
-                {
-                    if (skilllToUse.targetType == Skill.SkillTarget.Self) target = caster;
-                    
-                    if (skilllToUse.isOffensiveSkill) SkillManager.Instance.doSkill( target, caster, skilllToUse);
-                    else {SkillManager.Instance.doSkill( caster, caster, skilllToUse);}
-                }
-                else
-                {
-                    currentIntent = Intent.ATTACK;
-                    actionQueue.Enqueue("EnemyAttack", () => caster.doBasicAtkCaller(target));
-                    
-                }
+                        
+                if (skilllToUse.targetType == Skill.SkillTarget.Self) target = caster;
+                
+                if (skilllToUse.isOffensiveSkill) SkillManager.Instance.doSkill( target, caster, skilllToUse);
+                else {SkillManager.Instance.doSkill( caster, caster, skilllToUse);}
+            
+                
                 break;
 
             case Intent.NONE:
@@ -114,6 +119,21 @@ public class Brain : MonoBehaviour
         return null; //fallback, should not happen
     }
 
+    public string intentToString()
+    {
+        switch (currentIntent)
+        {
+            case Intent.ATTACK:
+                return GetComponent<Entity>().baseATK.diceToString();
+
+            case Intent.SKILL:
+                if (skilllToUse.mainDice == null) return "???";
+                return skilllToUse.mainDice.diceToString();
+
+            default:
+                return "No Intent";   
+        }         
+    }
 
     // wheight the chance of using each skill in inspector
     [ContextMenu("Normalize Weights")]

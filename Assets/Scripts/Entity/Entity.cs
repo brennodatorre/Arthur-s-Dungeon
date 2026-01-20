@@ -1,11 +1,11 @@
-using System;
+
 using System.Collections;
 using System.Collections.Generic;
 
 using System.Linq;
-using Microsoft.Unity.VisualStudio.Editor;
+
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.RenderGraphModule;
+
 using Image = UnityEngine.UI.Image;
 
 [System.Serializable]
@@ -352,12 +352,12 @@ public class Entity : MonoBehaviour
             {
                 PlayerData.Instance.resetPlayerStatus();
 
-                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("TUTORIAL", true));
+                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition(MySceneManager.SceneType.TUTORIAL, true));
             }
             else 
             {
                 //goes to fable shop on player death
-                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition("DEATHSHOP", true));
+                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition(MySceneManager.SceneType.DEATHSHOP, true));
             }
             
 

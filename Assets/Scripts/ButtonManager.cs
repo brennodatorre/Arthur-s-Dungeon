@@ -1,13 +1,10 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityEditor.EditorTools;
-using UnityEditor.Search;
+
 
 
 public class ButtonManager : MonoBehaviour
@@ -102,11 +99,14 @@ public class ButtonManager : MonoBehaviour
     private void Update()
     {
         if (MySceneManager.Instance.currentSceneType == MySceneManager.SceneType.TUTORIAL) { return; }
+        if (sceneManager.currentSceneType == MySceneManager.SceneType.MAINMENU) { return; }
 
         bool canTriggerAtk = (currentMenu == OnMenu.Action || inAtkOverlay) && !inSkillOverlay && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
         bool canTriggerSkill = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Skill || inSkillOverlay) && !inAtkOverlay  && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
         bool canTriggerItem = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Item || inItemOverlay ) && !inAtkOverlay && !inSkillOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
         bool canTriggerRun = currentMenu == OnMenu.Action && !roundManager.playerIsTargeting && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
+
+        if (MySceneManager.Instance.isInTransition == true) { return; }
 
 
         //Dels with shortcut inputting
@@ -456,7 +456,7 @@ public class ButtonManager : MonoBehaviour
 
             CanvasGroup cg;
 
-            btn.GetComponentInChildren<TextMeshProUGUI>().alpha = 0f;
+            if (btn.GetComponentInChildren<TextMeshProUGUI>() != null) btn.GetComponentInChildren<TextMeshProUGUI>().alpha = 0f;
 
             if (btn.GetComponent<CanvasGroup>() == null) btn.AddComponent<CanvasGroup>();
             cg = btn.GetComponent<CanvasGroup>();
@@ -480,7 +480,7 @@ public class ButtonManager : MonoBehaviour
 
             CanvasGroup cg;
 
-           
+            if (btn.GetComponentInChildren<TextMeshProUGUI>() != null) btn.GetComponentInChildren<TextMeshProUGUI>().alpha = 1f;
 
             if (btn.GetComponent<CanvasGroup>() == null) btn.AddComponent<CanvasGroup>();
             cg = btn.GetComponent<CanvasGroup>();
