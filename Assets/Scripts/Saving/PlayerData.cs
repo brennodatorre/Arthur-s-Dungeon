@@ -76,6 +76,8 @@ public class PlayerData : MonoBehaviour
     private PlayerDataStruct NewGameData = new PlayerDataStruct();
     [SerializeField]
     private PlayerDataStruct GameData = new PlayerDataStruct();
+    [HideInInspector]
+    public bool isInTransition = false;
 
 
 
@@ -268,7 +270,7 @@ public class PlayerData : MonoBehaviour
     /// <summary>
     /// Modifies the player's Ilhas by the specified amount, positive or negative
     /// </summary>
-    public void setIlhas(int amount)
+    public void addIlhas(int amount)
     {
         GameData.Ilhas += amount;
     }

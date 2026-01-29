@@ -66,6 +66,7 @@ public class RoundManager : MonoBehaviour
     public bool playerIsTargeting;
     public bool playerCanAct;
     public int numberOfRounds;
+    private bool setupWasdone = false;
 
 
 
@@ -78,7 +79,7 @@ public class RoundManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
+            //DontDestroyOnLoad(gameObject); // Persist across scenes
         }
         else
         {
@@ -91,6 +92,7 @@ public class RoundManager : MonoBehaviour
 
     private void Update()
     {
+         if (!setupWasdone) {StartSetup(); }
 
         playerIsTargeting =
             currentPhase == RoundManager.TurnPhase.targetingATK ||
@@ -109,7 +111,7 @@ public class RoundManager : MonoBehaviour
 
 
 
-    public void Start()
+    private void StartSetup()
     {
 
         matPallet = MaterialPallet.Instance;
@@ -154,6 +156,8 @@ public class RoundManager : MonoBehaviour
 
         actionQueue.Enqueue("delay", () => Delay(2f));
         actionQueue.Enqueue("StartTurn", () => StartTurn());
+
+        setupWasdone =true;
 
     }
 
@@ -231,7 +235,7 @@ public class RoundManager : MonoBehaviour
             StatusHudManager.Instance.updateLevelCounterUI();
 
             //StartCoroutine(MySceneManager.Instance.openSceneWithTransition("COMBAT", false));
-            StartCoroutine(MySceneManager.Instance.openSceneWithTransition(MySceneManager.SceneType.NEXT, false));
+            StartCoroutine(MySceneManager.Instance.openSceneWithTransition(MySceneManager.SceneType.NEXT));
             
         }
 
@@ -429,7 +433,7 @@ public class RoundManager : MonoBehaviour
         int h = Mathf.CeilToInt(player.getMaxHP() / 10f);
         int m = Mathf.CeilToInt(player.getMaxMP() / 10f);
         player.heal( h);
-        player.gainMP( m );
+        player.addMP( m );
 
 
     }

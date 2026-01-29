@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class ActiveEffectManager : MonoBehaviour
 {
+    public static ActiveEffectManager Instance ;
 
     public RoundManager roundManager;
     public LogManager logManager;
@@ -18,8 +19,19 @@ public class ActiveEffectManager : MonoBehaviour
 
     private RoundManager.TurnPhase currentPhase; //the current phase of the turn
 
-    
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+           
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
+    }
 
 
 

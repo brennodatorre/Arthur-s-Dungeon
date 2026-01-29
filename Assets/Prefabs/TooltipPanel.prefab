@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 3043899682677917774}
   m_Layer: 5
   m_Name: TooltipPanel
-  m_TagString: Untagged
+  m_TagString: TooltipPanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

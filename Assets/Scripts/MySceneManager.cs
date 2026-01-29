@@ -12,6 +12,10 @@ public class MySceneManager : MonoBehaviour
 
     [HideInInspector] public static MySceneManager Instance;
 
+  
+    private int currentSceneIndex;
+    private bool sceneChanged;
+
     public enum SceneType { COMBAT, MAINMENU, TUTORIAL, DEATHSHOP, EVENT, TEST, NEXT }
     public SceneType currentSceneType;
     public Entity player;
@@ -20,13 +24,17 @@ public class MySceneManager : MonoBehaviour
 
     private AudioManager audioManager;
     private CursorManager cursorManager;
-    public GameObject tooltipPanel;
+
+    private GameObject blackout;
+    public GameObject tooltipPanelPrefab;
+    [HideInInspector]public GameObject tooltipPanel;
     private GameObject lastPopUp;
 
     [HideInInspector] public bool isInTransition = false;
+    [HideInInspector] public bool halfWayInTransition  = false;
     public GameObject inputBlockerPrefab;
-    private GameObject inputBlocker;
-    private Canvas canvas;
+    [HideInInspector] public GameObject inputBlocker;
+    [HideInInspector] public Canvas canvas;
 
     public float intentDelay = 0;
     public float popUpDuration = 3f;
@@ -34,6 +42,8 @@ public class MySceneManager : MonoBehaviour
     [Range(0, 1)] public float screenPercentForPopUp = 0.01f;
     public float eventRate= .3f;
     public float currentEventRate= .3f;
+
+    public float fadeDuration =2f;
 
     
 
@@ -53,7 +63,7 @@ public class MySceneManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject); // Persist across scenes
+            DontDestroyOnLoad(gameObject); // Persist across scenes
         }
         else
         {
@@ -65,13 +75,59 @@ public class MySceneManager : MonoBehaviour
 
     void Start()
     {
+        setupScene();        
+
+        currentSceneIndex =SceneManager.GetActiveScene().buildIndex;
+
+       
+    }
+
+    void Update()
+    {
+         
+
+        // reload references if scene has changed
+        if (currentSceneIndex != SceneManager.GetActiveScene().buildIndex || sceneChanged) {  
+            setupScene(); 
+        }
+
+
+
+        currentSceneIndex =SceneManager.GetActiveScene().buildIndex;
+         
+    } 
+
+
+    private void setupScene()
+    {
+        sceneChanged = false;
         audioManager = AudioManager.Instance;
         cursorManager = CursorManager.Instance;
 
         canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
+
+        if (!isInTransition) audioManager.setVolume();
+
         inputBlocker = Instantiate(inputBlockerPrefab, canvas.transform);
         inputBlocker.SetActive(false);
         inputBlocker.transform.SetAsLastSibling();
+
+
+        if (currentSceneType == SceneType.COMBAT)
+        {
+            player = RoundManager.Instance.player;
+        }
+
+        if (blackout == null)
+        {
+            blackout = transform.GetChild(0).transform.Find("BlackoutOverlay").gameObject;
+        }
+
+        // reset blackout alpha
+        if (blackout.GetComponent<SpriteRenderer>().color.a != 0)
+        {
+            StartCoroutine(doFadeOverlay(blackout.GetComponent<SpriteRenderer>(), new Color(0, 0, 0, 1), new Color(0, 0, 0, 0), fadeDuration));
+        }
     }
 
 
@@ -93,42 +149,21 @@ public class MySceneManager : MonoBehaviour
 
 
 
-    public IEnumerator openSceneWithTransition(SceneType toScene, bool withDeathSound)
+    public IEnumerator openSceneWithTransition(SceneType toScene )
     {
-        setInputBlocker(true);
+        
+        
 
-        audioManager.ambienceOutput.Pause();
-        if (withDeathSound) { audioManager.PlaySound(audioManager.death_sound); }
+        if (blackout == null)
+            {
+                blackout = transform.GetChild(0).transform.Find("BlackoutOverlay").gameObject;
+            }
 
-
-        GameObject blackout = GameObject.Find("BlackoutOverlay");
-        SpriteRenderer spriteRenderer = blackout.GetComponent<SpriteRenderer>();
-
-        float duration = 5f;
-        float currentTimer = 0f;
-
-        Color startColor = new Color(0, 0, 0, 0);
-        Color endColor = new Color(0, 0, 0, 1);
-
-
-        while (currentTimer < duration)
-        {
-            currentTimer += Time.deltaTime;
-
-            float t = currentTimer / duration;
-
-            spriteRenderer.color = Color.Lerp(startColor, endColor, t);
-
-            yield return null; // wait for the next frame
-
-        }
-
-
-        spriteRenderer.color = endColor;
+        yield return StartCoroutine(doFadeOverlay(blackout.GetComponent<SpriteRenderer>(), new Color(0, 0, 0, 0), new Color(0, 0, 0, 1), fadeDuration));
 
         yield return new WaitForSeconds(3f);
 
-        openNextScene(toScene, 1f);
+        openNextScene(toScene, intentDelay);
     }
 
     /// <summary>
@@ -136,13 +171,14 @@ public class MySceneManager : MonoBehaviour
     /// UnityEvent type, which can only take one argument in the inspector
     /// This is being used for interactable objects atm
     /// </summary>
-    public void setIntentDelay(float delay) { intentDelay = delay; }
-    public void openScene()
+    public static void setIntentDelay(float delay) { MySceneManager.Instance.intentDelay = delay; }
+    public static void openScene(){MySceneManager.Instance.openSceneT();}
+    private void openSceneT()
     {
-        openNextScene(SceneType.NEXT, intentDelay);
-        intentDelay = 0;
+        StartCoroutine(MySceneManager.Instance.openSceneWithTransition(SceneType.NEXT));
+        MySceneManager.Instance.intentDelay = 0;
     }
-    public void openNextScene(SceneType toScene, float delay = 0f)
+    public void openNextScene(SceneType toScene, float delay = 1f)
     {
 
         // saves the player data if coming from a combat scene
@@ -152,29 +188,35 @@ public class MySceneManager : MonoBehaviour
         switch (toScene)
         {
             case SceneType.COMBAT:
-                StartCoroutine(openSceneWithDelay("Combat_scene", delay));
                 currentSceneType = SceneType.COMBAT;
+                StartCoroutine(openSceneWithDelay("Combat_scene", delay));
+                
                 break;
 
             case SceneType.TUTORIAL:
-                StartCoroutine(openSceneWithDelay("Tutorial_scene", delay));
                 currentSceneType = SceneType.TUTORIAL;
+                StartCoroutine(openSceneWithDelay("Tutorial_scene", delay));
+                
                 break;
 
             case SceneType.DEATHSHOP:
-                StartCoroutine(openSceneWithDelay("OutsideReader_scene", delay));
                 currentSceneType = SceneType.DEATHSHOP;
+                StartCoroutine(openSceneWithDelay("OutsideReader_scene", delay));
+                
                 break;
 
             case SceneType.TEST:
-                StartCoroutine(openSceneWithDelay("TESTS", delay));
                 currentSceneType = SceneType.TEST;
+                StartCoroutine(openSceneWithDelay("TESTS", delay));
+                
                 break;
 
             case SceneType.EVENT:
-                string randomEvent = eventSceneDatabase.openRandom();
-                StartCoroutine(openSceneWithDelay(randomEvent, delay));
+                // string randomEvent = eventSceneDatabase.getRandom();
+                // Debug.Log("Opening event scene: " + randomEvent);
                 currentSceneType = SceneType.EVENT;
+                StartCoroutine(openSceneWithDelay("StreetVendor", delay));
+                
                 break;
             case SceneType.NEXT: ///for algorithmic scene progression
                 SceneType nextScene = getNextScene();
@@ -187,13 +229,13 @@ public class MySceneManager : MonoBehaviour
 
     private IEnumerator openSceneWithDelay(string sceneName, float delay)
     {
-
+        
         yield return new WaitForSeconds(delay);
 
-
+        sceneChanged= true;
         SceneManager.LoadScene(sceneName);
 
-        setInputBlocker(false);
+        
 
     }
 
@@ -202,6 +244,7 @@ public class MySceneManager : MonoBehaviour
     {
 
         isInTransition = state;
+        
         inputBlocker.SetActive(state);
 
 
@@ -234,8 +277,42 @@ public class MySceneManager : MonoBehaviour
         Destroy(popUpPanel);
     }
 
+    public IEnumerator doFadeOverlay( SpriteRenderer spriteRenderer,  Color initialColor, Color finalColor, float duration = 2f)
+    {
+        setInputBlocker(true);
+        
+        float currentTimer = 0f;
+
+        Color startColor = initialColor;
+        Color endColor = finalColor;
+
+        while (currentTimer < duration)
+        {
+            currentTimer += Time.deltaTime;
+
+            if (currentTimer > duration /2 && !halfWayInTransition ) {halfWayInTransition = true;}
+
+            float t = currentTimer / duration;
+
+            spriteRenderer.color = Color.Lerp(startColor, endColor, t);
+
+            yield return null; // wait for the next frame
+
+        }
+
+
+        spriteRenderer.color = endColor;
+
+        setInputBlocker(false);
+
+    }
+
     public void closeGame()
     {
         Application.Quit();
     }
+
+    
+ 
+
 }

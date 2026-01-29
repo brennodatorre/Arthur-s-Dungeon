@@ -27,7 +27,8 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private RectTransform canvasRect;
 
 
-    [HideInInspector] public GameObject tooltipPanel;
+    //[HideInInspector] 
+    public GameObject tooltipPanel;
     public GameObject btn;
 
     [Space(10)]
@@ -62,7 +63,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     void Start()
     {
-        if (tooltipPanel == null ) { tooltipPanel = MySceneManager.Instance.tooltipPanel; }
+        if (tooltipPanel == null ) { tooltipPanel = GameObject.FindGameObjectWithTag("TooltipPanel"); }
 
         tooltipText = tooltipPanel.GetComponentInChildren<TextMeshProUGUI>();
         tooltipRect = tooltipPanel.GetComponent<RectTransform>();

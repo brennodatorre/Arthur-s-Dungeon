@@ -11,6 +11,8 @@ TagManager:
   - customCursor
   - MainCanvas
   - ItemOnShop
+  - TooltipPanel
+  - PostProcess
   layers:
   - Default
   - TransparentFX

@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Bandage
   description: heals by 5
   sprite: {fileID: 1722242025, guid: 418d2e8b22e7f1841b3b82d809c15298, type: 3}
-  value: 2
+  value: 4
   itemOrigin: 4
   actionType: 2
   targetType: 0

@@ -30,7 +30,7 @@ public class StreetVendor_Manager : MonoBehaviour
 
                 if(PlayerData.Instance.getIlhas() >= item.value) {
                     PlayerData.Instance.addItemToInventory(item);
-                    PlayerData.Instance.setIlhas(- item.value);
+                    PlayerData.Instance.addIlhas(- item.value);
                     child.GetChild(1).GetComponent<Button>().interactable = false;
                     child.GetChild(1).GetComponentInChildren<Image>().color = Color.black;
                 } else

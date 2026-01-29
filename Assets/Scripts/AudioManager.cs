@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 [System.Serializable]
@@ -14,11 +15,14 @@ public class AudioManager : MonoBehaviour
    
     public AudioSource ambienceOutput;
 
+
+
     public int[] atk_levels;
     [SerializeField] public List<AudioClip> atk_sounds = new List<AudioClip>();
-    [SerializeField] public List<AudioClip> hit_sounds = new List<AudioClip>();
+    //[SerializeField] public List<AudioClip> hit_sounds = new List<AudioClip>();
     public AudioClip atk_equal_sound;
 
+    
 
     [Space(10)]
     [Header("Sound Clips:")]
@@ -51,7 +55,7 @@ public class AudioManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
+            //DontDestroyOnLoad(gameObject); // Persist across scenes
         }
         else
         {
@@ -63,9 +67,12 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
+        
+        if (MySceneManager.Instance.isInTransition) {return;}
+        setVolume();
 
-        // adjjusts the player heartbeat sound based on the player's HP
-        // while player is in combat
+
+        // adjjusts the player heartbeat sound based on the player's HP, while player is in combat
         if (player != null)
         {
             ambienceOutput.pitch = Mathf.Lerp(2.5f, .5f, (float)player.getHP() / (float)player.getMaxHP());
@@ -164,6 +171,15 @@ public class AudioManager : MonoBehaviour
         }
 
         if (src != null) { src.Stop(); Destroy(src); }
+    }
+
+    /// <summary>
+    /// Sets the volume of the game based on the SettingsData 
+    /// </summary> <summary>
+    public void setVolume()
+    {
+        SFXoutput.volume = SettingsData.Instance.globalVolume;
+        ambienceOutput.volume = SettingsData.Instance.globalVolume;
     }
 
 }

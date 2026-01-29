@@ -26,7 +26,7 @@ public class TypeWriterEffect : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
 
 
-        Debug.Log("Full text: " + fullText);
+        //Debug.Log("Full text: " + fullText);
 
         fullText = textComponent.text;
     }

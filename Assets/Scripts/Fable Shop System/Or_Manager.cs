@@ -90,6 +90,6 @@ public class Or_Manager : MonoBehaviour
 
 
     public void leaveOutsideReaderDomain(){
-        StartCoroutine(MySceneManager.Instance.openSceneWithTransition(MySceneManager.SceneType.NEXT, false));
+        StartCoroutine(MySceneManager.Instance.openSceneWithTransition(MySceneManager.SceneType.NEXT));
     }
 }

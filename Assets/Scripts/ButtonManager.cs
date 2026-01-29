@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 
@@ -81,32 +82,35 @@ public class ButtonManager : MonoBehaviour
 
     void Start()
     {
-        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        audioManager = AudioManager.Instance;
         
-        cursorManager = GameObject.Find("CursorManager").GetComponent<CursorManager>();
+        cursorManager = CursorManager.Instance;
 
-        sceneManager = GameObject.Find("MySceneManager").GetComponent<MySceneManager>();
-
-        if (sceneManager.currentSceneType == MySceneManager.SceneType.COMBAT) 
-        {
-            roundManager = GameObject.Find("CombatManager").GetComponent<RoundManager>();
-            skillManager = GameObject.Find("SkillManager").GetComponent<SkillManager>();
-        }
+        sceneManager = MySceneManager.Instance;
+        roundManager = RoundManager.Instance;
+        skillManager = SkillManager.Instance;
+    
 
     }
 
 
     private void Update()
     {
+         
+
         if (MySceneManager.Instance.currentSceneType == MySceneManager.SceneType.TUTORIAL) { return; }
         if (sceneManager.currentSceneType == MySceneManager.SceneType.MAINMENU) { return; }
-
+        
+        if (roundManager == null) { roundManager = RoundManager.Instance; }
+        if (roundManager == null ) { return; }
+        
+        
         bool canTriggerAtk = (currentMenu == OnMenu.Action || inAtkOverlay) && !inSkillOverlay && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
         bool canTriggerSkill = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Skill || inSkillOverlay) && !inAtkOverlay  && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
         bool canTriggerItem = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Item || inItemOverlay ) && !inAtkOverlay && !inSkillOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
         bool canTriggerRun = currentMenu == OnMenu.Action && !roundManager.playerIsTargeting && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
 
-        if (MySceneManager.Instance.isInTransition == true) { return; }
+        
 
 
         //Dels with shortcut inputting
@@ -546,5 +550,7 @@ public class ButtonManager : MonoBehaviour
         skillMenu.SetActive(false);
         itemMenu.SetActive(false);
     }  
+
+   
 
 }

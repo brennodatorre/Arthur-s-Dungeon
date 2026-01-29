@@ -13,9 +13,9 @@ public class CursorManager : MonoBehaviour
 
 
     [SerializeField] public GameObject customCursorPrefab;
-    private GameObject customCursor;
+    [HideInInspector] public GameObject customCursor;
     public Image ccImage;
-    [SerializeField] private Canvas canvas;
+    [HideInInspector] public Canvas canvas;
 
     [SerializeField] private Sprite base_cursor; // The default cursor sprite
     [SerializeField] private Sprite onClick_cursor; // The clicked cursor sprite
@@ -67,13 +67,9 @@ public class CursorManager : MonoBehaviour
     void Start()
     {
         sceneManager = MySceneManager.Instance;
-        if (sceneManager.currentSceneType == MySceneManager.SceneType.TEST) { return; }
-        
-        else if (sceneManager.currentSceneType == MySceneManager.SceneType.COMBAT){
-            roundManager = RoundManager.Instance;
-        }
+        roundManager = RoundManager.Instance;
 
-        
+        if (sceneManager.currentSceneType == MySceneManager.SceneType.TEST) { return; }
           
         canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); 
         customCursor = Instantiate(customCursorPrefab, canvas.transform);
@@ -87,29 +83,41 @@ public class CursorManager : MonoBehaviour
 
 
     void Update() {
+
+         
+
+        
+        
+
         // blocks update if on 3D Space
         if (MySceneManager.Instance.currentSceneType == MySceneManager.SceneType.TEST) { return; }
-        
-        
-
+    
         if (sceneManager == null) { sceneManager = MySceneManager.Instance;}
-        if (canvas == null ){ StartCoroutine(LoadingDelay()); return; }
-
+        if (roundManager == null) { roundManager = RoundManager.Instance; }
+        if (roundManager == null && sceneManager.currentSceneType == MySceneManager.SceneType.COMBAT) {return;}
+        
 
         Vector3 mousePos = Input.mousePosition;
 
-        if (sceneManager.currentSceneType == MySceneManager.SceneType.TEST) setCursor(false,true);
+        
         
     
         // Convert the mouse position to canvas space
         Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), mousePos, canvas.worldCamera, out localPoint);
-
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.GetComponent<RectTransform>(), 
+            mousePos, 
+            canvas.worldCamera, 
+            out localPoint
+            );
 
         // Update the custom cursor's anchored position to match the mouse position
         customCursor.GetComponent<RectTransform>().anchoredPosition = localPoint;
         // Adjust the position to center the cursor
         customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(32, -44);
+
+
+
 
         // if the targeting phase is active
         if (sceneManager.currentSceneType == MySceneManager.SceneType.COMBAT && roundManager.currentPhase == RoundManager.TurnPhase.targetingATK) 
@@ -178,6 +186,13 @@ public class CursorManager : MonoBehaviour
             yield return null;
         }
         holdable.gotCompleted();
+        
+
+        if (holdable.gameObject.GetComponent<Entity>() != null) 
+        {
+            RoundManager.Instance.OnTargetSelected( holdable.gameObject.GetComponent<Entity>() );
+        }
+
         stopPAHTHolding(true);
         
     }
@@ -213,15 +228,7 @@ public class CursorManager : MonoBehaviour
 
 
 
-    private IEnumerator LoadingDelay()
-    {
-        yield return null; // wait 1 frame
-        GameObject mainCanvasObj = GameObject.FindGameObjectWithTag("MainCanvas");
-        if (mainCanvasObj != null)
-        {
-            canvas = mainCanvasObj.GetComponent<Canvas>();
-        }
-    }
+ 
 
     private void updateCursorScale(float scale)
     {

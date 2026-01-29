@@ -145,8 +145,10 @@ public class StatusHudManager : MonoBehaviour
     public void addStatusEffectToDisplay(StatusEffect stat)
     {
         GameObject prefab = Instantiate(statusEffectPrefab, stat.target.statEffectDisplay.transform);
-
         statusEffectIconList.Add(prefab);
+
+        prefab.GetComponent<TooltipManager>().tooltipPanel = MySceneManager.Instance.tooltipPanel;
+        prefab.GetComponent<TooltipManager>().canvas = MySceneManager.Instance.canvas;
 
         prefab.GetComponent<StatusEffectIcon>()._statusEffect = stat;
 

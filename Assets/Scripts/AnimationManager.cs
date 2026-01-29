@@ -35,7 +35,7 @@ public class AnimationManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
+           
         }
         else
         {

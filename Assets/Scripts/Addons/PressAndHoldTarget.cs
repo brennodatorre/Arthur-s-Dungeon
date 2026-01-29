@@ -6,9 +6,12 @@ using UnityEngine.EventSystems;
 
 public class PressAndHoldTarget : MonoBehaviour, IPointerDownHandler
 {
+
     private Coroutine shakeCoroutine;
 
     public static PressAndHoldTarget target;
+
+    
 
     [SerializeField] private bool wasCompleted = false;
     public bool isWaiting = false; // lets object be PAHT targeted
@@ -44,6 +47,9 @@ public class PressAndHoldTarget : MonoBehaviour, IPointerDownHandler
         if (wasCompleted)
         {
             wasCompleted = false;
+            
+            
+
             return true;
         }
         else { return false; }

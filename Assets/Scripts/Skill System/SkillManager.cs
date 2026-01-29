@@ -19,7 +19,7 @@ public class SkillManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
+           
         }
         else
         {
@@ -50,7 +50,7 @@ public class SkillManager : MonoBehaviour
             if (skill.actionType == Skill.SkillActionType.Sup) { caster.currentSupActions--; }
             else if (skill.actionType == Skill.SkillActionType.Main) { caster.currentMainActions--; }
 
-            caster.loseMP(skill.mpCost); //caster lose mp
+            caster.addMP( - skill.mpCost); //caster lose mp
 
             if (skill.skillName == "Healing Tear")
             {
@@ -93,6 +93,11 @@ public class SkillManager : MonoBehaviour
             {
 
                 roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doElectrifyWeapon(target, caster, skill)); //add the action to the queue
+            }
+            else if (skill.skillName == "Rest")
+            {
+
+                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doRest( caster, skill)); //add the action to the queue
             }
             else
             {
@@ -427,6 +432,24 @@ public class SkillManager : MonoBehaviour
 
         logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
 
+
+    }
+
+    private IEnumerator doRest( Entity caster, Skill skill)
+    {
+
+        yield return new WaitForSeconds(0f); //wait for 0 seconds
+
+        audioManager.PlaySound(skill.soundEffect); //play the healing sound
+
+        
+        
+
+        var recover = skill.mainDice.Roll(); //roll the healing amount
+        caster.addMP(recover); //heal the target for 10 HP
+
+
+        logManager.AddLog(caster.name + " rested and recovered" + recover + " MP.");
 
     }
 

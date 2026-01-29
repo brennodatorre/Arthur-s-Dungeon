@@ -302,11 +302,9 @@ public class Entity : MonoBehaviour
         if (hp > maxHP) {hp = maxHP;}
     }
 
-    public void loseMP(int value) {
-        mp -= value;
-    }
+    
 
-    public void gainMP(int value)
+    public void addMP(int value)
     {
         mp += value;
         if (mp > maxMP) { mp = maxMP; }
@@ -346,18 +344,20 @@ public class Entity : MonoBehaviour
             PlayerData.Instance.incrementDeathCounter();
             StatusHudManager.Instance.updateLivesCounterUI();
 
+            audioManager.ambienceOutput.Pause();
+            audioManager.PlaySound(audioManager.death_sound); 
 
             // if player has no more lives
             if ((PlayerData.Instance.getLives() - PlayerData.Instance.getDeathCounter()) <= 0)
             {
                 PlayerData.Instance.resetPlayerStatus();
 
-                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition(MySceneManager.SceneType.TUTORIAL, true));
+                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition(MySceneManager.SceneType.TUTORIAL));
             }
             else 
             {
                 //goes to fable shop on player death
-                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition(MySceneManager.SceneType.DEATHSHOP, true));
+                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition(MySceneManager.SceneType.DEATHSHOP));
             }
             
 
@@ -378,6 +378,7 @@ public class Entity : MonoBehaviour
 
                 PlayerData.Instance.addFablePoints(fableWorth);
                 PlayerData.Instance.incrementKillCounter();
+                PlayerData.Instance.addIlhas(2);
 
             }
             else
@@ -477,6 +478,7 @@ public class Entity : MonoBehaviour
     public void setMP(int x) {
         mp = x;
     }
+    
     public void setMaxHP(int x) {
         maxHP = x;
     }
