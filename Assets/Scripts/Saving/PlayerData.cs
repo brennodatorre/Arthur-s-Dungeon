@@ -274,9 +274,10 @@ public class PlayerData : MonoBehaviour
     /// <summary>
     /// Modifies the player's Ilhas by the specified amount, positive or negative
     /// </summary>
-    public void addIlhas(int amount)
+    public void changeIlhas(int amount)
     {
         GameData.Ilhas += amount;
+        if (amount < 0) { GameData.Ilhas = 0;}
     }
     public void setMaxHP(int amount)
     {
@@ -317,10 +318,11 @@ public class PlayerData : MonoBehaviour
         GameData.hp += amount;
         if (GameData.hp > GameData.maxHP) { GameData.hp = GameData.maxHP; }
     }
-    public void restoreMP(int amount)
+    public void changeMP(int amount)
     {
         GameData.mp += amount;
         if (GameData.mp > GameData.maxMP) { GameData.mp = GameData.maxMP; }
+        else if (GameData.mp < 0) { GameData.mp = 0; }
     }
     public void takeTrueDamage(int amount)
     {

@@ -261,7 +261,7 @@ public class Entity : MonoBehaviour
                 StartCoroutine(FlashSprite(sprite, Color.red));
 
                 //show damage popup
-                StartCoroutine(roundManager.ShowDamagePopup(actualDamage, transform.position, Color.red));
+                StartCoroutine(MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.red));
             }
         }
         else
@@ -272,7 +272,7 @@ public class Entity : MonoBehaviour
             StartCoroutine( FlashSprite(sprite, Color.white));
 
             //show damage popup
-            StartCoroutine( roundManager.ShowDamagePopup(actualDamage, transform.position, Color.gray));
+            StartCoroutine( MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.gray));
         }
 
 
@@ -293,7 +293,7 @@ public class Entity : MonoBehaviour
                 roundManager.clashQueue.Enqueue("FlashRed", () => FlashSprite(sprite, Color.red));
 
                 //show damage popup
-                roundManager.clashQueue.Enqueue("showDamagePopup", () => roundManager.ShowDamagePopup(damage, transform.position, Color.red));
+                roundManager.clashQueue.Enqueue("showDamagePopup", () => MySceneManager.Instance.doPopUp(damage.ToString(), transform.position, Color.red));
             }
     }
 
@@ -378,7 +378,7 @@ public class Entity : MonoBehaviour
 
                 PlayerData.Instance.addFablePoints(fableWorth);
                 PlayerData.Instance.incrementKillCounter();
-                PlayerData.Instance.addIlhas(2);
+                PlayerData.Instance.changeIlhas(2);
 
             }
             else

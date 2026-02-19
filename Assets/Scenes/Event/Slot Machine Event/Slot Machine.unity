@@ -297,8 +297,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: GameData.skills.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: GameData.skills.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: GameData.skills.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: GameData.skills.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: GameData.skills.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.size
-      value: 2
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.data[0]
@@ -306,6 +326,42 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 005afb1d946bd1b4bbf14bab003931b9, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.skills.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.skills.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.skills.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.skills.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.skills.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.skills.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.skills.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.skills.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.skills.Array.data[10]
       value: 
       objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
     - target: {fileID: 420727671571176749, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
@@ -2246,8 +2302,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
+  m_AnchoredPosition: {x: -0.065999985, y: -0.08200073}
+  m_SizeDelta: {x: 18.309, y: 15.625}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &983785990
 MonoBehaviour:
@@ -2262,7 +2318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.86666673, b: 0.9960785, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3289,7 +3345,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 0}
+  m_SizeDelta: {x: 11.56, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2090395317
 MonoBehaviour:
@@ -3353,15 +3409,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.07169801, g: 0.07169801, b: 0.07169801, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 78f55521de3b73d4c964770d298f87bd, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

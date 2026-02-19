@@ -411,16 +411,7 @@ public class RoundManager : MonoBehaviour
 
     }
 
-    public IEnumerator ShowDamagePopup(float damage, Vector3 position, Color color)
-    {
-        yield return new WaitForSeconds(0.2f); // delay before showing the popup
 
-        GameObject popup = Instantiate(damagePopupPrefab, hud);
-        popup.GetComponentInChildren<TextMeshProUGUI>().text = damage.ToString();
-        popup.GetComponentInChildren<TextMeshProUGUI>().color = color;
-        popup.transform.position = position;
-        
-    }
     private IEnumerator Delay(float seconds)
     {
         yield return new WaitForSeconds(seconds);

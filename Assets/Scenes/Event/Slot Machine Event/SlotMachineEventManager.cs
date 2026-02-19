@@ -13,6 +13,8 @@ public class SlotMachineEventManager : MonoBehaviour
 
     public string selectedSkill = "none";
 
+
+
     
 
 
@@ -90,15 +92,20 @@ public class SlotMachineEventManager : MonoBehaviour
             Debug.Log("You got nothing!");
             StartCoroutine(MySceneManager.Instance.doPopUp("You got nothing!", this.transform.position, Color.gray));
         }
-        else if (roll < nothing + item)
+        else if (roll < nothing + item) // item
         {
-            Debug.Log("You got an item!");
-            StartCoroutine(MySceneManager.Instance.doPopUp("You got an item!", this.transform.position, Color.yellow));
+            Item newItem = DatabaseManager.Instance.itemDatabase.getRandom();
+            PlayerData.Instance.addItemToInventory(newItem);
+
+           
+            StartCoroutine(MySceneManager.Instance.doPopUp("You got: " + newItem.itemName, this.transform.position, Color.yellow));
         }
-        else if (roll < nothing + item + skill) 
+        else if (roll < nothing + item + skill) // skill
         {
-            Debug.Log("You got a skill!");
-            StartCoroutine(MySceneManager.Instance.doPopUp("You got a skill!", this.transform.position, Color.cyan));
+            Skill newSkill =DatabaseManager.Instance.skillDatabase.getRandom(PlayerData.Instance.getSkills());
+            PlayerData.Instance.addSkill(newSkill);
+
+            StartCoroutine(MySceneManager.Instance.doPopUp("You got: " + newSkill.skillName, this.transform.position, Color.cyan));
         }
         else if (roll < nothing + item + skill + Status) // status points
         {
@@ -106,18 +113,31 @@ public class SlotMachineEventManager : MonoBehaviour
             StartCoroutine(MySceneManager.Instance.doPopUp("You got 3 status points!", this.transform.position, Color.magenta));
             PlayerData.Instance.changeStatusPoints(3);
         }
-        else if (roll < nothing + item + skill + Status + ilhas)
+        else if (roll < nothing + item + skill + Status + ilhas) // ilhas
         {
-            Debug.Log("You got ilhas!");
-            StartCoroutine(MySceneManager.Instance.doPopUp("You got ilhas!", this.transform.position, Color.yellow));
+            int ilhasToGet = (int)System.Math.Ceiling((double)PlayerData.Instance.getIlhas() / 5); // get 20% of the player's current ilhas, rounded up
+
+            if (ilhasToGet == 0)
+            {
+                ilhasToGet = 1; // if the player has 0 ilhas, give them 1 instead
+            }
+
+            PlayerData.Instance.changeIlhas(ilhasToGet);
+
+            
+            StartCoroutine(MySceneManager.Instance.doPopUp("You got " + ilhasToGet + " ilhas!", this.transform.position, Color.yellow));
         }
-        else if (roll < nothing + item + skill + Status + ilhas + heal)
+        else if (roll < nothing + item + skill + Status + ilhas + heal) // full heal
         {
-            Debug.Log("You got healed!");
+            PlayerData.Instance.healPlayer(999);
+
+            
             StartCoroutine(MySceneManager.Instance.doPopUp("You got fullyhealed!", this.transform.position, Color.green));
         }
-        else
+        else // mp heal
         {
+            PlayerData.Instance.changeMP(999);
+
             Debug.Log("You got MP healed!");
             StartCoroutine(MySceneManager.Instance.doPopUp("You got fully MP healed!", this.transform.position, Color.blue));
         }

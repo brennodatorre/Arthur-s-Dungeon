@@ -99,9 +99,18 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (CursorManager.Instance.isDragging) return; //dont show tooltip if dragging a item
 
         if (tooltipPanel == null ) { tooltipPanel = GameObject.FindGameObjectWithTag("TooltipPanel"); }
-        if (tooltipPanel == null ) return;
+        if (tooltipPanel == null ) {tooltipPanel = Instantiate(MySceneManager.Instance.tooltipPanelPrefab, MySceneManager.Instance.canvas.transform);}
+        if (tooltipPanel == null ) {
+            Debug.LogError("Tooltip Panel not found and could not be instantiated.");
+            return;
+        }
         
-        
+        if (tooltipText == null) { tooltipText = tooltipPanel.GetComponentInChildren<TextMeshProUGUI>(); }
+        if (tooltipRect == null) { tooltipRect = tooltipPanel.GetComponent<RectTransform>(); }
+
+        if (canvas == null) { canvas = MySceneManager.Instance.canvas; }
+        if (canvasRect == null) { canvasRect = canvas.GetComponent<RectTransform>(); }
+
         // blocks tooltip
         if (displayToolTip == false) { return; }
 
