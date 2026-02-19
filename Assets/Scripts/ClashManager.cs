@@ -44,12 +44,17 @@ public class ClashManager : MonoBehaviour
 
         yield return new WaitForSeconds(.7f);
 
+        if (attacker.entityType != Entity.EntityType.Player) attacker.GetComponent<Animator>().SetTrigger("Attacking");
+
+
         // runs quick time event
         StartCoroutine(qteManager.doQTE());
         while (qteManager.qteIsRunning == true)
         {
             yield return null;
         }
+
+        
 
         bool qteSuceeded = qteManager.suceededQTE;
         

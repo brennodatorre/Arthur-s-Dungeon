@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9131ef76b2c8924695aff3257888b20, type: 3}
+  m_Name: Prepare
+  m_EditorClassIdentifier: 
+  skillName: Prepare
+  mpCost: 0
+  cooldown: 0
+  currentCooldown: 0
+  description: Gives advantage on the next round
+  fableCost: 0
+  soundEffect: {fileID: 0}
+  origin: 4
+  targetType: 2
+  actionType: 0
+  isOffensiveSkill: 0
+  isPAHTSkill: 0
+  mainDice:
+    dices: []
+    modifier: 0
+  isStackable: 0
+  limitPerTurn: 999
+  currentUsesPerTurn: 0
+  statusEffect: {fileID: 11400000, guid: 9f8ac99b4598aec449096ec53a4747ef, type: 2}

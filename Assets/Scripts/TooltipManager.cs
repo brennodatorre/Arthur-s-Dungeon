@@ -64,6 +64,7 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     void Start()
     {
         if (tooltipPanel == null ) { tooltipPanel = GameObject.FindGameObjectWithTag("TooltipPanel"); }
+        if (tooltipPanel == null ) return;
 
         tooltipText = tooltipPanel.GetComponentInChildren<TextMeshProUGUI>();
         tooltipRect = tooltipPanel.GetComponent<RectTransform>();
@@ -96,6 +97,9 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (!detectChildren && eventData.pointerEnter != gameObject) return; // Ignore if it's actually a child being hovered
         if (RoundManager.Instance != null &&RoundManager.Instance.playerIsTargeting && tooltipType == TooltipType.Entity) { return; } //dont show tooltip if targetting a creature
         if (CursorManager.Instance.isDragging) return; //dont show tooltip if dragging a item
+
+        if (tooltipPanel == null ) { tooltipPanel = GameObject.FindGameObjectWithTag("TooltipPanel"); }
+        if (tooltipPanel == null ) return;
         
         
         // blocks tooltip
@@ -113,6 +117,8 @@ public class TooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         Vector2 pos;
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, Input.mousePosition, canvas.worldCamera, out pos);
+
+        pos.y += 70;
 
         // Clamp tooltip inside the canvas
         float pivotX = Mathf.Clamp(pos.x, -canvasRect.rect.width / 2 + tooltipSize.x / 2, canvasRect.rect.width / 2 - tooltipSize.x / 2);

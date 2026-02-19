@@ -114,7 +114,7 @@ public class CursorManager : MonoBehaviour
         // Update the custom cursor's anchored position to match the mouse position
         customCursor.GetComponent<RectTransform>().anchoredPosition = localPoint;
         // Adjust the position to center the cursor
-        customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(32, -44);
+        customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(32, -40);
 
 
 

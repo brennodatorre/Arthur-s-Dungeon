@@ -27,6 +27,9 @@ public class MySceneManager : MonoBehaviour
 
     private GameObject blackout;
     public GameObject tooltipPanelPrefab;
+
+    public GameObject popUpPrefab;
+
     [HideInInspector]public GameObject tooltipPanel;
     private GameObject lastPopUp;
 
@@ -306,6 +309,18 @@ public class MySceneManager : MonoBehaviour
         setInputBlocker(false);
 
     }
+
+    public IEnumerator doPopUp(String text, Vector3 position, Color color)
+    {
+        yield return new WaitForSeconds(0.2f); // delay before showing the popup
+
+        GameObject popup = Instantiate(popUpPrefab, canvas.transform);
+        popup.GetComponentInChildren<TextMeshProUGUI>().text = text;
+        popup.GetComponentInChildren<TextMeshProUGUI>().color = color;
+        popup.transform.position = position;
+        
+    }
+
 
     public void closeGame()
     {

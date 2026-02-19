@@ -5057,6 +5057,7 @@ GameObject:
   - component: {fileID: 1432705816}
   - component: {fileID: 1432705815}
   - component: {fileID: 1432705817}
+  - component: {fileID: 1432705818}
   m_Layer: 0
   m_Name: Player
   m_TagString: Hero
@@ -5281,6 +5282,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wasCompleted: 0
   isWaiting: 0
+--- !u!95 &1432705818
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432705806}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 20839cbec9ceff348a9306e5ce6aec06, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1443876884
 GameObject:
   m_ObjectHideFlags: 0
@@ -7998,27 +8020,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2023503189942865475, guid: e4ff4f75b2c14da49a0d3319eab4ca92, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 2023503189942865475, guid: e4ff4f75b2c14da49a0d3319eab4ca92, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2023503189942865475, guid: e4ff4f75b2c14da49a0d3319eab4ca92, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 2782486365145311889, guid: e4ff4f75b2c14da49a0d3319eab4ca92, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 2782486365145311889, guid: e4ff4f75b2c14da49a0d3319eab4ca92, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3588900965921201907, guid: e4ff4f75b2c14da49a0d3319eab4ca92, type: 3}
       propertyPath: m_Name
       value: SettingsManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645594980438355691, guid: e4ff4f75b2c14da49a0d3319eab4ca92, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5544914417072000631, guid: e4ff4f75b2c14da49a0d3319eab4ca92, type: 3}
       propertyPath: m_LocalPosition.x

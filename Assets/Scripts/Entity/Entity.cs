@@ -38,7 +38,7 @@ public class Entity : MonoBehaviour
 
 
 
-    public enum Trait { DEXTREZA, ATLETISMO, AURA, CARISMA, SORTE, INTUICAO, HEX, ASTUCIA, VONTADE, REFLEXOS, PERSEPCAO, FURTIVIDADE, CONSTITUICAO };
+    public enum Trait { DEX, ATLETISM, AURA, CHARISM, LUCK, INTUITION, HEX, INT, WILL, REFLEX, PERSEPTION, FURTIVIDY, CONSTITUTION, DOMINANCE };
     [Space(10)]
     [Header("Traits")]
     
@@ -194,43 +194,43 @@ public class Entity : MonoBehaviour
 
         switch (trait)
         {
-            case Trait.DEXTREZA:
+            case Trait.DEX:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(DEX - 1);
                 break;
-            case Trait.ATLETISMO:
+            case Trait.ATLETISM:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(ATLETISM - 1);
                 break;
             case Trait.AURA:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(AURA - 1);
                 break;
-            case Trait.CARISMA:
+            case Trait.CHARISM:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(CHARISM - 1);
                 break;
-            case Trait.SORTE:
+            case Trait.LUCK:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(LUCK - 1);
                 break;
-            case Trait.INTUICAO:
+            case Trait.INTUITION:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(INTUITION - 1);
                 break;
             case Trait.HEX:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(HEX - 1);
                 break;
-            case Trait.ASTUCIA:
+            case Trait.INT:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(INT - 1);
                 break;
-            case Trait.VONTADE:
+            case Trait.WILL:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(WILL - 1);
                 break;
-            case Trait.REFLEXOS:
+            case Trait.REFLEX:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(REFLEX - 1);
                 break;
-            case Trait.PERSEPCAO:
+            case Trait.PERSEPTION:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(PERSEPTION - 1);
                 break;
-            case Trait.FURTIVIDADE:
+            case Trait.FURTIVIDY:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(FURTIVITY - 1);
                 break;
-            case Trait.CONSTITUICAO:
+            case Trait.CONSTITUTION:
                 result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(CONSTITUTION - 1);
                 break;
         }

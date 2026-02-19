@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7988844476981990417}
   - component: {fileID: 4266804626115205939}
   - component: {fileID: -1758324780026542877}
+  - component: {fileID: 4049311920128984758}
   m_Layer: 0
   m_Name: eye_de_frost
   m_TagString: Enemy
@@ -651,6 +652,27 @@ MonoBehaviour:
   currentIntent: 2
   intentMessage: 
   skilllToUse: {fileID: 0}
+--- !u!95 &4049311920128984758
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5248103409059870313}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 20839cbec9ceff348a9306e5ce6aec06, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &3211702566863696307
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2411624240104654749}
   - component: {fileID: 4407004358347439819}
   - component: {fileID: 1359419372813269921}
+  - component: {fileID: 6505739643414837681}
   m_Layer: 0
   m_Name: MeatBall
   m_TagString: Enemy
@@ -41,7 +42,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 451, y: -44}
+  m_AnchoredPosition: {x: 560.44604, y: -46.1}
   m_SizeDelta: {x: 27.324455, y: 20.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7983877129577770263
@@ -662,6 +663,27 @@ MonoBehaviour:
   currentIntent: 2
   intentMessage: 
   skilllToUse: {fileID: 0}
+--- !u!95 &6505739643414837681
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432741755785725440}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 20839cbec9ceff348a9306e5ce6aec06, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &5763604009936395370
 PrefabInstance:
   m_ObjectHideFlags: 0

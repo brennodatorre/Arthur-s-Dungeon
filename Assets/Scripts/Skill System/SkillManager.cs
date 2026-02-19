@@ -99,6 +99,11 @@ public class SkillManager : MonoBehaviour
 
                 roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doRest( caster, skill)); //add the action to the queue
             }
+            else if (skill.skillName == "Prepare")
+            {
+
+                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doPrepare( caster, skill)); //add the action to the queue
+            }
             else
             {
                 Debug.Log("Skill not implemented yet.");
@@ -253,6 +258,39 @@ public class SkillManager : MonoBehaviour
 
     }
 
+    private IEnumerator doPrepare( Entity caster, Skill skill)
+    {
+
+        yield return new WaitForSeconds(0f); //wait for 0 seconds
+
+
+
+        audioManager.PlaySound(skill.soundEffect); //play skill sound
+
+
+        caster.atkAdvantage ++;
+
+        logManager.AddLog(caster.name + " is prepared");
+
+
+
+        //////////////////////////////////////////////////
+
+        StatusEffect inst = Instantiate(skill.statusEffect);
+        caster.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
+
+        activeEffectManager.AddEffect(inst, caster, caster, () => { }, () =>
+        {
+
+            caster.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+
+            caster.atkAdvantage --;
+
+
+        });
+
+    }
+
 
     private IEnumerator doPlatedSoul(Entity target, Entity caster, Skill skill)
     {
@@ -296,10 +334,10 @@ public class SkillManager : MonoBehaviour
         audioManager.PlaySound(skill.soundEffect); //play the skill sound
 
         int casterRoll = 0;
-        if (caster.DEX > caster.ATLETISM) { casterRoll = caster.rollTest(Entity.Trait.DEXTREZA); } //roll a test based on the caster's DEXTREZA
-        else { casterRoll = caster.rollTest(Entity.Trait.ATLETISMO); } //roll a test based on the caster's ATLETISMO
+        if (caster.DEX > caster.ATLETISM) { casterRoll = caster.rollTest(Entity.Trait.DEX); } //roll a test based on the caster's DEXTREZA
+        else { casterRoll = caster.rollTest(Entity.Trait.ATLETISM); } //roll a test based on the caster's ATLETISMO
 
-        int targetRoll = target.rollTest(Entity.Trait.REFLEXOS); //roll a test based on the target's CONSTITUICAO
+        int targetRoll = target.rollTest(Entity.Trait.REFLEX); //roll a test based on the target's CONSTITUICAO
 
         //if skill sucesseds
         if (casterRoll > targetRoll)

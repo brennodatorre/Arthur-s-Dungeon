@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using static Entity;
 
 public class PlayerData : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class PlayerData : MonoBehaviour
 
         [Space (10)]
         [Header ("Player Attributes")]
+
+        public int statusPoints;
+
         public int DEX ;
         public int ATLETISM ;
         public int AURA ;
@@ -308,6 +312,43 @@ public class PlayerData : MonoBehaviour
     }
 
 
+    public void healPlayer(int amount)
+    {
+        GameData.hp += amount;
+        if (GameData.hp > GameData.maxHP) { GameData.hp = GameData.maxHP; }
+    }
+    public void restoreMP(int amount)
+    {
+        GameData.mp += amount;
+        if (GameData.mp > GameData.maxMP) { GameData.mp = GameData.maxMP; }
+    }
+    public void takeTrueDamage(int amount)
+    {
+        GameData.hp -= amount;
+        if (GameData.hp < 0) { GameData.hp = 0; }
+    }
+    public int getMaxHP()
+    {
+        return GameData.maxHP;
+    }
+    public void changeMaxHP (int amount)
+    {
+        GameData.maxHP += amount;
+        if (GameData.maxHP < 1) { GameData.maxHP = 1; }
+        if (GameData.hp > GameData.maxHP) { GameData.hp = GameData.maxHP; }
+        
+    }
+    public void changeDEF(int amount)
+    {
+        GameData.def += amount;
+        
+    }
+
+    public void changeStatusPoints(int amount)
+    {
+        GameData.statusPoints += amount;
+        if (GameData.statusPoints < 0) { Debug.LogWarning("Status points cannot be negative!"); GameData.statusPoints = 0; }
+    }
 
 
     public int getCurrentFablePoints()
@@ -371,10 +412,72 @@ public class PlayerData : MonoBehaviour
     }
     public void RemoveSkill(Skill skill)
     {
-        GameData.skills.Remove(skill);
+        foreach (Skill skl in GameData.skills)
+        {
+            if (skl.skillName == skill.skillName)
+            {
+                GameData.skills.Remove(skl);
+                break;
+            }
+        }
+
+        
     }
 
 
+    public int GetTrait(Trait trait)
+    {
+        int result = 0;
+
+        switch (trait)
+        {
+            case Trait.DEX:
+                result = GameData.DEX;
+                break;
+            case Trait.ATLETISM:
+                result = GameData.ATLETISM;
+                break;
+            case Trait.AURA:
+                result = GameData.AURA;
+                break;
+            case Trait.CHARISM:
+                result = GameData.CHARISM;
+                break;
+            case Trait.LUCK:
+                result = GameData.LUCK;
+                break;
+            case Trait.INTUITION:
+                result = GameData.INTUITION;
+                break;
+            case Trait.HEX:
+                result = GameData.HEX;
+                break;
+            case Trait.INT:
+                result = GameData.INT;
+                break;
+            case Trait.WILL:
+                result = GameData.WILL;
+                break;
+            case Trait.REFLEX:
+                result = GameData.REFLEX;
+                break;
+            case Trait.PERSEPTION:
+                result = GameData.PERSEPTION;
+                break;
+            case Trait.FURTIVIDY:
+                result = GameData.FURTIVITY;
+                break;
+            case Trait.CONSTITUTION:
+                result = GameData.CONSTITUTION;
+                break;
+            case Trait.DOMINANCE:
+                result = GameData.DOMINANCE;
+                break; 
+        }
+
+        return result;
+
+    } 
 
 
 

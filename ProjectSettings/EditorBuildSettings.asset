@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TESTS.unity
     guid: a0d1f84594f399340b94109b7b277f83
+  - enabled: 1
+    path: Assets/Scenes/Event/Fountain Event/Fountain Event.unity
+    guid: fe12c6b97ea96de4f868c2b0d34ab586
   m_configObjects: {}
