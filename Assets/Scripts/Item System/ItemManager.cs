@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviour
@@ -29,6 +30,9 @@ public class ItemManager : MonoBehaviour
 
     public void useItem( Entity target, Entity caster, Item item)
     {
+
+        bool isTargettingEnemy = RoundManager.Instance.enemies.Contains(target);
+
         // deals with self targeting item (casting a self target into someone else)
         if (target != caster && item.targetType == Item.ItemTarget.Self)
         {
@@ -37,6 +41,8 @@ public class ItemManager : MonoBehaviour
             roundManager.buttonManager.closeItemMenu(); //close the skill menu after the action is done
             return;
         }
+
+
 
         if (item.CanBeUsed(caster, target, item))
         {
@@ -47,9 +53,11 @@ public class ItemManager : MonoBehaviour
             switch (item.itemName)
             {
                 case "Bandage":
-                    roundManager.actionQueue.Enqueue("use Bandage", () => useBandage(target, caster, item)); //add the action to the queue
+                    roundManager.actionQueue.Enqueue("used Bandage", () => useBandage(target, caster, item)); 
                     break;
-
+                case "Pocket Shark":
+                    roundManager.actionQueue.Enqueue("used Pocket Shark", () => usePocketShark(target, caster, item, isTargettingEnemy)); 
+                    break;
                 default:
                     Debug.Log("Skill not implemented yet.");
                     break;
@@ -80,16 +88,50 @@ public class ItemManager : MonoBehaviour
             //roundManager.EnableSkillTargetingUI(true);
             roundManager.buttonManager.itemMenu.SetActive(true);
         }
+    
+    
     }
+
+
+
+
+
 
 
     private IEnumerator useBandage(Entity target, Entity caster, Item item)
     {
-        yield return null;
+        yield return new WaitForSeconds(0f);
+        AudioManager.Instance.PlaySound(item.soundEffect); //play the healing sound
         target.heal(5);
         logManager.AddLog(caster.name + " used bandage on " + target.name + " for " + 5 + " HP.");
         
 
+    }
+
+    private IEnumerator usePocketShark(Entity target, Entity caster, Item item, bool isTargettingEnemy)
+    {
+        yield return new WaitForSeconds(0f);
+
+        
+        var damage = item.mainDiceRoll.Roll();
+        AudioManager.Instance.PlaySound(item.soundEffect); //play the damage sound
+        
+
+        if (isTargettingEnemy) {
+            foreach (var enemy in RoundManager.Instance.enemies)
+            {
+                enemy.takeDamage(damage);
+            }
+        }
+        else
+        {
+            foreach (var ally in RoundManager.Instance.allies)
+            {
+                ally.takeDamage(damage);
+            }
+        }
+
+        logManager.AddLog(caster.name + " used Pocket Shark on  for " + damage + " damage.");
     }
     
 }

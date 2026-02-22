@@ -85,7 +85,7 @@ public class DiceRoll
     public int Roll(int advantages = 0)
     {
         //returns random low negative num, showing its not a safe roll to do
-        if (!isSafeRoll(this)) { return -1 - Random.Range(999, 9999);}
+        //if (!isSafeRoll(this)) { return -1 - Random.Range(999, 9999);}
 
         advantages++;
 

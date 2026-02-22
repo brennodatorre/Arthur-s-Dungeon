@@ -340,6 +340,7 @@ public class ButtonManager : MonoBehaviour
             buttonObj.GetComponent<TooltipManager>().btn = buttonObj;
             buttonObj.GetComponent<TooltipManager>().tooltipType = TooltipManager.TooltipType.Item;
             buttonObj.AddComponent<DragAndDropItem>();
+            buttonObj.GetComponentInChildren<Image>().sprite = item.sprite;
             
         
  
@@ -530,7 +531,7 @@ public class ButtonManager : MonoBehaviour
 
             CanvasGroup cg;
 
-            btn.GetComponentInChildren<TextMeshProUGUI>().alpha = 1f;
+            if (btn.GetComponentInChildren<TextMeshProUGUI>() != null) btn.GetComponentInChildren<TextMeshProUGUI>().alpha = 1f;
 
             if (btn.GetComponent<CanvasGroup>() == null) btn.AddComponent<CanvasGroup>();
             cg = btn.GetComponent<CanvasGroup>();

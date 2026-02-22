@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 using UnityEngine;
 
 public class SkillManager : MonoBehaviour
@@ -32,6 +32,9 @@ public class SkillManager : MonoBehaviour
 
     public void doSkill(Entity target, Entity caster, Skill skill)
     {
+
+        bool isTargettingEnemy = RoundManager.Instance.enemies.Contains(target);
+
         // deals with self targeting skills (casting a self target into someone else)
         if (target != caster && skill.targetType == Skill.SkillTarget.Self)
         {
@@ -177,11 +180,8 @@ public class SkillManager : MonoBehaviour
 
         audioManager.PlaySound(skill.soundEffect); //play the healing sound
 
-        DiceRoll healAmount = new DiceRoll(); //create a new DiceRoll for the healing amount
-        healAmount.AddDice(1, 6); //add 1d6 to the healing amount
-
-        var heal = healAmount.Roll(); //roll the healing amount
-        caster.heal(heal); //heal the target for 10 HP
+        var heal = skill.mainDice.Roll(); 
+        caster.heal(heal); //heal the target 
 
 
         logManager.AddLog(caster.name + " casted Healing Tear on " + target.name + " for " + heal + " HP.");

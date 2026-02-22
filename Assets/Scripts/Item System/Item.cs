@@ -14,6 +14,8 @@ public class Item : ScriptableObject
     public string itemName;
     public string description;
 
+    public DiceRoll mainDiceRoll = new DiceRoll();
+
     public Sprite sprite;
     public int value;
     public Entity.EntityOrigin itemOrigin;

@@ -18,7 +18,7 @@ MonoBehaviour:
   currentCooldown: 0
   description: Gives advantage on the next round
   fableCost: 0
-  soundEffect: {fileID: 0}
+  soundEffect: {fileID: 8300000, guid: 06dd84eebb1bd1c4e911806e658cffab, type: 3}
   origin: 4
   targetType: 2
   actionType: 0
