@@ -10,15 +10,24 @@ public class DragAndDropContainer : MonoBehaviour, IDropHandler
     public float animateTime = 0.12f; // animation duration
     Coroutine reorderCoroutine;
 
+    public bool acceptsOutsideItems = false;
+
     public void OnDrop(PointerEventData eventData)
     {
+        
+
         var item = eventData.pointerDrag?.GetComponent<DragAndDropItem>();
         if (item == null) return;
 
-        // Reparent into this container (keeps world position)
-        item.transform.SetParent(transform, true);
+        
 
-        openSpaceForNewItem(item.placeHolder.transform.gameObject, eventData.position);
+        // Reparent into this container (keeps world position)
+        if (acceptsOutsideItems || item.transform.parent == transform) 
+        {
+            item.transform.SetParent(transform, true);
+
+            openSpaceForNewItem(item.placeHolder.transform.gameObject, eventData.position);
+        }
     }
 
     public void openSpaceForNewItem(GameObject placeholder, Vector3 pointerPosition)

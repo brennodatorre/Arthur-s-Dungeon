@@ -86,7 +86,7 @@ public void OnDrag(PointerEventData eventData)
         canvasGroup.alpha = 1f;
 
         var hoveredContainer = eventData.pointerEnter?.GetComponentInParent<DragAndDropContainer>();
-        if (hoveredContainer == null)
+        if (hoveredContainer == null || !hoveredContainer.acceptsOutsideItems)
         {
 
             transform.SetParent(originalParent);

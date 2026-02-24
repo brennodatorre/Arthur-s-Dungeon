@@ -140,10 +140,12 @@ public class ActiveEffectManager : MonoBehaviour
         foreach (StatusEffect effect in effectsCopy)
         {
             effect.endEffectAct.Invoke();
-           
+           effect.currentDuration = 0;
             
         }
 
+        Instance.StartCoroutine(StatusHudManager.Instance.UpdateStatusEffectDisplay());
+        
         effectsToRemove.RemoveAll(effect => true);
 
         

@@ -34,24 +34,21 @@ public class Item : ScriptableObject
 
     public bool CanBeUsed(Entity caster, Entity target, Item item)
     {
-        if (
-            //currentCooldown == 0 &&
-            //currentUsesPerTurn < limitPerTurn &&
-            //caster.getMP() >= mpCost && // Check if the caster has enough MP
+        bool canUse = true;
 
-            // Check if the caster has a support or main action available
-            ((actionType == ItemActionType.Sup ? caster.currentSupActions > 0 : false) ||
-            (actionType == ItemActionType.Main ? caster.currentMainActions > 0 : false) ||
-            actionType == ItemActionType.Bonus ? true : false)
-            //&& checkIfStackCanBeApplied(target, skl) // Check if the skill can be applied to the target
-        ) 
+       
+        if (actionType == ItemActionType.Sup && caster.currentSupActions <= 0)
         {
-            //currentUsesPerTurn++; // Increment the uses per turn
-            return true;
-        } 
-        else {
-            return false; // Return false if any of the conditions are not met
+            canUse = false;
+            LogManager.Instance.AddLog( "No SUPPORT actions left to use " + itemName );
         }
+        if (actionType == ItemActionType.Main && caster.currentMainActions <= 0)
+        {
+            canUse = false;
+            LogManager.Instance.AddLog( "No MAIN actions left to use " + itemName );
+        }
+
+        return canUse;
 
         
     }

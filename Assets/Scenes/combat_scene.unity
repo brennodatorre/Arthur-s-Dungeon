@@ -375,6 +375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfBackgroundUIElements: 0
   animateTime: 0.12
+  acceptsOutsideItems: 0
 --- !u!114 &62992129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2449,6 +2450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfBackgroundUIElements: 1
   animateTime: 0.12
+  acceptsOutsideItems: 0
 --- !u!114 &602847336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6312,6 +6314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfBackgroundUIElements: 1
   animateTime: 0.12
+  acceptsOutsideItems: 0
 --- !u!1 &1809654684
 GameObject:
   m_ObjectHideFlags: 0
@@ -8630,7 +8633,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e065d4c4f9a874a44b9b9959d177e159, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.items.Array.size
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.totalMainActions
@@ -8664,6 +8667,14 @@ PrefabInstance:
       propertyPath: NewGameData.items.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: 4297f332b7e1f4b4bbd8c7a337d86270, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.items.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f4f0f5a57f9c5d479b10149b0173676, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.items.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f4f0f5a57f9c5d479b10149b0173676, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.data[0]
       value: 

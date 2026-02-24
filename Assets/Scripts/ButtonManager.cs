@@ -361,15 +361,15 @@ public class ButtonManager : MonoBehaviour
 
                     if (!inItemOverlay){
                         inItemOverlay = true;
-                        roundManager.itemSelected = item;//tells roundManager which skill was selected
+                        roundManager.itemSelected = item;//tells roundManager which item was selected
 
                         
                         blockItemButtons(itemButtons, button.gameObject);
-                        toggleBtns(false, itemButtons); //lock the skill buttons
-                        lastButtonPressed.GetComponent<Button>().interactable = true; //unlock the last button pressed(the skill button that was pressed)
+                        toggleBtns(false, itemButtons); //lock the item buttons
+                        lastButtonPressed.GetComponent<Button>().interactable = true; //unlock the last button pressed(the item button that was pressed)
 
                         
-                        roundManager.currentPhase = RoundManager.TurnPhase.targetingITEM;//toggles skill targetting
+                        roundManager.currentPhase = RoundManager.TurnPhase.targetingITEM;//toggles item targetting
                         
                         
                         roundManager.toggleEntityTargetingUI(true);

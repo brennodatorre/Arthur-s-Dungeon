@@ -62,22 +62,29 @@ public class ItemManager : MonoBehaviour
                 case "Reagent Slug":
                     roundManager.actionQueue.Enqueue("used Reagent Slug", () => useReagentSlug(target, caster, item)); 
                     break;
+                case "Elk Milk":
+                    roundManager.actionQueue.Enqueue("used Elk Milk", () => useElkMilk(target, caster, item)); 
+                    break;
                 default:
-                    Debug.Log("Skill not implemented yet.");
+                    Debug.Log("Item not implemented yet.");
                     break;
             }
+
+
+
+            //removes used item
+            caster.items.Remove(item);
+            
+            Destroy(ButtonManager.Instance.lastButtonPressed);
 
         }
         else
         {
             audioManager.PlaySound(audioManager.skill_unable_sound);
-            logManager.AddLog(caster.name + " cannot use " + item.itemName + " on " + target.name + ".");
+            //logManager.AddLog(caster.name + " cannot use " + item.itemName + " on " + target.name + ".");
         }
 
-        //removes used item
-        caster.items.Remove(item);
         
-        Destroy(ButtonManager.Instance.lastButtonPressed);
 
 
         if (caster.currentMainActions <= 0)
@@ -158,6 +165,17 @@ public class ItemManager : MonoBehaviour
         logManager.AddLog(caster.name + " used Reagent Slug on " + target.name );
         
 
+    }
+
+    private IEnumerator useElkMilk(Entity target, Entity caster, Item item)
+    {
+        yield return new WaitForSeconds(0f);
+        AudioManager.Instance.PlaySound(item.soundEffect); 
+
+        ActiveEffectManager.RemoveAllEffects(target.activeSkillEffects);
+
+
+        logManager.AddLog(target.name + " drunk Elk Milk" );
     }
 
 #endregion

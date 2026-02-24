@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81bbf051d566c54c9b4be052f58fabb, type: 3}
+  m_Name: Elk_Milk
+  m_EditorClassIdentifier: 
+  itemName: Elk Milk
+  description: Good for your Health
+  isUsableInBattle: 1
+  mainDiceRoll:
+    dices: []
+    modifier: 0
+  sprite: {fileID: 4600594354801571735, guid: 8c6a59b1e76ce984889cdc90a8b0885d, type: 3}
+  value: 6
+  itemOrigin: 7
+  actionType: 1
+  targetType: 0
+  isPAHTItem: 0
+  soundEffect: {fileID: 8300000, guid: 41cbc79ed95e1e54697ffb021ce4cabb, type: 3}

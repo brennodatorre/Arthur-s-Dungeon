@@ -157,7 +157,7 @@ public class StatusHudManager : MonoBehaviour
 
     }
 
-    private IEnumerator UpdateStatusEffectDisplay()
+    public IEnumerator UpdateStatusEffectDisplay()
     {
         List<GameObject> statusToBeRemoved = new List<GameObject>();
 
