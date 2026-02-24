@@ -14,12 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: -1562153253, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
   effectName: Beastified
+  mainRoll:
+    dices:
+    - count: 1
+      sides: 6
+    modifier: 2
+  isStackable: 0
   description: 'Adds (1d6 + 2) to ATK
 
     But at the end, the user takes 1d8 true
     damage'
   duration: 4
   currentDuration: 4
+  effectSound: {fileID: 8300000, guid: a57a2429b35061e4b9062a690259345f, type: 3}
   turnPhaseOfEffect: 1
   effectType: 0
   effectFromSkill: {fileID: 0}

@@ -97,11 +97,7 @@ public class Skill : ScriptableObject
             canUse = false;
             LogManager.Instance.AddLog( "No MAIN actions left to use " + skillName );
         }
-        else if (!checkIfStackCanBeApplied(target))
-        {
-            canUse = false;
-            
-        }
+        
          
 
 
@@ -120,25 +116,7 @@ public class Skill : ScriptableObject
         
     }
 
-    private bool checkIfStackCanBeApplied(Entity target) {
-        if (target.hasEffect(this)) // Check if the target has the effect of this skill
-        {
-            if (isStackable) // Check if the skill is stackable
-            {
-                return true; // Return true if the skill is stackable
-            } 
-            else 
-            {
-                LogManager.Instance.AddLog( "Target already has the effect " + statusEffect.effectName );
-                return false; // Return false if the skill is not stackable
-            }
-        } 
-        else 
-        {
-            return true; // Return true if the target does not have the effect of this skill
-        } 
     
-    }
 
    
 }

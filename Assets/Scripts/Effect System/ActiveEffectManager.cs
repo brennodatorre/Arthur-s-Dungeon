@@ -9,9 +9,12 @@ public class ActiveEffectManager : MonoBehaviour
 {
     public static ActiveEffectManager Instance ;
 
+
     public RoundManager roundManager;
     public LogManager logManager;
     public AudioManager audioManager;
+
+    public StatusEffectPrefabs statusEffectPrefabs;
 
     //if there are too many effects, it my lag, so possible optimization can be done here
     [SerializeField] public List<StatusEffect> activeEffects = new List<StatusEffect>();
@@ -88,13 +91,17 @@ public class ActiveEffectManager : MonoBehaviour
     }
 
 
-    public void AddEffect(StatusEffect staEfct, Entity caster, Entity target, Action effect, Action endEffect)
+
+
+
+    public void AddEffect(StatusEffect staEfct, Entity caster, Entity target, Action effect, Action endEffect, Action callbacl = null)
     {
 
         staEfct.caster = caster;
         staEfct.target = target;
         staEfct.effectAct = effect;
         staEfct.endEffectAct = endEffect;
+        staEfct.callbackEffect = callbacl;
 
         activeEffects.Add(staEfct); //add the effect to the list of active effects  
         StatusHudManager.Instance.addStatusEffectToDisplay(staEfct);
@@ -144,6 +151,193 @@ public class ActiveEffectManager : MonoBehaviour
     }
 
     
+
+
+   
+    
+    #region Effect Logic
+
+    [System.Serializable]
+    public class StatusEffectPrefabs
+    {
+        public StatusEffect BleedEffect;
+        public StatusEffect RottingTouchEffect;
+        public StatusEffect BestificationEffect;
+        public StatusEffect ElectrifiedWeaponEffect;
+        public StatusEffect PreparedEffect;
+        public StatusEffect PlattedSoulEffect;
+    }
+
+
+    public void addBleed(Entity target, Entity caster, bool withSound = false)
+    {
+        StatusEffect inst = Instantiate(statusEffectPrefabs.BleedEffect);
+        target.activeSkillEffects.Add(inst); //add the skill to the active effects list
+
+        AddEffect(inst, caster, target, () =>
+            {
+                // DiceRoll bleedDamage = new DiceRoll(); //create a new DiceRoll
+                // bleedDamage.AddDice(1, 4); //
+                int Bdamage = inst.mainRoll.Roll(); //roll the damage amount
+
+                target.takeTrueDamage(Bdamage); //deal true damage to the target
+
+                logManager.AddLog(target.name + " took " + Bdamage + " bleed damage. ");
+            },
+            () =>
+            {
+                target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+            }, () => addBleed(target, caster));
+    }
+
+    public void addRottingTouch(Entity target, Entity caster, bool withSound = false)
+    {
+
+        if (withSound)audioManager.PlaySound(statusEffectPrefabs.RottingTouchEffect.effectSound); //play skill sound   
+
+        target.currentATK.AddDice(statusEffectPrefabs.RottingTouchEffect.mainRoll); 
+
+
+        StatusEffect inst = Instantiate(statusEffectPrefabs.RottingTouchEffect);
+        target.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
+
+        AddEffect(inst, caster, target, () => { }, () =>
+        {
+
+            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+
+            target.currentATK.RemoveDice(statusEffectPrefabs.RottingTouchEffect.mainRoll); //remove 1d4 from the attack amount
+
+
+        }, () => addRottingTouch(target , caster));
+    }
+
+    public void addBestified(Entity target, Entity caster , bool withSound = false)
+    {
+        //add 1d6 + 2 to the attack of the user
+        target.currentATK.AddDice(statusEffectPrefabs.BestificationEffect.mainRoll);
+        target.currentATK.AddModifier(statusEffectPrefabs.BestificationEffect.mainRoll.modifier);
+
+        if (withSound)
+        {
+            audioManager.PlaySound(statusEffectPrefabs.BestificationEffect.effectSound); //play skill sound
+        }
+
+        StatusEffect inst = Instantiate(statusEffectPrefabs.BestificationEffect);
+        target.activeSkillEffects.Add(inst); //add the skill to the active effects list
+
+        AddEffect(inst, caster, target, () => { }, () =>
+        {
+
+            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+
+            target.currentATK.RemoveDice(1, 6, caster.currentATK); //remove 1d4 from the attack amount
+
+            target.currentATK.AddModifier(-2); //remove the modifier
+
+            DiceRoll damageAmount = new DiceRoll(); //create a new DiceRoll
+            damageAmount.AddDice(1, 8); //
+            int damage = damageAmount.Roll(); //roll the damage amount
+
+            target.takeTrueDamage(damage); //deal true damage to the target
+
+            logManager.AddLog(target.name + " takes " + damage + " damage from Beastial Adrenaline.");
+
+
+
+
+        }, () => addBestified(target, caster));
+
+
+    }  
+
+    public void addElectrifiedWeapon(Entity target, Entity caster, bool withSound = false)
+    {
+        if (withSound)
+        {
+            audioManager.PlaySound(statusEffectPrefabs.ElectrifiedWeaponEffect.effectSound); //play skill sound
+        }
+
+        target.currentATK.AddModifier(statusEffectPrefabs.ElectrifiedWeaponEffect.mainRoll.modifier); //add 1d4 to the attack amount
+
+       
+
+        StatusEffect inst = Instantiate(statusEffectPrefabs.ElectrifiedWeaponEffect);
+        target.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
+
+        AddEffect(inst, caster, target, () => { }, () =>
+        {
+
+            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+
+            target.currentATK.AddModifier(-3); //remove 1d4 from the attack amount
+
+
+        }, () => addElectrifiedWeapon(target, caster));
+    }
+
+    public void addPrepared(Entity target, Entity caster, bool withSound = false)
+    {
+
+
+        if (withSound) audioManager.PlaySound(statusEffectPrefabs.PreparedEffect.effectSound); //play skill sound
+
+
+        caster.atkAdvantage++;
+
+        logManager.AddLog(caster.name + " is prepared");
+
+
+
+        //////////////////////////////////////////////////
+
+        StatusEffect inst = Instantiate(statusEffectPrefabs.PreparedEffect);
+        caster.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
+
+        AddEffect(inst, caster, caster, () => { }, () =>
+        {
+
+            caster.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+
+            caster.atkAdvantage --;
+
+
+        }, () => addPrepared(caster, caster));
+    }
+
+    public void addPlattedSoul(Entity target, Entity caster, bool withSound = false)
+    {
+        
+        if (withSound) audioManager.PlaySound(statusEffectPrefabs.PlattedSoulEffect.effectSound);
+
+        target.def += 3; //add 3 to the defense amount
+
+  
+
+        StatusEffect inst = Instantiate(statusEffectPrefabs.PlattedSoulEffect);
+        target.activeSkillEffects.Add(inst); //add the skill to the active effects list
+
+        AddEffect(inst, caster, target, () => { }, () =>
+        {
+            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+
+            target.def += -3; //remove 1d4 from the attack amount
+
+        }, () => addPlattedSoul(target, caster));
+
+
+    }
+
+
+    #endregion
+
+
+
+
+
+
+
+
 }
 
 

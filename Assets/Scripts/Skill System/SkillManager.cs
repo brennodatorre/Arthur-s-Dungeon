@@ -134,11 +134,7 @@ public class SkillManager : MonoBehaviour
     }
 
 
-
-
-
-    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    #region Basic Skill Management
 
     public Skill getSkill(string skillName)
     {
@@ -173,6 +169,21 @@ public class SkillManager : MonoBehaviour
     }
 
 
+    #endregion
+
+
+
+
+
+
+
+
+
+
+    #region Skill Effects
+
+
+
     private IEnumerator doHealingTear(Entity target, Entity caster, Skill skill)
     {
 
@@ -194,34 +205,9 @@ public class SkillManager : MonoBehaviour
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
 
-
-        audioManager.PlaySound(skill.soundEffect); //play skill sound
-
-        DiceRoll damageAmount = new DiceRoll(); //create a new DiceRoll
-        damageAmount.AddDice(1, 4); //
-
-
-
-        target.currentATK.AddDice(1, 4); //add 1d4 to the attack amount
-
+        activeEffectManager.addRottingTouch(target, caster, true); //add rotting touch to the target
         logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
 
-
-
-        //////////////////////////////////////////////////
-
-        StatusEffect inst = Instantiate(skill.statusEffect);
-        target.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
-
-        activeEffectManager.AddEffect(inst, caster, target, () => { }, () =>
-        {
-
-            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
-
-            target.currentATK.RemoveDice(1, 4, caster.currentATK); //remove 1d4 from the attack amount
-
-
-        });
 
     }
 
@@ -231,30 +217,9 @@ public class SkillManager : MonoBehaviour
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
 
-
-        audioManager.PlaySound(skill.soundEffect); //play skill sound
-
-
-        target.currentATK.AddModifier(3); //add 1d4 to the attack amount
-
+        activeEffectManager.addElectrifiedWeapon(target, caster, true); //add electrified weapon to the target
         logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
-
-
-
-        //////////////////////////////////////////////////
-
-        StatusEffect inst = Instantiate(skill.statusEffect);
-        target.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
-
-        activeEffectManager.AddEffect(inst, caster, target, () => { }, () =>
-        {
-
-            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
-
-            target.currentATK.AddModifier(-3); //remove 1d4 from the attack amount
-
-
-        });
+        
 
     }
 
@@ -263,31 +228,7 @@ public class SkillManager : MonoBehaviour
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
-
-
-        audioManager.PlaySound(skill.soundEffect); //play skill sound
-
-
-        caster.atkAdvantage ++;
-
-        logManager.AddLog(caster.name + " is prepared");
-
-
-
-        //////////////////////////////////////////////////
-
-        StatusEffect inst = Instantiate(skill.statusEffect);
-        caster.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
-
-        activeEffectManager.AddEffect(inst, caster, caster, () => { }, () =>
-        {
-
-            caster.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
-
-            caster.atkAdvantage --;
-
-
-        });
+        ActiveEffectManager.Instance.addPrepared(caster, caster, true); //add prepared to the target
 
     }
 
@@ -297,32 +238,8 @@ public class SkillManager : MonoBehaviour
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
-        audioManager.PlaySound(skill.soundEffect); //play skill sound
-
-
-
-
-
-        target.def += 3; //add 3 to the defense amount
-
+        activeEffectManager.addPlattedSoul(target, caster, true); //add platted soul to the target
         logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
-
-
-
-        //////////////////////////////////////////////////
-
-        StatusEffect inst = Instantiate(skill.statusEffect);
-        target.activeSkillEffects.Add(inst); //add the skill to the active effects list
-
-        activeEffectManager.AddEffect(inst, caster, target, () => { }, () =>
-        {
-            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
-
-            target.def += -3; //remove 1d4 from the attack amount
-        }
-
-
-        );
 
     }
 
@@ -364,44 +281,8 @@ public class SkillManager : MonoBehaviour
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
-        //add 1d6 + 2 to the attack of the user
-        target.currentATK.AddDice(1, 6);
-        target.currentATK.AddModifier(2);
-
-        audioManager.PlaySound(skill.soundEffect); //play skill sound
-
-
-
+        ActiveEffectManager.Instance.addBestified(target, caster, true); //add bestified to the target
         logManager.AddLog(caster.name + " casted " + skill.skillName);
-
-
-
-        //////////////////////////////////////////////////
-
-        StatusEffect inst = Instantiate(skill.statusEffect);
-        target.activeSkillEffects.Add(inst); //add the skill to the active effects list
-
-        activeEffectManager.AddEffect(inst, caster, target, () => { }, () =>
-        {
-
-            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
-
-            target.currentATK.RemoveDice(1, 6, caster.currentATK); //remove 1d4 from the attack amount
-
-            target.currentATK.AddModifier(-2); //remove the modifier
-
-            DiceRoll damageAmount = new DiceRoll(); //create a new DiceRoll
-            damageAmount.AddDice(1, 8); //
-            int damage = damageAmount.Roll(); //roll the damage amount
-
-            target.takeTrueDamage(damage); //deal true damage to the target
-
-            logManager.AddLog(target.name + " takes " + damage + " damage from Beastial Adrenaline.");
-
-
-
-
-        });
 
     }
 
@@ -428,28 +309,7 @@ public class SkillManager : MonoBehaviour
 
 
 
-
-
-            /// ////////////////////////////////////////////////////////////////////
-
-            StatusEffect inst = Instantiate(skill.statusEffect);
-            target.activeSkillEffects.Add(inst); //add the skill to the active effects list
-
-            activeEffectManager.AddEffect(inst, caster, target, () =>
-            {
-                DiceRoll bleedDamage = new DiceRoll(); //create a new DiceRoll
-                bleedDamage.AddDice(1, 4); //
-                int Bdamage = bleedDamage.Roll(); //roll the damage amount
-
-                target.takeTrueDamage(Bdamage); //deal true damage to the target
-
-                logManager.AddLog(target.name + " took " + Bdamage + " bleed damage. ");
-            },
-            () =>
-            {
-                target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
-            });
-
+            activeEffectManager.addBleed(target, caster, true);
 
 
 
@@ -490,6 +350,8 @@ public class SkillManager : MonoBehaviour
         logManager.AddLog(caster.name + " rested and recovered" + recover + " MP.");
 
     }
+
+    #endregion
 
 
 }

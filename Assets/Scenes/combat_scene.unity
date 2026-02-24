@@ -3422,6 +3422,13 @@ MonoBehaviour:
   roundManager: {fileID: 537370085}
   logManager: {fileID: 1260980518}
   audioManager: {fileID: 626889046}
+  statusEffectPrefabs:
+    BleedEffect: {fileID: 11400000, guid: 4a123cd4c22860c4c92507947cfc0c9a, type: 2}
+    RottingTouchEffect: {fileID: 11400000, guid: 8755702190535eb42b3fdf09acfdc1aa, type: 2}
+    BestificationEffect: {fileID: 11400000, guid: fc406424a49fe214f8a2e75592296532, type: 2}
+    ElectrifiedWeaponEffect: {fileID: 11400000, guid: ed5d5eeff3823f84a9f44cc6385f9f31, type: 2}
+    PreparedEffect: {fileID: 11400000, guid: 9f8ac99b4598aec449096ec53a4747ef, type: 2}
+    PlattedSoulEffect: {fileID: 11400000, guid: abb503cfb9c477b4f84996afd055adde, type: 2}
   activeEffects: []
 --- !u!1 &835907752
 GameObject:
@@ -8623,7 +8630,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e065d4c4f9a874a44b9b9959d177e159, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.items.Array.size
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.totalMainActions
@@ -8631,7 +8638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: activeSkillEffects.Array.size
@@ -8649,6 +8656,14 @@ PrefabInstance:
       propertyPath: NewGameData.items.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: c84bf36fdbf11774991d7864d0f3fad5, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.items.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: f86ec29a05c853a41ac80cc7c2d1d0c4, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: NewGameData.items.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4297f332b7e1f4b4bbd8c7a337d86270, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.data[0]
       value: 
@@ -8668,7 +8683,7 @@ PrefabInstance:
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: 005afb1d946bd1b4bbf14bab003931b9, type: 2}
+      objectReference: {fileID: 11400000, guid: 79d6c8f1e3b41594c905b26c2b8a8583, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.data[5]
       value: 

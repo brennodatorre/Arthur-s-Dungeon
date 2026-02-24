@@ -413,11 +413,12 @@ public class Entity : MonoBehaviour
 
     }
 
-    public bool hasEffect(Skill skill) {
-        if (skill.statusEffect == null) { return false; }
+    public bool hasEffect(StatusEffect statusEffect) {
+        if (statusEffect == null) { return false; }
+
         foreach (StatusEffect effect in activeSkillEffects)
         {
-            if (effect.effectName == skill.statusEffect.effectName)
+            if (effect.effectName == statusEffect.effectName)
             {
                 return true; // Return true if the effect is found
             }

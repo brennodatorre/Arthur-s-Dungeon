@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -348,41 +348,46 @@ public class ButtonManager : MonoBehaviour
 
             button.onClick.AddListener(() => 
             {
-                
-                lastButtonPressed = buttonObj;
-
-                itemButtons.Clear(); //clears the skill buttons list
-                //gets all the buttons in the item menu grid and adds them to the skillButtons list
-                foreach (Transform child in itemMenuGrid.transform)
+                if (item.isUsableInBattle)
                 {
-                    if (child.GetComponent<Button>() != null) itemButtons.Add(child.gameObject);
-                }
+                    lastButtonPressed = buttonObj;
 
-                if (!inItemOverlay){
-                    inItemOverlay = true;
-                    roundManager.itemSelected = item;//tells roundManager which skill was selected
+                    itemButtons.Clear(); //clears the skill buttons list
+                    //gets all the buttons in the item menu grid and adds them to the skillButtons list
+                    foreach (Transform child in itemMenuGrid.transform)
+                    {
+                        if (child.GetComponent<Button>() != null) itemButtons.Add(child.gameObject);
+                    }
 
-                    
-                    blockItemButtons(itemButtons, button.gameObject);
-                    toggleBtns(false, itemButtons); //lock the skill buttons
-                    lastButtonPressed.GetComponent<Button>().interactable = true; //unlock the last button pressed(the skill button that was pressed)
+                    if (!inItemOverlay){
+                        inItemOverlay = true;
+                        roundManager.itemSelected = item;//tells roundManager which skill was selected
 
-                    
-                    roundManager.currentPhase = RoundManager.TurnPhase.targetingITEM;//toggles skill targetting
-                    
-                    
-                    roundManager.toggleEntityTargetingUI(true);
+                        
+                        blockItemButtons(itemButtons, button.gameObject);
+                        toggleBtns(false, itemButtons); //lock the skill buttons
+                        lastButtonPressed.GetComponent<Button>().interactable = true; //unlock the last button pressed(the skill button that was pressed)
+
+                        
+                        roundManager.currentPhase = RoundManager.TurnPhase.targetingITEM;//toggles skill targetting
+                        
+                        
+                        roundManager.toggleEntityTargetingUI(true);
 
 
-                }
-                else {
-                    inItemOverlay = false;
-                    
-                    unblockItemButtons(itemButtons, button.gameObject);
-                    toggleBtns(true, itemButtons); //unlock the skill buttons
-                    roundManager.toggleEntityTargetingUI(false); //disable the skill targetting UI
-                    roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
-                }
+                    }
+                    else {
+                        inItemOverlay = false;
+                        
+                        unblockItemButtons(itemButtons, button.gameObject);
+                        toggleBtns(true, itemButtons); //unlock the skill buttons
+                        roundManager.toggleEntityTargetingUI(false); //disable the skill targetting UI
+                        roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
+                    }
+
+                } else{}
+                                
+
             });
         }
         

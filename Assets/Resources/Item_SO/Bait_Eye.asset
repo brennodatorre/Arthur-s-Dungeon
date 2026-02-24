@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f81bbf051d566c54c9b4be052f58fabb, type: 3}
-  m_Name: Pocket_Shark
+  m_Name: Bait_Eye
   m_EditorClassIdentifier: 
-  itemName: Pocket Shark
-  description: Asks a FRIEND for help
+  itemName: Bait Eye
+  description: Looks like a good bait
+  isUsableInBattle: 0
   mainDiceRoll:
-    dices:
-    - count: 4
-      sides: 4
+    dices: []
     modifier: 0
-  sprite: {fileID: -6284554618555544206, guid: 61500d35365b89940af7cb95a062026a, type: 3}
-  value: 10
+  sprite: {fileID: -4942097023706489686, guid: 1dd87c02bf269a04c91f3d2145d36814, type: 3}
+  value: 5
   itemOrigin: 4
   actionType: 0
-  targetType: 1
+  targetType: 0
   isPAHTItem: 0
-  soundEffect: {fileID: 8300000, guid: 867c6cb54e9851348ab01303a4c045ed, type: 3}
+  soundEffect: {fileID: 0}

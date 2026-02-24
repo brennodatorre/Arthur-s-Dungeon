@@ -14,9 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: -1371564972, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
   effectName: Platted Soul
+  mainRoll:
+    dices: []
+    modifier: 0
+  isStackable: 0
   description: +3 DEF
   duration: 3
   currentDuration: 3
+  effectSound: {fileID: 8300000, guid: a6d2f68dc3067ec41a283a350dc0402f, type: 3}
   turnPhaseOfEffect: 0
   effectType: 0
   effectFromSkill: {fileID: 0}

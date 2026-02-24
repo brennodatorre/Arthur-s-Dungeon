@@ -13,6 +13,7 @@ public class Item : ScriptableObject
 
     public string itemName;
     public string description;
+    public bool isUsableInBattle = true;
 
     public DiceRoll mainDiceRoll = new DiceRoll();
 

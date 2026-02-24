@@ -12,10 +12,18 @@ public class StatusEffect : ScriptableObject
 
     public Sprite sprite;
     public string effectName;
+
+    public DiceRoll mainRoll = new DiceRoll();
+
+    public bool isStackable;
+
+
     [TextArea(3, 10)]
     public string description;
     public int duration;
     public int currentDuration = 0;
+
+    public AudioClip effectSound;
 
     public TurnPhaseOfEffect turnPhaseOfEffect;
     public StatusEffectType effectType;
@@ -24,6 +32,7 @@ public class StatusEffect : ScriptableObject
 
     public Action effectAct;
     public Action endEffectAct;
+    public Action callbackEffect;
 
     public Entity caster;
     public Entity target;
@@ -48,6 +57,27 @@ public class StatusEffect : ScriptableObject
         this.endEffectAct = _endEffect;
         this.target = _target;
         this.caster = _caster;
+    }
+
+
+    private bool checkIfStackCanBeApplied(Entity target) {
+        if (target.hasEffect(this)) // Check if the target has the effect of this skill
+        {
+            if (isStackable) // Check if the skill is stackable
+            {
+                return true; // Return true if the skill is stackable
+            } 
+            else 
+            {
+                LogManager.Instance.AddLog( "Target already has the effect " + effectName );
+                return false; // Return false if the skill is not stackable
+            }
+        } 
+        else 
+        {
+            return true; // Return true if the target does not have the effect of this skill
+        } 
+    
     }
     
 

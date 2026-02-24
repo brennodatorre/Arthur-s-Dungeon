@@ -14,9 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 902577478, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
   effectName: Rotted Touch
+  mainRoll:
+    dices:
+    - count: 1
+      sides: 4
+    modifier: 0
+  isStackable: 1
   description: 'Adds 1d4 to the next ATK '
-  duration: 0
-  currentDuration: 0
+  duration: 1
+  currentDuration: 1
+  effectSound: {fileID: 8300000, guid: f49dd6b5f80535541bd3a15c04e777bb, type: 3}
   turnPhaseOfEffect: 1
   effectType: 0
   effectFromSkill: {fileID: 0}

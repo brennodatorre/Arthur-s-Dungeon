@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,9 @@ public class ItemManager : MonoBehaviour
                 case "Pocket Shark":
                     roundManager.actionQueue.Enqueue("used Pocket Shark", () => usePocketShark(target, caster, item, isTargettingEnemy)); 
                     break;
+                case "Reagent Slug":
+                    roundManager.actionQueue.Enqueue("used Reagent Slug", () => useReagentSlug(target, caster, item)); 
+                    break;
                 default:
                     Debug.Log("Skill not implemented yet.");
                     break;
@@ -94,7 +98,7 @@ public class ItemManager : MonoBehaviour
 
 
 
-
+#region Item Effcts
 
 
 
@@ -134,4 +138,27 @@ public class ItemManager : MonoBehaviour
         logManager.AddLog(caster.name + " used Pocket Shark on  for " + damage + " damage.");
     }
     
+    private IEnumerator useReagentSlug(Entity target, Entity caster, Item item)
+    {
+        yield return new WaitForSeconds(0f);
+        AudioManager.Instance.PlaySound(item.soundEffect); //play the healing sound
+
+        List<Action> callbacks = new List<Action>();
+
+        foreach (var effect in target.activeSkillEffects)
+        {
+            if (effect.isStackable) callbacks.Add(effect.callbackEffect);
+        }
+
+        foreach (var callback in callbacks)
+        {
+            callback.Invoke();
+        }
+        
+        logManager.AddLog(caster.name + " used Reagent Slug on " + target.name );
+        
+
+    }
+
+#endregion
 }

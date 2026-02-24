@@ -8,7 +8,7 @@ using UnityEngine;
 public class DiceRoll 
 {
     [SerializeField] public List<Dice> dices = new List<Dice>();
-    [SerializeField] private int modifier = 0;
+    [SerializeField] public int modifier = 0;
 
     public DiceRoll() { }
 
@@ -35,6 +35,13 @@ public class DiceRoll
         dices.Add(new Dice(count, sides));
         return this;
     }
+    public void AddDice(DiceRoll _dices)
+    {
+        foreach (var die in _dices.dices)
+        {
+            dices.Add(new Dice(die.count, die.sides));
+        }
+    }
 
     public void RemoveDice(int count, int sides, DiceRoll diceRoll)
     {
@@ -45,6 +52,14 @@ public class DiceRoll
                 dices.Remove(dice);
                 break;
             }
+        }
+        
+    }
+    public void RemoveDice(DiceRoll _dice)
+    {
+        foreach (var die in _dice.dices)
+        {
+            RemoveDice(die.count, die.sides, _dice);
         }
         
     }

@@ -14,9 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 1359925527, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
   effectName: Weapon Energized
+  mainRoll:
+    dices: []
+    modifier: 3
+  isStackable: 0
   description: Adds +3 to ATK
   duration: 3
   currentDuration: 3
+  effectSound: {fileID: 8300000, guid: e966445cb49ac7f4e9d3e1d002dd1262, type: 3}
   turnPhaseOfEffect: 1
   effectType: 0
   effectFromSkill: {fileID: 11400000, guid: 09353512aaab87d47b590307ffa5df84, type: 2}
