@@ -258,10 +258,10 @@ public class Entity : MonoBehaviour
             else
             {
                 // Flash red to indicate damage taken
-                StartCoroutine(FlashSprite(sprite, Color.red));
+                roundManager.clashQueue.Enqueue("FlashRed", () => FlashSprite(sprite, Color.red));
 
                 //show damage popup
-                StartCoroutine(MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.red));
+                roundManager.clashQueue.Enqueue("showDamagePopup", () => MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.red));
             }
         }
         else
@@ -269,10 +269,10 @@ public class Entity : MonoBehaviour
             actualDamage = 0;
 
             // Flash White to indicate block
-            StartCoroutine( FlashSprite(sprite, Color.white));
+            roundManager.clashQueue.Enqueue("FlashWhite", () => FlashSprite(sprite, Color.white));
 
             //show damage popup
-            StartCoroutine( MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.gray));
+            roundManager.clashQueue.Enqueue("showDamagePopup", () => MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.gray));
         }
 
 
@@ -286,28 +286,35 @@ public class Entity : MonoBehaviour
         
 
         if (hp <= 0) { die(); }
-            else
-            {
+        else
+        {
 
-                // Flash red to indicate damage taken
-                roundManager.clashQueue.Enqueue("FlashRed", () => FlashSprite(sprite, Color.red));
+            // Flash red to indicate damage taken
+            roundManager.clashQueue.Enqueue("FlashRed", () => FlashSprite(sprite, Color.red));
 
-                //show damage popup
-                roundManager.clashQueue.Enqueue("showDamagePopup", () => MySceneManager.Instance.doPopUp(damage.ToString(), transform.position, Color.red));
-            }
+            //show damage popup
+            roundManager.clashQueue.Enqueue("showDamagePopup", () => MySceneManager.Instance.doPopUp(damage.ToString(), transform.position, Color.red));
+        }
     }
 
     public void heal(int value) {
         hp += value;
+        
         if (hp > maxHP) {hp = maxHP;}
+
+        StartCoroutine(MySceneManager.Instance.doPopUp(value.ToString(), this.transform.position, Color.green));
     }
 
     
 
-    public void addMP(int value)
+    public void changeMP(int value)
     {
         mp += value;
         if (mp > maxMP) { mp = maxMP; }
+        if (mp < 0) { mp = 0; return;}
+        
+
+        if (value > 0) StartCoroutine(MySceneManager.Instance.doPopUp(value.ToString(), this.transform.position, Color.blue));
     }
 
     public void SetDef(int value) {

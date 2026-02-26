@@ -19,10 +19,11 @@ MonoBehaviour:
     - count: 1
       sides: 4
     modifier: 0
-  isStackable: 0
+  isStackable: 1
   description: Takes 1d4 damage per turn
   duration: 3
   currentDuration: 3
+  effectSound: {fileID: 0}
   turnPhaseOfEffect: 0
   effectType: 1
   effectFromSkill: {fileID: 0}

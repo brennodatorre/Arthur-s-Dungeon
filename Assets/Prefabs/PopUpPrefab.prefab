@@ -50,8 +50,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 8721285858437019124}
-  floatSpeed: 1
-  duration: 1
+  minAngle: 60
+  maxAngle: 120
+  startSpeed: 25
+  gravity: -100
+  duration: 0.7
 --- !u!1 &5400342402295361566
 GameObject:
   m_ObjectHideFlags: 0

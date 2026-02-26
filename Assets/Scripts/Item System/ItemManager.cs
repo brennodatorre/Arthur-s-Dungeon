@@ -65,6 +65,9 @@ public class ItemManager : MonoBehaviour
                 case "Elk Milk":
                     roundManager.actionQueue.Enqueue("used Elk Milk", () => useElkMilk(target, caster, item)); 
                     break;
+                case "Jura's Fruit":
+                    roundManager.actionQueue.Enqueue("used Jura Fruit", () => useJuraFruit(target, caster, item)); 
+                    break;
                 default:
                     Debug.Log("Item not implemented yet.");
                     break;
@@ -176,6 +179,18 @@ public class ItemManager : MonoBehaviour
 
 
         logManager.AddLog(target.name + " drunk Elk Milk" );
+    }
+
+    private IEnumerator useJuraFruit(Entity target, Entity caster, Item item)
+    {
+        yield return new WaitForSeconds(0f);
+        AudioManager.Instance.PlaySound(item.soundEffect); 
+
+        target.heal( (int) Math.Ceiling((float)target.getMaxHP() / 100 * (int)item.extraInput));
+        target.changeMP( (int) Math.Ceiling((float)target.getMaxMP() / 100 * (int)item.extraInput));
+
+        logManager.AddLog(target.name + " ate Jura's Fruit" );
+
     }
 
 #endregion

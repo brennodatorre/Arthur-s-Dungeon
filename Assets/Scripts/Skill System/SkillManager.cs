@@ -53,7 +53,7 @@ public class SkillManager : MonoBehaviour
             if (skill.actionType == Skill.SkillActionType.Sup) { caster.currentSupActions--; }
             else if (skill.actionType == Skill.SkillActionType.Main) { caster.currentMainActions--; }
 
-            caster.addMP( - skill.mpCost); //caster lose mp
+            caster.changeMP( - skill.mpCost); //caster lose mp
 
             if (skill.skillName == "Healing Tear")
             {
@@ -344,7 +344,7 @@ public class SkillManager : MonoBehaviour
         
 
         var recover = skill.mainDice.Roll(); //roll the healing amount
-        caster.addMP(recover); //heal the target for 10 HP
+        caster.changeMP(recover); //heal the target for 10 HP
 
 
         logManager.AddLog(caster.name + " rested and recovered" + recover + " MP.");

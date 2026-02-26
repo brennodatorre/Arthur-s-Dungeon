@@ -19,6 +19,9 @@ public class Skill : ScriptableObject
     public string description;
     public int fableCost;
     public AudioClip soundEffect;
+
+    public DiceRoll mainDiceRoll = new DiceRoll();
+    public float extraInput;
     
 
     [Space(10)]

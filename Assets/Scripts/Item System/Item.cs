@@ -16,6 +16,7 @@ public class Item : ScriptableObject
     public bool isUsableInBattle = true;
 
     public DiceRoll mainDiceRoll = new DiceRoll();
+    public float extraInput;
 
     public Sprite sprite;
     public int value;

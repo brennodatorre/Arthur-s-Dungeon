@@ -424,7 +424,7 @@ public class RoundManager : MonoBehaviour
         int h = Mathf.CeilToInt(player.getMaxHP() / 10f);
         int m = Mathf.CeilToInt(player.getMaxMP() / 10f);
         player.heal( h);
-        player.addMP( m );
+        player.changeMP( m );
 
 
     }
