@@ -309,7 +309,7 @@ public class SkillManager : MonoBehaviour
 
 
 
-            activeEffectManager.addBleed(target, caster, true);
+            if (!target.isDead) activeEffectManager.addBleed(target, caster, true);
 
 
 

@@ -84,7 +84,7 @@ public class Entity : MonoBehaviour
     [Header("Skiils")]
 
     [SerializeField]public List<Skill> skills = new List<Skill>(); // to not edit original copy
-    [SerializeField] public List<StatusEffect> activeSkillEffects = new List<StatusEffect>();
+    [SerializeField] public List<StatusEffect> activeStatusEffects = new List<StatusEffect>();
 
 
     [Space(10)]
@@ -256,23 +256,24 @@ public class Entity : MonoBehaviour
                 roundManager.clashQueue.actionQueue.Clear(); // clears next actions on action queue since 
             }
             else
-            {
+            {}
                 // Flash red to indicate damage taken
                 roundManager.clashQueue.Enqueue("FlashRed", () => FlashSprite(sprite, Color.red));
+            
 
-                //show damage popup
-                roundManager.clashQueue.Enqueue("showDamagePopup", () => MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.red));
-            }
+            //show damage popup
+            StartCoroutine(MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.red));
+        
         }
         else
         {
             actualDamage = 0;
 
             // Flash White to indicate block
-            roundManager.clashQueue.Enqueue("FlashWhite", () => FlashSprite(sprite, Color.white));
+            roundManager.actionQueue.Enqueue("FlashWhite", () => FlashSprite(sprite, Color.white));
 
             //show damage popup
-            roundManager.clashQueue.Enqueue("showDamagePopup", () => MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.gray));
+            StartCoroutine(MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.gray));
         }
 
 
@@ -290,10 +291,10 @@ public class Entity : MonoBehaviour
         {
 
             // Flash red to indicate damage taken
-            roundManager.clashQueue.Enqueue("FlashRed", () => FlashSprite(sprite, Color.red));
+            roundManager.actionQueue.Enqueue("FlashRed", () => FlashSprite(sprite, Color.red));
 
             //show damage popup
-            roundManager.clashQueue.Enqueue("showDamagePopup", () => MySceneManager.Instance.doPopUp(damage.ToString(), transform.position, Color.red));
+            StartCoroutine(MySceneManager.Instance.doPopUp(damage.ToString(), transform.position, Color.red));
         }
     }
 
@@ -395,25 +396,8 @@ public class Entity : MonoBehaviour
 
 
             StartCoroutine(AnimationManager.Instance.DissolveUponDeath(sprite)); //dissolves the entity upon death
+            ActiveEffectManager.RemoveAllEffects(activeStatusEffects);
 
-            // ///// fix this for mult enemy damage, it will trigger that many times if u end the combat by killing more than one enemy \\\\\\
-            // if (roundManager.enemies.Length == 0 && !roundManager.combatIsDone)
-            // {  //goes to next combat level
-
-            //     PlayerData.Instance.incrementLevelsBeat();
-            //     doInBtwnLevelPlayerRegen();
-            //     PlayerData.Instance.savePlayerData(roundManager.player);
-
-            //     StatusHudManager.Instance.updateLevelCounterUI();
-
-            //     roundManager.combatIsDone = true;
-
-
-
-            //     StartCoroutine(MySceneManager.Instance.openSceneWithTransition("COMBAT", false));
-            // }
-
-        
         
         }
         
@@ -423,7 +407,7 @@ public class Entity : MonoBehaviour
     public bool hasEffect(StatusEffect statusEffect) {
         if (statusEffect == null) { return false; }
 
-        foreach (StatusEffect effect in activeSkillEffects)
+        foreach (StatusEffect effect in activeStatusEffects)
         {
             if (effect.effectName == statusEffect.effectName)
             {

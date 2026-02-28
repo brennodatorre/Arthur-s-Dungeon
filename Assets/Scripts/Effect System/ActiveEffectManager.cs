@@ -96,6 +96,7 @@ public class ActiveEffectManager : MonoBehaviour
 
     public void AddEffect(StatusEffect staEfct, Entity caster, Entity target, Action effect, Action endEffect, Action callbacl = null)
     {
+        if (target.getHP() == 0) {return; } //don't add the effect if the target is dead
 
         staEfct.caster = caster;
         staEfct.target = target;
@@ -144,9 +145,10 @@ public class ActiveEffectManager : MonoBehaviour
             
         }
 
+        effectsToRemove.RemoveAll(effect => true);
         Instance.StartCoroutine(StatusHudManager.Instance.UpdateStatusEffectDisplay());
         
-        effectsToRemove.RemoveAll(effect => true);
+        
 
         
 
@@ -168,13 +170,14 @@ public class ActiveEffectManager : MonoBehaviour
         public StatusEffect ElectrifiedWeaponEffect;
         public StatusEffect PreparedEffect;
         public StatusEffect PlattedSoulEffect;
+        public StatusEffect SlateScarEffect;
     }
 
 
     public void addBleed(Entity target, Entity caster, bool withSound = false)
     {
         StatusEffect inst = Instantiate(statusEffectPrefabs.BleedEffect);
-        target.activeSkillEffects.Add(inst); //add the skill to the active effects list
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list
 
         AddEffect(inst, caster, target, () =>
             {
@@ -188,7 +191,7 @@ public class ActiveEffectManager : MonoBehaviour
             },
             () =>
             {
-                target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+                target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
             }, () => addBleed(target, caster));
     }
 
@@ -201,12 +204,12 @@ public class ActiveEffectManager : MonoBehaviour
 
 
         StatusEffect inst = Instantiate(statusEffectPrefabs.RottingTouchEffect);
-        target.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list of the target
 
         AddEffect(inst, caster, target, () => { }, () =>
         {
 
-            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+            target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
             target.currentATK.RemoveDice(statusEffectPrefabs.RottingTouchEffect.mainRoll); //remove 1d4 from the attack amount
 
@@ -226,12 +229,12 @@ public class ActiveEffectManager : MonoBehaviour
         }
 
         StatusEffect inst = Instantiate(statusEffectPrefabs.BestificationEffect);
-        target.activeSkillEffects.Add(inst); //add the skill to the active effects list
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list
 
         AddEffect(inst, caster, target, () => { }, () =>
         {
 
-            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+            target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
             target.currentATK.RemoveDice(1, 6, caster.currentATK); //remove 1d4 from the attack amount
 
@@ -265,12 +268,12 @@ public class ActiveEffectManager : MonoBehaviour
        
 
         StatusEffect inst = Instantiate(statusEffectPrefabs.ElectrifiedWeaponEffect);
-        target.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list of the target
 
         AddEffect(inst, caster, target, () => { }, () =>
         {
 
-            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+            target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
             target.currentATK.AddModifier(-3); //remove 1d4 from the attack amount
 
@@ -294,12 +297,12 @@ public class ActiveEffectManager : MonoBehaviour
         //////////////////////////////////////////////////
 
         StatusEffect inst = Instantiate(statusEffectPrefabs.PreparedEffect);
-        caster.activeSkillEffects.Add(inst); //add the skill to the active effects list of the target
+        caster.activeStatusEffects.Add(inst); //add the skill to the active effects list of the target
 
         AddEffect(inst, caster, caster, () => { }, () =>
         {
 
-            caster.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+            caster.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
             caster.atkAdvantage --;
 
@@ -317,16 +320,36 @@ public class ActiveEffectManager : MonoBehaviour
   
 
         StatusEffect inst = Instantiate(statusEffectPrefabs.PlattedSoulEffect);
-        target.activeSkillEffects.Add(inst); //add the skill to the active effects list
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list
 
         AddEffect(inst, caster, target, () => { }, () =>
         {
-            target.activeSkillEffects.Remove(inst); //remove the effect from the active effects list
+            target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
             target.def += -3; //remove 1d4 from the attack amount
 
         }, () => addPlattedSoul(target, caster));
 
+
+    }
+
+
+    public void addSlateScar(Entity target, Entity caster, bool withSound = false)
+    {
+        if (withSound) audioManager.PlaySound(statusEffectPrefabs.SlateScarEffect.effectSound);
+
+        target.def +=  -1; 
+
+        StatusEffect inst = Instantiate(statusEffectPrefabs.SlateScarEffect);
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list
+
+        AddEffect(inst, caster, target, () => { }, () =>
+        {
+            target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
+
+            target.def += 1; 
+
+        }, () => addSlateScar(target, caster));
 
     }
 

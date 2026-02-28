@@ -113,7 +113,7 @@ public class PlayerData : MonoBehaviour
     public void savePlayerData(Entity player)
     {
      
-        ActiveEffectManager.RemoveAllEffects(player.activeSkillEffects);
+        ActiveEffectManager.RemoveAllEffects(player.activeStatusEffects);
 
         // Copy over the data
         GameData.playerName = player.name;
@@ -149,7 +149,7 @@ public class PlayerData : MonoBehaviour
 
         
 
-        GameData.StatusEffects = new List<StatusEffect>(player.activeSkillEffects);
+        GameData.StatusEffects = new List<StatusEffect>(player.activeStatusEffects);
 
         GameData.items = new List<Item>(player.items);
         
@@ -193,7 +193,7 @@ public class PlayerData : MonoBehaviour
         
         player.skills = new List<Skill>(GameData.skills);
 
-        player.activeSkillEffects = new List<StatusEffect>(GameData.StatusEffects);
+        player.activeStatusEffects = new List<StatusEffect>(GameData.StatusEffects);
 
         player.items = new List<Item>(GameData.items);
         

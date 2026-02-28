@@ -68,6 +68,9 @@ public class ItemManager : MonoBehaviour
                 case "Jura's Fruit":
                     roundManager.actionQueue.Enqueue("used Jura Fruit", () => useJuraFruit(target, caster, item)); 
                     break;
+                case "Slate Blade":
+                    roundManager.actionQueue.Enqueue("used Slate Blade", () => useSlateBlade(target, caster, item)); 
+                    break;
                 default:
                     Debug.Log("Item not implemented yet.");
                     break;
@@ -155,7 +158,7 @@ public class ItemManager : MonoBehaviour
 
         List<Action> callbacks = new List<Action>();
 
-        foreach (var effect in target.activeSkillEffects)
+        foreach (var effect in target.activeStatusEffects)
         {
             if (effect.isStackable) callbacks.Add(effect.callbackEffect);
         }
@@ -175,7 +178,7 @@ public class ItemManager : MonoBehaviour
         yield return new WaitForSeconds(0f);
         AudioManager.Instance.PlaySound(item.soundEffect); 
 
-        ActiveEffectManager.RemoveAllEffects(target.activeSkillEffects);
+        ActiveEffectManager.RemoveAllEffects(target.activeStatusEffects);
 
 
         logManager.AddLog(target.name + " drunk Elk Milk" );
@@ -191,6 +194,15 @@ public class ItemManager : MonoBehaviour
 
         logManager.AddLog(target.name + " ate Jura's Fruit" );
 
+    }
+
+    private IEnumerator useSlateBlade(Entity target, Entity caster, Item item)
+    {
+        yield return new WaitForSeconds(0f);
+        AudioManager.Instance.PlaySound(item.soundEffect); 
+
+        ActiveEffectManager.Instance.addSlateScar(target, caster, true);
+        
     }
 
 #endregion

@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -159,29 +160,45 @@ public class StatusHudManager : MonoBehaviour
 
     public IEnumerator UpdateStatusEffectDisplay()
     {
-        List<GameObject> statusToBeRemoved = new List<GameObject>();
+        List<GameObject> statusUpdate = new List<GameObject>(statusEffectIconList); // Create a copy of the list to iterate over
+        List<GameObject> iconsToRemove = new List<GameObject>(); // List to keep track of icons that need to be removed
 
         foreach (GameObject st in statusEffectIconList)
         {
             StatusEffect stat = st.GetComponent<StatusEffectIcon>()._statusEffect;
 
             // removes icon when duration is over
-            if (stat.currentDuration < 1)
+            if (stat == null || stat.currentDuration < 1)
             {
+
                 yield return AnimationManager.Instance.doShakeAnimation(st, 1f);
                 AudioManager.Instance.PlaySound(AudioManager.Instance.statusEffect_end_sound);
-                statusToBeRemoved.Add(st);
+
                 
+                statusUpdate.Remove(st);
+                iconsToRemove.Add(st);
                 Destroy(st);
+
+                continue; // Skip the rest of the loop for this icon since it's being removed
+                
+                
 
             }
 
             st.GetComponentInChildren<TooltipManager>().description =
                 stat.effectName + " " + stat.currentDuration + " / " + stat.duration + "\n\n" + stat.description;
         }
+
+       
+        statusEffectIconList = statusUpdate; // Update the original list with the modified copy
         
-        foreach (GameObject st in statusToBeRemoved) { statusEffectIconList.Remove(st); }
+        
+        
+        
     }
+
+
+   
 
 
 
