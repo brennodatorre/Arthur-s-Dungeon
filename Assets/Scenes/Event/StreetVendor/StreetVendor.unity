@@ -743,7 +743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shop: {fileID: 1667690108}
-  itemDatabase: {fileID: 11400000, guid: 3767fbe8404a381449eb068e7dd0da30, type: 2}
+  itemDatabase: {fileID: 11400000, guid: ea47e4ac75aaf0940b8a666192523161, type: 2}
   walletText: {fileID: 1729546514}
 --- !u!1001 &375754279
 PrefabInstance:

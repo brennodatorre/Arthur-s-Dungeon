@@ -251,10 +251,10 @@ public class SkillManager : MonoBehaviour
         audioManager.PlaySound(skill.soundEffect); //play the skill sound
 
         int casterRoll = 0;
-        if (caster.DEX > caster.ATLETISM) { casterRoll = caster.rollTest(Entity.Trait.DEX); } //roll a test based on the caster's DEXTREZA
-        else { casterRoll = caster.rollTest(Entity.Trait.ATLETISM); } //roll a test based on the caster's ATLETISMO
+        if (caster.DEX > caster.ATLETISM) { casterRoll = caster.rollTest(caster.DEX); } //roll a test based on the caster's DEXTREZA
+        else { casterRoll = caster.rollTest(caster.ATLETISM); } //roll a test based on the caster's ATLETISMO
 
-        int targetRoll = target.rollTest(Entity.Trait.REFLEX); //roll a test based on the target's CONSTITUICAO
+        int targetRoll = target.rollTest(target.REFLEX); //roll a test based on the target's CONSTITUICAO
 
         //if skill sucesseds
         if (casterRoll > targetRoll)

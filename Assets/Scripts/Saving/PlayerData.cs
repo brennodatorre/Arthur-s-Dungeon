@@ -6,6 +6,7 @@ using static Entity;
 public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
+    public enum Trait { DEX, ATLETISM, AURA, CHARISM, LUCK, INTUITION, HEX, INT, WILL, REFLEX, PERSEPTION, FURTIVIDY, CONSTITUTION, DOMINANCE };
 
     /// 
     /// Newgame context (OR context ( Current Life context ) )
@@ -27,7 +28,7 @@ public class PlayerData : MonoBehaviour
         public int totalSupActions ;
 
         [Space (10)]
-        [Header ("Player Attributes")]
+        [Header ("Player Attributes (0 = 1d20) ")]
 
         public int statusPoints;
 
@@ -277,7 +278,7 @@ public class PlayerData : MonoBehaviour
     public void changeIlhas(int amount)
     {
         GameData.Ilhas += amount;
-        if (amount < 0) { GameData.Ilhas = 0;}
+        if (GameData.Ilhas < 0) { GameData.Ilhas = 0;}
     }
     public void setMaxHP(int amount)
     {

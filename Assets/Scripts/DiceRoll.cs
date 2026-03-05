@@ -96,32 +96,47 @@ public class DiceRoll
         return   safe;
     }
     
-    //rolls the dices and return the result without the modifier
+    //rolls the dices and return the result + the modifier
     public int Roll(int advantages = 0)
     {
-        //returns random low negative num, showing its not a safe roll to do
-        //if (!isSafeRoll(this)) { return -1 - Random.Range(999, 9999);}
+        
 
-        advantages++;
+        int rolls = Mathf.Abs(advantages) + 1;
 
-        int finaltotal = 0;
-        int total;
-        for (int i = 0; i < advantages; i++)
+        int bestTotal = 0;
+        bool firstRoll = true;
+
+        for (int i = 0; i < rolls; i++)
         {
-            total = 0;
+            int total = 0;
+
             foreach (var dice in dices)
             {
-                for (int j = 0; j < dice.count; j++)
-                {
-                    if (dice.count <= 0 || dice.sides <= 0)
+                if (dice.count <= 0 || dice.sides <= 0)
                     continue;
 
+                for (int j = 0; j < dice.count; j++)
+                {
                     total += Random.Range(1, dice.sides + 1);
                 }
             }
-            if (total > finaltotal) finaltotal = total;
+
+            if (firstRoll)
+            {
+                bestTotal = total;
+                firstRoll = false;
+            }
+            else if (advantages >= 0) // advantage
+            {
+                bestTotal = Mathf.Max(bestTotal, total);
+            }
+            else // disadvantage
+            {
+                bestTotal = Mathf.Min(bestTotal, total);
+            }
         }
-        return finaltotal + modifier;
+
+        return bestTotal + modifier;
 
         
     }
@@ -153,8 +168,22 @@ public class DiceRoll
 
     }
 
+    /// <summary>
+    /// Rolls a Trait test based on the Trait Scaling
+    /// </summary>
+    /// <param name="level"></param>
+    /// <returns> The result of the roll </returns>
+    public static int rollTest (int level)
+    {
+        int tier = level / 3;
+        int modifier = tier * 5;
 
-    
+        int advantage = (level % 3) + 1;
+
+        DiceRoll roll = new DiceRoll(new List<Dice> { new Dice(1, 20) }, modifier);
+
+        return roll.Roll(advantage);
+    }
 
 
       public string diceToString()

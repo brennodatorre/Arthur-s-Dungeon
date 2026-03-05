@@ -62,7 +62,7 @@ public class SlotMachineEventManager : MonoBehaviour
             updateSkillSlots();
             selectedSkill = "none";
 
-            int luck = PlayerData.Instance.GetTrait(Entity.Trait.LUCK);
+            int luck = PlayerData.Instance.GetTrait(PlayerData.Trait.LUCK);
 
             //                            N     i      s     T       I    h    P 
             if      (luck >= 6) {playOdds(0,    20,    25,   15,     10,  25,  5);}

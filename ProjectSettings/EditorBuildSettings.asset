@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Event/Slot Machine Event/Slot Machine.unity
     guid: bc8df3116feeb1743b72137e9f04079f
+  - enabled: 1
+    path: Assets/Scenes/Map Scene.unity
+    guid: fa6c204002b109a4797d1d9c0690fc29
   m_configObjects: {}

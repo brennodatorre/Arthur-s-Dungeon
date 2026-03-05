@@ -16,7 +16,7 @@ public class MySceneManager : MonoBehaviour
     private int currentSceneIndex;
     private bool sceneChanged;
 
-    public enum SceneType { COMBAT, MAINMENU, TUTORIAL, DEATHSHOP, EVENT, TEST, NEXT }
+    public enum SceneType { COMBAT, MAINMENU, TUTORIAL, DEATHSHOP, EVENT, TEST, NEXT, MAP }
     public SceneType currentSceneType;
     public Entity player;
 
@@ -30,7 +30,7 @@ public class MySceneManager : MonoBehaviour
 
     public GameObject popUpPrefab;
 
-    [HideInInspector]public GameObject tooltipPanel;
+
     private GameObject lastPopUp;
 
     [HideInInspector] public bool isInTransition = false;
@@ -136,6 +136,8 @@ public class MySceneManager : MonoBehaviour
 
     public SceneType getNextScene()
     {
+        if (currentSceneType != SceneType.MAP) {return SceneType.MAP;}
+
         float rand = UnityEngine.Random.Range(0f, 1f);
 
         if (rand < currentEventRate)
@@ -215,16 +217,22 @@ public class MySceneManager : MonoBehaviour
                 break;
 
             case SceneType.EVENT:
-                // string randomEvent = eventSceneDatabase.getRandom();
-                // Debug.Log("Opening event scene: " + randomEvent);
+                string randomEvent = eventSceneDatabase.getRandom();
+                Debug.Log("Opening event scene: " + randomEvent);
                 currentSceneType = SceneType.EVENT;
-                StartCoroutine(openSceneWithDelay("StreetVendor", delay));
+                StartCoroutine(openSceneWithDelay(randomEvent, delay));
                 
                 break;
             case SceneType.NEXT: ///for algorithmic scene progression
                 SceneType nextScene = getNextScene();
                 openNextScene(nextScene, delay);
                 break;
+
+            case SceneType.MAP:
+                StartCoroutine(openSceneWithDelay("Map Scene", delay));
+                currentSceneType = SceneType.MAP;
+                break;
+
 
         }
 
@@ -265,7 +273,8 @@ public class MySceneManager : MonoBehaviour
         }
 
         //creates a new tooltip panel
-        GameObject popUpPanel = Instantiate(this.tooltipPanel, tooltipPanel.transform.parent);
+        GameObject popUpPanel = Instantiate(tooltipPanelPrefab, canvas.transform);
+        popUpPanel.transform.position = CursorManager.Instance.customCursor.transform.position;
         popUpPanel.transform.SetAsLastSibling(); //makes sure it's on top of other UI elements
 
         lastPopUp = popUpPanel; //saves referejce

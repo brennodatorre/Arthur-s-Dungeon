@@ -1,0 +1,230 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MapSceneManager : MonoBehaviour
+{
+
+    public static MapSceneManager Instance;
+    public GameObject roomPrefab;
+    public GameObject gridObject;
+    public GameObject playerIcon;
+    public float roomSpacing = 10f; 
+
+    RoomTile[,] roomGrid;
+
+    public int mapSizeX;
+    public int mapSizeY;
+    public int energy;
+    public int builders = 1;
+
+    public Color startingDoorColor = Color.clear;
+    public Color discoveredColor = Color.white;
+    public Color undiscoveredColor = Color.clear;
+
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
+
+
+
+        makeGrid();
+        RoomTile firstRoom = roomGrid[mapSizeX/2, mapSizeY/2].buildFirstRoom();
+        playerIcon.transform.position = firstRoom.transform.position;
+        
+        for (int i = 0; i < builders; i++)
+        {
+            buildDungeon(firstRoom, energy);
+        }
+
+        firstRoom.analyzeRoom();
+    }
+
+
+
+
+
+
+   public void makeGrid()
+    {
+        roomGrid = new RoomTile[mapSizeX, mapSizeY];
+
+        RectTransform prefabRect = roomPrefab.GetComponent<RectTransform>();
+        float tileDistance = prefabRect.sizeDelta.x + roomSpacing;
+        
+        // Create room tiles
+        for (int x = 0; x < mapSizeX; x++)
+        {
+            for (int y = 0; y < mapSizeY; y++)
+            {
+                GameObject newRoom = Instantiate(roomPrefab, gridObject.transform);
+                RectTransform rect = newRoom.GetComponent<RectTransform>();
+
+                rect.anchoredPosition = new Vector2(
+                    x * tileDistance,
+                    y * tileDistance
+                );
+
+                roomGrid[x, y] = newRoom.GetComponent<RoomTile>();
+                roomGrid[x, y].x = x;
+                roomGrid[x,y].y = y;
+
+                
+                
+            }
+        }
+
+
+        
+        // Center the grid on the map
+        gridObject.transform.localPosition = -1 * roomGrid[mapSizeX /2, mapSizeY/2].transform.localPosition ;
+    }
+
+    /// <summary>
+    /// This is what makes the actual dungeon based on the grid, called x times for x builders
+    /// </summary>
+    private void buildDungeon(RoomTile room, int energy, int previousRoom = -1) 
+    {
+        if (energy <= 0) {lookForNeighboors(room); return;}
+
+        int randomDirection = -1;
+        
+
+        // higher chance to stay on same direction
+        if (previousRoom != -1)
+        {
+            // Continue in the same direction
+            randomDirection = UnityEngine.Random.Range(1, 101);
+            if (randomDirection <= 50)
+            {
+                randomDirection = previousRoom; // Continue in the same direction
+            }
+            else
+            {
+                randomDirection = UnityEngine.Random.Range(1, 5); // Choose a new direction
+            }
+
+        } else 
+        {
+            randomDirection = UnityEngine.Random.Range(1, 5); // Choose a new direction
+        }
+
+
+        RoomTile nextRoom = null;
+
+        // Determine the next room based on the random direction
+        switch (randomDirection)
+        {
+            case 1: // North
+                if (room.y < mapSizeY - 1) 
+                {
+                    nextRoom = roomGrid[room.x, room.y + 1];
+                    
+                }
+                break;
+
+            case 2: // South
+                if (room.y > 0) 
+                {
+                    nextRoom = roomGrid[room.x, room.y - 1];
+                    
+                }
+                break;
+
+            case 3: // West
+                if (room.x > 0) 
+                {
+                    nextRoom = roomGrid[room.x - 1, room.y];
+                    
+                }
+                break;
+
+            case 4: // East
+                if (room.x < mapSizeX - 1) 
+                {
+                    nextRoom = roomGrid[room.x + 1, room.y];
+                }
+                break;
+
+        }
+        
+        lookForNeighboors(room);
+        
+        if (nextRoom == null) 
+        {
+            buildDungeon(room, energy ); // Try a different direction
+            return;
+        }
+
+        
+
+        if (nextRoom.roomState == RoomTile.RoomState.NOTSET) 
+        {
+            nextRoom.buildRoom();
+            buildDungeon(nextRoom, energy - 1, randomDirection); // Continue in same direction
+        } else 
+        {
+            buildDungeon(nextRoom, energy - 1,  randomDirection); // Try a different direction
+        }
+
+
+
+
+    }
+
+    private void lookForNeighboors(RoomTile room)
+    {
+        int x = room.x;
+        int y = room.y;
+
+        Color doorColor = startingDoorColor;
+       
+
+        // Only set neighboors for rooms that are built
+        if (room.roomState == RoomTile.RoomState.NOTSET) return;
+
+        // sets north neighboor and doors if north room is built
+        if((y < mapSizeY - 1) && roomGrid[x, y + 1].roomState != RoomTile.RoomState.NOTSET) {
+            room.northRoom = roomGrid[x, y + 1];
+            room.northRoom.southRoom = room;
+            room.northDoor.color = doorColor;
+            room.northRoom.southDoor.color = doorColor;
+        
+        }
+        // sets south 
+        if (y > 0 && roomGrid[x, y - 1].roomState != RoomTile.RoomState.NOTSET) {
+            room.southRoom = roomGrid[x, y - 1];
+            room.southRoom.northRoom = room;
+            room.southDoor.color = doorColor;
+            room.southRoom.northDoor.color = doorColor;
+        }
+        // sets west
+        if (x > 0 && roomGrid[x - 1, y].roomState != RoomTile.RoomState.NOTSET) {
+            room.westRoom = roomGrid[x - 1, y];
+            room.westRoom.eastRoom = room;
+            room.westDoor.color = doorColor;
+            room.westRoom.eastDoor.color = doorColor;
+        }
+        // sets east
+        if (x < mapSizeX - 1 && roomGrid[x + 1, y].roomState != RoomTile.RoomState.NOTSET) {
+            room.eastRoom = roomGrid[x + 1, y];
+            room.eastRoom.westRoom = room;
+            room.eastDoor.color = doorColor;
+            room.eastRoom.westDoor.color = doorColor;
+        }
+
+    }
+
+
+
+}

@@ -38,25 +38,25 @@ public class Entity : MonoBehaviour
 
 
 
-    public enum Trait { DEX, ATLETISM, AURA, CHARISM, LUCK, INTUITION, HEX, INT, WILL, REFLEX, PERSEPTION, FURTIVIDY, CONSTITUTION, DOMINANCE };
+    
     [Space(10)]
-    [Header("Traits")]
+    [Header("Traits (0 = 1d20)")]
     
 
-    [SerializeField] public int DEX = 1;
-    [SerializeField] public int ATLETISM = 1;
-    [SerializeField] public int AURA = 1;
-    [SerializeField] public int CHARISM = 1;
-    [SerializeField] public int LUCK = 1;
-    [SerializeField] public int INTUITION = 1;
-    [SerializeField] public int HEX = 1;
-    [SerializeField] public int INT = 1;
-    [SerializeField] public int WILL = 1;
-    [SerializeField] public int REFLEX = 1;
-    [SerializeField] public int PERSEPTION = 1;
-    [SerializeField] public int FURTIVITY = 1;
-    [SerializeField] public int CONSTITUTION = 1;
-    [SerializeField] public int DOMINANCE = 1;
+    [SerializeField] public int DEX = 0;
+    [SerializeField] public int ATLETISM = 0;
+    [SerializeField] public int AURA = 0;
+    [SerializeField] public int CHARISM =0;
+    [SerializeField] public int LUCK = 0;
+    [SerializeField] public int INTUITION = 0;
+    [SerializeField] public int HEX = 0;
+    [SerializeField] public int INT = 0;
+    [SerializeField] public int WILL = 0;
+    [SerializeField] public int REFLEX = 0;
+    [SerializeField] public int PERSEPTION = 0;
+    [SerializeField] public int FURTIVITY = 0;
+    [SerializeField] public int CONSTITUTION = 0;
+    [SerializeField] public int DOMINANCE = 0;
 
 
     [Space(10)]
@@ -187,56 +187,14 @@ public class Entity : MonoBehaviour
 
     }
 
-    //rolls a test based on inputed trait
-    public int rollTest(Trait trait)
+    /// <summary>
+    /// Rolls a Trait test based on the Trait Scaling
+    /// </summary>
+    /// <param name="trait"></param>
+    /// <returns> The result of the roll </returns>
+    public int rollTest(int trait) 
     {
-        int result = 0;
-
-        switch (trait)
-        {
-            case Trait.DEX:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(DEX - 1);
-                break;
-            case Trait.ATLETISM:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(ATLETISM - 1);
-                break;
-            case Trait.AURA:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(AURA - 1);
-                break;
-            case Trait.CHARISM:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(CHARISM - 1);
-                break;
-            case Trait.LUCK:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(LUCK - 1);
-                break;
-            case Trait.INTUITION:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(INTUITION - 1);
-                break;
-            case Trait.HEX:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(HEX - 1);
-                break;
-            case Trait.INT:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(INT - 1);
-                break;
-            case Trait.WILL:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(WILL - 1);
-                break;
-            case Trait.REFLEX:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(REFLEX - 1);
-                break;
-            case Trait.PERSEPTION:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(PERSEPTION - 1);
-                break;
-            case Trait.FURTIVIDY:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(FURTIVITY - 1);
-                break;
-            case Trait.CONSTITUTION:
-                result = new DiceRoll(new List<Dice> { new Dice(1, 20) }, 0).Roll(CONSTITUTION - 1);
-                break;
-        }
-
-        return result;
-
+        return DiceRoll.rollTest(trait);
     } 
 
     public int takeDamage(int damage)
