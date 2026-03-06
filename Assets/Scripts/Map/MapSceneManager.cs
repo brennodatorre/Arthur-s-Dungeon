@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class MapSceneManager : MonoBehaviour
 {
@@ -13,6 +17,10 @@ public class MapSceneManager : MonoBehaviour
     public float roomSpacing = 10f; 
 
     RoomTile[,] roomGrid;
+    //RoomTile[,] copyGrid;
+    public List<RoomTile> dungeonRooms;
+    public int roomsDiscovered;
+
 
     public int mapSizeX;
     public int mapSizeY;
@@ -33,7 +41,10 @@ public class MapSceneManager : MonoBehaviour
         }
         else
         {
+            Instance.StartCoroutine(Instance.rebuildMap());
+
             Destroy(gameObject); // Avoid duplicates
+            return;
         }
 
 
@@ -57,6 +68,8 @@ public class MapSceneManager : MonoBehaviour
 
    public void makeGrid()
     {
+        Debug.Log("Building original grid");
+
         roomGrid = new RoomTile[mapSizeX, mapSizeY];
 
         RectTransform prefabRect = roomPrefab.GetComponent<RectTransform>();
@@ -68,6 +81,7 @@ public class MapSceneManager : MonoBehaviour
             for (int y = 0; y < mapSizeY; y++)
             {
                 GameObject newRoom = Instantiate(roomPrefab, gridObject.transform);
+                newRoom.name = "";
                 RectTransform rect = newRoom.GetComponent<RectTransform>();
 
                 rect.anchoredPosition = new Vector2(
@@ -129,23 +143,20 @@ public class MapSceneManager : MonoBehaviour
                 if (room.y < mapSizeY - 1) 
                 {
                     nextRoom = roomGrid[room.x, room.y + 1];
-                    
                 }
                 break;
 
             case 2: // South
                 if (room.y > 0) 
                 {
-                    nextRoom = roomGrid[room.x, room.y - 1];
-                    
+                    nextRoom = roomGrid[room.x, room.y - 1];  
                 }
                 break;
 
             case 3: // West
                 if (room.x > 0) 
                 {
-                    nextRoom = roomGrid[room.x - 1, room.y];
-                    
+                    nextRoom = roomGrid[room.x - 1, room.y];   
                 }
                 break;
 
@@ -171,6 +182,7 @@ public class MapSceneManager : MonoBehaviour
         if (nextRoom.roomState == RoomTile.RoomState.NOTSET) 
         {
             nextRoom.buildRoom();
+
             buildDungeon(nextRoom, energy - 1, randomDirection); // Continue in same direction
         } else 
         {
@@ -225,6 +237,125 @@ public class MapSceneManager : MonoBehaviour
 
     }
 
+    private IEnumerator rebuildMap()
+    {
+        //re assigns grid and player icon
+        while (gridObject == null || playerIcon == null)
+        {
+            yield return null;
+
+            GameObject canvas = GameObject.FindGameObjectWithTag("MainCanvas");
+
+            if (canvas != null)
+            {
+                Transform grid = canvas.transform.Find("Grid");
+                Transform pIcon = canvas.transform.Find("player_lcon");
+
+                if (grid != null)
+                {
+                    gridObject = grid.gameObject;
+                }
+                if (pIcon != null)
+                {
+                    playerIcon = pIcon.gameObject;
+                }
+            }
+        }
+
+        Debug.Log("map rebuild");
+
+        RectTransform prefabRect = roomPrefab.GetComponent<RectTransform>();
+        float tileDistance = prefabRect.sizeDelta.x + roomSpacing;
+
+        dungeonRooms.Clear();
+
+        
+        for (int x = 0; x < mapSizeX; x++)
+        {
+            for (int y = 0; y < mapSizeY; y++)
+            {
+                
+                GameObject newRoom = Instantiate(roomPrefab, gridObject.transform);
+                newRoom.name =  x + ", " + y;
+                RectTransform rect = newRoom.GetComponent<RectTransform>();
+
+                rect.anchoredPosition = new Vector2(
+                    x * tileDistance,
+                    y * tileDistance
+                );
+
+                RoomTile newTile = newRoom.GetComponent<RoomTile>();
+                
+                roomGrid[x,y].CopyRoomTile(newTile);
+                roomGrid[x,y] = newTile;
+
+                
+
+                if (newTile.roomState != RoomTile.RoomState.NOTSET)
+                {
+                    dungeonRooms.Add(roomGrid[x,y]);
+                }
+                else
+                {
+                    roomGrid[x,y].GetComponent<Image>().color = undiscoveredColor;
+                    newRoom.name =  "";
+                }
+
+
+                
+                
+            }
+        }
+
+        // sets adjacent rooms reference
+        foreach (var room in dungeonRooms)
+        {
+            int x = room.x;
+            int y = room.y;
+
+            int maxX = roomGrid.GetLength(0);
+            int maxY = roomGrid.GetLength(1);
+
+            if (y + 1 < maxY && roomGrid[x, y + 1] != null)
+                room.northRoom = roomGrid[x, y + 1];
+
+            if (y - 1 >= 0 && roomGrid[x, y - 1] != null)
+                room.southRoom = roomGrid[x, y - 1];
+
+            if (x + 1 < maxX && roomGrid[x + 1, y] != null)
+                room.eastRoom = roomGrid[x + 1, y];
+
+            if (x - 1 >= 0 && roomGrid[x - 1, y] != null)
+                room.westRoom = roomGrid[x - 1, y];
+        }
+
+
+
+        // analyzes set rooms
+        foreach (var room in dungeonRooms)
+        {
+            if (room.roomState == RoomTile.RoomState.DISCOVERED)
+                {
+                    room.GetComponent<Image>().color = discoveredColor;
+                    room.analyzeRoom();
+                }
+                else if (room.roomState == RoomTile.RoomState.UNDISCOVERED)
+                {
+                    room.GetComponent<Image>().color = undiscoveredColor;
+                }
+        }
+
+
+
+        
+
+        // Center the grid on the map
+        gridObject.transform.localPosition = -1 * roomGrid[mapSizeX /2, mapSizeY/2].transform.localPosition ;
+        playerIcon.transform.position = roomGrid[mapSizeX/2, mapSizeY/2].transform.position;
+
+    }
+
 
 
 }
+ 

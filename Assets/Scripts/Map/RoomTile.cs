@@ -28,6 +28,8 @@ public class RoomTile : MonoBehaviour
     [Header("Icons")]
     public Image combatIcon;
     public Image eventIcon;
+    public bool hasBeenPeaked = false; 
+
 
 
     [Space (10)]
@@ -60,6 +62,8 @@ public class RoomTile : MonoBehaviour
 
         analyzeRoom();
 
+        MapSceneManager.Instance.roomsDiscovered++;
+
 
         MySceneManager.Instance.openNextScene(roomType);
 
@@ -67,11 +71,15 @@ public class RoomTile : MonoBehaviour
 
     public void buildRoom()
     {
+        this.name = x + ", " + y;
         roomState = RoomState.UNDISCOVERED;
         GetComponent<Image>().color = MapSceneManager.Instance.undiscoveredColor;
         GetComponent<Button>().interactable = false;
 
         roomType = MySceneManager.Instance.getNextScene() ;
+        
+
+        MapSceneManager.Instance.dungeonRooms.Add(this);
         
 
 
@@ -89,23 +97,23 @@ public class RoomTile : MonoBehaviour
 
     public void analyzeRoom()
     {
-        if (northRoom != null) {
+        if (northRoom != null && northRoom.roomState != RoomState.NOTSET) {
             
             northDoor.color = MapSceneManager.Instance.discoveredColor;
             checkDoor(northRoom);
         }
-        if (southRoom != null)
+        if (southRoom != null && southRoom.roomState != RoomState.NOTSET)
         {
             
             southDoor.color = MapSceneManager.Instance.discoveredColor;
             checkDoor(southRoom);
         }
-        if (eastRoom != null)
+        if (eastRoom != null && eastRoom.roomState != RoomState.NOTSET)
         {
             eastDoor.color = MapSceneManager.Instance.discoveredColor;
             checkDoor(eastRoom);
         }
-        if (westRoom != null)
+        if (westRoom != null && westRoom.roomState != RoomState.NOTSET)
         {
             westDoor.color = MapSceneManager.Instance.discoveredColor;
             checkDoor(westRoom);
@@ -118,13 +126,37 @@ public class RoomTile : MonoBehaviour
     {
         nextRoom.GetComponent<Button>().interactable = true;
 
-        if (DiceRoll.rollTest(PlayerData.Instance.GetTrait(PlayerData.Trait.PERSEPTION)) > 10)
+        if (DiceRoll.rollTest(PlayerData.Instance.GetTrait(PlayerData.Trait.PERSEPTION)) > 10 || nextRoom.hasBeenPeaked)
         {
+            
             if (nextRoom.roomType == MySceneManager.SceneType.COMBAT) nextRoom.combatIcon.gameObject.SetActive(true); 
             else if (nextRoom.roomType == MySceneManager.SceneType.EVENT) nextRoom.eventIcon.gameObject.SetActive(true);
-            else {Debug.Log("could not check door"); nextRoom.GetComponent<Image>().color = Color.red;}
+            //else {Debug.Log("could not check door"); nextRoom.GetComponent<Image>().color = Color.red;}
         }
 
+        nextRoom.hasBeenPeaked = true;
+
+    }
+
+    public void CopyRoomTile(RoomTile toCopy)
+    {
+        toCopy.x = this.x;
+        toCopy.y = this.y;
+
+        toCopy.roomState = this.roomState;
+        toCopy.roomType = this.roomType;
+
+        toCopy.northDoor.color = this.northDoor.color;
+        toCopy.southDoor.color = this.southDoor.color;
+        toCopy.eastDoor.color = this.eastDoor.color;
+        toCopy.westDoor.color = this.westDoor.color;
+
+        toCopy.hasBeenPeaked = this.hasBeenPeaked; 
+
+        
+
+
+        
     }
 
 }

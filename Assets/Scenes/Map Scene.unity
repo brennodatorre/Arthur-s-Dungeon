@@ -926,13 +926,15 @@ MonoBehaviour:
   gridObject: {fileID: 1981346432}
   playerIcon: {fileID: 1463283491}
   roomSpacing: 10
+  dungeonRooms: []
+  mapHasBeenSaved: 0
   mapSizeX: 9
   mapSizeY: 9
   energy: 10
   builders: 5
-  startingDoorColor: {r: 0, g: 0, b: 0, a: 0}
+  startingDoorColor: {r: 0.14710656, g: 0.23773581, b: 0.103616916, a: 0.19215687}
   discoveredColor: {r: 1, g: 1, b: 1, a: 1}
-  undiscoveredColor: {r: 0, g: 0, b: 0, a: 0}
+  undiscoveredColor: {r: 0.3132075, g: 0.19023685, b: 0.067960076, a: 0.16470589}
 --- !u!4 &1290528631
 Transform:
   m_ObjectHideFlags: 0
