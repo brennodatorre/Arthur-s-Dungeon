@@ -926,15 +926,42 @@ MonoBehaviour:
   gridObject: {fileID: 1981346432}
   playerIcon: {fileID: 1463283491}
   roomSpacing: 10
+  playerLocation: {x: 0, y: 0}
   dungeonRooms: []
-  mapHasBeenSaved: 0
+  roomsDiscovered: 0
   mapSizeX: 9
   mapSizeY: 9
   energy: 10
   builders: 5
-  startingDoorColor: {r: 0.14710656, g: 0.23773581, b: 0.103616916, a: 0.19215687}
+  startingDoorColor: {r: 0, g: 0, b: 0, a: 0.19215687}
   discoveredColor: {r: 1, g: 1, b: 1, a: 1}
-  undiscoveredColor: {r: 0.3132075, g: 0.19023685, b: 0.067960076, a: 0.16470589}
+  undiscoveredColor: {r: 0, g: 0, b: 0, a: 0.16470589}
+  isMoving: 0
+  moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  moveDuration: 0.5
 --- !u!4 &1290528631
 Transform:
   m_ObjectHideFlags: 0
@@ -1000,7 +1027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.90821695, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1409,7 +1436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.10188681, g: 0.08990882, b: 0.07593451, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

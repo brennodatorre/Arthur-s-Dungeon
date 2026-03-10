@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.TextCore.LowLevel;
 using UnityEngine.UI;
 
 
@@ -17,7 +18,8 @@ public class MapSceneManager : MonoBehaviour
     public float roomSpacing = 10f; 
 
     RoomTile[,] roomGrid;
-    //RoomTile[,] copyGrid;
+    public Vector2Int playerLocation;
+    
     public List<RoomTile> dungeonRooms;
     public int roomsDiscovered;
 
@@ -30,6 +32,12 @@ public class MapSceneManager : MonoBehaviour
     public Color startingDoorColor = Color.clear;
     public Color discoveredColor = Color.white;
     public Color undiscoveredColor = Color.clear;
+
+    [Space (10)]
+    [Header("Movement")]
+    public bool isMoving;
+    public AnimationCurve moveCurve = AnimationCurve.EaseInOut(0,0,1,1);
+    public float moveDuration = 0.5f;   
 
 
     void Awake()
@@ -52,6 +60,8 @@ public class MapSceneManager : MonoBehaviour
         makeGrid();
         RoomTile firstRoom = roomGrid[mapSizeX/2, mapSizeY/2].buildFirstRoom();
         playerIcon.transform.position = firstRoom.transform.position;
+        playerLocation.x = firstRoom.x;
+        playerLocation.y = firstRoom.y;
         
         for (int i = 0; i < builders; i++)
         {
@@ -239,6 +249,7 @@ public class MapSceneManager : MonoBehaviour
 
     private IEnumerator rebuildMap()
     {
+        isMoving = false;
         //re assigns grid and player icon
         while (gridObject == null || playerIcon == null)
         {
@@ -351,11 +362,136 @@ public class MapSceneManager : MonoBehaviour
 
         // Center the grid on the map
         gridObject.transform.localPosition = -1 * roomGrid[mapSizeX /2, mapSizeY/2].transform.localPosition ;
-        playerIcon.transform.position = roomGrid[mapSizeX/2, mapSizeY/2].transform.position;
+        playerIcon.transform.position = roomGrid[playerLocation.x, playerLocation.y].transform.position;
+        
 
     }
 
 
+
+    #region "Path Finding"
+
+    public List<RoomTile> FindPath(RoomTile start, RoomTile end)
+    {
+
+        foreach (RoomTile room in dungeonRooms)
+        {
+            room.gCost = int.MaxValue;
+            room.parent = null;
+        }
+
+        start.gCost = 0;
+
+        List<RoomTile> openList = new List<RoomTile>();
+        List<RoomTile> closedList = new List<RoomTile>();
+
+        openList.Add(start);
+
+        while (openList.Count > 0)
+        {
+            RoomTile current = openList[0];
+
+            foreach (var node in openList)
+            {
+                if (node.fCost < current.fCost || node.fCost == current.fCost && node.hCost < current.hCost)
+                {
+                    current = node;
+                }
+            }
+
+            openList.Remove(current);
+            closedList.Add(current);
+
+            if (current == end)
+            {
+                return CalculatePath(end);
+            }
+
+            foreach (RoomTile neighbor in current.getDiscoveredNeighbors())
+            {
+                if (closedList.Contains(neighbor))
+                    continue;
+
+                int tentativeGCost = current.gCost + 1;
+
+                if (!openList.Contains(neighbor) || tentativeGCost < neighbor.gCost)
+                {
+                    neighbor.gCost = tentativeGCost;
+                    neighbor.hCost = Mathf.Abs(neighbor.x - end.x) + Mathf.Abs(neighbor.y - end.y);
+                    neighbor.calculateFCost();
+                    neighbor.parent = current;
+
+                    if (!openList.Contains(neighbor))
+                        openList.Add(neighbor);
+                }
+            }
+            
+        }
+
+
+        return null;
+    }
+
+
+
+    private List<RoomTile> CalculatePath(RoomTile endNode)
+    {
+        List<RoomTile> path = new List<RoomTile>();
+        path.Add(endNode);
+
+        RoomTile currentNode = endNode;
+
+        while (currentNode.parent != null)
+        {
+            path.Add(currentNode.parent);
+            currentNode = currentNode.parent;
+        }
+
+        path.Reverse();
+        return path;
+    }
+
+
+    public IEnumerator MovePlayer(List<RoomTile> path, RoomTile destination, bool firstTimeEntering)
+    {
+        
+
+        foreach (RoomTile room in path)
+        {
+            Vector3 startPos = playerIcon.transform.position;
+            Vector3 endPos = room.transform.position;
+
+            float time = 0;
+
+            while (time < moveDuration)
+            {
+                time += Time.deltaTime;
+
+                float t = time / moveDuration;
+
+                // evaluate curve
+                float curveT = moveCurve.Evaluate(t);
+
+                playerIcon.transform.position = Vector3.Lerp(startPos, endPos, curveT);
+
+                yield return null;
+            }
+
+            playerIcon.transform.position = endPos;
+        }
+
+        
+        if (firstTimeEntering) MySceneManager.Instance.openNextScene(destination.roomType);
+
+        isMoving = false;
+    }
+
+    public RoomTile GetPlayerCurrentRoom()
+    {
+        return roomGrid[playerLocation.x, playerLocation.y];
+    }
+
+    #endregion
 
 }
  

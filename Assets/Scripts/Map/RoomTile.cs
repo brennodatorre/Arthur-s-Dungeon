@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -44,28 +45,61 @@ public class RoomTile : MonoBehaviour
     public MySceneManager.SceneType roomType ;
 
     
-
+    [Space (10)]
+    [Header("Grid Data")]
     public int x;
     public int y;
+    public RoomTile parent;
+    [Tooltip ("distance from start")]
+    public int gCost;
+    [Tooltip ("estimated distance to goal")]
+    public int hCost;
+    [Tooltip ("g+h")]
+    public int fCost;
 
 
 
 
 
+    /// <summary>
+    /// Walks to roomn clicked, with walk "animation" and 
+    /// Enters Room clicked, discovers, analyse and set rooms around it.
+    /// </summary>
     public void discoverRoom()
     {
-        if (roomState== RoomState.DISCOVERED) return;
+        if (MapSceneManager.Instance.isMoving) return;
+        MapSceneManager.Instance.isMoving = true;
 
-        roomState = RoomState.DISCOVERED;
+        bool firstTimeEntering = false;
 
-        GetComponent<Image>().color = MapSceneManager.Instance.discoveredColor;
+        if (roomState != RoomState.DISCOVERED)  
+        {
+            roomState = RoomState.DISCOVERED;
 
-        analyzeRoom();
+            GetComponent<Image>().color = MapSceneManager.Instance.discoveredColor;
 
-        MapSceneManager.Instance.roomsDiscovered++;
+            analyzeRoom();
+
+            MapSceneManager.Instance.roomsDiscovered++;
+            firstTimeEntering = true;
+        }
+
+        RoomTile currentRoom = MapSceneManager.Instance.GetPlayerCurrentRoom();
+
+        List<RoomTile> path = MapSceneManager.Instance.FindPath(currentRoom, this);
+
+        MapSceneManager.Instance.playerLocation.x = x;
+        MapSceneManager.Instance.playerLocation.y = y;
+
+        if (path != null)
+        {
+            MapSceneManager.Instance.StartCoroutine(
+                MapSceneManager.Instance.MovePlayer(path, this, firstTimeEntering)
+            );
+        }
 
 
-        MySceneManager.Instance.openNextScene(roomType);
+        
 
     }
 
@@ -95,32 +129,56 @@ public class RoomTile : MonoBehaviour
 
     }
 
-    public void analyzeRoom()
+    public void  analyzeRoom()
     {
+
         if (northRoom != null && northRoom.roomState != RoomState.NOTSET) {
-            
+
             northDoor.color = MapSceneManager.Instance.discoveredColor;
             checkDoor(northRoom);
         }
         if (southRoom != null && southRoom.roomState != RoomState.NOTSET)
         {
-            
             southDoor.color = MapSceneManager.Instance.discoveredColor;
             checkDoor(southRoom);
         }
         if (eastRoom != null && eastRoom.roomState != RoomState.NOTSET)
-        {
+        {  
             eastDoor.color = MapSceneManager.Instance.discoveredColor;
             checkDoor(eastRoom);
         }
         if (westRoom != null && westRoom.roomState != RoomState.NOTSET)
-        {
+        {     
             westDoor.color = MapSceneManager.Instance.discoveredColor;
             checkDoor(westRoom);
         }
 
         
     }
+
+    public List<RoomTile>  getDiscoveredNeighbors()
+    {
+        List <RoomTile> neighbors = new List<RoomTile>();
+
+        if (northRoom != null && northRoom.roomState == RoomState.DISCOVERED ) { 
+            neighbors.Add(northRoom);
+        }
+        if (southRoom != null && southRoom.roomState == RoomState.DISCOVERED)
+        {
+            neighbors.Add(southRoom);;
+        }
+        if (eastRoom != null && eastRoom.roomState == RoomState.DISCOVERED)
+        {
+            neighbors.Add(eastRoom);
+        }
+        if (westRoom != null && westRoom.roomState == RoomState.DISCOVERED)
+        {
+            neighbors.Add(westRoom);
+        }
+
+        return neighbors;
+    }
+
 
     private void checkDoor(RoomTile nextRoom)
     {
@@ -157,6 +215,11 @@ public class RoomTile : MonoBehaviour
 
 
         
+    }
+
+    public void calculateFCost()
+    {
+        fCost = gCost + hCost;
     }
 
 }
