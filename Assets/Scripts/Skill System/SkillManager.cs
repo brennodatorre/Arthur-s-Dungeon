@@ -107,6 +107,11 @@ public class SkillManager : MonoBehaviour
 
                 roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doPrepare( caster, skill)); //add the action to the queue
             }
+            else if (skill.skillName == "Gambler's Gambit")
+            {
+
+                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doGamblerGambit( caster, skill)); //add the action to the queue
+            }
             else
             {
                 Debug.Log("Skill not implemented yet.");
@@ -318,7 +323,7 @@ public class SkillManager : MonoBehaviour
 
     }
 
-        private IEnumerator doSuicide(Entity target, Entity caster, Skill skill)
+    private IEnumerator doSuicide(Entity target, Entity caster, Skill skill)
     {
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
@@ -350,6 +355,25 @@ public class SkillManager : MonoBehaviour
         logManager.AddLog(caster.name + " rested and recovered" + recover + " MP.");
 
     }
+
+    private IEnumerator doGamblerGambit( Entity caster, Skill skill)
+    {
+        
+        yield return new WaitForSeconds(0f); //wait for 0 seconds
+
+        audioManager.PlaySound(skill.soundEffect); //play the skill sound
+
+        int damage =  caster.getHP() - 1 ;
+
+        foreach (var ent in RoundManager.Instance.entities)
+        {
+            ent.takeDamage(damage);
+        }
+
+        logManager.AddLog(caster.name + " used Gambler's Gambit");
+
+
+    } 
 
     #endregion
 

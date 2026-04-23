@@ -8474,7 +8474,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: activeSkillEffects.Array.size
@@ -8547,7 +8547,7 @@ PrefabInstance:
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.data[5]
       value: 
-      objectReference: {fileID: 11400000, guid: 55c542ca7d0306f4a811d821be397097, type: 2}
+      objectReference: {fileID: 11400000, guid: eeb75ca7f34918a4ca50a3e9242502e9, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.skills.Array.data[6]
       value: 

@@ -29,6 +29,7 @@ public class RoomTile : MonoBehaviour
     [Header("Icons")]
     public Image combatIcon;
     public Image eventIcon;
+    public Image questionIcon;
     public bool hasBeenPeaked = false; 
 
 
@@ -184,12 +185,18 @@ public class RoomTile : MonoBehaviour
     {
         nextRoom.GetComponent<Button>().interactable = true;
 
+         
+
         if (DiceRoll.rollTest(PlayerData.Instance.GetTrait(PlayerData.Trait.PERSEPTION)) > 10 || nextRoom.hasBeenPeaked)
         {
             
             if (nextRoom.roomType == MySceneManager.SceneType.COMBAT) nextRoom.combatIcon.gameObject.SetActive(true); 
             else if (nextRoom.roomType == MySceneManager.SceneType.EVENT) nextRoom.eventIcon.gameObject.SetActive(true);
             //else {Debug.Log("could not check door"); nextRoom.GetComponent<Image>().color = Color.red;}
+        }
+        else
+        {
+            nextRoom.questionIcon.gameObject.SetActive(true); 
         }
 
         nextRoom.hasBeenPeaked = true;

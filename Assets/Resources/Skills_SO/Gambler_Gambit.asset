@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9131ef76b2c8924695aff3257888b20, type: 3}
+  m_Name: Gambler_Gambit
+  m_EditorClassIdentifier: 
+  skillName: Gambler's Gambit
+  mpCost: 0
+  cooldown: 0
+  currentCooldown: 0
+  description: Deals HP-1 damage to ALL
+  fableCost: 1
+  soundEffect: {fileID: 8300000, guid: 1964d850d8b07014eacf4b1a275a71e3, type: 3}
+  mainDiceRoll:
+    dices: []
+    modifier: 0
+  extraInput: 0
+  origin: 3
+  targetType: 2
+  actionType: 2
+  isOffensiveSkill: 1
+  isPAHTSkill: 1
+  mainDice:
+    dices: []
+    modifier: 0
+  isStackable: 0
+  limitPerTurn: 999
+  currentUsesPerTurn: 1
+  statusEffect: {fileID: 0}
