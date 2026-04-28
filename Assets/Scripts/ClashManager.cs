@@ -12,6 +12,9 @@ public class ClashManager : MonoBehaviour
     private QTE_Manager qteManager;
 
 
+    public AnimationCurve moveCurve = AnimationCurve.EaseInOut(0,0,1,1);
+
+
     void Awake()
     {
         if (Instance == null)
@@ -44,19 +47,28 @@ public class ClashManager : MonoBehaviour
 
         yield return new WaitForSeconds(.7f);
 
-        if (attacker.entityType != Entity.EntityType.Player) attacker.GetComponent<Animator>().SetTrigger("Attacking");
+        Vector3 startPos = attacker.transform.position;
+        Vector3 endPos = target.transform.position;
+        
+
+        if (attacker.entityType != Entity.EntityType.Player) {
+            
+            yield return StartCoroutine(moveTo(attacker, target, startPos, endPos));
+
+            attacker.GetComponent<Animator>().SetTrigger("Attacking"); 
+        
+        }
 
 
         // runs quick time event
-        StartCoroutine(qteManager.doQTE());
-        while (qteManager.qteIsRunning == true)
-        {
-            yield return null;
-        }
-
+        yield return StartCoroutine(qteManager.doQTE());
+        bool qteSuceeded = qteManager.suceededQTE;
         
 
-        bool qteSuceeded = qteManager.suceededQTE;
+        if (attacker.entityType != Entity.EntityType.Player) yield return StartCoroutine(moveTo(attacker, target, endPos, startPos));
+
+
+        
         
 
 
@@ -179,5 +191,34 @@ public class ClashManager : MonoBehaviour
     }
 
 
+
+
+
+    public IEnumerator moveTo (Entity attacker, Entity target, Vector3 startPos, Vector3 endPos)
+    {
+
+        
+        
+         
+
+        while (Vector3.Distance(attacker.transform.position, endPos) > 0.01f)
+        {
+           
+
+            // uses an animation curve to move the attacker towards the target in a more dynamic way, rather than a linear movement
+            // using bell curve for now
+            float totalDistance = Vector3.Distance(startPos, endPos);
+            float currentDistance = Vector3.Distance(attacker.transform.position, endPos);
+
+            float curveT = moveCurve.Evaluate( currentDistance / totalDistance );
+
+
+            attacker.transform.position = Vector3.Lerp(attacker.transform.position, endPos, curveT  );
+
+            yield return null;
+        }
+
+        
+    } 
 
 }

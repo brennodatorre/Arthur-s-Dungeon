@@ -37,7 +37,8 @@ public class MapSceneManager : MonoBehaviour
     [Header("Movement")]
     public bool isMoving;
     public AnimationCurve moveCurve = AnimationCurve.EaseInOut(0,0,1,1);
-    public float moveDuration = 0.5f;   
+    public float moveDuration = 0.5f;  
+    public AudioClip footstepAudio; 
 
 
     void Awake()
@@ -454,7 +455,8 @@ public class MapSceneManager : MonoBehaviour
 
     public IEnumerator MovePlayer(List<RoomTile> path, RoomTile destination, bool firstTimeEntering)
     {
-        
+        //plays footssteps audio while moving
+        AudioManager.Instance.PlaySound(footstepAudio);
 
         foreach (RoomTile room in path)
         {

@@ -66,6 +66,7 @@ public class SettingsData : MonoBehaviour
         dof.active = true;
         transform.GetChild(0).gameObject.SetActive(true);
         CursorManager.Instance.customCursor.transform.SetParent(transform.GetChild(0).transform, true);
+        CursorManager.Instance.canvas = transform.GetChild(0).GetComponent<Canvas>();
         
     }
     public void Resume()
@@ -76,7 +77,9 @@ public class SettingsData : MonoBehaviour
         if (!MySceneManager.Instance.isInTransition) MySceneManager.Instance.inputBlocker.SetActive(false);
         dof.active = false;
         transform.GetChild(0).gameObject.SetActive(false);
+        CursorManager.Instance.canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); 
         CursorManager.Instance.customCursor.transform.SetParent(CursorManager.Instance.canvas.transform, true);
+        
     
     }
 

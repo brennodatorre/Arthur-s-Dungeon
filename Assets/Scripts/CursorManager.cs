@@ -127,10 +127,7 @@ public class CursorManager : MonoBehaviour
             customCursor.GetComponent<RectTransform>().anchoredPosition += new Vector2(-32, 44);
             updateCursorScale(blade_cursorSize); // change the size of the cursor
         }
-        // else if (roundManager.currentPhase == RoundManager.TurnPhase.targetingSKILL) // if the targeting phase is active
-        // {
-
-        // }
+        // else if (roundManager.currentPhase == RoundManager.TurnPhase.targetingSKILL) // if the targeting phase is active { }
         else if (Input.GetMouseButton(0)) // left click
         {
 
@@ -162,6 +159,9 @@ public class CursorManager : MonoBehaviour
 
 
     }
+
+
+    #region PAHT
 
     // delas with clicking and holing a press and hold object
     public void startPAHTHolding()
@@ -226,7 +226,7 @@ public class CursorManager : MonoBehaviour
 
     }
 
-
+    #endregion
 
  
 

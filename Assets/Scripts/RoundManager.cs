@@ -258,7 +258,7 @@ public class RoundManager : MonoBehaviour
 
 
 
-
+    #region TargetingUI
 
 
     public void EnableEnemyTargetingUI(bool enable)
@@ -311,8 +311,6 @@ public class RoundManager : MonoBehaviour
         }
     }
     
-
-
 
     public void OnTargetSelected(Entity selected)
     {
@@ -410,6 +408,8 @@ public class RoundManager : MonoBehaviour
 
 
     }
+
+    #endregion
 
 
     private IEnumerator Delay(float seconds)

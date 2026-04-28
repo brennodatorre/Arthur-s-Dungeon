@@ -22,7 +22,10 @@ public class AudioManager : MonoBehaviour
     //[SerializeField] public List<AudioClip> hit_sounds = new List<AudioClip>();
     public AudioClip atk_equal_sound;
 
-    
+
+
+
+    #region Sound Clips
 
     [Space(10)]
     [Header("Sound Clips:")]
@@ -44,10 +47,11 @@ public class AudioManager : MonoBehaviour
     [Space(7)]
     public AudioClip statusEffect_end_sound;
 
-    
+    #endregion
 
 
-
+    private float originalSFXVolume;
+    private float originalAmbienceVolume;
 
 
     void Awake()
@@ -62,6 +66,8 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject); // Avoid duplicates
         }
 
+        originalSFXVolume = SFXoutput.volume;
+        originalAmbienceVolume = ambienceOutput.volume;
 
     }
 
@@ -78,6 +84,19 @@ public class AudioManager : MonoBehaviour
             ambienceOutput.pitch = Mathf.Lerp(2.5f, .5f, (float)player.getHP() / (float)player.getMaxHP());
         }
     }
+
+
+    public void PlaySound(AudioClip sound)
+    {
+        SFXoutput.PlayOneShot(sound);
+    }
+
+
+
+
+
+
+
 
     //plays a random attack sound from the list
     public void PlayAttackSound(float damage)
@@ -118,10 +137,7 @@ public class AudioManager : MonoBehaviour
     }
 
 
-    public void PlaySound(AudioClip sound)
-    {
-        SFXoutput.PlayOneShot(sound);
-    }
+    
 
     // fix this
     // public void PlaySoundWithRandomPitch(AudioClip sound)
@@ -174,12 +190,12 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the volume of the game based on the SettingsData 
+    /// Scales the volume of the game based on the SettingsData as the percentage 
     /// </summary> <summary>
     public void setVolume()
     {
-        SFXoutput.volume = SettingsData.Instance.globalVolume;
-        ambienceOutput.volume = SettingsData.Instance.globalVolume;
+        SFXoutput.volume = (originalSFXVolume / 100) * SettingsData.Instance.globalVolume * 100;
+        ambienceOutput.volume = (originalAmbienceVolume / 100) * SettingsData.Instance.globalVolume * 100;
     }
 
 }
