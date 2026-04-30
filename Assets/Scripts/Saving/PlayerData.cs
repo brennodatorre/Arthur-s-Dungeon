@@ -107,6 +107,8 @@ public class PlayerData : MonoBehaviour
 
     }
 
+    #region Major Data Management
+
     /// <summary>
     /// Saves data From Entity player into GameData
     /// </summary>
@@ -224,7 +226,7 @@ public class PlayerData : MonoBehaviour
         Debug.Log("Player data revitalized.");
     }
 
-
+    #endregion
 
 
 ///
@@ -237,7 +239,16 @@ public class PlayerData : MonoBehaviour
 ///  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
    
-
+   /// <summary>
+   /// Rolls a trait check using the specified trait, 
+   /// using the player's current trait level as the dice pool
+   /// </summary>
+   /// <param name="trait"></param>
+   public int Roll(Trait trait)
+    {
+        int traitLevel = GetTrait(trait);
+        return DiceRoll.rollTest(traitLevel);
+    }     
 
 
     //deals prevents fableRecords from being decreased 
@@ -330,10 +341,7 @@ public class PlayerData : MonoBehaviour
         GameData.hp -= amount;
         if (GameData.hp < 0) { GameData.hp = 0; }
     }
-    public int getMaxHP()
-    {
-        return GameData.maxHP;
-    }
+    
     public void changeMaxHP (int amount)
     {
         GameData.maxHP += amount;
@@ -353,7 +361,11 @@ public class PlayerData : MonoBehaviour
         if (GameData.statusPoints < 0) { Debug.LogWarning("Status points cannot be negative!"); GameData.statusPoints = 0; }
     }
 
-
+ #region getters
+    public int getMaxHP()
+        {
+            return GameData.maxHP;
+        }
     public int getCurrentFablePoints()
     {
         return GameData.fablePoints;
@@ -396,37 +408,6 @@ public class PlayerData : MonoBehaviour
     }
 
     
-
-
-
-    public void addItemToInventory(Item item)
-    {
-        GameData.items.Add(Instantiate(item));
-    }
-    public void RemoveItem(Item item)
-    {
-        GameData.items.Remove(item);
-    }
-
-
-    public void addSkill(Skill skill)
-    {
-        GameData.skills.Add(Instantiate(skill));
-    }
-    public void RemoveSkill(Skill skill)
-    {
-        foreach (Skill skl in GameData.skills)
-        {
-            if (skl.skillName == skill.skillName)
-            {
-                GameData.skills.Remove(skl);
-                break;
-            }
-        }
-
-        
-    }
-
 
     public int GetTrait(Trait trait)
     {
@@ -483,5 +464,36 @@ public class PlayerData : MonoBehaviour
     } 
 
 
+
+#endregion
+
+
+    public void addItemToInventory(Item item)
+    {
+        GameData.items.Add(Instantiate(item));
+    }
+    public void RemoveItem(Item item)
+    {
+        GameData.items.Remove(item);
+    }
+
+
+    public void addSkill(Skill skill)
+    {
+        GameData.skills.Add(Instantiate(skill));
+    }
+    public void RemoveSkill(Skill skill)
+    {
+        foreach (Skill skl in GameData.skills)
+        {
+            if (skl.skillName == skill.skillName)
+            {
+                GameData.skills.Remove(skl);
+                break;
+            }
+        }
+
+        
+    }
 
 }

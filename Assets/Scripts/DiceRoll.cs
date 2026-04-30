@@ -99,7 +99,7 @@ public class DiceRoll
     //rolls the dices and return the result + the modifier
     public int Roll(int advantages = 0)
     {
-        
+        Debug.Log("Rolling " + diceToString() + " with " + advantages + " advantages.");
 
         int rolls = Mathf.Abs(advantages) + 1;
 
@@ -136,6 +136,7 @@ public class DiceRoll
             }
         }
 
+        Debug.Log("Rolled a total of " + bestTotal + " before modifier." + " Modifier is " + modifier + ". Final result is " + (bestTotal + modifier) + ".");
         return bestTotal + modifier;
 
         
@@ -178,7 +179,7 @@ public class DiceRoll
         int tier = level / 3;
         int modifier = tier * 5;
 
-        int advantage = (level % 3) + 1;
+        int advantage = (level % 3) ;
 
         DiceRoll roll = new DiceRoll(new List<Dice> { new Dice(1, 20) }, modifier);
 

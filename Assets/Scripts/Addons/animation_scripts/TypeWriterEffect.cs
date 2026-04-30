@@ -35,6 +35,8 @@ public class TypeWriterEffect : MonoBehaviour
     {
         //print("TypeWriterEffect enabled");
 
+        fullText = textComponent.text;
+
         textComponent.text = ""; // clear the text component before typing
 
         StartCoroutine(TypeText());
