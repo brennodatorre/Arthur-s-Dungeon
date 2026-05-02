@@ -2,16 +2,26 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using System;
+using System.Collections.Generic;
 
 public class TypeWriterEffect : MonoBehaviour
 {
+    [Tooltip("Delay between each character being typed")]
     public float typingDelay = 0.07f; // delay between each character
     private Coroutine currentTyping;
     private TextMeshProUGUI textComponent;
     private AudioClip typeSound;
     private AudioManager audioManager;
 
-    public string fullText; // stores the full text to be displayed
+    [Tooltip("Delay between lines of text when using StartNewTyping")]
+    public float timeBetweenLines = 1f; // delay between lines of text
+
+    public string currentText; 
+    // list to store all typed texts that need to be typed out
+    public List<string> typingQueue = new List<string>(); 
+
+    public bool hasFinishedTyping = false; 
+    public float pitch;
 
     //before starts
     private void Awake()
@@ -28,18 +38,18 @@ public class TypeWriterEffect : MonoBehaviour
 
         //Debug.Log("Full text: " + fullText);
 
-        fullText = textComponent.text;
+        currentText = textComponent.text;
     }
 
     void OnEnable()
     {
         //print("TypeWriterEffect enabled");
 
-        fullText = textComponent.text;
+        currentText = textComponent.text;
 
         textComponent.text = ""; // clear the text component before typing
 
-        StartCoroutine(TypeText());
+        currentTyping = StartCoroutine(TypeText());
         
     }
 
@@ -48,12 +58,40 @@ public class TypeWriterEffect : MonoBehaviour
     {
         
         
-        
-        foreach (char c in fullText)
+        foreach (char c in currentText)
         {
             textComponent.text += c;
-            if (audioManager != null) { audioManager.PlaySound(typeSound); }
+            if (audioManager != null) { audioManager.PlaySoundWithPich(typeSound, pitch); }
             yield return new WaitForSeconds(typingDelay);
         }
+
+        yield return new WaitForSeconds(timeBetweenLines);
+
+        hasFinishedTyping = true; 
+
+        if (typingQueue.Count > 0)
+        {
+            string nextText = typingQueue[0]; // get the next text from the queue
+            typingQueue.RemoveAt(0); // remove it from the queue
+            TypeNext(nextText); // start typing the next text
+        }
+
+    }
+
+
+    public void TypeNext(string newText)
+    {
+
+
+        if (currentTyping != null && !hasFinishedTyping)
+        {
+            typingQueue.Add(newText); // add the new text to the queue if we're still typing
+            return; // exit the method to wait for current typing to finish
+        }
+
+        currentText = newText;
+        textComponent.text = ""; // clear the text component before typing
+        hasFinishedTyping = false; // reset the flag for new typing
+        currentTyping = StartCoroutine(TypeText());
     }
 }

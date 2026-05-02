@@ -85,7 +85,7 @@ public class PlayerData : MonoBehaviour
     public bool isInTransition = false;
 
 
-
+    public DungeonMemory dungeonMemory = new DungeonMemory();
 
 
 

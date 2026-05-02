@@ -88,7 +88,20 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound(AudioClip sound)
     {
+
         SFXoutput.PlayOneShot(sound);
+    }
+
+    public void PlaySoundWithPich(AudioClip sound, float pitch)
+    {
+        
+        AudioSource source = gameObject.AddComponent<AudioSource>();
+        source.clip = sound;
+        source.pitch = pitch;
+        source.Play();
+
+        Destroy(source, sound.length / Mathf.Abs(pitch));
+
     }
 
 

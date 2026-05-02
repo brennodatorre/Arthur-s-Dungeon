@@ -56,6 +56,7 @@ Assets/
  Resources/Upgrade_SO/Upgrade.cs
  Scenes/Event/
   Fountain Event/FountainEventManager.cs
+  Old Rock Event/OldRockEventManager.cs
   Slot Machine Event/SlotMachineEventManager.cs
   StreetVendor/StreetVendor_Manager.cs
   Wall Event/WallEventManager.cs
@@ -132,7 +133,9 @@ Assets/
   QTE/QTE_Manager.cs
   RoundManager.cs
   Saving/
+   DungeonMemory.cs
    PlayerData.cs
+   RunData.cs
    SettingsData.cs
   Skill System/
    Skill.cs
@@ -401,9 +404,7 @@ Temp/bin/Debug/
  Unity.RenderPipelines.Universal.Shaders.dll
  Unity.Rider.Editor.dll
  Unity.Searcher.Editor.dll
- Unity.Settings.Editor.dll
  Unity.ShaderGraph.Editor.dll
- Unity.ShaderGraph.Utilities.dll
  Unity.TestTools.CodeCoverage.Editor.dll
  Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll
  Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll
@@ -421,9 +422,7 @@ Temp/bin/Debug/
  Unity.VisualScripting.State.Editor.dll
  Unity.VisualStudio.Editor.dll
  Unity.VSCode.Editor.dll
- UnityEditor.TestRunner.dll
  UnityEditor.UI.dll
- UnityEngine.TestRunner.dll
  UnityEngine.UI.dll
 
 [analyzerReferences]

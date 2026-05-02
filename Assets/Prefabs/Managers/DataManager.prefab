@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 420727671571176749}
   - component: {fileID: 133055780791406368}
   - component: {fileID: 6362818800019169483}
+  - component: {fileID: 4742823526855524434}
   m_Layer: 0
   m_Name: DataManager
   m_TagString: Untagged
@@ -58,6 +59,7 @@ MonoBehaviour:
     atkAdvantage: 0
     totalMainActions: 0
     totalSupActions: 0
+    statusPoints: 0
     DEX: 0
     ATLETISM: 0
     AURA: 0
@@ -96,6 +98,7 @@ MonoBehaviour:
     atkAdvantage: 0
     totalMainActions: 0
     totalSupActions: 0
+    statusPoints: 0
     DEX: 0
     ATLETISM: 0
     AURA: 0
@@ -122,6 +125,8 @@ MonoBehaviour:
     kill_counter: 0
     Ilhas: 0
   isInTransition: 0
+  dungeonMemory:
+    triggeredEvents: []
 --- !u!114 &6362818800019169483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,3 +142,17 @@ MonoBehaviour:
   itemDatabase: {fileID: 11400000, guid: ea47e4ac75aaf0940b8a666192523161, type: 2}
   skillDatabase: {fileID: 11400000, guid: 192db58591e9357448d1c4c0df17e536, type: 2}
   statusEffectDatabase: {fileID: 11400000, guid: bc3b2e6bfb1b2f54884cef240ba26303, type: 2}
+--- !u!114 &4742823526855524434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8794700294572741832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1286e62ebbab0447a46237baa134f38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dungeonMemory:
+    triggeredEvents: []

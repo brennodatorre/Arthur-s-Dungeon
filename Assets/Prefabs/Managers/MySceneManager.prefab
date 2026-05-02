@@ -82,7 +82,6 @@ MonoBehaviour:
   eventSceneDatabase: {fileID: 11400000, guid: c5f30398ad4bd94499298cad23c28bc3, type: 2}
   tooltipPanelPrefab: {fileID: 5531574432542099366, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
   popUpPrefab: {fileID: 839128812586752143, guid: d4b84f6c90d7e6d48857547b458b16b8, type: 3}
-  tooltipPanel: {fileID: 0}
   isInTransition: 0
   halfWayInTransition: 0
   inputBlockerPrefab: {fileID: 50263475338386430, guid: 3d7cb2da450b699419209e70097167da, type: 3}
