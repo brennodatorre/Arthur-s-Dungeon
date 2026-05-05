@@ -23,6 +23,9 @@ public class TypeWriterEffect : MonoBehaviour
     public bool hasFinishedTyping = false; 
     public float pitch;
 
+    [Tooltip("Flag to indicate if the player wants to skip the typing effect")]
+    public bool wantsToSkip = false; 
+
     //before starts
     private void Awake()
     {
@@ -54,6 +57,15 @@ public class TypeWriterEffect : MonoBehaviour
     }
 
 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && !hasFinishedTyping)
+        {
+            wantsToSkip = true; // set the flag to indicate the player wants to skip
+        }
+    } 
+
+
     private IEnumerator TypeText()
     {
         
@@ -61,13 +73,18 @@ public class TypeWriterEffect : MonoBehaviour
         foreach (char c in currentText)
         {
             textComponent.text += c;
-            if (audioManager != null) { audioManager.PlaySoundWithPich(typeSound, pitch); }
-            yield return new WaitForSeconds(typingDelay);
+            if (audioManager != null && !wantsToSkip) { audioManager.PlaySoundWithPich(typeSound, pitch); }
+            if (wantsToSkip) yield return new WaitForSeconds(0.01f); // if the player wants to skip, don't wait between characters
+            else yield return new WaitForSeconds(typingDelay); // wait for the specified delay before typing the next character
+            
         }
 
-        yield return new WaitForSeconds(timeBetweenLines);
+        
+
+        yield return new WaitForSeconds( timeBetweenLines);
 
         hasFinishedTyping = true; 
+        wantsToSkip = false; // reset the skip flag for the next time we type
 
         if (typingQueue.Count > 0)
         {

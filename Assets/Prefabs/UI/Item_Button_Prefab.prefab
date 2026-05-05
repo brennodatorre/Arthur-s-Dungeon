@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4335378066465587466}
   - component: {fileID: 2317920023847954066}
   - component: {fileID: 8730023677056398264}
+  - component: {fileID: 7503205448737085734}
   m_Layer: 5
   m_Name: Item_Button_Prefab
   m_TagString: Untagged
@@ -115,6 +116,18 @@ MonoBehaviour:
   displayToolTip: 1
   detectChildren: 0
   description: this is a button
+--- !u!114 &7503205448737085734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262534691379935924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc09d7d3ae128e84186507e069c16c90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6733804190060118716
 GameObject:
   m_ObjectHideFlags: 0

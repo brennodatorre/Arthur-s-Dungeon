@@ -317,8 +317,6 @@ public class ButtonManager : MonoBehaviour
     { 
         actMenu.SetActive(false);
         itemMenu.SetActive(true);
-
-        //activateb the go back to action menu button
         backButton.SetActive(true);
 
         int childrenOfGrid = itemMenuGrid.transform.childCount;

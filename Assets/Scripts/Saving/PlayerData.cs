@@ -347,6 +347,15 @@ public class PlayerData : MonoBehaviour
         GameData.maxHP += amount;
         if (GameData.maxHP < 1) { GameData.maxHP = 1; }
         if (GameData.hp > GameData.maxHP) { GameData.hp = GameData.maxHP; }
+        if (amount > 0) { healPlayer(amount); } 
+        
+    }
+    public void changeMaxMP (int amount)
+    {
+        GameData.maxMP += amount;
+        if (GameData.maxMP < 0) { GameData.maxMP = 0; }
+        if (GameData.mp > GameData.maxMP) { GameData.mp = GameData.maxMP; }
+        if (amount > 0) { changeMP(amount); } 
         
     }
     public void changeDEF(int amount)
@@ -402,6 +411,23 @@ public class PlayerData : MonoBehaviour
     {
         return GameData.items;
     }
+
+    /// <summary>
+    /// Returns an item in the player's inventory that has the specified property, or null if no such item exists
+    /// </summary>
+    public List<Item> hasItemsWithProperty(Item.ItemProperty property)
+    {
+        List<Item> itemsWithProperty = new List<Item>();
+        foreach (Item item in GameData.items)
+        {
+            if (item.HasProperty(property))
+            {
+                itemsWithProperty.Add(item);
+            }
+        }
+        return itemsWithProperty; // Return all items with the specified property
+    }    
+    
     public List<StatusEffect> getActiveSkillEffects()
     {
         return GameData.StatusEffects;
@@ -495,5 +521,16 @@ public class PlayerData : MonoBehaviour
 
         
     }
+    public bool HasSkill(Skill skill)
+    {
+        foreach (Skill skl in GameData.skills)
+        {
+            if (skl.skillName == skill.skillName)
+            {
+                return true;
+            }
+        }
 
+        return false;
+    }
 }

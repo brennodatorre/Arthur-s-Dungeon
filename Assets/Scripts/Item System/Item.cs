@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 
@@ -10,6 +11,12 @@ public class Item : ScriptableObject
 
     public enum ItemActionType { Main, Sup, Bonus };
     public enum ItemTarget { Single, Multi, Self };
+
+    public enum ItemProperty
+    {
+        ROCKY = 0
+    }
+    
 
     public string itemName;
     public string description;
@@ -25,6 +32,12 @@ public class Item : ScriptableObject
     public ItemTarget targetType;
     public bool isPAHTItem;
     public AudioClip soundEffect;
+
+
+    [Space(10)]
+    [SerializeField]List<ItemProperty> properties = new List<ItemProperty>();
+
+
 
     public Item() { }
     public Item(string _itemName, ItemActionType _itemActionType)
@@ -54,4 +67,11 @@ public class Item : ScriptableObject
         
     }
 
+
+    public bool HasProperty(ItemProperty property)
+    {
+        return properties.Contains(property);
+    }
+
 }
+

@@ -121,6 +121,7 @@ Assets/
    UpgradePage.cs
   Item System/
    Item.cs
+   itemButtonSetter.cs
    ItemManager.cs
   LoadingManager.cs
   LogManager.cs
