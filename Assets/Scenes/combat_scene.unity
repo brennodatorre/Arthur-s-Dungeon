@@ -2047,9 +2047,6 @@ MonoBehaviour:
   RandomLevelObj: {fileID: 933830595}
   allEnemyPrefabList:
   - {fileID: 1432741755785725440, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
-  - {fileID: 5709880237819132171, guid: 1dc458043f4e807469454d83adb20298, type: 3}
-  - {fileID: 5248103409059870313, guid: 904f9f9ed28eca947b51752c220e1a4c, type: 3}
-  - {fileID: 8075596739584223000, guid: b07336d03be04f04fba85ab2ec160d39, type: 3}
   enemyL1: []
   enemyL2: []
   enemyL3: []
@@ -8253,7 +8250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.DEX
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.HEX

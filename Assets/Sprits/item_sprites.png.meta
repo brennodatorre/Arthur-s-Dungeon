@@ -218,10 +218,10 @@ TextureImporter:
       name: coagulatedBloodSprite
       rect:
         serializedVersion: 2
-        x: 2705
-        y: 1566
-        width: 276
-        height: 273
+        x: 2681
+        y: 1547
+        width: 324
+        height: 311
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

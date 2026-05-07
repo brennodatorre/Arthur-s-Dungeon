@@ -19,9 +19,12 @@ public class Targeting : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        
+
         ////////////////// fix the rest of the imlpementation\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         if (roundManager.currentPhase == RoundManager.TurnPhase.targetingATK)
         {
+            
             roundManager.OnTargetSelected(entity); // call the method in RoundManager to set the target
 
 

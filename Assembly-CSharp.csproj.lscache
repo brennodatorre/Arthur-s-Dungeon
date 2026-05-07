@@ -72,6 +72,7 @@ Assets/
  Scripts/
   ActionQueue.cs
   Addons/animation_scripts/
+   AfterImage_effect_Mod_Addon.cs
    BobbingEffect.cs
    damage_popup.cs
    TypeWriterEffect.cs

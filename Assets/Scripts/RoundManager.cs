@@ -270,9 +270,6 @@ public class RoundManager : MonoBehaviour
         {
             Image enemyRender = enemy.GetComponent<Image>();
 
-            // var enemyCollider = enemy.GetComponent<Collider2D>();
-
-            // if (enemyCollider != null) { enemyCollider.enabled = enable; } // enable collider
             if (enemyRender != null && !enemy.isDead)//sets color
             {
                 enemyRender.material = enable ?
@@ -295,12 +292,8 @@ public class RoundManager : MonoBehaviour
             else if (itemSelected != null && itemSelected.isPAHTItem && buttonManager.inItemOverlay) entity.GetComponent<PressAndHoldTarget>().isWaiting = true;
             else { entity.GetComponent<PressAndHoldTarget>().isWaiting = false; }
             
-
-            var entityColiider = entity.GetComponent<Collider2D>();
+            
             Image entityRender = entity.GetComponent<Image>();
-
-            // if (entityColiider != null && entity.entityType == Entity.EntityType.Enemy)
-            //     entityColiider.enabled = enable;
 
             if (entityRender != null && !entity.isDead)//sets color
             {

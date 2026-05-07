@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3f970fda4953ffc4db456e8265f79cd5
+guid: 45a58f74aba173f49ab269f9f6e01d21
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -121,18 +121,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: MapIcon_event
+  - name: Leave_Flag_button
     originalName: 
-    pivot: {x: 0.5108695, y: -0.0923913}
+    pivot: {x: 0.41558442, y: -0.7307693}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 184
-      height: 184
-    spriteID: 1fa12777176bb2941bd63c25de48f2cd
+      width: 154
+      height: 78
+    spriteID: 81be93f9b50022b4f85fddeb8da6602b
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,25 +144,25 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1665727538
-    name: MapIcon_event
+    guid: 1597491437
+    name: Leave_Flag_button
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: MapIcon_event
+    - name: Leave_Flag_button
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 12
-        y: 17
-        width: 184
-        height: 184
-      spriteId: 1fa12777176bb2941bd63c25de48f2cd
+        x: 37
+        y: 57
+        width: 154
+        height: 78
+      spriteId: 81be93f9b50022b4f85fddeb8da6602b
     linkedCells: []
     parentIndex: -1
   platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 212, y: 212}
+  canvasSize: {x: 202, y: 202}
