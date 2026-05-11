@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 [System.Serializable]
@@ -31,6 +32,28 @@ public class ActionQueue : MonoBehaviour
         {
             StartCoroutine(RunQueue());
         }
+    }
+
+    ///<summary>
+    /// enqueue a new corountine based on a list of corountines, 
+    /// they all start at once, but are added to the queue as one
+    ///</summary>
+    public void Enqueue(string name, List<Func<IEnumerator>> actions)
+    {
+        Enqueue(name, () =>runSimultaneousActions(actions) );
+      
+    }
+    /// <summary>
+    /// (Helper) runs a list of coroutines simultaneously
+    /// </summary>
+    private IEnumerator runSimultaneousActions(List<Func<IEnumerator>> actions)
+    {
+        foreach (var action in actions)
+        {
+            StartCoroutine(action());
+            yield return null; // Wait for the next frame to start the next action
+        }
+
     }
 
     private IEnumerator RunQueue()

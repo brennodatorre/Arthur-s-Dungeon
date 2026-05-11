@@ -272,9 +272,10 @@ public class RoundManager : MonoBehaviour
 
             if (enemyRender != null && !enemy.isDead)//sets color
             {
-                enemyRender.material = enable ?
-                    matPallet.getColoredMaterial(matPallet.red, matPallet.outlineSpriteMaterial) : //red outline if atk targetting
-                    matPallet.getColoredMaterial(matPallet.getEntityOriginColor(enemy), matPallet.dissolveMaterial); // back to normal dissolve matrial
+                if(enable) 
+                    {enemyRender.material = matPallet.getColoredMaterial(matPallet.red, matPallet.outlineSpriteMaterial);} //red outline if atk targetting
+                else {enemyRender.material = matPallet.getColoredMaterial(matPallet.getEntityOriginColor(enemy), matPallet.crackMaterial); // back to normal dissolve matrial
+                    }
             } 
         }
 
@@ -297,9 +298,9 @@ public class RoundManager : MonoBehaviour
 
             if (entityRender != null && !entity.isDead)//sets color
             {
-                entityRender.material = enable ?
-                    matPallet.getColoredMaterial(matPallet.blue, matPallet.outlineSpriteMaterial) : //blue outline if atk targetting
-                    matPallet.getColoredMaterial(matPallet.getEntityOriginColor(entity), matPallet.dissolveMaterial); // back to normal dissolve matrial
+                if (enable ) entityRender.material = matPallet.getColoredMaterial(matPallet.blue, matPallet.outlineSpriteMaterial) ; //blue outline if atk targetting
+                else {entityRender.material = matPallet.getColoredMaterial(matPallet.getEntityOriginColor(entity), matPallet.crackMaterial); // back to normal dissolve matrial
+                    }
             } 
         }
     }
@@ -403,6 +404,9 @@ public class RoundManager : MonoBehaviour
     }
 
     #endregion
+
+
+
 
 
     private IEnumerator Delay(float seconds)

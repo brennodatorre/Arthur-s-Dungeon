@@ -1,10 +1,12 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 using System.Linq;
 
 using UnityEngine;
+using Random = UnityEngine.Random;  
 
 using Image = UnityEngine.UI.Image;
 
@@ -16,6 +18,7 @@ public class Entity : MonoBehaviour
     private LogManager logManager; 
     private AudioManager audioManager;
     public Brain brain;
+    public Image crackingSpriteOverlay;
 
     public enum EntityType { Player, Enemy, NPC };
     public enum EntityOrigin {ROSES, HEX, LANDREAS, ARTHUR, SYSTEM, UNKNOWN, SURVIVOR, FLAME }
@@ -120,7 +123,17 @@ public class Entity : MonoBehaviour
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
 
 
-        sprite.material = MaterialPallet.Instance.getColoredMaterial(MaterialPallet.Instance.getEntityOriginColor(this), MaterialPallet.Instance.dissolveMaterial);
+        sprite.material = MaterialPallet.Instance.getColoredMaterial(
+            MaterialPallet.Instance.getEntityOriginColor(this), 
+            MaterialPallet.Instance.dissolveMaterial
+        );
+        crackingSpriteOverlay.material = MaterialPallet.Instance.getColoredMaterial(
+            MaterialPallet.Instance.getEntityOriginColor(this), 
+            MaterialPallet.Instance.crackOverlayMaterial
+        );
+        crackingSpriteOverlay.material.SetFloat("_Health", 1 -((float)hp / (float)maxHP) );
+        crackingSpriteOverlay.material.SetVector("_Random", new Vector2(Random.value, Random.value)); //randomize the crack overlay offset
+
 
         if (baseATK.dices.Count == 0) { baseATK.AddDice(0, 0); }
 
@@ -197,41 +210,43 @@ public class Entity : MonoBehaviour
         return DiceRoll.rollTest(trait);
     } 
 
-    public int takeDamage(int damage)
+    public int takeDamage(int damage, bool isTrueDamage = false)
     {
 
         if (roundManager == null) { roundManager = GameObject.Find("RoundManager").GetComponent<RoundManager>(); }
         if (sprite == null) { sprite = GetComponent<Image>(); }
 
-        int actualDamage = damage - def;
+        int actualDamage = isTrueDamage? damage : damage - def;
+
+
         if (actualDamage > 0)
         {
-            hp -= damage - def;
+            hp -= actualDamage;
 
             if (hp <= 0)
             {
                 die();
                 roundManager.clashQueue.actionQueue.Clear(); // clears next actions on action queue since 
             }
-            else
-            {}
-                // Flash red to indicate damage taken
-                roundManager.clashQueue.Enqueue("FlashRed", () => FlashSprite(sprite, Color.red));
             
+         
 
-            //show damage popup
+            // set the crack intensity based on the percentage of hp left
+            crackingSpriteOverlay.material.SetFloat("_Health", 1 -((float)hp / (float)maxHP) );
+
+            StartCoroutine(FlashSprite(sprite, Color.red));
             StartCoroutine(MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.red));
+
         
         }
         else
         {
             actualDamage = 0;
 
-            // Flash White to indicate block
-            roundManager.actionQueue.Enqueue("FlashWhite", () => FlashSprite(sprite, Color.white));
+            StartCoroutine(FlashSprite(sprite, Color.white));
+            StartCoroutine(MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.grey));
 
-            //show damage popup
-            StartCoroutine(MySceneManager.Instance.doPopUp(actualDamage.ToString(), transform.position, Color.gray));
+        
         }
 
 
@@ -241,19 +256,7 @@ public class Entity : MonoBehaviour
     }
 
     public void takeTrueDamage(int damage) {
-        hp -=  damage;
-        
-
-        if (hp <= 0) { die(); }
-        else
-        {
-
-            // Flash red to indicate damage taken
-            roundManager.actionQueue.Enqueue("FlashRed", () => FlashSprite(sprite, Color.red));
-
-            //show damage popup
-            StartCoroutine(MySceneManager.Instance.doPopUp(damage.ToString(), transform.position, Color.red));
-        }
+        takeDamage(damage, true);
     }
 
     public void heal(int value) {
@@ -336,6 +339,7 @@ public class Entity : MonoBehaviour
 
             //removes the dead entity from theirs respective arrays
             roundManager.entities = roundManager.entities.Where(x => x != this).ToList();
+            GetComponent<Image>().raycastTarget = false; //makes the sprite not targetable anymore
 
             if (this.entityType == EntityType.Enemy)
             {
@@ -352,8 +356,14 @@ public class Entity : MonoBehaviour
                 roundManager.allies = roundManager.allies.Where(x => x != this).ToArray();
             }
 
-
+            //cahnge into dissolve mateiral
+            sprite.material = MaterialPallet.Instance.getColoredMaterial(
+            MaterialPallet.Instance.getEntityOriginColor(this), 
+            MaterialPallet.Instance.dissolveMaterial
+            );
             StartCoroutine(AnimationManager.Instance.DissolveUponDeath(sprite)); //dissolves the entity upon death
+
+
             ActiveEffectManager.RemoveAllEffects(activeStatusEffects);
 
         

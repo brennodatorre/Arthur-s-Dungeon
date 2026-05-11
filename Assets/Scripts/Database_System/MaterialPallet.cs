@@ -17,13 +17,15 @@ public class MaterialPallet : MonoBehaviour
     public Color yellow;
     
     [Space(10)]
-    [Header("Dissolve Materials")]
-    public Material dissolveMaterial;
-
-
+    [Header("Materials")]
     [Space(10)]
-    [Header("Sprite Outline Materials")]
+    public Material dissolveMaterial;
+    [Space(10)]
     public Material outlineSpriteMaterial;
+    [Space(10)]
+    public Material crackMaterial;
+    [Space(10)]
+    public Material crackOverlayMaterial;
 
 
     public Color getEntityOriginColor(Entity _entity)
@@ -80,7 +82,7 @@ public class MaterialPallet : MonoBehaviour
     public Material getColoredMaterial(Color _standartColor, Material _materail)
     {
         Material newMat = new Material(_materail);
-        newMat.color = _standartColor;
+        newMat.SetColor("_Color", _standartColor);
         return newMat;
     }
 

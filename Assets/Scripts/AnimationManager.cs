@@ -110,6 +110,9 @@ public class AnimationManager : MonoBehaviour
     public IEnumerator DissolveUponDeath(Image sprite, bool revert = false)
     {
 
+        
+
+
         Material mat = new Material(sprite.material);
         sprite.material = mat;
 
