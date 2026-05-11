@@ -39,7 +39,7 @@ public class ButtonManager : MonoBehaviour
     public GameObject itemMenu;
     public GameObject itemMenuGrid;
 
-    [Space]
+    [Space (10)]
     [Header("Buttons")]
     public GameObject atk_button;
     public GameObject skill_button;
@@ -58,15 +58,23 @@ public class ButtonManager : MonoBehaviour
     public List<GameObject> actionButtons = new List<GameObject>();
     public GameObject lastButtonPressed;
 
-    [Space]
+    [Space(10)]
     [Header("States")]
     public bool inAtkOverlay = false;
     public bool inSkillOverlay = false;
     public bool inItemOverlay = false;
     public OnMenu currentMenu; //the current menu of the turn
 
+    [Space(10)]
+    [Header("Action Menu Tooltip")]
+    public float tooltipClockTimer = 3f;
+    public GameObject QTooltip;
+    public GameObject WTooltip;
+    public GameObject ETooltip;
+    private Coroutine ActTooltipCoroutine = null;
+    public float ActMenuTClock;
 
-        void Awake()
+    void Awake()
     {
         if (Instance == null)
         {
@@ -78,7 +86,6 @@ public class ButtonManager : MonoBehaviour
             Destroy(gameObject); // Avoid duplicates
         }
     }
-
 
     void Start()
     {
@@ -111,6 +118,8 @@ public class ButtonManager : MonoBehaviour
         bool canTriggerRun = currentMenu == OnMenu.Action && !roundManager.playerIsTargeting && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
 
         
+        //shows in the act menu which key (Q/W/E) to press if no input is done 
+        if (currentMenu == OnMenu.Action && roundManager.playerCanAct  && ActTooltipCoroutine == null) ActTooltipCoroutine = StartCoroutine(ActmenuInputTooltipClock());
 
 
         //Dels with shortcut inputting
@@ -139,6 +148,10 @@ public class ButtonManager : MonoBehaviour
                     roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
                 }
             }
+
+
+
+
             if (Input.GetKeyDown(KeyCode.Q) && canTriggerAtk)
             {
                 atkMenuButton(atk_button);
@@ -160,6 +173,9 @@ public class ButtonManager : MonoBehaviour
                 runMenuButton();
             }
         }
+
+
+
 
 
 
@@ -526,7 +542,7 @@ public class ButtonManager : MonoBehaviour
 
     }
     
-        public void unblockItemButtons(List<GameObject> itemButtons, GameObject pressedBtn)
+    public void unblockItemButtons(List<GameObject> itemButtons, GameObject pressedBtn)
     {
         foreach (GameObject btn in itemButtons)
         {
@@ -555,6 +571,40 @@ public class ButtonManager : MonoBehaviour
         itemMenu.SetActive(false);
     }  
 
-   
+    private IEnumerator ActmenuInputTooltipClock()
+    {
+        
+        float elapsedTime = 0f;
+        
+
+        while (elapsedTime < tooltipClockTimer)
+        { 
+            ActMenuTClock = elapsedTime;
+
+            //stops coroutine if not on action menu is atacking
+            if (currentMenu != OnMenu.Action || inAtkOverlay)
+            {
+
+                QTooltip.SetActive(false);
+                WTooltip.SetActive(false);
+                ETooltip.SetActive(false);
+                
+
+                ActTooltipCoroutine = null;
+                yield break;
+                
+            }
+
+            yield return null;
+            elapsedTime += Time.deltaTime;
+        }
+ 
+        QTooltip.SetActive(true);
+        WTooltip.SetActive(true);
+        ETooltip.SetActive(true);
+
+        ActTooltipCoroutine = null;
+
+    }
 
 }
