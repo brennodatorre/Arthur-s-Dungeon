@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,6 +36,7 @@ public class WallEventManager : MonoBehaviour
     public AudioClip atkFailSound;
     public AudioClip digSound;
     public AudioClip coinSound;
+    public List<AudioClip> stepSounds;
 
 
     private PlayerData pData;
@@ -60,6 +62,9 @@ public class WallEventManager : MonoBehaviour
         colors.normalColor = Color.white;
         right.GetComponent<Button>().colors = colors;
 
+        int rand = Random.Range(0, stepSounds.Count);
+        AudioManager.Instance.PlaySound(stepSounds[rand]);
+
         Text.SetActive(false);
         Text.GetComponent<TextMeshProUGUI>().text = "You see a old shovel, you can try digging below the wall with it.";
         Text.SetActive(true);
@@ -78,6 +83,9 @@ public class WallEventManager : MonoBehaviour
         var colors = left.GetComponent<Button>().colors;
         colors.normalColor = Color.white;
         left.GetComponent<Button>().colors = colors;
+
+        int rand = Random.Range(0, stepSounds.Count - 1);
+        AudioManager.Instance.PlaySound(stepSounds[rand]);
 
         Text.SetActive(false);
         Text.GetComponent<TextMeshProUGUI>().text = "You see nothing of interest.";
@@ -99,6 +107,9 @@ public class WallEventManager : MonoBehaviour
         Text.GetComponent<TextMeshProUGUI>().text = "You see the wall.";
         Text.SetActive(true);
 
+        int rand = Random.Range(0, stepSounds.Count);
+        AudioManager.Instance.PlaySound(stepSounds[rand]);
+
         left.GetComponent<Button>().onClick.RemoveAllListeners();
         right.GetComponent<Button>().onClick.RemoveAllListeners();
         left.GetComponent<Button>().onClick.AddListener(LookLeft);
@@ -109,6 +120,7 @@ public class WallEventManager : MonoBehaviour
     public void TryJumping()
     {
         int roll =pData.Roll(Trait.DEX);
+        AudioManager.Instance.PlaySound(jumpSound);
 
         if (roll >= jumpDC)
         {
@@ -127,6 +139,7 @@ public class WallEventManager : MonoBehaviour
     public void TryATK()
     {
         int roll = pData.Roll(Trait.ATLETISM);
+        AudioManager.Instance.PlaySound(atkFailSound);
 
         if (roll >= atkDC)
         {
@@ -148,6 +161,7 @@ public class WallEventManager : MonoBehaviour
         digBtn.SetActive(false);
 
         int roll = pData.Roll(Trait.CONSTITUTION);
+        AudioManager.Instance.PlaySound(digSound);
 
         if (roll >= digDC)
         {
@@ -189,6 +203,8 @@ public class WallEventManager : MonoBehaviour
         
         Text.GetComponent<TextMeshProUGUI>().text = message;
         Text.SetActive(true);
+
+        leaveBtn.SetActive(true);
     }
     
 }

@@ -14,12 +14,18 @@ public class FountainEventManager : MonoBehaviour
 
     public int drunkAmount = 0;
 
+    [Range(0,5)]public float picthRange = 1f;
+    public AudioClip gulpSound;
+    public AudioClip fountainAmbience;
+
+    private AudioSource fountainAmbienceASource;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (fountainAmbience != null ) { fountainAmbienceASource = AudioManager.Instance.CreateAndPlaySound(fountainAmbience, true);}
     }
 
     
@@ -50,6 +56,9 @@ public class FountainEventManager : MonoBehaviour
         currentSuccessRate -= successRateDecrease;
         drunkAmount++;
 
+        float rand = Random.Range(-.5f,.5f);
+        AudioManager.Instance.PlaySoundWithPich(gulpSound, picthRange + rand);
+
         // After 6 interactions, the fountain becomes unusable and gives a permanent DEF buff
         if (drunkAmount >= 6) { 
             
@@ -60,6 +69,9 @@ public class FountainEventManager : MonoBehaviour
             PlayerData.Instance.changeDEF(1);
 
             StartCoroutine(MySceneManager.Instance.doPopUp("+" + 1 + " DEF", this.transform.position, Color.white));
+
+            fountainAmbienceASource.Stop();
+            Destroy(fountainAmbienceASource);
 
         }
 

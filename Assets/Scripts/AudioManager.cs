@@ -104,6 +104,21 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Return a new AudioSource Component, Playing a sound 
+    /// Loop ?
+    /// </summary>
+    public AudioSource CreateAndPlaySound(AudioClip sound, bool loop = false)
+    {
+        AudioSource source = gameObject.AddComponent<AudioSource>();
+        source.loop = loop;
+        source.clip = sound;
+        source.Play();
+
+        return source;
+
+    }
+
 
 
 

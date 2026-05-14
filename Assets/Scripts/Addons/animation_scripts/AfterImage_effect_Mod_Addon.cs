@@ -7,7 +7,9 @@ public class AfterImage_effect_Mod_Addon : MonoBehaviour
 {
 
     public Color color = Color.white;
-    public float frequency;
+    private float frequency;
+    [Range(0,1)]public float frequencyScaler = 0.9f;
+
     public float afterImageLifetime = 0.5f;
     public int afterImageAmount = 3;
 
@@ -44,14 +46,15 @@ public class AfterImage_effect_Mod_Addon : MonoBehaviour
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
-            frequency = Mathf.Max(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y) * 0.9f;
+            frequency = Mathf.Max(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y) * frequencyScaler;
         }
         else
         {
             Image image = GetComponent<Image>();
             if (image != null)
             {
-                frequency = Mathf.Max(image.rectTransform.rect.width, image.rectTransform.rect.height) *0.9f;
+                
+                frequency = Mathf.Max(image.rectTransform.rect.width, image.rectTransform.rect.height) * frequencyScaler;
             }
             else
             {
@@ -111,8 +114,14 @@ public class AfterImage_effect_Mod_Addon : MonoBehaviour
         {
             if (!ghost.activeInHierarchy)
             {
-                if (ghost.GetComponent<SpriteRenderer>() != null){ ghost.GetComponent<SpriteRenderer>().color = color;}
-                if (ghost.GetComponent<Image>() != null){  ghost.GetComponent<Image>().color = color;  }
+                if (ghost.GetComponent<SpriteRenderer>() != null){ 
+                    ghost.GetComponent<SpriteRenderer>().color = color;
+                    ghost.GetComponent<SpriteRenderer>().sprite = this.GetComponent<SpriteRenderer>().sprite;
+                }
+                if (ghost.GetComponent<Image>() != null){
+                    ghost.GetComponent<Image>().color = color;  
+                    ghost.GetComponent<Image>().sprite = this.GetComponent<Image>().sprite;
+                }
 
 
                 ghost.transform.position = transform.position;

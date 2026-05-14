@@ -21,7 +21,7 @@ public class TypeWriterEffect : MonoBehaviour
     public List<string> typingQueue = new List<string>(); 
 
     public bool hasFinishedTyping = false; 
-    public float pitch;
+    public float pitch = 1;
 
     [Tooltip("Flag to indicate if the player wants to skip the typing effect")]
     public bool wantsToSkip = false; 

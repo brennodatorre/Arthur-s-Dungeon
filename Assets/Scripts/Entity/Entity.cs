@@ -340,6 +340,7 @@ public class Entity : MonoBehaviour
             //removes the dead entity from theirs respective arrays
             roundManager.entities = roundManager.entities.Where(x => x != this).ToList();
             GetComponent<Image>().raycastTarget = false; //makes the sprite not targetable anymore
+            GetComponent<PolygonCollider2D>().enabled = false;
 
             if (this.entityType == EntityType.Enemy)
             {
@@ -361,6 +362,8 @@ public class Entity : MonoBehaviour
             MaterialPallet.Instance.getEntityOriginColor(this), 
             MaterialPallet.Instance.dissolveMaterial
             );
+
+            crackingSpriteOverlay.enabled = false;
             StartCoroutine(AnimationManager.Instance.DissolveUponDeath(sprite)); //dissolves the entity upon death
 
 
