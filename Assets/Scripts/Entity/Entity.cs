@@ -341,15 +341,16 @@ public class Entity : MonoBehaviour
             roundManager.entities = roundManager.entities.Where(x => x != this).ToList();
             GetComponent<Image>().raycastTarget = false; //makes the sprite not targetable anymore
             GetComponent<PolygonCollider2D>().enabled = false;
+            
 
             if (this.entityType == EntityType.Enemy)
             {
-
+                roundManager.enemiesKilled.Add(this);
                 roundManager.enemies = roundManager.enemies.Where(x => x != this).ToArray();
 
-                PlayerData.Instance.addFablePoints(fableWorth);
+                
                 PlayerData.Instance.incrementKillCounter();
-                PlayerData.Instance.changeIlhas(2);
+                
 
             }
             else

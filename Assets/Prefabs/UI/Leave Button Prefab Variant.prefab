@@ -74,11 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225528306067231368, guid: d7ade83c89eb39549ae828453824284a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 164.49695
+      value: 98.6845
       objectReference: {fileID: 0}
     - target: {fileID: 6225528306067231368, guid: d7ade83c89eb39549ae828453824284a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 75.78699
+      value: 75.787
       objectReference: {fileID: 0}
     - target: {fileID: 6225528306067231368, guid: d7ade83c89eb39549ae828453824284a, type: 3}
       propertyPath: m_LocalScale.x
@@ -155,7 +155,7 @@ PrefabInstance:
     - target: {fileID: 8067990584894571182, guid: d7ade83c89eb39549ae828453824284a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 1549801960376958967, guid: 45a58f74aba173f49ab269f9f6e01d21, type: 3}
+      objectReference: {fileID: 8057870952650703412, guid: a6bda4d69bb22bb469579ef5e2de7a83, type: 3}
     - target: {fileID: 8067990584894571182, guid: d7ade83c89eb39549ae828453824284a, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -168,13 +168,21 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8067990584894571182, guid: d7ade83c89eb39549ae828453824284a, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8702537327615159185, guid: d7ade83c89eb39549ae828453824284a, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8702537327615159185, guid: d7ade83c89eb39549ae828453824284a, type: 3}
       propertyPath: description
-      value: 
+      value: CONTINUE
+      objectReference: {fileID: 0}
+    - target: {fileID: 8702537327615159185, guid: d7ade83c89eb39549ae828453824284a, type: 3}
+      propertyPath: tooltipType
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -45,6 +45,8 @@ public class RoundManager : MonoBehaviour
     [SerializeField] public ActionQueue actionQueue;
     [SerializeField] public ActionQueue clashQueue;
     public GameObject act_menu;
+    public GameObject lootScreen;
+
     
 
     [Space(5)]
@@ -58,6 +60,7 @@ public class RoundManager : MonoBehaviour
     public List<Entity> entities; //array of all entities in the scene
     public Entity[] allies; //array of all allies in the scene
     public Entity[] enemies; //array of all enemies in the scene
+    public List<Entity> enemiesKilled = new List<Entity>(); 
 
     [Space(10)]
     [Header ("Player Info")]
@@ -67,6 +70,7 @@ public class RoundManager : MonoBehaviour
     public bool playerCanAct;
     public int numberOfRounds;
     private bool setupWasdone = false;
+    private bool lootMenuIsUp = false;
 
 
 
@@ -107,6 +111,50 @@ public class RoundManager : MonoBehaviour
             (currentPhase == RoundManager.TurnPhase.Action ||     //(player is on action menu or
             playerIsTargeting)                                    // is targetting)
         ;
+
+
+        if (enemies.Length == 0 && !lootMenuIsUp)
+        {  //ends the comabt 
+
+            lootMenuIsUp = true;
+
+            PlayerData.Instance.incrementLevelsBeat();
+            StatusHudManager.Instance.updateLevelCounterUI();
+
+            GameObject healItem = null;
+            GameObject goldItem = null;
+            GameObject fableItem = null;
+            
+
+            healItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem( "Heal", 
+                () => {
+                     doInBtwnLevelPlayerRegen();
+                     lootScreen.GetComponentInChildren<MenuContainerManager>().removeItem(healItem);
+
+                });
+
+            goldItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem( "Gold", 
+                () => {
+                    PlayerData.Instance.changeIlhas(2 * enemiesKilled.Count);
+                    lootScreen.GetComponentInChildren<MenuContainerManager>().removeItem(goldItem);
+                });
+
+            fableItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem( "Fable Points", 
+                () => {
+                    foreach (var enemy in enemiesKilled) {PlayerData.Instance.addFablePoints(enemy.fableWorth); }
+                    lootScreen.GetComponentInChildren<MenuContainerManager>().removeItem(fableItem);
+
+                    });
+
+
+            lootScreen.SetActive(true);
+            
+
+
+            
+            
+        }
+
     }
 
 
@@ -226,25 +274,12 @@ public class RoundManager : MonoBehaviour
 
         if (currentTurn.entityType != Entity.EntityType.Player) currentTurn.GetComponent<Brain>().clearIntent(); //clear the intent of the current turn
         
-        if (enemies.Length == 0 )
-        {  //goes to next combat level
-
-            PlayerData.Instance.incrementLevelsBeat();
-            doInBtwnLevelPlayerRegen();
-
-            StatusHudManager.Instance.updateLevelCounterUI();
-
-            //StartCoroutine(MySceneManager.Instance.openSceneWithTransition("COMBAT", false));
-            StartCoroutine(MySceneManager.Instance.openSceneWithTransition(MySceneManager.SceneType.NEXT));
-            
-        }
-
 
         // set the next turn to the next entity in the array, or loop back to the first entity if at the end
         int index = entities.IndexOf(currentTurn);
         currentTurn = (index == entities.Count - 1) ? entities[0] : entities[index + 1];
         
-        if (currentTurn.entityType != Entity.EntityType.Player) {yield return Delay(1f); }//wait for 1 second before starting the next turn
+        if (currentTurn.entityType != Entity.EntityType.Player) {yield return Delay(1f); }
 
         foreach (Entity entity in entities) 
         {
