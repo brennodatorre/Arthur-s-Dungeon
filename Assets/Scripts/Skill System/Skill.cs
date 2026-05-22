@@ -17,6 +17,9 @@ public class Skill : ScriptableObject
     public int currentCooldown;
     [TextArea(3, 10)]
     public string description;
+    [TextArea(5, 15)] [SerializeField] 
+    private string fullDescription;
+    public bool hasBeenUsed = false;
     public int fableCost;
     public AudioClip soundEffect;
 
@@ -120,6 +123,21 @@ public class Skill : ScriptableObject
     }
 
     
+    public string GetFullDescription()
+    {
+        if (string.IsNullOrEmpty(fullDescription))
+        {
+            return description;
+        }
+        else if (hasBeenUsed)
+        {
+            return fullDescription;
+        }
+        else
+        {
+            return "???";
+        }
+    }
 
    
 }

@@ -51,6 +51,13 @@ public class ItemManager : MonoBehaviour
             if (item.actionType == Item.ItemActionType.Sup) { caster.currentSupActions--; }
             else if (item.actionType == Item.ItemActionType.Main) { caster.currentMainActions--; }
 
+            //deals with the skill's fulldescription if it has one
+            if (caster.entityType == Entity.EntityType.Player && item.hasBeenUsed == false)
+            {
+                item.hasBeenUsed = true;
+            }
+
+
             switch (item.itemName)
             {
                 case "Bandage":

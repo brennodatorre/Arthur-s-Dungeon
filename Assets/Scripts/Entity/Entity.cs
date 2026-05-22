@@ -458,8 +458,8 @@ public class Entity : MonoBehaviour
         stts +="HP: "+ hp + "/" +maxHP + "\n";
         stts +="MP " +mp + "/" +maxMP + "\n\n";
         stts +="DEF: "+ def +"\n";
-        stts += "Base ATK: " +baseATK.diceToString() + "\n";
-        stts += "Current ATK: " + currentATK.diceToString() + "\n";
+        stts += "Base ATK: " +baseATK.ToString() + "\n";
+        stts += "Current ATK: " + currentATK.ToString() + "\n";
         stts += "Current ATK Advantages: " + atkAdvantage + "\n \n";
         stts += "DEXTERITY: " + DEX + "\n";
         stts += "ATHLEtics: " + ATLETISM + "\n";

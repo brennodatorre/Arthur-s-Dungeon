@@ -2,14 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
-using TMPro;
-
 using UnityEngine;
 
+using UnityEngine.UI;
 
 
-using Image = UnityEngine.UI.Image;
 
 
 
@@ -47,9 +44,15 @@ public class RoundManager : MonoBehaviour
     public GameObject act_menu;
     public GameObject lootScreen;
 
+    [Space(5)]
+    [Header ("Loot Menu Icons")]
+    public Sprite inBtwnLevelIcon;
+    public Sprite goldIcon;
+    public Sprite fableIcon;
+
     
 
-    [Space(5)]
+    [Space(10)]
     public Entity currentTurn;
     public Entity target;
     public Skill skillSelected;
@@ -126,20 +129,20 @@ public class RoundManager : MonoBehaviour
             GameObject fableItem = null;
             
 
-            healItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem( "Heal", 
+            healItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem(inBtwnLevelIcon, "Heal", 
                 () => {
                      doInBtwnLevelPlayerRegen();
                      lootScreen.GetComponentInChildren<MenuContainerManager>().removeItem(healItem);
 
                 });
 
-            goldItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem( "Gold", 
+            goldItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem(goldIcon, "Gold", 
                 () => {
                     PlayerData.Instance.changeIlhas(2 * enemiesKilled.Count);
                     lootScreen.GetComponentInChildren<MenuContainerManager>().removeItem(goldItem);
                 });
 
-            fableItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem( "Fable Points", 
+            fableItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem(fableIcon, "Fable Points", 
                 () => {
                     foreach (var enemy in enemiesKilled) {PlayerData.Instance.addFablePoints(enemy.fableWorth); }
                     lootScreen.GetComponentInChildren<MenuContainerManager>().removeItem(fableItem);

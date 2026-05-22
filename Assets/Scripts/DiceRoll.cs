@@ -99,7 +99,7 @@ public class DiceRoll
     //rolls the dices and return the result + the modifier
     public int Roll(int advantages = 0)
     {
-        Debug.Log("Rolling " + diceToString() + " with " + advantages + " advantages.");
+        Debug.Log("Rolling " + ToString() + " with " + advantages + " advantages.");
 
         int rolls = Mathf.Abs(advantages) + 1;
 
@@ -186,8 +186,8 @@ public class DiceRoll
         return roll.Roll(advantage);
     }
 
-
-      public string diceToString()
+    
+    override public string ToString()
     {
         List<string> parts = new();
         foreach (var dice in dices)

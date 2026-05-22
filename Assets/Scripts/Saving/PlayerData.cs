@@ -6,7 +6,7 @@ using static Entity;
 public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
-    public enum Trait { DEX, ATLETISM, AURA, CHARISM, LUCK, INTUITION, HEX, INT, WILL, REFLEX, PERSEPTION, FURTIVIDY, CONSTITUTION, DOMINANCE };
+    public enum Trait { DEX, ATLETISM, AURA, CHARISM, LUCK, INTUITION, HEX, INT, WILL, REFLEX, PERSEPTION, FURTIVITY, CONSTITUTION, DOMINANCE };
 
     /// 
     /// Newgame context (OR context ( Current Life context ) )
@@ -101,7 +101,7 @@ public class PlayerData : MonoBehaviour
             Destroy(gameObject); // Avoid duplicates
         }
 
-        GameData = NewGameData;
+        resetPlayerStatus(); // Initialize GameData with NewGameData
         
 
 
@@ -209,6 +209,23 @@ public class PlayerData : MonoBehaviour
     public void resetPlayerStatus()
     {
         GameData = NewGameData;
+
+
+        GameData.skills = new List<Skill>();
+        foreach (Skill skill in NewGameData.skills)
+        {
+            GameData.skills.Add(Instantiate(skill));
+        }
+        GameData.items = new List<Item>();
+        foreach (Item item in NewGameData.items)
+        {
+            GameData.items.Add(Instantiate(item));
+        }
+        GameData.StatusEffects = new List<StatusEffect>();
+        foreach (StatusEffect effect in NewGameData.StatusEffects)
+        {
+            GameData.StatusEffects.Add(Instantiate(effect));
+        }
 
         Debug.Log("Player data reset to new game data.");
     }
@@ -375,6 +392,10 @@ public class PlayerData : MonoBehaviour
         {
             return GameData.maxHP;
         }
+    public int getMaxMP()
+    {
+        return GameData.maxMP;
+    }
     public int getCurrentFablePoints()
     {
         return GameData.fablePoints;
@@ -411,7 +432,18 @@ public class PlayerData : MonoBehaviour
     {
         return GameData.items;
     }
-
+    public int getCurrentHP()
+    {
+        return GameData.hp;
+    }
+    public int getCurrentMP()
+    {
+        return GameData.mp;
+    }
+    public int getDEF()
+    {
+        return GameData.def;
+    }
     /// <summary>
     /// Returns an item in the player's inventory that has the specified property, or null if no such item exists
     /// </summary>
@@ -432,8 +464,6 @@ public class PlayerData : MonoBehaviour
     {
         return GameData.StatusEffects;
     }
-
-    
 
     public int GetTrait(Trait trait)
     {
@@ -474,7 +504,7 @@ public class PlayerData : MonoBehaviour
             case Trait.PERSEPTION:
                 result = GameData.PERSEPTION;
                 break;
-            case Trait.FURTIVIDY:
+            case Trait.FURTIVITY:
                 result = GameData.FURTIVITY;
                 break;
             case Trait.CONSTITUTION:

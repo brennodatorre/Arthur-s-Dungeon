@@ -55,6 +55,14 @@ public class SkillManager : MonoBehaviour
 
             caster.changeMP( - skill.mpCost); //caster lose mp
 
+            //deals with the skill's fulldescription if it has one
+            if (caster.entityType == Entity.EntityType.Player && skill.hasBeenUsed == false)
+            {
+                skill.hasBeenUsed = true;
+            }
+
+            
+
             if (skill.skillName == "Healing Tear")
             {
 

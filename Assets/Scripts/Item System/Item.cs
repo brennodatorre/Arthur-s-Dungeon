@@ -19,7 +19,11 @@ public class Item : ScriptableObject
     
 
     public string itemName;
+    [TextArea(3, 10)]
     public string description;
+    [TextArea(5, 15)] [SerializeField] 
+    private string fullDescription;
+    public bool hasBeenUsed = false;
     public bool isUsableInBattle = true;
 
     public DiceRoll mainDiceRoll = new DiceRoll();
@@ -71,6 +75,23 @@ public class Item : ScriptableObject
     public bool HasProperty(ItemProperty property)
     {
         return properties.Contains(property);
+    }
+
+
+    public string GetFullDescription()
+    {
+        if (string.IsNullOrEmpty(fullDescription))
+        {
+            return description;
+        }
+        else if (hasBeenUsed)
+        {
+            return fullDescription;
+        }
+        else
+        {
+            return "???";
+        }
     }
 
 }

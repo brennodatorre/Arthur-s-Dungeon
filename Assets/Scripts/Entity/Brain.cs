@@ -124,11 +124,11 @@ public class Brain : MonoBehaviour
         switch (currentIntent)
         {
             case Intent.ATTACK:
-                return GetComponent<Entity>().baseATK.diceToString();
+                return GetComponent<Entity>().baseATK.ToString();
 
             case Intent.SKILL:
                 if (skilllToUse.mainDice == null) return "???";
-                return skilllToUse.mainDice.diceToString();
+                return skilllToUse.mainDice.ToString();
 
             default:
                 return "No Intent";   

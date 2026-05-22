@@ -16,9 +16,15 @@ MonoBehaviour:
   mpCost: 2
   cooldown: 0
   currentCooldown: 0
-  description: apply ROT adding 1d4 damage to atk of target
+  description: Applies ROT to target's ATK
+  fullDescription: Applies ROT (+1d4) /n  to target's next ATK
+  hasBeenUsed: 0
   fableCost: 1
   soundEffect: {fileID: 8300000, guid: f49dd6b5f80535541bd3a15c04e777bb, type: 3}
+  mainDiceRoll:
+    dices: []
+    modifier: 0
+  extraInput: 0
   origin: 0
   targetType: 0
   actionType: 2
@@ -31,5 +37,5 @@ MonoBehaviour:
     modifier: 0
   isStackable: 0
   limitPerTurn: 999
-  currentUsesPerTurn: 0
+  currentUsesPerTurn: 3
   statusEffect: {fileID: 11400000, guid: 8755702190535eb42b3fdf09acfdc1aa, type: 2}
