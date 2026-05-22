@@ -12,6 +12,7 @@ public class StatusEffect : ScriptableObject
 
     public Sprite sprite;
     public string effectName;
+    public string statusEffectID;   
 
     public DiceRoll mainRoll = new DiceRoll();
 
@@ -41,10 +42,10 @@ public class StatusEffect : ScriptableObject
     public StatusEffect() { }
     public StatusEffect
     (
-    Skill _effectFromSkill, string _effectName, string _description, int _duration,
-    Entity _caster, Entity _target,
-    TurnPhaseOfEffect _turnPhaseOfEffect, StatusEffectType _efctType,
-    Action _effect, Action _endEffect
+        Skill _effectFromSkill, string _effectName, string _description, int _duration,
+        Entity _caster, Entity _target,
+        TurnPhaseOfEffect _turnPhaseOfEffect, StatusEffectType _efctType,
+        Action _effect, Action _endEffect
     )
     {
         this.effectName = _effectName;
@@ -59,6 +60,10 @@ public class StatusEffect : ScriptableObject
         this.caster = _caster;
     }
 
+    public StatusEffect Clone()
+    {
+        return Instantiate(this);
+    }
 
     private bool checkIfStackCanBeApplied(Entity target) {
         if (target.hasEffect(this)) // Check if the target has the effect of this skill

@@ -19,4 +19,17 @@ public class StatusEffectDatabase : ScriptableObject
         int index = Random.Range(0, StatusEffects.Count);
         return Instantiate(StatusEffects[index]);
     }
+
+
+    public StatusEffect GetStatusEffectByID(string statusEffectID)
+    {
+        foreach (StatusEffect effect in StatusEffects)
+        {
+            if (effect.statusEffectID == statusEffectID)
+            {
+                return Instantiate(effect);
+            }
+        }
+        return null;
+    }
 }

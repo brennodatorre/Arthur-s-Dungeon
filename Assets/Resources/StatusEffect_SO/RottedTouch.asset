@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 902577478, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
   effectName: Rotted Touch
+  statusEffectID: se_rotedTouch
   mainRoll:
     dices:
     - count: 1

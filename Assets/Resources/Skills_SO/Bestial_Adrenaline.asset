@@ -13,12 +13,19 @@ MonoBehaviour:
   m_Name: Bestial_Adrenaline
   m_EditorClassIdentifier: 
   skillName: Bestial Adrenaline
+  skillID: s_bestialAdrenaline
   mpCost: 5
   cooldown: 4
   currentCooldown: 0
   description: +1d6 + 2 /4 rounds -> 1d8 damage
+  fullDescription: 
+  hasBeenUsed: 0
   fableCost: 3
   soundEffect: {fileID: 8300000, guid: a57a2429b35061e4b9062a690259345f, type: 3}
+  mainDiceRoll:
+    dices: []
+    modifier: 0
+  extraInput: 0
   origin: 6
   targetType: 2
   actionType: 1

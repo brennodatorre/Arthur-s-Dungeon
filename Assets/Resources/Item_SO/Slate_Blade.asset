@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Slate_Blade
   m_EditorClassIdentifier: 
   itemName: Slate Blade
+  itemID: i_slateBalde
   description: A dagger made of a unusual energy
+  fullDescription: 
+  hasBeenUsed: 0
   isUsableInBattle: 1
   mainDiceRoll:
     dices:
@@ -28,3 +31,4 @@ MonoBehaviour:
   targetType: 0
   isPAHTItem: 0
   soundEffect: {fileID: 8300000, guid: fa7b74481e024194b9fa75d30bfc720c, type: 3}
+  properties: 

@@ -13,15 +13,27 @@ MonoBehaviour:
   m_Name: Plated_Soul
   m_EditorClassIdentifier: 
   skillName: Plated Soul
+  skillID: s_platedSoul
   mpCost: 4
   cooldown: 3
   currentCooldown: 0
   description: Gives +3 DEF to target for 3 turns
+  fullDescription: 
+  hasBeenUsed: 0
   fableCost: 2
   soundEffect: {fileID: 8300000, guid: a6d2f68dc3067ec41a283a350dc0402f, type: 3}
+  mainDiceRoll:
+    dices: []
+    modifier: 0
+  extraInput: 0
   origin: 4
   targetType: 2
   actionType: 1
+  isOffensiveSkill: 0
+  isPAHTSkill: 0
+  mainDice:
+    dices: []
+    modifier: 0
   isStackable: 0
   limitPerTurn: 999
   currentUsesPerTurn: 0

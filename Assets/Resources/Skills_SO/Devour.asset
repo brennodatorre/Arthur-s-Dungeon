@@ -13,12 +13,19 @@ MonoBehaviour:
   m_Name: Devour
   m_EditorClassIdentifier: 
   skillName: Devour
+  skillID: s_devour
   mpCost: 4
   cooldown: 0
   currentCooldown: 0
   description: Use [DEX] or [ATL] vs [REF] of target to do 1d4 of true life steal
+  fullDescription: 
+  hasBeenUsed: 0
   fableCost: 1
   soundEffect: {fileID: 8300000, guid: d7e33bb457e2b114ea1bf5517375491c, type: 3}
+  mainDiceRoll:
+    dices: []
+    modifier: 0
+  extraInput: 0
   origin: 6
   targetType: 0
   actionType: 0

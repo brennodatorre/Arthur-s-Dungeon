@@ -12,6 +12,7 @@ public class Skill : ScriptableObject
 
 
     public string skillName;
+    public string skillID; 
     public int mpCost;
     public int cooldown;
     public int currentCooldown;
@@ -61,7 +62,14 @@ public class Skill : ScriptableObject
         this.origin = origin;
         this.targetType = targetType;
     }
+
     public Skill() { } // Default constructor for Unity serialization
+
+
+    public Skill Clone()
+    {
+        return Instantiate(this);
+    }
 
     public void ResetCooldown()
     {

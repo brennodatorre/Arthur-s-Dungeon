@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Rotting_Touch
   m_EditorClassIdentifier: 
   skillName: Rotting Touch
+  skillID: s_rottingTouch
   mpCost: 2
   cooldown: 0
   currentCooldown: 0

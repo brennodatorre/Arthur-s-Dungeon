@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: Reagent_Slug
   m_EditorClassIdentifier: 
   itemName: Reagent Slug
+  itemID: i_reagentSlug
   description: Reacts with effects
+  fullDescription: 
+  hasBeenUsed: 0
+  isUsableInBattle: 1
   mainDiceRoll:
     dices: []
     modifier: 0
+  extraInput: 0
   sprite: {fileID: -9165271359467621287, guid: 7a24f6247daf4c641ae98cda84bd61bb, type: 3}
   value: 20
   itemOrigin: 7
@@ -24,3 +29,4 @@ MonoBehaviour:
   targetType: 0
   isPAHTItem: 0
   soundEffect: {fileID: 8300000, guid: 4e19b54d3a3afc14f846e5d23db38cc9, type: 3}
+  properties: 

@@ -115,9 +115,9 @@ public class RoundManager : MonoBehaviour
             playerIsTargeting)                                    // is targetting)
         ;
 
-
+        //ends the comabt 
         if (enemies.Length == 0 && !lootMenuIsUp)
-        {  //ends the comabt 
+        { 
 
             lootMenuIsUp = true;
 

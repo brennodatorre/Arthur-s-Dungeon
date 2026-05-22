@@ -2,85 +2,23 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using static Entity;
+using Unity.VisualScripting.Antlr3.Runtime;
+using System.IO;
 
 public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
     public enum Trait { DEX, ATLETISM, AURA, CHARISM, LUCK, INTUITION, HEX, INT, WILL, REFLEX, PERSEPTION, FURTIVITY, CONSTITUTION, DOMINANCE };
 
-    /// 
-    /// Newgame context (OR context ( Current Life context ) )
-    /// 
-    [System.Serializable]
-    public struct PlayerDataStruct
-    {
-        public string playerName;
-        public int hp;
-        public int maxHP;
-        public int mp;
-        public int maxMP;
-        public int def;
-
-        public DiceRoll baseATK;
-        public int atkAdvantage;
-
-        public int totalMainActions ;
-        public int totalSupActions ;
-
-        [Space (10)]
-        [Header ("Player Attributes (0 = 1d20) ")]
-
-        public int statusPoints;
-
-        public int DEX ;
-        public int ATLETISM ;
-        public int AURA ;
-        public int CHARISM ;
-        public int LUCK ;
-        public int INTUITION ;
-        public int HEX ;
-        public int INT ;
-        public int WILL ;
-        public int REFLEX ;
-        public int PERSEPTION;
-        public int FURTIVITY ;
-        public int CONSTITUTION ;
-        public int DOMINANCE ;
-
-
-        [Space (10)]
-        [Header ("Player Data")]
-        [SerializeField] public List<Skill> skills ;
-
-        [SerializeField] public List<Item> items ;
-
-        [SerializeField] public List<StatusEffect> StatusEffects ;
-
-
-        [Space(10)]
-        [Header ("OR Data")]
-        public int fableRecord ;
-        public int fablePoints ;
-        public int levelsBeat; // totoal levels beaten
-        public int currentLevelsBeat; // levels beaten this death loop
-        public int lives;
-        public int death_counter ;
-        public int kill_counter;
-
-
-        [Space(10)]
-        [Header ("Event Data")]
-        public int Ilhas;
-
-
-
-    }
+   
 
 
     [SerializeField]
-    private PlayerDataStruct NewGameData = new PlayerDataStruct();
+    private PlayerDataClass DEFAULT = new PlayerDataClass();
     [SerializeField]
-    private PlayerDataStruct GameData = new PlayerDataStruct();
+    public PlayerDataClass jsonData = new PlayerDataClass();
+    [SerializeField]
+    private PlayerDataClass GameData = new PlayerDataClass();
     [HideInInspector]
     public bool isInTransition = false;
 
@@ -101,6 +39,10 @@ public class PlayerData : MonoBehaviour
             Destroy(gameObject); // Avoid duplicates
         }
 
+
+        jsonData = loadJsonData(); // Load the JSON data into the GameData
+        if (jsonData == null) jsonData = new PlayerDataClass();
+        
         resetPlayerStatus(); // Initialize GameData with NewGameData
         
 
@@ -108,6 +50,8 @@ public class PlayerData : MonoBehaviour
     }
 
     #region Major Data Management
+
+
 
     /// <summary>
     /// Saves data From Entity player into GameData
@@ -208,26 +152,120 @@ public class PlayerData : MonoBehaviour
     /// </summary>
     public void resetPlayerStatus()
     {
-        GameData = NewGameData;
+        CreateRuntimeCopy(DEFAULT);
+
+
+        Debug.Log("Player data reset to new game data.");
+    }
+
+
+    /// <summary>
+    /// Returns a new PlayerDataClass based on the default + 
+    /// as a new GameData
+    /// </summary>
+    public PlayerDataClass CreateRuntimeCopy(PlayerDataClass _default)
+    {
+        
+
+
+        
+        
+        GameData.hp = _default.hp + jsonData.hp;
+        GameData.maxHP = _default.maxHP + jsonData.maxHP;
+        GameData.mp = _default.mp + jsonData.mp;
+        GameData.maxMP = _default.maxMP + jsonData.maxMP;
+        GameData.def = _default.def + jsonData.def;
+        GameData.baseATK = new DiceRoll ();
+        GameData.baseATK.AddDice(_default.baseATK);
+        GameData.baseATK.AddDice(jsonData.baseATK);
+
+        GameData.atkAdvantage = _default.atkAdvantage + jsonData.atkAdvantage;
+        GameData.totalMainActions = _default.totalMainActions + jsonData.totalMainActions;
+        GameData.totalSupActions = _default.totalSupActions + jsonData.totalSupActions;
+        GameData.DEX = _default.DEX + jsonData.DEX;
+        GameData.ATLETISM = _default.ATLETISM + jsonData.ATLETISM;
+        GameData.AURA = _default.AURA + jsonData.AURA;
+        GameData.CHARISM = _default.CHARISM + jsonData.CHARISM;
+        GameData.LUCK = _default.LUCK + jsonData.LUCK;
+        GameData.INTUITION = _default.INTUITION + jsonData.INTUITION;
+        GameData.HEX = _default.HEX + jsonData.HEX;
+        GameData.INT = _default.INT + jsonData.INT;
+        GameData.WILL = _default.WILL + jsonData.WILL;
+        GameData.REFLEX = _default.REFLEX + jsonData.REFLEX;
+        GameData.PERSEPTION = _default.PERSEPTION + jsonData.PERSEPTION;
+        GameData.FURTIVITY = _default.FURTIVITY + jsonData.FURTIVITY;
+        GameData.CONSTITUTION = _default.CONSTITUTION + jsonData.CONSTITUTION;
+        GameData.DOMINANCE = _default.DOMINANCE + jsonData.DOMINANCE;
+
+
+        GameData.fablePoints = _default.fablePoints + jsonData.fablePoints;
+        GameData.lives = _default.lives + jsonData.lives;
+        GameData.Ilhas = _default.Ilhas + jsonData.Ilhas;
+
 
 
         GameData.skills = new List<Skill>();
-        foreach (Skill skill in NewGameData.skills)
-        {
-            GameData.skills.Add(Instantiate(skill));
+        foreach (Skill skill in _default.skills){GameData.skills.Add(Instantiate(skill));
+        foreach (string s in jsonData.fableSkillsID) {
+            Skill fableSkill = DatabaseManager.Instance.skillDatabase.GetSkillByID(s);
+            if (fableSkill != null) {
+                GameData.skills.Add(fableSkill);
+            }
         }
+}
         GameData.items = new List<Item>();
-        foreach (Item item in NewGameData.items)
-        {
-            GameData.items.Add(Instantiate(item));
-        }
-        GameData.StatusEffects = new List<StatusEffect>();
-        foreach (StatusEffect effect in NewGameData.StatusEffects)
-        {
-            GameData.StatusEffects.Add(Instantiate(effect));
+        foreach (Item item in _default.items){ GameData.items.Add(Instantiate(item));}
+        foreach (string s in jsonData.fableItemsID) {
+            Item fableItem = DatabaseManager.Instance.itemDatabase.GetItemByID(s);
+            if (fableItem != null) {
+                GameData.items.Add(fableItem);
+            }
         }
 
-        Debug.Log("Player data reset to new game data.");
+        GameData.StatusEffects = new List<StatusEffect>();
+        foreach (StatusEffect effect in _default.StatusEffects){GameData.StatusEffects.Add(Instantiate(effect));}
+        foreach (string s in jsonData.fableStatusEffectsID) {
+            StatusEffect fableEffect = DatabaseManager.Instance.statusEffectDatabase.GetStatusEffectByID(s);
+            if (fableEffect != null) {
+                GameData.StatusEffects.Add(fableEffect);
+            }
+        }
+
+
+        return GameData;
+    }
+
+
+    public PlayerDataClass loadJsonData()
+    {
+        string path = Application.persistentDataPath + "/save.json";
+
+        if (!File.Exists(path))
+        {
+            Debug.Log("No save file found");
+            return new PlayerDataClass();
+        }
+
+        string json = File.ReadAllText(path);
+
+        PlayerDataClass data = JsonUtility.FromJson<PlayerDataClass>(json);
+
+        data.skills = new List<Skill>();
+        data.items = new List<Item>();
+        data.StatusEffects = new List<StatusEffect>();
+
+        return data;
+    }
+
+    public void saveJsonData()
+    {
+        string path = Application.persistentDataPath + "/save.json";
+
+        string json = JsonUtility.ToJson(jsonData, true);
+
+        File.WriteAllText(path, json);
+
+        
     }
 
 
@@ -246,15 +284,17 @@ public class PlayerData : MonoBehaviour
     #endregion
 
 
-///
-/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-   
+
+
+
+
+
+
+
+
+
+
+   #region Player Data Manipulation
    
    /// <summary>
    /// Rolls a trait check using the specified trait, 
@@ -536,13 +576,17 @@ public class PlayerData : MonoBehaviour
 
     public void addSkill(Skill skill)
     {
-        GameData.skills.Add(Instantiate(skill));
+        GameData.skills.Add(skill.Clone());
     }
+
+    /// <summary>
+    /// removes the skill from the player that matchs the id of the skill passed in
+    /// </summary>
     public void RemoveSkill(Skill skill)
     {
         foreach (Skill skl in GameData.skills)
         {
-            if (skl.skillName == skill.skillName)
+            if (skl.skillID == skill.skillID)
             {
                 GameData.skills.Remove(skl);
                 break;
@@ -555,7 +599,7 @@ public class PlayerData : MonoBehaviour
     {
         foreach (Skill skl in GameData.skills)
         {
-            if (skl.skillName == skill.skillName)
+            if (skl.skillID == skill.skillID)
             {
                 return true;
             }
@@ -563,4 +607,7 @@ public class PlayerData : MonoBehaviour
 
         return false;
     }
+
+
+    #endregion
 }

@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: Pocket_Shark
   m_EditorClassIdentifier: 
   itemName: Pocket Shark
+  itemID: i_pocketShark
   description: Asks a FRIEND for help
+  fullDescription: 
+  hasBeenUsed: 0
+  isUsableInBattle: 1
   mainDiceRoll:
     dices:
     - count: 4
       sides: 4
     modifier: 0
+  extraInput: 0
   sprite: {fileID: -6284554618555544206, guid: 61500d35365b89940af7cb95a062026a, type: 3}
   value: 10
   itemOrigin: 4
@@ -26,3 +31,4 @@ MonoBehaviour:
   targetType: 1
   isPAHTItem: 0
   soundEffect: {fileID: 8300000, guid: 867c6cb54e9851348ab01303a4c045ed, type: 3}
+  properties: 

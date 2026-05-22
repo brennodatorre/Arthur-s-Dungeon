@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Pink_Cristal
   m_EditorClassIdentifier: 
   itemName: Pink Cristal
+  itemID: i_pinkCristal
   description: Has an unusual pink color
+  fullDescription: 
+  hasBeenUsed: 0
   isUsableInBattle: 0
   mainDiceRoll:
     dices: []

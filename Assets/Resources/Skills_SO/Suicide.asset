@@ -13,16 +13,27 @@ MonoBehaviour:
   m_Name: Suicide
   m_EditorClassIdentifier: 
   skillName: Suicide
+  skillID: s_suicide
   mpCost: 0
   cooldown: 0
   currentCooldown: 0
   description: End your own life.
+  fullDescription: 
+  hasBeenUsed: 0
   fableCost: 0
   soundEffect: {fileID: 0}
+  mainDiceRoll:
+    dices: []
+    modifier: 0
+  extraInput: 0
   origin: 5
   targetType: 2
   actionType: 2
+  isOffensiveSkill: 0
   isPAHTSkill: 1
+  mainDice:
+    dices: []
+    modifier: 0
   isStackable: 0
   limitPerTurn: 999
   currentUsesPerTurn: 0

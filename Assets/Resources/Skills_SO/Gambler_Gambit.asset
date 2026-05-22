@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Gambler_Gambit
   m_EditorClassIdentifier: 
   skillName: Gambler's Gambit
+  skillID: s_GamblerGambit
   mpCost: 0
   cooldown: 0
   currentCooldown: 0
   description: Deals HP-1 damage to ALL
+  fullDescription: 
+  hasBeenUsed: 0
   fableCost: 1
   soundEffect: {fileID: 8300000, guid: 1964d850d8b07014eacf4b1a275a71e3, type: 3}
   mainDiceRoll:

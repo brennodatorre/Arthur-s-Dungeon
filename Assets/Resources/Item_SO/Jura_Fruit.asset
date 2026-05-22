@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Jura_Fruit
   m_EditorClassIdentifier: 
   itemName: Jura's Fruit
+  itemID: i_juraFruit
   description: Sweet and revigorating
+  fullDescription: 
+  hasBeenUsed: 0
   isUsableInBattle: 1
   mainDiceRoll:
     dices: []
@@ -26,3 +29,4 @@ MonoBehaviour:
   targetType: 2
   isPAHTItem: 0
   soundEffect: {fileID: 8300000, guid: 547c97cdc54f27a47984aaa3660e5087, type: 3}
+  properties: 

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: -1371564972, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
   effectName: Platted Soul
+  statusEffectID: se_platedSould
   mainRoll:
     dices: []
     modifier: 0

@@ -207,15 +207,16 @@ public class FableShop : MonoBehaviour
             {
                 if (pageOb.GetComponent<skillPage>() != null && pageOb.GetComponent<skillPage>().selected)
                 {
-                    PlayerData.Instance.addSkill(pageOb.GetComponent<skillPage>().skill);
-                    //PlayerData.Instance.loseFablePoints(amountDue);
+                    PlayerData.Instance.addSkill(pageOb.GetComponent<skillPage>().skill.Clone()); // adds the skill to the player data
+                    PlayerData.Instance.jsonData.fableSkillsID.Add(pageOb.GetComponent<skillPage>().skill.skillID); // adds the skill to the json data
+                    
                 }
                 else if (pageOb.GetComponent<UpgradePage>() != null && pageOb.GetComponent<UpgradePage>().selected)
                 {
-                    // if the page is an upgrade page, apply the upgrades
+                    
                     UpgradePage upgPage = pageOb.GetComponent<UpgradePage>();
                     upgradeManager.applyUpgrade(upgPage.upgrade.upgradeName); // applies the upgrade based on the type
-                    //PlayerData.Instance.loseFablePoints( upgPage.upgrade.upgradeFableCost); // deducts the cost of the upgrade from the player's fable points
+                    
                 }
 
 

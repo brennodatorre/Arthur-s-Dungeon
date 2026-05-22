@@ -37,6 +37,7 @@ public class DiceRoll
     }
     public void AddDice(DiceRoll _dices)
     {
+        if (_dices == null) return;
         foreach (var die in _dices.dices)
         {
             dices.Add(new Dice(die.count, die.sides));

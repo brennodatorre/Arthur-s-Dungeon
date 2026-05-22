@@ -13,12 +13,19 @@ MonoBehaviour:
   m_Name: Healing_Tear
   m_EditorClassIdentifier: 
   skillName: Healing Tear
+  skillID: s_healingTear
   mpCost: 4
   cooldown: 0
   currentCooldown: 0
   description: Heals target for 1d6 HP
+  fullDescription: 
+  hasBeenUsed: 0
   fableCost: 2
   soundEffect: {fileID: 8300000, guid: ab34aae26d749be40ab07eddd17f0931, type: 3}
+  mainDiceRoll:
+    dices: []
+    modifier: 0
+  extraInput: 0
   origin: 4
   targetType: 0
   actionType: 1

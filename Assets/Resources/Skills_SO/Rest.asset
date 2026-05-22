@@ -13,12 +13,19 @@ MonoBehaviour:
   m_Name: Rest
   m_EditorClassIdentifier: 
   skillName: Rest
+  skillID: s_rest
   mpCost: 0
   cooldown: 0
   currentCooldown: 0
   description: Recovers 1d8 + 1 MP
+  fullDescription: 
+  hasBeenUsed: 0
   fableCost: 0
   soundEffect: {fileID: 8300000, guid: 6265ab2646356ac47ba64b20d0c942d9, type: 3}
+  mainDiceRoll:
+    dices: []
+    modifier: 0
+  extraInput: 0
   origin: 4
   targetType: 2
   actionType: 0

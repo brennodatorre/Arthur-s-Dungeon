@@ -1,7 +1,7 @@
 using System;
 
 using System.Collections.Generic;
-
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -34,6 +34,16 @@ public class Brain : MonoBehaviour
     void Start()
     {
         actionQueue = RoundManager.Instance.actionQueue;
+        foreach (var neuron in skillNeurons)
+        {
+
+            neuron._skill = neuron._skill.Clone();
+            if (neuron._skill == null)
+            {
+                Debug.LogWarning(gameObject.name + " has a skillNeuron with no skill assigned.");
+            }
+            
+        }
     }
 
     public void getIntent()

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: -5500037018072461063, guid: 1eacbed6bdd01bd4cac3dc37afa10d7e, type: 3}
   effectName: Slate Scar
+  statusEffectID: se_slateScar
   mainRoll:
     dices: []
     modifier: 0

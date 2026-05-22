@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Elk_Milk
   m_EditorClassIdentifier: 
   itemName: Elk Milk
+  itemID: i_elkMilk
   description: Good for your Health
+  fullDescription: 
+  hasBeenUsed: 0
   isUsableInBattle: 1
   mainDiceRoll:
     dices: []
     modifier: 0
+  extraInput: 0
   sprite: {fileID: 4600594354801571735, guid: 8c6a59b1e76ce984889cdc90a8b0885d, type: 3}
   value: 6
   itemOrigin: 7
@@ -25,3 +29,4 @@ MonoBehaviour:
   targetType: 0
   isPAHTItem: 0
   soundEffect: {fileID: 8300000, guid: 41cbc79ed95e1e54697ffb021ce4cabb, type: 3}
+  properties: 

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Prepared
   m_EditorClassIdentifier: 
   sprite: {fileID: 481520295, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
-  effectName: 
+  effectName: Prepared
+  statusEffectID: se_preprared
   mainRoll:
     dices: []
     modifier: 0

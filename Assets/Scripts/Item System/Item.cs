@@ -19,6 +19,7 @@ public class Item : ScriptableObject
     
 
     public string itemName;
+    public string itemID;
     [TextArea(3, 10)]
     public string description;
     [TextArea(5, 15)] [SerializeField] 
@@ -48,6 +49,11 @@ public class Item : ScriptableObject
     {
         itemName = _itemName;
         actionType = _itemActionType;
+    }
+
+    public Item Clone()
+    {
+        return Instantiate(this);
     }
 
     public bool CanBeUsed(Entity caster, Entity target, Item item)

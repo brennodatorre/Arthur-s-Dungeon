@@ -13,12 +13,19 @@ MonoBehaviour:
   m_Name: Prepare
   m_EditorClassIdentifier: 
   skillName: Prepare
+  skillID: s_prepare
   mpCost: 0
   cooldown: 0
   currentCooldown: 0
   description: Gives advantage on the next round
+  fullDescription: 
+  hasBeenUsed: 0
   fableCost: 0
   soundEffect: {fileID: 8300000, guid: 06dd84eebb1bd1c4e911806e658cffab, type: 3}
+  mainDiceRoll:
+    dices: []
+    modifier: 0
+  extraInput: 0
   origin: 4
   targetType: 2
   actionType: 0

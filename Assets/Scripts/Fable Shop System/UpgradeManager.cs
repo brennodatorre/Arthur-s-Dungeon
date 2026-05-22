@@ -51,9 +51,19 @@ public class UpgradeManager : MonoBehaviour
 
     public void upgradeATK(int number, int sides)
     {
-        PlayerData.Instance.getBaseATK().AddDice(number, sides);    
+        PlayerData.Instance.getBaseATK().AddDice(number, sides);   
+        PlayerData.Instance.jsonData.baseATK.AddDice(number, sides);
     }
-    public void upgradeDEF(int amount) {PlayerData.Instance.setDEF(amount); }
-    public void upgradeMAXMP(int amount) { PlayerData.Instance.setMaxMP(amount); }
-    public void upgradeMAXHP(int amount) { PlayerData.Instance.setMaxHP(amount); }
+    public void upgradeDEF(int amount) {
+        PlayerData.Instance.setDEF(amount);
+        PlayerData.Instance.jsonData.def += amount;
+    }
+    public void upgradeMAXMP(int amount) { 
+        PlayerData.Instance.setMaxMP(amount);
+        PlayerData.Instance.jsonData.maxMP += amount;
+    }
+    public void upgradeMAXHP(int amount) { 
+        PlayerData.Instance.setMaxHP(amount);
+        PlayerData.Instance.jsonData.maxHP += amount;
+    }
 }

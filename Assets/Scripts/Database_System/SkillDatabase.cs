@@ -17,7 +17,7 @@ public class SkillDatabase : ScriptableObject
         if (skills.Count == 0) return null;
         
         int index = Random.Range(0, skills.Count);
-        return Instantiate(skills[index]);
+        return skills[index].Clone();
     }
 
 
@@ -49,20 +49,34 @@ public class SkillDatabase : ScriptableObject
         if (availableSkills.Count == 0) return null;
 
         int index = Random.Range(0, availableSkills.Count);
-        return Instantiate(availableSkills[index]);
+        return availableSkills[index].Clone();
     }
 
+    
     public Skill GetSkill(string skillName)
     {
         foreach (Skill skl in skills)
         {
             if (skl.skillName == skillName)
             {
-                return Instantiate(skl);
+                return skl.Clone();
             }
         }
 
         Debug.LogWarning("Skill not found: " + skillName);
+        return null;
+    }
+    public Skill GetSkillByID(string skillID)
+    {
+        foreach (Skill skl in skills)
+        {
+            if (skl.skillID == skillID)
+            {
+                return Instantiate(skl);
+            }
+        }
+
+        Debug.LogWarning("Skill not found: " + skillID);
         return null;
     }
 }

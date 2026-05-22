@@ -90,6 +90,8 @@ public class Or_Manager : MonoBehaviour
 
 
     public void leaveOutsideReaderDomain(){
+        PlayerData.Instance.saveJsonData();
+        Debug.Log(Application.persistentDataPath);
         StartCoroutine(MySceneManager.Instance.openSceneWithTransition(MySceneManager.SceneType.NEXT));
     }
 }

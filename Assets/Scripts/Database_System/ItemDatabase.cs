@@ -19,6 +19,18 @@ public class ItemDatabase : ScriptableObject
         return Instantiate(items[index]);
     }
 
+    public Item GetItemByID(string itemID)
+    {
+        foreach (Item itm in items)
+        {
+            if (itm.itemID == itemID)
+            {
+                return Instantiate(itm);
+            }
+        }
+        return null;
+    }
+
         
     
 }
