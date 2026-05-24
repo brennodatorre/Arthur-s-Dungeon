@@ -183,6 +183,7 @@ public class MySceneManager : MonoBehaviour
         StartCoroutine(MySceneManager.Instance.openSceneWithTransition(SceneType.NEXT));
         MySceneManager.Instance.intentDelay = 0;
     }
+    public static void openMainMenuScene() { MySceneManager.Instance.StartCoroutine(MySceneManager.Instance.openSceneWithTransition(SceneType.MAINMENU)); }
     public void openNextScene(SceneType toScene, float delay = 1f)
     {
 
@@ -231,6 +232,10 @@ public class MySceneManager : MonoBehaviour
             case SceneType.MAP:
                 StartCoroutine(openSceneWithDelay("Map Scene", delay));
                 currentSceneType = SceneType.MAP;
+                break;
+            case SceneType.MAINMENU:
+                StartCoroutine(openSceneWithDelay("MainMenu_scene", delay));
+                currentSceneType = SceneType.MAINMENU;
                 break;
 
 

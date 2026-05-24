@@ -205,14 +205,14 @@ public class PlayerData : MonoBehaviour
 
 
         GameData.skills = new List<Skill>();
-        foreach (Skill skill in _default.skills){GameData.skills.Add(Instantiate(skill));
+        foreach (Skill skill in _default.skills){GameData.skills.Add(Instantiate(skill));}
         foreach (string s in jsonData.fableSkillsID) {
             Skill fableSkill = DatabaseManager.Instance.skillDatabase.GetSkillByID(s);
             if (fableSkill != null) {
                 GameData.skills.Add(fableSkill);
             }
         }
-}
+        
         GameData.items = new List<Item>();
         foreach (Item item in _default.items){ GameData.items.Add(Instantiate(item));}
         foreach (string s in jsonData.fableItemsID) {
@@ -268,6 +268,21 @@ public class PlayerData : MonoBehaviour
         
     }
 
+
+    public static void DeleteSave()
+    {
+        string path = Application.persistentDataPath + "/save.json";
+
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            Debug.Log("Save file deleted.");
+        }
+        else
+        {
+            Debug.Log("No save file found.");
+        }
+    }
 
     /// <summary>
     /// Fully restores the player's HP and MP to max values
