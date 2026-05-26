@@ -1113,7 +1113,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 248.8, y: -1759.6}
+  m_AnchoredPosition: {x: 214.8, y: -1669}
   m_SizeDelta: {x: 43.939, y: 43.643}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &277828847
@@ -2109,6 +2109,9 @@ MonoBehaviour:
   inBtwnLevelIcon: {fileID: -2611279569735032626, guid: bb2a60547ef5fb7498c87d7fa076b278, type: 3}
   goldIcon: {fileID: 481520295, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
   fableIcon: {fileID: -37659480328167503, guid: fa00d770206494541a58ddb5913d0647, type: 3}
+  coinSound: {fileID: 8300000, guid: 1fc1f1fd4ea11fb47af166e92a79ee4f, type: 3}
+  healSound: {fileID: 8300000, guid: ab34aae26d749be40ab07eddd17f0931, type: 3}
+  fableSound: {fileID: 8300000, guid: 55b88efbe15f4bc409eb46ee68df2a77, type: 3}
   currentTurn: {fileID: 0}
   target: {fileID: 0}
   skillSelected: {fileID: 0}
@@ -3658,8 +3661,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 151, y: -2051}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 151.001, y: -2050.824}
+  m_SizeDelta: {x: 289.013, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &880313284
 MonoBehaviour:
@@ -6628,6 +6631,18 @@ PrefabInstance:
     - target: {fileID: 4060110002616679625, guid: d585c4256207e8a479407fa87152c3c8, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5100123984485417970, guid: d585c4256207e8a479407fa87152c3c8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5100123984485417970, guid: d585c4256207e8a479407fa87152c3c8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5100123984485417970, guid: d585c4256207e8a479407fa87152c3c8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5858363025820590850, guid: d585c4256207e8a479407fa87152c3c8, type: 3}
       propertyPath: m_AnchorMax.y

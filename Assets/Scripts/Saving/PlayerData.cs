@@ -384,6 +384,11 @@ public class PlayerData : MonoBehaviour
     {
         GameData.levelsBeat += 1;
         GameData.currentLevelsBeat += 1;
+        if (GameData.levelsBeat > jsonData.HighestScore) { jsonData.HighestScore = GameData.levelsBeat; }
+    }
+    public int GetHighestScore()
+    {
+        return jsonData.HighestScore;
     }
     public void incrementKillCounter()
     {

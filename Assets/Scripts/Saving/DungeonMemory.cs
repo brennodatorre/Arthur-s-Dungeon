@@ -48,6 +48,8 @@ public static class GameEvents
 {
     public const string TalkedToOldRock = "Talked_To_Old_Rock";
     public const string HadPlatedSoulPriorToOldRock = "Had_Plated_Soul_Prior_To_Old_Rock";
+
+    public const string hasVisitedOR = "Has_Visited_OR";
     
 }
 

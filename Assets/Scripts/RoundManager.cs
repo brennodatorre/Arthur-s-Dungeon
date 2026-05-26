@@ -45,10 +45,13 @@ public class RoundManager : MonoBehaviour
     public GameObject lootScreen;
 
     [Space(5)]
-    [Header ("Loot Menu Icons")]
+    [Header ("Loot Menu")]
     public Sprite inBtwnLevelIcon;
     public Sprite goldIcon;
     public Sprite fableIcon;
+    public AudioClip coinSound;
+    public AudioClip healSound;
+    public AudioClip fableSound;
 
     
 
@@ -132,19 +135,27 @@ public class RoundManager : MonoBehaviour
             healItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem(inBtwnLevelIcon, "Heal", 
                 () => {
                      doInBtwnLevelPlayerRegen();
+                     AudioManager.Instance.PlaySound(healSound);
                      lootScreen.GetComponentInChildren<MenuContainerManager>().removeItem(healItem);
 
                 });
 
             goldItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem(goldIcon, "Gold", 
                 () => {
-                    PlayerData.Instance.changeIlhas(2 * enemiesKilled.Count);
+                    int gain = 2 * enemiesKilled.Count;
+                    PlayerData.Instance.changeIlhas(gain);
+                    AudioManager.Instance.PlaySound(coinSound);
+                    StartCoroutine(MySceneManager.Instance.doPopUp(gain.ToString(), this.transform.position, Color.yellow));
                     lootScreen.GetComponentInChildren<MenuContainerManager>().removeItem(goldItem);
                 });
 
             fableItem = lootScreen.GetComponentInChildren<MenuContainerManager>().AddItem(fableIcon, "Fable Points", 
                 () => {
-                    foreach (var enemy in enemiesKilled) {PlayerData.Instance.addFablePoints(enemy.fableWorth); }
+                    int value = 0;
+                    foreach (var enemy in enemiesKilled) { value += enemy.fableWorth; }
+                    PlayerData.Instance.addFablePoints(value);
+                    AudioManager.Instance.PlaySound(fableSound);
+                    StartCoroutine(MySceneManager.Instance.doPopUp(value.ToString(), this.transform.position, Color.magenta));
                     lootScreen.GetComponentInChildren<MenuContainerManager>().removeItem(fableItem);
 
                     });

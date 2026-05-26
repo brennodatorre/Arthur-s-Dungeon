@@ -21,11 +21,39 @@ public class FountainEventManager : MonoBehaviour
     private AudioSource fountainAmbienceASource;
 
 
+    public GameObject dialogue;
+    TypeWriterEffect typeWriter;
+    Button fountainBtn;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         if (fountainAmbience != null ) { fountainAmbienceASource = AudioManager.Instance.CreateAndPlaySound(fountainAmbience, true);}
+
+        typeWriter = dialogue.GetComponentInChildren<TypeWriterEffect>();
+        fountainBtn = this.GetComponentInChildren<Button>();
+        fountainBtn.enabled = false;
+
+                   
+        StartCoroutine(FountainIntro());
+        
+    }
+
+
+
+    private IEnumerator FountainIntro()
+    {
+        dialogue.transform.parent.gameObject.SetActive(true); // activate the dialogue box
+
+        typeWriter.TypeNext("You find yourself in front of a fountain full of a dark blood. \n You can smell and see a faint red miasma coming from it");
+
+        typeWriter.TypeNext("Drink from the fountain?");
+
+        yield return new WaitUntil(() => typeWriter.hasFinishedTyping);
+
+        fountainBtn.enabled = true;
     }
 
     
@@ -35,7 +63,23 @@ public class FountainEventManager : MonoBehaviour
 
         bool success = Random.Range(0, 100) < currentSuccessRate;
 
-        if (success)
+
+        // After 6 interactions, the fountain becomes unusable and gives a permanent DEF buff
+        if (drunkAmount >= 6) { 
+            
+            GetComponent<Button>().interactable = false;
+
+            GetComponent<Image>().color = Color.gray;
+
+            PlayerData.Instance.changeDEF(1);
+
+            StartCoroutine(MySceneManager.Instance.doPopUp("+" + 1 + " DEF", this.transform.position, Color.white));
+
+            fountainAmbienceASource.Stop();
+            Destroy(fountainAmbienceASource);
+
+        }
+        else if (success)
         {
                 
             int healAmount = Mathf.CeilToInt(PlayerData.Instance.getMaxHP() * (healAmountPercentage / 100f));
@@ -59,21 +103,7 @@ public class FountainEventManager : MonoBehaviour
         float rand = Random.Range(-.5f,.5f);
         AudioManager.Instance.PlaySoundWithPich(gulpSound, picthRange + rand);
 
-        // After 6 interactions, the fountain becomes unusable and gives a permanent DEF buff
-        if (drunkAmount >= 6) { 
-            
-            GetComponent<Button>().interactable = false;
-
-            GetComponent<Image>().color = Color.gray;
-
-            PlayerData.Instance.changeDEF(1);
-
-            StartCoroutine(MySceneManager.Instance.doPopUp("+" + 1 + " DEF", this.transform.position, Color.white));
-
-            fountainAmbienceASource.Stop();
-            Destroy(fountainAmbienceASource);
-
-        }
+        
 
 
 

@@ -140,7 +140,7 @@ public class StatusHudManager : MonoBehaviour
 
     public void updateLevelCounterUI()
     {
-        LevelBeatenDisplay.GetComponent<TextMeshProUGUI>().text = "LEVEL: " + PlayerData.Instance.getLevelsBeat();
+        LevelBeatenDisplay.GetComponent<TextMeshProUGUI>().text = "LEVEL: " + PlayerData.Instance.getLevelsBeat() + " \n" + "High Score: "+ PlayerData.Instance.GetHighestScore();
     }
 
     public void addStatusEffectToDisplay(StatusEffect stat)

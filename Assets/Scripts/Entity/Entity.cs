@@ -321,6 +321,8 @@ public class Entity : MonoBehaviour
             {
                 PlayerData.Instance.resetPlayerStatus();
 
+                
+
                 StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition(MySceneManager.SceneType.TUTORIAL));
             }
             else 

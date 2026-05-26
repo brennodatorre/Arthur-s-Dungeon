@@ -25,6 +25,8 @@ public class TypeWriterEffect : MonoBehaviour
 
     [Tooltip("Flag to indicate if the player wants to skip the typing effect")]
     public bool wantsToSkip = false; 
+    public bool wantsToGoToNextLine = false;
+    private bool inBetweenLines = false;
 
     //before starts
     private void Awake()
@@ -62,6 +64,11 @@ public class TypeWriterEffect : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && !hasFinishedTyping)
         {
             wantsToSkip = true; // set the flag to indicate the player wants to skip
+
+            if (inBetweenLines)
+            {
+                wantsToGoToNextLine = true; // set the flag to indicate the player wants to go to the next line
+            }
         }
     } 
 
@@ -81,7 +88,19 @@ public class TypeWriterEffect : MonoBehaviour
 
         
 
-        yield return new WaitForSeconds( timeBetweenLines);
+        inBetweenLines = true; // set the flag to indicate we're in between lines
+        float elapsedTime = 0f;
+        for (elapsedTime = 0f; elapsedTime < timeBetweenLines; elapsedTime += Time.deltaTime)
+        {
+            if (wantsToGoToNextLine)
+            {
+                wantsToGoToNextLine = false; // reset the flag for the next time we type
+                inBetweenLines = false; // reset the flag to indicate we're not in between lines
+                break; // exit the loop to go to the next line
+            }
+            yield return null;
+        }
+
 
         hasFinishedTyping = true; 
         wantsToSkip = false; // reset the skip flag for the next time we type

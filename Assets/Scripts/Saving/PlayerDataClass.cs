@@ -48,14 +48,6 @@ public class PlayerDataClass
     [SerializeField] public List<StatusEffect> StatusEffects ;
 
 
-
-    public List<string> fableItemsID = new List<string>();
-    public List<string> fableSkillsID = new List<string>();
-    public List<string> fableStatusEffectsID = new List<string>();
-
-
-
-
     [Space(10)]
     [Header ("OR Data")]
     public int fableRecord ;
@@ -70,6 +62,21 @@ public class PlayerDataClass
     [Space(10)]
     [Header ("Event Data")]
     public int Ilhas;
+
+
+
+
+    [Space (20)]
+    [Header ("Save Data")]
+    public int HighestScore = 0;
+    public List<string> fableItemsID = new List<string>();
+    public List<string> fableSkillsID = new List<string>();
+    public List<string> fableStatusEffectsID = new List<string>();
+
+
+
+
+    
 
 
 
