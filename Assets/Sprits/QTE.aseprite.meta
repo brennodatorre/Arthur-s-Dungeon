@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -224,7 +225,12 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
-    guid: 2118981518
+    uuid:
+      value0: 2450331462
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: -1844635834
     name: QTE
     layerFlags: 0
     layerType: 0
@@ -238,7 +244,7 @@ ScriptedImporter:
         y: 8
         width: 231
         height: 49
-      spriteId: 87296505f279ed7418749963ded42917
+      spriteId: 75059271e11571342ba0832b70a8da29
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -282,3 +288,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 267, y: 60}
+  previousTextureSize: {x: 256, y: 64}

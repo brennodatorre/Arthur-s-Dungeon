@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 4
       width: 76
       height: 74
-    spriteID: 97c7ae59c6a0a604e998f964e353f0f3
+    spriteID: 2d3c4378dec839548bc750221e418eac
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1250968922
+    uuid:
+      value0: 1669208898
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 1669208898
     name: Fountain
     layerFlags: 0
     layerType: 0
@@ -158,7 +164,7 @@ ScriptedImporter:
         y: 3
         width: 76
         height: 74
-      spriteId: 97c7ae59c6a0a604e998f964e353f0f3
+      spriteId: 2d3c4378dec839548bc750221e418eac
     linkedCells: []
     parentIndex: -1
   platformSettings: []
@@ -166,3 +172,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 120, y: 120}
+  previousTextureSize: {x: 128, y: 128}

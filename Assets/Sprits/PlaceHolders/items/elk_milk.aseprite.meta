@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 4
       width: 109
       height: 181
-    spriteID: 8becd2a33754d0844afe3ade5824a11d
+    spriteID: f0be250c92f90024b84639cf64370f62
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -679418922
+    uuid:
+      value0: 247115438
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 247115438
     name: elk_milk
     layerFlags: 0
     layerType: 0
@@ -158,7 +164,7 @@ ScriptedImporter:
         y: 21
         width: 109
         height: 181
-      spriteId: 8becd2a33754d0844afe3ade5824a11d
+      spriteId: f0be250c92f90024b84639cf64370f62
     linkedCells: []
     parentIndex: -1
   platformSettings: []
@@ -166,3 +172,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 212, y: 212}
+  previousTextureSize: {x: 128, y: 256}

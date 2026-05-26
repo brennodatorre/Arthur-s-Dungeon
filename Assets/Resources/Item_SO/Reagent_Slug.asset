@@ -22,7 +22,7 @@ MonoBehaviour:
     dices: []
     modifier: 0
   extraInput: 0
-  sprite: {fileID: -9165271359467621287, guid: 7a24f6247daf4c641ae98cda84bd61bb, type: 3}
+  sprite: {fileID: 6496976152834686109, guid: 7a24f6247daf4c641ae98cda84bd61bb, type: 3}
   value: 20
   itemOrigin: 7
   actionType: 2

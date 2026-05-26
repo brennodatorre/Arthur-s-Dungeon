@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7670f45e0ed7396448f610041b22aad5, type: 3}
   m_Name: SlateScar
   m_EditorClassIdentifier: 
-  sprite: {fileID: -5500037018072461063, guid: 1eacbed6bdd01bd4cac3dc37afa10d7e, type: 3}
+  sprite: {fileID: 5612021554995056134, guid: 1eacbed6bdd01bd4cac3dc37afa10d7e, type: 3}
   effectName: Slate Scar
   statusEffectID: se_slateScar
   mainRoll:

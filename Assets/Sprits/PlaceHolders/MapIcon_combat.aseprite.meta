@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 4
       width: 155
       height: 149
-    spriteID: 64bec16a794c5f94382d31deb8eec672
+    spriteID: 3fe68b515ef14a34da50176c27935de1
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1473637270
+    uuid:
+      value0: 2481161582
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: -1813805714
     name: MapIcon_combat
     layerFlags: 0
     layerType: 0
@@ -158,7 +164,7 @@ ScriptedImporter:
         y: 38
         width: 155
         height: 149
-      spriteId: 64bec16a794c5f94382d31deb8eec672
+      spriteId: 3fe68b515ef14a34da50176c27935de1
     linkedCells: []
     parentIndex: -1
   platformSettings: []
@@ -166,3 +172,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 212, y: 212}
+  previousTextureSize: {x: 256, y: 256}

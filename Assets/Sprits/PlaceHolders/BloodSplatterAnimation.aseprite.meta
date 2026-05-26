@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 489
       width: 10
       height: 11
-    spriteID: 6c7024cc1092549489ab32d36ee2abb4
+    spriteID: 5dacf27952874e6468655bc0709e91e2
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -152,7 +153,7 @@ ScriptedImporter:
       y: 470
       width: 11
       height: 11
-    spriteID: 66ec5e7d6d6d4e341a4bd03fb965e80b
+    spriteID: 62e18ee4f5a1e544d831aa176068bb88
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -172,7 +173,7 @@ ScriptedImporter:
       y: 446
       width: 16
       height: 16
-    spriteID: f50615f3e3877684fa9fd481aa92dec4
+    spriteID: 72c09fd79fbeaf24597d7b08a9c30704
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -192,7 +193,7 @@ ScriptedImporter:
       y: 58
       width: 30
       height: 30
-    spriteID: cbcfe6062e864f54a80350d2fca8b11a
+    spriteID: 9796df08c10d1094f8b2ed072cb58266
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -212,7 +213,7 @@ ScriptedImporter:
       y: 369
       width: 80
       height: 69
-    spriteID: fbe68b3c8bef7b54f8d3443faf76d033
+    spriteID: 2ece57d2ea33aed4997966a87e5d347f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -232,7 +233,7 @@ ScriptedImporter:
       y: 4
       width: 109
       height: 84
-    spriteID: d28f682ff100aa643994fe84bc3f56b5
+    spriteID: d7a6c37a37945794bad1fce68cd26134
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -252,7 +253,7 @@ ScriptedImporter:
       y: 191
       width: 94
       height: 88
-    spriteID: 1ed8503b97dd7064c97b27546b078173
+    spriteID: 82360504fa3e65c41a0c027408a0545a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -272,7 +273,7 @@ ScriptedImporter:
       y: 96
       width: 101
       height: 87
-    spriteID: b87ed3a5e83504c4eb2b750837e9743c
+    spriteID: 15f7253c7e7dc274ca3ac07acaf7c72a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -292,7 +293,7 @@ ScriptedImporter:
       y: 287
       width: 90
       height: 74
-    spriteID: da27846b5f431d64887efee539fb12f3
+    spriteID: f7fed5f6eeef155458b352336c3e8081
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -312,7 +313,7 @@ ScriptedImporter:
       y: 446
       width: 83
       height: 60
-    spriteID: f8a93c7ccb848224aa0e3016cf4d7a99
+    spriteID: 3792ab0347f47ce46ab2f84cb0385afa
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -332,7 +333,7 @@ ScriptedImporter:
       y: 4
       width: 63
       height: 46
-    spriteID: 5a12e628dc490b74294f77d168c67288
+    spriteID: 461952a45bde63d4ca564ecf076f4801
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -344,13 +345,18 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1267941677
+    uuid:
+      value0: 1809892897
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 1809892897
     name: BloodSplatterAnimation
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: BloodSplatterAnimation_Frame_0
+    - name: Frame_0
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -358,8 +364,8 @@ ScriptedImporter:
         y: 97
         width: 10
         height: 11
-      spriteId: 6c7024cc1092549489ab32d36ee2abb4
-    - name: BloodSplatterAnimation_Frame_1
+      spriteId: 5dacf27952874e6468655bc0709e91e2
+    - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
       cellRect:
@@ -367,8 +373,8 @@ ScriptedImporter:
         y: 101
         width: 11
         height: 11
-      spriteId: 66ec5e7d6d6d4e341a4bd03fb965e80b
-    - name: BloodSplatterAnimation_Frame_2
+      spriteId: 62e18ee4f5a1e544d831aa176068bb88
+    - name: Frame_2
       frameIndex: 2
       additiveSortOrder: 0
       cellRect:
@@ -376,8 +382,8 @@ ScriptedImporter:
         y: 101
         width: 16
         height: 16
-      spriteId: f50615f3e3877684fa9fd481aa92dec4
-    - name: BloodSplatterAnimation_Frame_3
+      spriteId: 72c09fd79fbeaf24597d7b08a9c30704
+    - name: Frame_3
       frameIndex: 3
       additiveSortOrder: 0
       cellRect:
@@ -385,8 +391,8 @@ ScriptedImporter:
         y: 92
         width: 30
         height: 30
-      spriteId: cbcfe6062e864f54a80350d2fca8b11a
-    - name: BloodSplatterAnimation_Frame_4
+      spriteId: 9796df08c10d1094f8b2ed072cb58266
+    - name: Frame_4
       frameIndex: 4
       additiveSortOrder: 0
       cellRect:
@@ -394,8 +400,8 @@ ScriptedImporter:
         y: 84
         width: 80
         height: 69
-      spriteId: fbe68b3c8bef7b54f8d3443faf76d033
-    - name: BloodSplatterAnimation_Frame_5
+      spriteId: 2ece57d2ea33aed4997966a87e5d347f
+    - name: Frame_5
       frameIndex: 5
       additiveSortOrder: 0
       cellRect:
@@ -403,8 +409,8 @@ ScriptedImporter:
         y: 90
         width: 109
         height: 84
-      spriteId: d28f682ff100aa643994fe84bc3f56b5
-    - name: BloodSplatterAnimation_Frame_6
+      spriteId: d7a6c37a37945794bad1fce68cd26134
+    - name: Frame_6
       frameIndex: 6
       additiveSortOrder: 0
       cellRect:
@@ -412,8 +418,8 @@ ScriptedImporter:
         y: 88
         width: 94
         height: 88
-      spriteId: 1ed8503b97dd7064c97b27546b078173
-    - name: BloodSplatterAnimation_Frame_7
+      spriteId: 82360504fa3e65c41a0c027408a0545a
+    - name: Frame_7
       frameIndex: 7
       additiveSortOrder: 0
       cellRect:
@@ -421,8 +427,8 @@ ScriptedImporter:
         y: 84
         width: 101
         height: 87
-      spriteId: b87ed3a5e83504c4eb2b750837e9743c
-    - name: BloodSplatterAnimation_Frame_8
+      spriteId: 15f7253c7e7dc274ca3ac07acaf7c72a
+    - name: Frame_8
       frameIndex: 8
       additiveSortOrder: 0
       cellRect:
@@ -430,8 +436,8 @@ ScriptedImporter:
         y: 84
         width: 90
         height: 74
-      spriteId: da27846b5f431d64887efee539fb12f3
-    - name: BloodSplatterAnimation_Frame_9
+      spriteId: f7fed5f6eeef155458b352336c3e8081
+    - name: Frame_9
       frameIndex: 9
       additiveSortOrder: 0
       cellRect:
@@ -439,8 +445,8 @@ ScriptedImporter:
         y: 83
         width: 83
         height: 60
-      spriteId: f8a93c7ccb848224aa0e3016cf4d7a99
-    - name: BloodSplatterAnimation_Frame_10
+      spriteId: 3792ab0347f47ce46ab2f84cb0385afa
+    - name: Frame_10
       frameIndex: 10
       additiveSortOrder: 0
       cellRect:
@@ -448,7 +454,7 @@ ScriptedImporter:
         y: 77
         width: 63
         height: 46
-      spriteId: 5a12e628dc490b74294f77d168c67288
+      spriteId: 461952a45bde63d4ca564ecf076f4801
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -492,3 +498,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 202, y: 202}
+  previousTextureSize: {x: 256, y: 512}

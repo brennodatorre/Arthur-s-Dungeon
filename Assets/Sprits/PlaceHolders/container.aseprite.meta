@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -97,7 +98,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 0
+  platformSettingsDirtyTick: 639154006800035472
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -123,16 +124,16 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: container
     originalName: 
-    pivot: {x: 0.4987008, y: 0.5251607}
+    pivot: {x: 0.48295453, y: -0.05681818}
     alignment: 9
-    border: {x: 40, y: 45, z: 40, w: 35}
+    border: {x: 43, y: 61, z: 57, w: 64}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
       width: 176
       height: 176
-    spriteID: 650764c5f78fbcc47b7ab85dbee16f9d
+    spriteID: 77782206050ada944b50aaf13973e13d
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1426759395
+    uuid:
+      value0: 328150575
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 0
     name: container
     layerFlags: 0
     layerType: 0
@@ -158,11 +164,60 @@ ScriptedImporter:
         y: 10
         width: 176
         height: 176
-      spriteId: 650764c5f78fbcc47b7ab85dbee16f9d
+      spriteId: 77782206050ada944b50aaf13973e13d
     linkedCells: []
     parentIndex: -1
-  platformSettings: []
+  platformSettings:
+  - name: Default
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: DefaultTexturePlatform
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Standalone
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: WebGL
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 202, y: 202}
+  previousTextureSize: {x: 256, y: 256}

@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 4
       width: 113
       height: 140
-    spriteID: 3a9dd9ddaeda0654096bd1914745dfcf
+    spriteID: 6f6ecbd394a65ba4999831fdd6f4c2bc
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 518525738
+    uuid:
+      value0: 1797186642
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 1797186642
     name: Pocket_Shark
     layerFlags: 0
     layerType: 0
@@ -158,7 +164,7 @@ ScriptedImporter:
         y: 30
         width: 113
         height: 140
-      spriteId: 3a9dd9ddaeda0654096bd1914745dfcf
+      spriteId: 6f6ecbd394a65ba4999831fdd6f4c2bc
     linkedCells: []
     parentIndex: -1
   platformSettings: []
@@ -166,3 +172,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 212, y: 212}
+  previousTextureSize: {x: 128, y: 256}

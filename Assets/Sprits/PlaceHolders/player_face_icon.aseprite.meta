@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 4
       width: 202
       height: 163
-    spriteID: 6c7b1d04707d3904c908fe82eab18563
+    spriteID: c466b1b61e2eaa147a7d562860f2c8e4
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 966256177
+    uuid:
+      value0: 3431916597
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: -863050699
     name: player_face_icon
     layerFlags: 0
     layerType: 0
@@ -158,7 +164,7 @@ ScriptedImporter:
         y: 0
         width: 202
         height: 163
-      spriteId: 6c7b1d04707d3904c908fe82eab18563
+      spriteId: c466b1b61e2eaa147a7d562860f2c8e4
     linkedCells: []
     parentIndex: -1
   platformSettings: []
@@ -166,3 +172,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 202, y: 202}
+  previousTextureSize: {x: 256, y: 256}

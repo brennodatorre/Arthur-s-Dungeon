@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 4
       width: 401
       height: 150
-    spriteID: 3a6085d42b377814b88f60f43c944bea
+    spriteID: 01bd9a008d4d80f499dfe0c5c69c7da7
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 2017759556
+    uuid:
+      value0: 2428439380
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: -1866527916
     name: dices_placeholder
     layerFlags: 0
     layerType: 0
@@ -158,7 +164,7 @@ ScriptedImporter:
         y: 45
         width: 401
         height: 150
-      spriteId: 3a6085d42b377814b88f60f43c944bea
+      spriteId: 01bd9a008d4d80f499dfe0c5c69c7da7
     linkedCells: []
     parentIndex: -1
   platformSettings: []
@@ -166,3 +172,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 434, y: 202}
+  previousTextureSize: {x: 512, y: 256}

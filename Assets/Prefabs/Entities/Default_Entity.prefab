@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 6505739643414837681}
   - component: {fileID: 2908076393941623467}
   m_Layer: 0
-  m_Name: Default_Enemy
+  m_Name: Default_Entity
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7618f1b665abc24478cb4274e06ec675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 0}
+  brain: {fileID: 1359419372813269921}
   crackingSpriteOverlay: {fileID: 8856775654575719279}
   statEffectDisplay: {fileID: 7897697973447617714}
   entityType: 1
@@ -70,20 +70,20 @@ MonoBehaviour:
   mp: 10
   maxMP: 10
   def: 0
-  DEX: 1
-  ATLETISM: 1
-  AURA: 1
-  CHARISM: 1
-  LUCK: 1
-  INTUITION: 1
-  HEX: 1
-  INT: 1
-  WILL: 1
-  REFLEX: 1
-  PERSEPTION: 1
-  FURTIVITY: 1
-  CONSTITUTION: 1
-  DOMINANCE: 1
+  DEX: 0
+  ATLETISM: 0
+  AURA: 0
+  CHARISM: 0
+  LUCK: 0
+  INTUITION: 0
+  HEX: 0
+  INT: 0
+  WILL: 0
+  REFLEX: 0
+  PERSEPTION: 0
+  FURTIVITY: 0
+  CONSTITUTION: 0
+  DOMINANCE: 0
   baseATK:
     dices:
     - count: 1
@@ -363,7 +363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: -876546973899608171, guid: dd424db518d70574da019a7cbf486c80, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

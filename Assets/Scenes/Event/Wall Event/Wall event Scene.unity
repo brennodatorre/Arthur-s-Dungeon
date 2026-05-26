@@ -96,7 +96,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -647,7 +647,7 @@ PrefabInstance:
     - target: {fileID: 8067990584894571182, guid: d7ade83c89eb39549ae828453824284a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 8941517622040947604, guid: 18a22cef9c189134490309adbe79c8ad, type: 3}
+      objectReference: {fileID: -3943890680891740572, guid: 18a22cef9c189134490309adbe79c8ad, type: 3}
     - target: {fileID: 8067990584894571182, guid: d7ade83c89eb39549ae828453824284a, type: 3}
       propertyPath: m_PreserveAspect
       value: 1
@@ -1040,7 +1040,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 6974299468056348360, guid: 83bdfeab46d6775429b996a1287191fe, type: 3}
+  m_Sprite: {fileID: -8423054147051522309, guid: 83bdfeab46d6775429b996a1287191fe, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1342,6 +1342,10 @@ PrefabInstance:
     - target: {fileID: 5487627267637466254, guid: 09b4d5f817f270b4185267fa59acf9d9, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487627267637466254, guid: 09b4d5f817f270b4185267fa59acf9d9, type: 3}
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 8318368269574766686, guid: 09b4d5f817f270b4185267fa59acf9d9, type: 3}
       propertyPath: pitch
@@ -1694,6 +1698,10 @@ PrefabInstance:
     - target: {fileID: 4302489001076407149, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302489001076407149, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 5531574432542099366, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_Name
@@ -2346,7 +2354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 3
+  m_Version: 4
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
   m_LightLayerMask: 1

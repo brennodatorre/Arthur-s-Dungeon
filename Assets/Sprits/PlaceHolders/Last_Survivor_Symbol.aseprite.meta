@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 4
       width: 166
       height: 189
-    spriteID: 52e9038801bd6bb4c86ea3185c8cdf9b
+    spriteID: 102abf8195c3b7e4a91fd6b70094a556
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1129646314
+    uuid:
+      value0: 2150047470
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: -2144919826
     name: Last_Survivor_Symbol
     layerFlags: 0
     layerType: 0
@@ -158,7 +164,7 @@ ScriptedImporter:
         y: 5
         width: 166
         height: 189
-      spriteId: 52e9038801bd6bb4c86ea3185c8cdf9b
+      spriteId: 102abf8195c3b7e4a91fd6b70094a556
     linkedCells: []
     parentIndex: -1
   platformSettings: []
@@ -166,3 +172,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 202, y: 202}
+  previousTextureSize: {x: 256, y: 256}

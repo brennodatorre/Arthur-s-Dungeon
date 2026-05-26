@@ -781,7 +781,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5016560847971369441, guid: 7ec2581224ff92549bf8c5668b1e6ab6, type: 3}
+  m_Sprite: {fileID: -1145967667174425222, guid: 7ec2581224ff92549bf8c5668b1e6ab6, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1921,8 +1921,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2523233188201812430, guid: d81435e7cde98d645bc70b4123e787e8, type: 3}
-  m_Type: 2
+  m_Sprite: {fileID: -6836773378068430130, guid: d81435e7cde98d645bc70b4123e787e8, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2106,9 +2106,9 @@ MonoBehaviour:
   clashQueue: {fileID: 537370087}
   act_menu: {fileID: 1922509253}
   lootScreen: {fileID: 1738085969}
-  inBtwnLevelIcon: {fileID: -2611279569735032626, guid: bb2a60547ef5fb7498c87d7fa076b278, type: 3}
+  inBtwnLevelIcon: {fileID: -5323954601456553359, guid: bb2a60547ef5fb7498c87d7fa076b278, type: 3}
   goldIcon: {fileID: 481520295, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
-  fableIcon: {fileID: -37659480328167503, guid: fa00d770206494541a58ddb5913d0647, type: 3}
+  fableIcon: {fileID: 5935005959669852786, guid: fa00d770206494541a58ddb5913d0647, type: 3}
   coinSound: {fileID: 8300000, guid: 1fc1f1fd4ea11fb47af166e92a79ee4f, type: 3}
   healSound: {fileID: 8300000, guid: ab34aae26d749be40ab07eddd17f0931, type: 3}
   fableSound: {fileID: 8300000, guid: 55b88efbe15f4bc409eb46ee68df2a77, type: 3}
@@ -2170,7 +2170,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RandomLevelObj: {fileID: 933830595}
   allEnemyPrefabList:
-  - {fileID: 1432741755785725440, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+  - {fileID: 156123869747616688, guid: b1f995a7c5b56ce4aa966b9b27c195d7, type: 3}
+  - {fileID: 3821580975314463909, guid: a14d5bd21a49a6341b98558cb455e207, type: 3}
   enemyL1: []
   enemyL2: []
   enemyL3: []
@@ -5108,7 +5109,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3811092682900191831, guid: a958529634c798c4f984617b94152ce7, type: 3}
+  m_Sprite: {fileID: -4669087179494644065, guid: a958529634c798c4f984617b94152ce7, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -5548,16 +5549,16 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 4.772746, y: -6.9621425}
-      - {x: -3.824938, y: -6.7220335}
-      - {x: -3.0550165, y: 2.3387175}
-      - {x: -2.2629957, y: 3.083465}
-      - {x: -0.7511505, y: 7.528673}
-      - {x: 3.5967798, y: 7.4672174}
-      - {x: 3.820961, y: 5.880598}
-      - {x: 3.1039886, y: 4.0264964}
-      - {x: 4.6946893, y: 1.9557532}
-      - {x: 4.687293, y: -5.529893}
+    - - {x: 2.2558086, y: -8.478022}
+      - {x: -7.2285213, y: -8.49533}
+      - {x: -6.0295753, y: -0.14961767}
+      - {x: -4.8371344, y: 3.340879}
+      - {x: -4.269142, y: 5.011737}
+      - {x: -0.035609618, y: 5.12189}
+      - {x: 0.045556307, y: 2.5342174}
+      - {x: 0.24383354, y: 1.0519352}
+      - {x: 1.6629262, y: -0.5039798}
+      - {x: 1.941544, y: -5.7015023}
   m_UseDelaunayMesh: 0
 --- !u!114 &1432705815
 MonoBehaviour:
@@ -7738,7 +7739,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1247688274053754899, guid: 3514787a2e599264e86f644943b4d32d, type: 3}
+  m_Sprite: {fileID: -3412541918466002709, guid: 3514787a2e599264e86f644943b4d32d, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -8725,10 +8726,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Info menu
       objectReference: {fileID: 0}
-    - target: {fileID: 8474368025825654776, guid: 77c63b13b8cabb940ae410fb0667a0e8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9496,7 +9493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: DEFAULT.skills.Array.size
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: GameData.items.Array.size
@@ -9530,6 +9527,14 @@ PrefabInstance:
       propertyPath: DEFAULT.skills.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: fba8e44f786e10245a85395a2f935ef5, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: DEFAULT.skills.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 09353512aaab87d47b590307ffa5df84, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: DEFAULT.skills.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 005afb1d946bd1b4bbf14bab003931b9, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: GameData.items.Array.data[0]
       value: 

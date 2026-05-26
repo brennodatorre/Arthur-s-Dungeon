@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 4
       width: 179
       height: 160
-    spriteID: c541830eb97da0a4799ff08c5f808579
+    spriteID: ad32c5d11214ac043a4385ba6a846df3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1145414285
+    uuid:
+      value0: 2993855231
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: -1301112065
     name: Slate_Scar
     layerFlags: 0
     layerType: 0
@@ -158,7 +164,7 @@ ScriptedImporter:
         y: 20
         width: 179
         height: 160
-      spriteId: c541830eb97da0a4799ff08c5f808579
+      spriteId: ad32c5d11214ac043a4385ba6a846df3
     linkedCells: []
     parentIndex: -1
   platformSettings: []
@@ -166,3 +172,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 212, y: 212}
+  previousTextureSize: {x: 256, y: 256}

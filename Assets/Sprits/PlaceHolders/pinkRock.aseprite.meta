@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 4
       width: 88
       height: 130
-    spriteID: 009106cb3e8f3864d9e8c19e5207a794
+    spriteID: e279f0b3735bd294e9be3e365bec97bb
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -31834875
+    uuid:
+      value0: 3667410777
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: -627556519
     name: pinkRock
     layerFlags: 0
     layerType: 0
@@ -158,7 +164,7 @@ ScriptedImporter:
         y: 36
         width: 88
         height: 130
-      spriteId: 009106cb3e8f3864d9e8c19e5207a794
+      spriteId: e279f0b3735bd294e9be3e365bec97bb
     linkedCells: []
     parentIndex: -1
   platformSettings: []
@@ -166,3 +172,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 202, y: 202}
+  previousTextureSize: {x: 128, y: 256}

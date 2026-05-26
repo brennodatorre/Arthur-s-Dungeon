@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 4
       width: 201
       height: 147
-    spriteID: b67ce85233820f849ab24aad2b1c4d44
+    spriteID: f2c96695ca4681845ac4d75bee560da1
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -178888168
+    uuid:
+      value0: 3623766136
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: -671201160
     name: Bag)of_Worm
     layerFlags: 0
     layerType: 0
@@ -158,7 +164,7 @@ ScriptedImporter:
         y: 17
         width: 201
         height: 147
-      spriteId: b67ce85233820f849ab24aad2b1c4d44
+      spriteId: f2c96695ca4681845ac4d75bee560da1
     linkedCells: []
     parentIndex: -1
   platformSettings: []
@@ -166,3 +172,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 212, y: 212}
+  previousTextureSize: {x: 256, y: 256}

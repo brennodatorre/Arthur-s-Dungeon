@@ -423,7 +423,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7138245475970109215, guid: 55ded3496433e6448ae1f3cb9444045d, type: 3}
+  m_Sprite: {fileID: 4488561174475895771, guid: 55ded3496433e6448ae1f3cb9444045d, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -579,7 +579,7 @@ SpriteRenderer:
   m_Size: {x: 1.69, y: 1.61}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &360135833
@@ -2011,12 +2011,16 @@ PrefabInstance:
       value: 326.77
       objectReference: {fileID: 0}
     - target: {fileID: 1886381413643835475, guid: 046e217dc9d6be444bdd95b323f257a0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1886381413643835475, guid: 046e217dc9d6be444bdd95b323f257a0, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 213.385
       objectReference: {fileID: 0}
     - target: {fileID: 1886381413643835475, guid: 046e217dc9d6be444bdd95b323f257a0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -65.604996
+      value: -122.805
       objectReference: {fileID: 0}
     - target: {fileID: 3864893400116976552, guid: 046e217dc9d6be444bdd95b323f257a0, type: 3}
       propertyPath: m_Pivot.x
@@ -2048,7 +2052,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3864893400116976552, guid: 046e217dc9d6be444bdd95b323f257a0, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 131.20999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3864893400116976552, guid: 046e217dc9d6be444bdd95b323f257a0, type: 3}
       propertyPath: m_LocalPosition.x

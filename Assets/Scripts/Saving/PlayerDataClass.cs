@@ -76,7 +76,10 @@ public class PlayerDataClass
 
 
 
-    
+    public PlayerDataClass()
+    {
+        
+    }
 
 
 

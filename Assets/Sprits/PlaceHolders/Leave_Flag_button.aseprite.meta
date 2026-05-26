@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -132,7 +133,7 @@ ScriptedImporter:
       y: 4
       width: 154
       height: 78
-    spriteID: 81be93f9b50022b4f85fddeb8da6602b
+    spriteID: 0dd7961769bafc74bac093ccd59c4e72
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,7 +145,12 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1597491437
+    uuid:
+      value0: 1626807521
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 1626807521
     name: Leave_Flag_button
     layerFlags: 0
     layerType: 0
@@ -158,7 +164,7 @@ ScriptedImporter:
         y: 57
         width: 154
         height: 78
-      spriteId: 81be93f9b50022b4f85fddeb8da6602b
+      spriteId: 0dd7961769bafc74bac093ccd59c4e72
     linkedCells: []
     parentIndex: -1
   platformSettings: []
@@ -166,3 +172,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 202, y: 202}
+  previousTextureSize: {x: 256, y: 128}

@@ -24,7 +24,7 @@ MonoBehaviour:
       sides: 0
     modifier: 1
   extraInput: 0
-  sprite: {fileID: 658352775149775919, guid: e82c5e8ae3134214083fb25e90e70164, type: 3}
+  sprite: {fileID: -7097279127220258363, guid: e82c5e8ae3134214083fb25e90e70164, type: 3}
   value: 10
   itemOrigin: 3
   actionType: 0
