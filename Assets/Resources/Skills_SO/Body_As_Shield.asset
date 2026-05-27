@@ -10,30 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9131ef76b2c8924695aff3257888b20, type: 3}
-  m_Name: Healing_Tear
+  m_Name: Body_As_Shield
   m_EditorClassIdentifier: 
-  skillName: Healing Tear
-  skillID: s_healingTear
-  mpCost: 4
+  skillName: Body as a Shield
+  skillID: s_bodyAsAShield
+  mpCost: 3
   cooldown: 0
   currentCooldown: 0
-  description: Heals target for 1d6 HP
+  description: Redirects incoming damge to caster
   fullDescription: 
   hasBeenUsed: 0
-  fableCost: 2
-  soundEffect: {fileID: 8300000, guid: ab34aae26d749be40ab07eddd17f0931, type: 3}
+  fableCost: 1
+  soundEffect: {fileID: 8300000, guid: 4c477974870149a46a2a788a49381b46, type: 3}
   mainDice:
-    dices:
-    - count: 1
-      sides: 6
+    dices: []
     modifier: 0
   extraInput: 0
-  origin: 4
+  origin: 6
   targetType: 3
-  actionType: 1
+  actionType: 0
   isOffensiveSkill: 0
   isPAHTSkill: 0
-  isStackable: 1
+  isStackable: 0
   limitPerTurn: 999
   currentUsesPerTurn: 0
   statusEffect: {fileID: 0}

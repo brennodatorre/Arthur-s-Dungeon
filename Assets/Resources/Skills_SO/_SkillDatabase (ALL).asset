@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skills:
   - {fileID: 11400000, guid: d62f801262eb2c54f9d179ef5ed5f504, type: 2}
+  - {fileID: 11400000, guid: 517a9c6df20aef948ae1d2e346b7f153, type: 2}
   - {fileID: 11400000, guid: 78709ea5f11babb48860ee4c96f8ad74, type: 2}
   - {fileID: 11400000, guid: 09353512aaab87d47b590307ffa5df84, type: 2}
+  - {fileID: 11400000, guid: eeb75ca7f34918a4ca50a3e9242502e9, type: 2}
   - {fileID: 11400000, guid: 22e4c1c3b66e065408c8cbbeb67d841f, type: 2}
   - {fileID: 11400000, guid: 005afb1d946bd1b4bbf14bab003931b9, type: 2}
   - {fileID: 11400000, guid: baa143d0cfce7fd4ea6c45e540ed1ce9, type: 2}

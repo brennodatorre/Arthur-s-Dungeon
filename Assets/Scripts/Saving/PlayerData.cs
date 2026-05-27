@@ -199,6 +199,7 @@ public class PlayerData : MonoBehaviour
 
 
         GameData.fablePoints = _default.fablePoints + jsonData.fablePoints;
+        GameData.fableRecord = _default.fableRecord + jsonData.fableRecord;
         GameData.lives = _default.lives + jsonData.lives;
         GameData.Ilhas = _default.Ilhas + jsonData.Ilhas;
 
@@ -207,7 +208,7 @@ public class PlayerData : MonoBehaviour
         GameData.skills = new List<Skill>();
         foreach (Skill skill in _default.skills){GameData.skills.Add(Instantiate(skill));}
         foreach (string s in jsonData.fableSkillsID) {
-            Skill fableSkill = DatabaseManager.Instance.skillDatabase.GetSkillByID(s);
+            Skill fableSkill = DatabaseManager.Instance.allSkillsDatabase.GetSkillByID(s);
             if (fableSkill != null) {
                 GameData.skills.Add(fableSkill);
             }
@@ -216,7 +217,7 @@ public class PlayerData : MonoBehaviour
         GameData.items = new List<Item>();
         foreach (Item item in _default.items){ GameData.items.Add(Instantiate(item));}
         foreach (string s in jsonData.fableItemsID) {
-            Item fableItem = DatabaseManager.Instance.itemDatabase.GetItemByID(s);
+            Item fableItem = DatabaseManager.Instance.allItemsDatabase.GetItemByID(s);
             if (fableItem != null) {
                 GameData.items.Add(fableItem);
             }
@@ -225,7 +226,7 @@ public class PlayerData : MonoBehaviour
         GameData.StatusEffects = new List<StatusEffect>();
         foreach (StatusEffect effect in _default.StatusEffects){GameData.StatusEffects.Add(Instantiate(effect));}
         foreach (string s in jsonData.fableStatusEffectsID) {
-            StatusEffect fableEffect = DatabaseManager.Instance.statusEffectDatabase.GetStatusEffectByID(s);
+            StatusEffect fableEffect = DatabaseManager.Instance.allStatusEffectsDatabase.GetStatusEffectByID(s);
             if (fableEffect != null) {
                 GameData.StatusEffects.Add(fableEffect);
             }

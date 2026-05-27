@@ -58,7 +58,7 @@ public class SlotMachineEventManager : MonoBehaviour
         else
         {
             AudioManager.Instance.PlaySound(AudioManager.Instance.skill_button_sound);
-            PlayerData.Instance.RemoveSkill(DatabaseManager.Instance.skillDatabase.GetSkill(selectedSkill));
+            PlayerData.Instance.RemoveSkill(DatabaseManager.Instance.allSkillsDatabase.GetSkill(selectedSkill));
             updateSkillSlots();
             selectedSkill = "none";
 
@@ -94,7 +94,7 @@ public class SlotMachineEventManager : MonoBehaviour
         }
         else if (roll < nothing + item) // item
         {
-            Item newItem = DatabaseManager.Instance.itemDatabase.getRandom();
+            Item newItem = DatabaseManager.Instance.allItemsDatabase.getRandom();
             PlayerData.Instance.addItemToInventory(newItem);
 
            
@@ -102,7 +102,7 @@ public class SlotMachineEventManager : MonoBehaviour
         }
         else if (roll < nothing + item + skill) // skill
         {
-            Skill newSkill =DatabaseManager.Instance.skillDatabase.getRandom(PlayerData.Instance.getSkills());
+            Skill newSkill =DatabaseManager.Instance.allSkillsDatabase.getRandom(PlayerData.Instance.getSkills());
             PlayerData.Instance.addSkill(newSkill);
 
             StartCoroutine(MySceneManager.Instance.doPopUp("You got: " + newSkill.skillName, this.transform.position, Color.cyan));

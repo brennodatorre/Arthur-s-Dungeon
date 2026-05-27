@@ -12,7 +12,8 @@ public class SkillManager : MonoBehaviour
     public AudioManager audioManager;
     public ActiveEffectManager activeEffectManager;
 
-    public List<Skill> skills = new List<Skill>();
+    
+    private SkillDatabase _allSkillDatabase;
 
     void Awake()
     {
@@ -25,6 +26,8 @@ public class SkillManager : MonoBehaviour
         {
             Destroy(gameObject); // Avoid duplicates
         }
+
+        _allSkillDatabase = DatabaseManager.Instance.allSkillsDatabase;
     }
 
 
@@ -120,6 +123,10 @@ public class SkillManager : MonoBehaviour
 
                 roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doGamblerGambit( caster, skill)); //add the action to the queue
             }
+            else if (skill.skillID == "s_bodyAsAShield")
+            {
+                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doBodyAsAShield(target, caster, skill)); //add the action to the queue
+            }
             else
             {
                 Debug.Log("Skill not implemented yet.");
@@ -130,8 +137,10 @@ public class SkillManager : MonoBehaviour
 
         if (caster.currentMainActions <= 0)
         {
-            roundManager.buttonManager.closeSkillMenu(); //close the skill menu after the action is done
-            roundManager.act_menu.SetActive(false); //close the action menu after the action is done
+            if (caster.entityType == Entity.EntityType.Player) {
+                roundManager.buttonManager.closeSkillMenu(); //close the skill menu after the action is done
+                roundManager.act_menu.SetActive(false); //close the action menu after the action is done
+            }
             
             roundManager.EndTurn(); //end the turn if the caster has no main actions left
         }
@@ -151,7 +160,7 @@ public class SkillManager : MonoBehaviour
 
     public Skill getSkill(string skillName)
     {
-        foreach (Skill skill in skills)
+        foreach (Skill skill in _allSkillDatabase.skills)
         {
             if (skill.skillName == skillName)
             {
@@ -381,7 +390,22 @@ public class SkillManager : MonoBehaviour
         logManager.AddLog(caster.name + " used Gambler's Gambit");
 
 
-    } 
+    }
+
+
+    private IEnumerator doBodyAsAShield(Entity target, Entity caster, Skill skill)
+    {
+        
+        yield return new WaitForSeconds(0f); //wait for 0 seconds
+
+        audioManager.PlaySound(skill.soundEffect); //play the skill sound
+
+        ActiveEffectManager.Instance.addBodyShielded(target, caster, true); //add body as a shield to the target
+
+        logManager.AddLog(caster.name + " used Body as a Shield on " + target.name); ;
+
+    }
+
 
     #endregion
 

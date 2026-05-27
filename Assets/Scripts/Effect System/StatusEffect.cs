@@ -8,6 +8,7 @@ public class StatusEffect : ScriptableObject
 {
     public enum TurnPhaseOfEffect { Start, End, Both };
     public enum StatusEffectType { Buff, Debuff, Neutral };
+    public enum OverideEffectType { NONE, TAKE_DAMAGE, HEAL, BLOCK, DAMAGE, APPLY_EFFECT, REMOVE_EFFECT, APPLY_BUFF, APPLY_DEBUFF, REMOVE_BUFF, REMOVE_DEBUFF };
 
 
     public Sprite sprite;
@@ -34,6 +35,9 @@ public class StatusEffect : ScriptableObject
     public Action effectAct;
     public Action endEffectAct;
     public Action callbackEffect;
+
+    public Action<object []> overideEffectAct;
+    public OverideEffectType overideEffectType;
 
     public Entity caster;
     public Entity target;

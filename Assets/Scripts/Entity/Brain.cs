@@ -2,7 +2,9 @@ using System;
 
 using System.Collections.Generic;
 using Unity.VisualScripting;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class Brain : MonoBehaviour
@@ -30,9 +32,12 @@ public class Brain : MonoBehaviour
     public string intentMessage = "";
     public Skill skilllToUse;
 
+    public Sprite originalSprite;
+    public Sprite altSprite;
 
     void Start()
     {
+        originalSprite = GetComponent<Image>().sprite;  
         actionQueue = RoundManager.Instance.actionQueue;
         foreach (var neuron in skillNeurons)
         {
@@ -89,10 +94,19 @@ public class Brain : MonoBehaviour
 
             case Intent.SKILL:
                         
-                if (skilllToUse.targetType == Skill.SkillTarget.Self) target = caster;
-                
+                if (skilllToUse.targetType == Skill.SkillTarget.Self) SkillManager.Instance.doSkill( caster, caster, skilllToUse);
+
+                else if (skilllToUse.targetType == Skill.SkillTarget.SingleAlly) {
+
+                    Entity targetAlly = RoundManager.Instance.enemies[UnityEngine.Random.Range(0, RoundManager.Instance.enemies.Length)].GetComponent<Entity>();
+
+                    SkillManager.Instance.doSkill( targetAlly, caster, skilllToUse);
+                    
+                    }
+
                 if (skilllToUse.isOffensiveSkill) SkillManager.Instance.doSkill( target, caster, skilllToUse);
-                else {SkillManager.Instance.doSkill( caster, caster, skilllToUse);}
+
+                
             
                 
                 break;

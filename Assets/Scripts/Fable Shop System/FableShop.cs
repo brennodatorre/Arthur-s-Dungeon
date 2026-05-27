@@ -69,7 +69,7 @@ public class FableShop : MonoBehaviour
 
 
         // create copies of all skills the playes does not have and save them into unlockableSkills
-        foreach (Skill skill in skillManager.skills)
+        foreach (Skill skill in DatabaseManager.Instance.allSkillsDatabase.skills)
         {
             if (!PlayerData.Instance.getSkills().Any(s => s.skillName == skill.skillName))
             {

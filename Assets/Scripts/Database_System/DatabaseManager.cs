@@ -6,9 +6,9 @@ public class DatabaseManager : MonoBehaviour
 {
     public static DatabaseManager Instance;
 
-    public ItemDatabase itemDatabase;
-    public SkillDatabase skillDatabase;
-    public StatusEffectDatabase statusEffectDatabase;
+    public ItemDatabase allItemsDatabase;
+    public SkillDatabase allSkillsDatabase;
+    public StatusEffectDatabase allStatusEffectsDatabase;
 
     void Awake()
     {

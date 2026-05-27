@@ -13,7 +13,7 @@ public class ItemManager : MonoBehaviour
     public AudioManager audioManager;
     public ActiveEffectManager activeEffectManager;
 
-    public List<Item> items = new List<Item>();
+    
 
     void Awake()
     {

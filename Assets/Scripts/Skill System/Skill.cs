@@ -7,7 +7,7 @@ using UnityEngine;
 public class Skill : ScriptableObject
 {
     public enum SkillOrigin { ROSES, HEX, LANDREAS, ARTHUR, SYSTEM, UNKNOWN, SURVIVOR, FLAME };
-    public enum SkillTarget { Single, Multi, Self };
+    public enum SkillTarget { SingleEnemy, Multi, Self, SingleAlly };
     public enum SkillActionType { Main, Sup, Bonus };
 
 
@@ -24,7 +24,7 @@ public class Skill : ScriptableObject
     public int fableCost;
     public AudioClip soundEffect;
 
-    public DiceRoll mainDiceRoll = new DiceRoll();
+    public DiceRoll mainDice = new DiceRoll();
     public float extraInput;
     
 
@@ -35,7 +35,7 @@ public class Skill : ScriptableObject
     public bool isOffensiveSkill = false;
     [Tooltip ("if the skill needs to be pressed and held totally in order to activate")]
     public bool isPAHTSkill = false; //press and hold target
-    public DiceRoll mainDice = new DiceRoll();
+    
 
     [Space(10)]
     public bool isStackable;

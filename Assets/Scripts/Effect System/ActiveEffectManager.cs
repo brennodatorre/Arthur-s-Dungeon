@@ -2,8 +2,8 @@ using System;
 
 using System.Collections.Generic;
 
-
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ActiveEffectManager : MonoBehaviour
 {
@@ -94,7 +94,7 @@ public class ActiveEffectManager : MonoBehaviour
 
 
 
-    public void AddEffect(StatusEffect staEfct, Entity caster, Entity target, Action effect, Action endEffect, Action callbacl = null)
+    public void AddEffect(StatusEffect staEfct, Entity caster, Entity target, Action effect, Action endEffect, Action callbacl = null, Action <object []> overideEffect = null)
     {
         if (target.getHP() == 0) {return; } //don't add the effect if the target is dead
 
@@ -102,7 +102,8 @@ public class ActiveEffectManager : MonoBehaviour
         staEfct.target = target;
         staEfct.effectAct = effect;
         staEfct.endEffectAct = endEffect;
-        staEfct.callbackEffect = callbacl;
+        staEfct.callbackEffect = callbacl; //calls back to itself
+        staEfct.overideEffectAct = overideEffect; //overide some of the actions of the target/caster
 
         activeEffects.Add(staEfct); //add the effect to the list of active effects  
         StatusHudManager.Instance.addStatusEffectToDisplay(staEfct);
@@ -171,6 +172,7 @@ public class ActiveEffectManager : MonoBehaviour
         public StatusEffect PreparedEffect;
         public StatusEffect PlattedSoulEffect;
         public StatusEffect SlateScarEffect;
+        public StatusEffect BodyShieledEffect;
     }
 
 
@@ -350,6 +352,35 @@ public class ActiveEffectManager : MonoBehaviour
             target.def += 1; 
 
         }, () => addSlateScar(target, caster));
+
+    }
+
+    public void addBodyShielded(Entity target, Entity caster, bool withSound = false)
+    {
+        if (withSound) audioManager.PlaySound(statusEffectPrefabs.BodyShieledEffect.effectSound);
+
+        caster.GetComponent<Image>().sprite = caster.GetComponent<Brain>().altSprite; 
+
+        StatusEffect inst = Instantiate(statusEffectPrefabs.BodyShieledEffect);
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list
+
+        AddEffect(inst, caster, target, () => { }, () =>
+        {
+            target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
+            caster.GetComponent<Image>().sprite = caster.GetComponent<Brain>().originalSprite; 
+
+        }, 
+        () => addBodyShielded(target, caster),
+        (object [] args) => {
+            Entity attacker = (Entity)args[0];
+            Entity attackTarget = (Entity)args[1];
+
+            // redirects attack to the caster, and then calls the basic attack function of the attacker on the caster
+            RoundManager.Instance.actionQueue.Enqueue("EnemyAttack", () => attacker.doBasicAtkCaller(caster, true));
+            
+            logManager.AddLog(caster.name + " blocked the ATK with its Body as a Shield.");
+        }
+        );
 
     }
 

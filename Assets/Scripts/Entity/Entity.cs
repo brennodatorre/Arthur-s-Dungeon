@@ -9,6 +9,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;  
 
 using Image = UnityEngine.UI.Image;
+using static StatusEffect;
 
 [System.Serializable]
 public class Entity : MonoBehaviour
@@ -152,11 +153,28 @@ public class Entity : MonoBehaviour
        
     }
 
-    public IEnumerator doBasicAtkCaller(Entity target)
+    public IEnumerator doBasicAtkCaller(Entity target, bool ignoreOveride = false)
     {
         roundManager.currentPhase = RoundManager.TurnPhase.Clash;
 
         yield return new WaitForSeconds(0f);
+
+
+        
+
+        //OVERRIDE CHECK
+        StatusEffect BlockerOverideEffect = null;
+        if (!ignoreOveride)
+        {
+            BlockerOverideEffect = target.CheckForOverideInStatusEffects(OverideEffectType.BLOCK);
+        }
+
+        if (BlockerOverideEffect != null )
+        {
+            BlockerOverideEffect?.overideEffectAct?.Invoke(new object[] { this ,target }); // Invoke the override action if it exists
+           yield break; // Exit the method if an override effect is found
+        }
+
 
         roundManager.clashQueue.Enqueue("first atk", () => ClashManager.Instance.doBasicATK(this, target));
 
@@ -472,6 +490,18 @@ public class Entity : MonoBehaviour
 
         return stts;
 
+    }
+
+
+    private StatusEffect CheckForOverideInStatusEffects(OverideEffectType overideEffectType) {
+        foreach (StatusEffect effect in activeStatusEffects)
+        {
+            if (effect.overideEffectType == overideEffectType)
+            {
+                return effect;
+            }
+        }
+        return null;
     }
 
 }

@@ -2172,6 +2172,7 @@ MonoBehaviour:
   allEnemyPrefabList:
   - {fileID: 156123869747616688, guid: b1f995a7c5b56ce4aa966b9b27c195d7, type: 3}
   - {fileID: 3821580975314463909, guid: a14d5bd21a49a6341b98558cb455e207, type: 3}
+  - {fileID: 8801809195441364230, guid: 9f00a3233ce31f2439f16ffdcd59a70d, type: 3}
   enemyL1: []
   enemyL2: []
   enemyL3: []
@@ -3265,8 +3266,6 @@ MonoBehaviour:
   logManager: {fileID: 1260980518}
   audioManager: {fileID: 626889046}
   activeEffectManager: {fileID: 821012531}
-  items:
-  - {fileID: 11400000, guid: e065d4c4f9a874a44b9b9959d177e159, type: 2}
 --- !u!1 &737360099
 GameObject:
   m_ObjectHideFlags: 0
@@ -3432,6 +3431,7 @@ MonoBehaviour:
     PreparedEffect: {fileID: 11400000, guid: 9f8ac99b4598aec449096ec53a4747ef, type: 2}
     PlattedSoulEffect: {fileID: 11400000, guid: abb503cfb9c477b4f84996afd055adde, type: 2}
     SlateScarEffect: {fileID: 11400000, guid: 36752e47538c4d64b9f5b4fafcaa48b0, type: 2}
+    BodyShieledEffect: {fileID: 11400000, guid: af5f878f09ac5654caa9a73a102c3c8b, type: 2}
   activeEffects: []
 --- !u!1 &835907752
 GameObject:
@@ -9402,6 +9402,10 @@ PrefabInstance:
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: DEFAULT.fablePoints
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: DEFAULT.fableRecord
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: GameData.playerName

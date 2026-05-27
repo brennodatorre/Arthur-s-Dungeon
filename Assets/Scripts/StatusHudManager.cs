@@ -160,41 +160,43 @@ public class StatusHudManager : MonoBehaviour
 
     public IEnumerator UpdateStatusEffectDisplay()
     {
-        List<GameObject> statusUpdate = new List<GameObject>(statusEffectIconList); // Create a copy of the list to iterate over
-        List<GameObject> iconsToRemove = new List<GameObject>(); // List to keep track of icons that need to be removed
+        List<GameObject> statusUpdate = new List<GameObject>(statusEffectIconList);
 
-        foreach (GameObject st in statusEffectIconList)
+        foreach (GameObject st in statusUpdate.ToList())
         {
-            StatusEffect stat = st.GetComponent<StatusEffectIcon>()._statusEffect;
+            if (st == null)
+                continue;
 
-            // removes icon when duration is over
+            StatusEffectIcon icon = st.GetComponent<StatusEffectIcon>();
+            TooltipManager tooltip = st.GetComponentInChildren<TooltipManager>();
+
+            StatusEffect stat = icon._statusEffect;
+
             if (stat == null || stat.currentDuration < 1)
             {
-
                 yield return AnimationManager.Instance.doShakeAnimation(st, 1f);
+
+                if (st == null)
+                    continue;
+
                 AudioManager.Instance.PlaySound(AudioManager.Instance.statusEffect_end_sound);
 
-                
                 statusUpdate.Remove(st);
-                iconsToRemove.Add(st);
+
                 Destroy(st);
 
-                continue; // Skip the rest of the loop for this icon since it's being removed
-                
-                
-
+                continue;
             }
 
-            st.GetComponentInChildren<TooltipManager>().description =
-                stat.effectName + " " + stat.currentDuration + " / " + stat.duration + "\n\n" + stat.description;
+            tooltip.description =
+                stat.effectName + " " +
+                stat.currentDuration + " / " +
+                stat.duration + "\n\n" +
+                stat.description;
         }
 
-       
-        statusEffectIconList = statusUpdate; // Update the original list with the modified copy
-        
-        
-        
-        
+        statusEffectIconList.Clear();
+        statusEffectIconList.AddRange(statusUpdate);
     }
 
 

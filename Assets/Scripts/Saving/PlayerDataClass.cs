@@ -50,6 +50,7 @@ public class PlayerDataClass
 
     [Space(10)]
     [Header ("OR Data")]
+    [Tooltip ("What determines the combat setter")]
     public int fableRecord ;
     public int fablePoints ;
     public int levelsBeat; // totoal levels beaten
