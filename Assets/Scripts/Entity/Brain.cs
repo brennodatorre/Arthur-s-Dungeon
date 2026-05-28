@@ -20,7 +20,7 @@ public class Brain : MonoBehaviour
 
     public enum Intent { ATTACK, SKILL, NONE };
 
-    private ActionQueue actionQueue;
+    [HideInInspector] public ActionQueue actionQueue;
 
 
     [Range (0,100)] public int basicAtkChance = 70;
@@ -51,7 +51,7 @@ public class Brain : MonoBehaviour
         }
     }
 
-    public void getIntent()
+    public virtual void getIntent()
     {
         int rand = UnityEngine.Random.Range (0,100);
 
@@ -74,14 +74,14 @@ public class Brain : MonoBehaviour
                 return;
             }
 
-            Debug.Log(gameObject.name + " will use skill: " + skilllToUse.skillName);
+            
             
         }
 
         intentMessage = intentToString();
     }
 
-    public void doIntent(Entity caster, Entity[] targets)
+    public virtual void doIntent(Entity caster, Entity[] targets)
     {
         Entity target = targets[UnityEngine.Random.Range(0, targets.Length)];
 
@@ -124,7 +124,7 @@ public class Brain : MonoBehaviour
         skilllToUse = null;
     }
 
-    private Skill getRandomSkillNeuron()
+    protected Skill getRandomSkillNeuron()
     {
         int rand = UnityEngine.Random.Range(0, 100);
         int cumulative = 0;
@@ -161,7 +161,7 @@ public class Brain : MonoBehaviour
 
     // wheight the chance of using each skill in inspector
     [ContextMenu("Normalize Weights")]
-    private void wheighSkillChance()
+    protected void wheighSkillChance()
     {
         if (skillNeurons == null || skillNeurons.Count == 0) return;
 

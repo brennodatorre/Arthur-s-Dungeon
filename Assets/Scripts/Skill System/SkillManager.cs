@@ -214,7 +214,7 @@ public class SkillManager : MonoBehaviour
         audioManager.PlaySound(skill.soundEffect); //play the healing sound
 
         var heal = skill.mainDice.Roll(); 
-        caster.heal(heal); //heal the target 
+        target.heal(heal); //heal the target 
 
 
         logManager.AddLog(caster.name + " casted Healing Tear on " + target.name + " for " + heal + " HP.");

@@ -225,6 +225,10 @@ PrefabInstance:
       value: Antimonial_lead_barnicle
       objectReference: {fileID: 0}
     - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: brain
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
       propertyPath: maxHP
       value: 30
       objectReference: {fileID: 0}
@@ -256,8 +260,38 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 9147365935887539457, guid: 2a7e4fca887251843a92a592306f7f29, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1359419372813269921, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1432741755785725440, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8205609088324464058}
   m_SourcePrefab: {fileID: 100100000, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+--- !u!1 &8801809195441364230 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1432741755785725440, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+  m_PrefabInstance: {fileID: 7621306481118731014}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8205609088324464058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8801809195441364230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c63b15959953db4e8fc622fe9f80ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicAtkChance: 3
+  skillNeurons:
+  - _skill: {fileID: 11400000, guid: 517a9c6df20aef948ae1d2e346b7f153, type: 2}
+    weight: 100
+  currentIntent: 2
+  intentMessage: 
+  skilllToUse: {fileID: 0}
+  originalSprite: {fileID: 0}
+  altSprite: {fileID: 5850088788628416705, guid: 2a7e4fca887251843a92a592306f7f29, type: 3}

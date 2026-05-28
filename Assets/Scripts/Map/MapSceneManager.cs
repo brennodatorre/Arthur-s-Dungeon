@@ -455,8 +455,10 @@ public class MapSceneManager : MonoBehaviour
 
     public IEnumerator MovePlayer(List<RoomTile> path, RoomTile destination, bool firstTimeEntering)
     {
+
+
         //plays footssteps audio while moving
-        AudioManager.Instance.PlaySound(footstepAudio);
+        AudioSource audioSource = AudioManager.Instance.CreateAndPlaySound(footstepAudio);
 
         foreach (RoomTile room in path)
         {
@@ -482,10 +484,12 @@ public class MapSceneManager : MonoBehaviour
             playerIcon.transform.position = endPos;
         }
 
+        Destroy(audioSource); // stop footstep audio after moving
         
         if (firstTimeEntering) MySceneManager.Instance.openNextScene(destination.roomType);
 
         isMoving = false;
+
     }
 
     public RoomTile GetPlayerCurrentRoom()

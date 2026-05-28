@@ -1111,11 +1111,11 @@ RectTransform:
   - {fileID: 219157911}
   m_Father: {fileID: 228142604}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 214.8, y: -1669}
-  m_SizeDelta: {x: 43.939, y: 43.643}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 186.7695, y: -1697.1786}
+  m_SizeDelta: {x: 43.938995, y: 43.643005}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &277828847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2173,6 +2173,8 @@ MonoBehaviour:
   - {fileID: 156123869747616688, guid: b1f995a7c5b56ce4aa966b9b27c195d7, type: 3}
   - {fileID: 3821580975314463909, guid: a14d5bd21a49a6341b98558cb455e207, type: 3}
   - {fileID: 8801809195441364230, guid: 9f00a3233ce31f2439f16ffdcd59a70d, type: 3}
+  - {fileID: 826572976774187617, guid: d35c4deb455ff3948a069a402299421e, type: 3}
+  - {fileID: 8167390415909979572, guid: c74e182ec8e01ad46a2759ef54e3fe09, type: 3}
   enemyL1: []
   enemyL2: []
   enemyL3: []
@@ -3662,7 +3664,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 151.001, y: -2050.824}
+  m_AnchoredPosition: {x: 125, y: -2035}
   m_SizeDelta: {x: 289.013, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &880313284
@@ -9405,7 +9407,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: DEFAULT.fableRecord
-      value: 40
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: GameData.playerName
