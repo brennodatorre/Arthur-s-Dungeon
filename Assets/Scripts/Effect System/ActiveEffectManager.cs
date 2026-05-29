@@ -56,7 +56,7 @@ public class ActiveEffectManager : MonoBehaviour
                     effect.effectAct.Invoke(); //execute the action
                     effect.currentDuration--; //decrease the turns left for the effect
                     
-                    if (effect.currentDuration == 0) { effect.endEffectAct.Invoke(); } //execute end effect if it exists
+                    // if (effect.currentDuration == 0) { effect.endEffectAct.Invoke(); } //execute end effect if it exists
 
                 }
 
@@ -74,7 +74,7 @@ public class ActiveEffectManager : MonoBehaviour
                     effect.effectAct.Invoke(); //execute the action
                     effect.currentDuration--; //decrease the turns left for the effect
                     
-                    if (effect.currentDuration == 0) { effect.endEffectAct.Invoke(); } //execute end effect if it exists
+                    // if (effect.currentDuration == 0) { effect.endEffectAct.Invoke(); } //execute end effect if it exists
 
                 }
 
@@ -238,7 +238,7 @@ public class ActiveEffectManager : MonoBehaviour
 
             target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
-            target.currentATK.RemoveDice(1, 6, caster.currentATK); //remove 1d4 from the attack amount
+            target.currentATK.RemoveDice(1, 6); //remove 1d4 from the attack amount
 
             target.currentATK.AddModifier(-2); //remove the modifier
 
@@ -306,7 +306,7 @@ public class ActiveEffectManager : MonoBehaviour
 
             caster.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
-            caster.atkAdvantage --;
+            caster.atkAdvantage--;
 
 
         }, () => addPrepared(caster, caster));

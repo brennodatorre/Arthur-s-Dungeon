@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14d04156bcbc8174d9ba6d82b2a79218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NewGameData:
+  DEFAULT:
     playerName: 
     hp: 0
     maxHP: 0
@@ -85,6 +85,53 @@ MonoBehaviour:
     death_counter: 0
     kill_counter: 0
     Ilhas: 0
+    HighestScore: 0
+    fableItemsID: []
+    fableSkillsID: []
+    fableStatusEffectsID: []
+  jsonData:
+    playerName: 
+    hp: 0
+    maxHP: 0
+    mp: 0
+    maxMP: 0
+    def: 0
+    baseATK:
+      dices: []
+      modifier: 0
+    atkAdvantage: 0
+    totalMainActions: 0
+    totalSupActions: 0
+    statusPoints: 0
+    DEX: 0
+    ATLETISM: 0
+    AURA: 0
+    CHARISM: 0
+    LUCK: 0
+    INTUITION: 0
+    HEX: 0
+    INT: 0
+    WILL: 0
+    REFLEX: 0
+    PERSEPTION: 0
+    FURTIVITY: 0
+    CONSTITUTION: 0
+    DOMINANCE: 0
+    skills: []
+    items: []
+    StatusEffects: []
+    fableRecord: 0
+    fablePoints: 0
+    levelsBeat: 0
+    currentLevelsBeat: 0
+    lives: 0
+    death_counter: 0
+    kill_counter: 0
+    Ilhas: 0
+    HighestScore: 0
+    fableItemsID: []
+    fableSkillsID: []
+    fableStatusEffectsID: []
   GameData:
     playerName: 
     hp: 0
@@ -124,6 +171,10 @@ MonoBehaviour:
     death_counter: 0
     kill_counter: 0
     Ilhas: 0
+    HighestScore: 0
+    fableItemsID: []
+    fableSkillsID: []
+    fableStatusEffectsID: []
   isInTransition: 0
   dungeonMemory:
     triggeredEvents: []
@@ -139,9 +190,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f544dd8bd8b85b14d8069d38c8fa41c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemDatabase: {fileID: 11400000, guid: ea47e4ac75aaf0940b8a666192523161, type: 2}
-  skillDatabase: {fileID: 11400000, guid: 192db58591e9357448d1c4c0df17e536, type: 2}
-  statusEffectDatabase: {fileID: 11400000, guid: bc3b2e6bfb1b2f54884cef240ba26303, type: 2}
+  allItemsDatabase: {fileID: 11400000, guid: ea47e4ac75aaf0940b8a666192523161, type: 2}
+  allSkillsDatabase: {fileID: 11400000, guid: 192db58591e9357448d1c4c0df17e536, type: 2}
+  allStatusEffectsDatabase: {fileID: 11400000, guid: bc3b2e6bfb1b2f54884cef240ba26303, type: 2}
 --- !u!114 &4742823526855524434
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ MonoBehaviour:
     modifier: 0
   extraInput: 0
   sprite: {fileID: -7540268768492096706, guid: b047c41edec644649b5e3d36815bd538, type: 3}
-  value: 0
+  value: 5
   itemOrigin: 2
   actionType: 0
   targetType: 0

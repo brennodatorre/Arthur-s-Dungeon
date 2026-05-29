@@ -128,7 +128,7 @@ public class WallEventManager : MonoBehaviour
         }
         else
         {
-            int lose = pData.getMaxHP() / 100 * 5;
+            int lose = pData.getMaxHP() / 100 * 15;
             pData.takeTrueDamage(lose); // take 5% of max hp as true damage on fail
             StartCoroutine(MySceneManager.Instance.doPopUp("-" + lose.ToString() + " HP", wall.transform.position, Color.red));
             Continue("You fail to jump over the wall and hurt yourself.", jumpSound);
@@ -147,7 +147,7 @@ public class WallEventManager : MonoBehaviour
         }
         else
         {
-            int lose = pData.getMaxHP() / 100 * 7;
+            int lose = pData.getMaxHP() / 100 * 17;
             pData.takeTrueDamage(lose); // take 7% of max hp as true damage on fail
             StartCoroutine(MySceneManager.Instance.doPopUp("-" + lose.ToString() + " HP", wall.transform.position, Color.red));
             Continue("You broke the wall, but hurt yourself.", atkFailSound);
@@ -169,7 +169,7 @@ public class WallEventManager : MonoBehaviour
         }
         else
         {
-            int lose = pData.getMaxHP() / 100 * 3;
+            int lose = pData.getMaxHP() / 100 * 13;
             pData.takeTrueDamage(lose); // take 3% of max hp as true damage on fail
             StartCoroutine(MySceneManager.Instance.doPopUp("-" + lose.ToString() + " HP", wall.transform.position, Color.red));
             Continue("You dig a hole under the wall, but you hurt yourself trying to squeeze through.", digSound);

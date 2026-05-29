@@ -27,6 +27,11 @@ public class SkillManager : MonoBehaviour
             Destroy(gameObject); // Avoid duplicates
         }
 
+        
+    }
+
+    void Start()
+    {
         _allSkillDatabase = DatabaseManager.Instance.allSkillsDatabase;
     }
 

@@ -12,8 +12,19 @@ public class ClashManager : MonoBehaviour
     private QTE_Manager qteManager;
 
 
-    public AnimationCurve moveCurve = AnimationCurve.EaseInOut(0,0,1,1);
+    // public AnimationCurve moveCurve = AnimationCurve.EaseInOut(0,0,1,1);
+ 
+    [Header("Attack Movement")]
+    [SerializeField] private float duration = 0.25f;
 
+    [Range(0.1f, 5f)]
+    [SerializeField] private float easeInPower = 2f;
+
+    [Range(0.1f, 5f)]
+    [SerializeField] private float easeOutPower = 1.5f;
+
+[Range(0f, 1f)]
+[SerializeField] private float punchStrength = 0.6f;
 
     void Awake()
     {
@@ -51,6 +62,7 @@ public class ClashManager : MonoBehaviour
         Vector3 endPos = target.transform.position;
         
 
+        // moves attacker to target position and plays attack animation
         if (attacker.entityType != Entity.EntityType.Player) {
             
             yield return StartCoroutine(moveTo(attacker, target, startPos, endPos));
@@ -64,50 +76,44 @@ public class ClashManager : MonoBehaviour
         yield return StartCoroutine(qteManager.doQTE());
         bool qteSuceeded = qteManager.suceededQTE;
         
-
+        // enemy moves back to original position after attack
         if (attacker.entityType != Entity.EntityType.Player) yield return StartCoroutine(moveTo(attacker, target, endPos, startPos));
 
-
-        
-        
 
 
         //adds delay on atacks after the first one
         if (roundManager.clashQueue.actionQueue.Count > 1) { yield return new WaitForSeconds(3); }
         else { yield return new WaitForSeconds(.5F); }
 
-        int damageDealt = 0;
 
-        int attackRoll = attacker.currentATK.Roll(attacker.atkAdvantage);
-        int targetRoll = target.currentATK.Roll(target.atkAdvantage);
 
-        //if ( rolls + mod ) are equal, reroll
-        while (attackRoll + attacker.currentATK.getModifier() == targetRoll + target.currentATK.getModifier())
+
+       
+
+        (int attackRoll, bool attackerCrit, bool attackerFail) = attacker.currentATK.RollWithCritCheck(attacker.atkAdvantage);
+        (int targetRoll, bool targetCrit, bool targetFail) = target.currentATK.RollWithCritCheck(target.atkAdvantage);
+
+
+        int rerolls = 0;
+        //if rolls are equal, reroll, max 100
+        while (attackRoll  == targetRoll && rerolls<100)
         {
+            rerolls++;
+
             audioManager.PlaySound(audioManager.atk_equal_sound);
             AnimationManager.Instance.doClashAnimation();
             yield return new WaitForSeconds(1f);
             Debug.Log("Rerolling ATK vs BLOCK");
-            attackRoll = attacker.currentATK.Roll(attacker.atkAdvantage);
-            targetRoll = target.currentATK.Roll(target.atkAdvantage);
+
+            (attackRoll, attackerCrit,  attackerFail) = attacker.currentATK.RollWithCritCheck(attacker.atkAdvantage);
+            (targetRoll, targetCrit,  targetFail) = target.currentATK.RollWithCritCheck(target.atkAdvantage);
 
         }
 
-        //gets the crit and fail status of the rolls
-        bool attackerCrit = attacker.currentATK.wasCriticalHit(attackRoll);
-        bool targetCrit = target.currentATK.wasCriticalHit(targetRoll);
-        bool attackerFail = attacker.currentATK.wasCriticalFail(attackRoll);
-        bool targetFail = target.currentATK.wasCriticalFail(targetRoll);
 
-        //gets the damage dealt based on the rolls and modifiers
-        int atk = attackRoll + attacker.currentATK.getModifier();
-        int block = targetRoll + target.currentATK.getModifier();
+        #region Crit Handling
 
-        bool doubleDamage = false;
-
-
-
-
+        bool CritFailDoubleDamage = false;
 
         if ((attackerCrit && targetCrit) || (attackerFail && targetFail))
         {
@@ -122,7 +128,7 @@ public class ClashManager : MonoBehaviour
             roundManager.clashQueue.Enqueue("ATKCRIT vs TARGETFAIL ", () => doBasicATK(attacker, target));
 
             //doubles the damage dealt
-            doubleDamage = true;
+            CritFailDoubleDamage = true;
         }
         else if (attackerCrit)
         {
@@ -151,41 +157,46 @@ public class ClashManager : MonoBehaviour
         }
 
 
+        #endregion
 
 
 
-        logManager.AddLog(attacker.name + ": " + atk + " VS " + target.name + ": " + block);
-        //Debug.Log(attacker.name + ": " + attackRoll + " VS " + target.name + ": " + targetRoll);
+
+        
+        string atkAdds = "";
+        int modedAttackRoll = attackRoll;
+        
+        if (CritFailDoubleDamage) { modedAttackRoll *= 2;  atkAdds += " *2 Crit/Fail"; }
         
 
-
-        damageDealt = atk - block;
-        if (doubleDamage) { damageDealt *= 2; }
         
-
-        roundManager.animationManager.doSlashAnimation(target);
 
         //deals with QTE fail/sucess
         if (attacker.entityType == Entity.EntityType.Player)
         {
-            if (qteSuceeded) { damageDealt += 3; }
-            else { damageDealt /= 2; }
+            if (qteSuceeded) { modedAttackRoll += 3;  atkAdds += " + 3 QTE"; }
+            else { modedAttackRoll = Mathf.CeilToInt(modedAttackRoll / 2f); atkAdds += " /2 QTE"; }
         }
         if (target.entityType == Entity.EntityType.Player)
         { 
-            if (qteSuceeded) { damageDealt /= 2; }
-            else { damageDealt += 3; }
+            if (qteSuceeded) { modedAttackRoll = Mathf.CeilToInt(modedAttackRoll / 2f); atkAdds += " /2 QTE"; }
+            else { modedAttackRoll += 3;  atkAdds += " + 3 QTE"; }
         }
 
 
+        
+        float damageDealt = target.takeDamage(modedAttackRoll - targetRoll);
 
-        float actualDamage = target.takeDamage(damageDealt);
+
+        roundManager.animationManager.doSlashAnimation(target);
+        logManager.AddLog(attacker.name + ": " + attackRoll + atkAdds + " VS " + target.name + ": " + targetRoll+ " | Damage Dealt: " + damageDealt );
+
 
         //camera shake when player takes damage
-        if (actualDamage > 0 && target.entityType == Entity.EntityType.Player)
+        if (damageDealt > 0 && target.entityType == Entity.EntityType.Player)
         { FindObjectOfType<CameraManager>().Shake(); }
 
-        audioManager.PlayAttackSound(actualDamage);
+        audioManager.PlayAttackSound(damageDealt);
 
 
     }
@@ -195,30 +206,49 @@ public class ClashManager : MonoBehaviour
 
 
     public IEnumerator moveTo (Entity attacker, Entity target, Vector3 startPos, Vector3 endPos)
-    {
-
-        
-        
-         
+    {  
 
         while (Vector3.Distance(attacker.transform.position, endPos) > 0.01f)
         {
-           
+                
+            float elapsed = 0f;
 
-            // uses an animation curve to move the attacker towards the target in a more dynamic way, rather than a linear movement
-            // using bell curve for now
-            float totalDistance = Vector3.Distance(startPos, endPos);
-            float currentDistance = Vector3.Distance(attacker.transform.position, endPos);
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
 
-            float curveT = moveCurve.Evaluate( currentDistance / totalDistance );
+                float t = Mathf.Clamp01(elapsed / duration);
 
+                float easedT = AttackEase(t);
 
-            attacker.transform.position = Vector3.Lerp(attacker.transform.position, endPos, curveT  );
+                attacker.transform.position = Vector3.Lerp(startPos, endPos, easedT);
 
-            yield return null;
+                yield return null;
+            }
+
+            attacker.transform.position = endPos;
         }
 
         
     } 
+
+    private float AttackEase(float t)
+    {
+        // ease in (wind-up)
+        float easeIn = Mathf.Pow(t, easeInPower);
+
+        // ease out (impact control)
+        float easeOut = 1f - Mathf.Pow(1f - t, easeOutPower);
+
+        // base blend
+        float baseCurve = Mathf.Lerp(easeIn, easeOut, 0.5f);
+
+        // punch / lunge feel
+        float punch = Mathf.Sin(t * Mathf.PI) * punchStrength;
+
+        float result = baseCurve + punch * (1f - t);
+
+        return Mathf.Clamp01(result);
+    }
 
 }

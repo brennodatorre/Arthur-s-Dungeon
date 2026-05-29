@@ -341,7 +341,7 @@ public class Entity : MonoBehaviour
 
                 
 
-                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition(MySceneManager.SceneType.TUTORIAL));
+                StartCoroutine(GameObject.FindObjectOfType<MySceneManager>().openSceneWithTransition(MySceneManager.SceneType.MAINMENU));
             }
             else 
             {

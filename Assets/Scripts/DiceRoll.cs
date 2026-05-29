@@ -31,6 +31,26 @@ public class DiceRoll
 
     public DiceRoll AddDice(int count, int sides)
     {
+        for (int i = 0; i < dices.Count; i++)
+        {
+            if (dices[i].sides == sides)
+            {
+                Dice dice = dices[i];
+                dice.count += count;
+                if (dice.count == 0)
+                {
+                    dices.RemoveAt(i);
+                }
+                else
+                {
+                    dices[i] = dice;
+                }
+
+
+
+                return this;
+            }
+        }
 
         dices.Add(new Dice(count, sides));
         return this;
@@ -40,27 +60,50 @@ public class DiceRoll
         if (_dices == null) return;
         foreach (var die in _dices.dices)
         {
-            dices.Add(new Dice(die.count, die.sides));
+            AddDice(die.count, die.sides);
         }
     }
 
-    public void RemoveDice(int count, int sides, DiceRoll diceRoll)
+    public void RemoveDice(int count, int sides)
     {
-        foreach (var dice in dices)
+        for (int i = 0; i < dices.Count; i++)
         {
-            if (dice.count == count && dice.sides == sides)
+            if (dices[i].sides == sides)
             {
-                dices.Remove(dice);
-                break;
+                Dice dice = dices[i];
+                int temp = dice.count - count;
+                if (temp > 0)
+                {
+                    dice.count = temp;
+                    dices[i] = dice;
+                    
+                }
+                else if (temp == 0)
+                {
+                    dices.RemoveAt(i);
+                    
+                }
+                else
+                {
+                    dices.RemoveAt(i);
+                    AddDice(temp, sides);
+                }
+
+                return;
+  
             }
         }
+
+        //add a negative dice if list doesnt have one to removefom
+
+       dices.Add(new Dice(-count, sides));
         
     }
     public void RemoveDice(DiceRoll _dice)
     {
         foreach (var die in _dice.dices)
         {
-            RemoveDice(die.count, die.sides, _dice);
+            RemoveDice(die.count, die.sides);
         }
         
     }
@@ -77,95 +120,113 @@ public class DiceRoll
         return this.modifier;
     }
 
-
-    
-    //internal helper method to check if the roll is safe to do
-    private bool isSafeRoll(DiceRoll roll)
-    {
-        bool safe = true;
-
-        int xSides = 0;
-        int xDices = 0;
-        foreach (Dice dice in roll.dices) { 
-            xSides += dice.sides;
-            xDices += dice.count;
-
-            }
-
-            if (xSides == xDices ) {safe = false;}
-
-        return   safe;
-    }
     
     //rolls the dices and return the result + the modifier
     public int Roll(int advantages = 0)
     {
-        Debug.Log("Rolling " + ToString() + " with " + advantages + " advantages.");
+        
 
+        return RollWithCritCheck(advantages).value;
+        
+    }
+
+
+    /// <summary>
+    /// Returns the result of the roll, as well as whether it was a critical hit or critical fail
+    /// </summary>
+    public (int value, bool critHit, bool critFail) RollWithCritCheck(int advantages = 0)
+    {
         int rolls = Mathf.Abs(advantages) + 1;
 
         int bestTotal = 0;
         bool firstRoll = true;
 
+        
+        int bestPositiveRolls = 0;
+
         for (int i = 0; i < rolls; i++)
         {
             int total = 0;
-
+            int positiveRolls = 0;
             foreach (var dice in dices)
             {
-                if (dice.count <= 0 || dice.sides <= 0)
+                if (dice.count <= 0) { //negative dice, remove from total
+                    
+                    for (int j = 0; j < Mathf.Abs(dice.count); j++)
+                    {
+                        total -= Random.Range(1, dice.sides + 1);
+                    }
                     continue;
+                }
+
 
                 for (int j = 0; j < dice.count; j++)
                 {
-                    total += Random.Range(1, dice.sides + 1);
+                    int roll = Random.Range(1, dice.sides + 1);
+                    total += roll;
+                    positiveRolls += roll;
                 }
             }
 
             if (firstRoll)
             {
                 bestTotal = total;
+                bestPositiveRolls = positiveRolls;
                 firstRoll = false;
             }
             else if (advantages >= 0) // advantage
             {
-                bestTotal = Mathf.Max(bestTotal, total);
+                if (total > bestTotal)
+                {
+                    bestTotal = total;
+                    bestPositiveRolls = positiveRolls;
+                }
             }
             else // disadvantage
             {
-                bestTotal = Mathf.Min(bestTotal, total);
+                if (total < bestTotal)
+                {
+                    bestTotal = total;
+                    bestPositiveRolls = positiveRolls;
+                }
             }
         }
 
-        Debug.Log("Rolled a total of " + bestTotal + " before modifier." + " Modifier is " + modifier + ". Final result is " + (bestTotal + modifier) + ".");
-        return bestTotal + modifier;
+        // Debug.Log("Rolled a total of " + bestTotal + " before modifier." + " Modifier is " + modifier + ". Final result is " + (bestTotal + modifier) + ".");
 
-        
+
+        return (bestTotal + modifier, wasCriticalHit(bestPositiveRolls), wasCriticalFail(bestPositiveRolls));
     }
 
-    public bool wasCriticalHit(int value){
+    /// <summary>
+    /// Checks crit hit with modifier
+    /// </summary>
+    private bool wasCriticalHit(int value){
 
         int maxRoll = 0;
 
         foreach (var dice in this.dices)
         {
-            maxRoll += dice.sides * dice.count;
+            if (dice.count > 0) maxRoll += dice.sides * dice.count;
         }
 
-        return value == maxRoll;
+        return value == maxRoll ;
 
 
     }
-    public bool wasCriticalFail(int value){
+    /// <summary>
+    /// Checks crit fail with modifier
+    /// </summary>
+    private bool wasCriticalFail(int value){
 
         int minRoll = 0;
 
         foreach (var dice in this.dices)
         {
-            minRoll +=  dice.count;
+            if (dice.count > 0) minRoll +=  dice.count;
         }
 
-        return value == minRoll;
+        return value == minRoll ;
 
 
     }
