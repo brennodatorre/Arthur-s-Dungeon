@@ -208,7 +208,7 @@ public class ItemManager : MonoBehaviour
         yield return new WaitForSeconds(0f);
         AudioManager.Instance.PlaySound(item.soundEffect); 
 
-        ActiveEffectManager.Instance.addSlateScar(target, caster, true);
+        ActiveEffectManager.Instance.addSlateScar(target, caster, null,true);
         
     }
 

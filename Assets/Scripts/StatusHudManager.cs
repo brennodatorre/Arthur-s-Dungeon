@@ -42,10 +42,10 @@ public class StatusHudManager : MonoBehaviour
     private Color mainActionColor;
     private Color supActionColor;
 
-    private int roundsNumMem = 999;
+    
     private List<GameObject> statusEffectIconList = new List<GameObject>();
 
-
+    private bool removingIcons;
 
     private void Awake()
     {
@@ -123,12 +123,12 @@ public class StatusHudManager : MonoBehaviour
             else { StartCoroutine(AnimationManager.Instance.DissolveUponDeath(supActionDisplayImage, true)); }
         }
 
-        if (roundsNumMem != RoundManager.Instance.numberOfRounds) { StartCoroutine(UpdateStatusEffectDisplay()); }
+        
 
         // updates memomry
         mainActionCount = player.currentMainActions;
         supActionCount = player.currentSupActions;
-        roundsNumMem = RoundManager.Instance.numberOfRounds;
+        
 
     }
 
@@ -143,7 +143,7 @@ public class StatusHudManager : MonoBehaviour
         LevelBeatenDisplay.GetComponent<TextMeshProUGUI>().text = "LEVEL: " + PlayerData.Instance.getLevelsBeat() + " \n" + "High Score: "+ PlayerData.Instance.GetHighestScore();
     }
 
-    public void addStatusEffectToDisplay(StatusEffect stat)
+    public GameObject addStatusEffectToDisplay(StatusEffect stat)
     {
         GameObject prefab = Instantiate(statusEffectPrefab, stat.target.statEffectDisplay.transform);
         statusEffectIconList.Add(prefab);
@@ -156,13 +156,15 @@ public class StatusHudManager : MonoBehaviour
         prefab.GetComponent<Image>().sprite = stat.sprite;
         prefab.GetComponentInChildren<TooltipManager>().description = stat.effectName + " " + stat.currentDuration + " / " + stat.duration + "\n\n" + stat.description;
 
+        return prefab;
+
     }
 
-    public IEnumerator UpdateStatusEffectDisplay()
+    public void UpdateStatusEffectDisplay()
     {
         List<GameObject> statusUpdate = new List<GameObject>(statusEffectIconList);
 
-        foreach (GameObject st in statusUpdate.ToList())
+        foreach (GameObject st in statusUpdate)
         {
             if (st == null)
                 continue;
@@ -172,22 +174,6 @@ public class StatusHudManager : MonoBehaviour
 
             StatusEffect stat = icon._statusEffect;
 
-            if (stat == null || stat.currentDuration < 1)
-            {
-                yield return AnimationManager.Instance.doShakeAnimation(st, 1f);
-
-                if (st == null)
-                    continue;
-
-                AudioManager.Instance.PlaySound(AudioManager.Instance.statusEffect_end_sound);
-
-                statusUpdate.Remove(st);
-
-                Destroy(st);
-
-                continue;
-            }
-
             tooltip.description =
                 stat.effectName + " " +
                 stat.currentDuration + " / " +
@@ -195,13 +181,14 @@ public class StatusHudManager : MonoBehaviour
                 stat.description;
         }
 
-        statusEffectIconList.Clear();
-        statusEffectIconList.AddRange(statusUpdate);
+
     }
 
 
-   
-
+   public void RemoveIcon(GameObject icon)
+    {
+        statusEffectIconList.Remove(icon);
+    }
 
 
 }

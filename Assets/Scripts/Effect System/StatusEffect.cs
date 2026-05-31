@@ -30,8 +30,6 @@ public class StatusEffect : ScriptableObject
     public TurnPhaseOfEffect turnPhaseOfEffect;
     public StatusEffectType effectType;
 
-    public Skill effectFromSkill; //the skill that applied this effect
-
     public Action effectAct;
     public Action endEffectAct;
     public Action callbackEffect;
@@ -41,6 +39,9 @@ public class StatusEffect : ScriptableObject
 
     public Entity caster;
     public Entity target;
+
+    public Skill appliedBySkill;
+    public GameObject iconDisplay;
 
 
     public StatusEffect() { }
@@ -56,7 +57,7 @@ public class StatusEffect : ScriptableObject
         this.description = _description;
         this.duration = _duration;
         this.turnPhaseOfEffect = _turnPhaseOfEffect;
-        this.effectFromSkill = _effectFromSkill;
+        this.appliedBySkill = _effectFromSkill;
         this.effectType = _efctType;
         this.effectAct = _effect;
         this.endEffectAct = _endEffect;

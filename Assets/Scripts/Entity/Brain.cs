@@ -15,6 +15,8 @@ public class Brain : MonoBehaviour
         public Skill _skill;
         [Range (0,100)] public int weight;
 
+        public Sprite altSprite;
+
         
     }
 
@@ -33,7 +35,7 @@ public class Brain : MonoBehaviour
     public Skill skilllToUse;
 
     public Sprite originalSprite;
-    public Sprite altSprite;
+    
 
     void Start()
     {
@@ -43,6 +45,8 @@ public class Brain : MonoBehaviour
         {
 
             neuron._skill = neuron._skill.Clone();
+
+
             if (neuron._skill == null)
             {
                 Debug.LogWarning(gameObject.name + " has a skillNeuron with no skill assigned.");
@@ -192,8 +196,32 @@ public class Brain : MonoBehaviour
 
 
 
+    /// <summary>
+    /// Sets the alternative sprite of the neuron that has the specified skill. If no neuron has the skill, does nothing.
+    /// </summary>
+    public void SetAltSpriteOfNeuronWithSkill(Skill skill)
+    {
+        foreach (var neuron in skillNeurons)
+        {
+            if (neuron._skill.CompareTo(skill))
+            {
+                if (neuron.altSprite != null) {
+                    GetComponent<Image>().sprite = neuron.altSprite;
+                    GetComponent<Entity>().crackingSpriteOverlay.sprite = neuron.altSprite;
+                    }
+                
+            }
+        }
+
+        
+    }
 
 
+    public void setOriginalSprite()
+    {
+        GetComponent<Image>().sprite = originalSprite;
+        GetComponent<Entity>().crackingSpriteOverlay.sprite = originalSprite;
+    }
 
 
 

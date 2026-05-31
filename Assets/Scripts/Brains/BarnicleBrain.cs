@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BarnicleBrain : Brain
 {
     
-
+    
 
     public override void doIntent(Entity caster, Entity[] targets)
     {

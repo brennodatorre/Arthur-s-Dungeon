@@ -147,5 +147,15 @@ public class Skill : ScriptableObject
         }
     }
 
+
+    /// <summary>
+    /// compares this skill to another skill based on their skillID. Returns true if they are the same, false otherwise.
+    /// </summary>
+    public bool  CompareTo(Skill otherSkill)
+    {
+        if (otherSkill == null) return false;
+        return this.skillID == otherSkill.skillID;
+    }
+
    
 }

@@ -1,7 +1,7 @@
 using System;
 
 using System.Collections.Generic;
-
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -56,7 +56,7 @@ public class ActiveEffectManager : MonoBehaviour
                     effect.effectAct.Invoke(); //execute the action
                     effect.currentDuration--; //decrease the turns left for the effect
                     
-                    // if (effect.currentDuration == 0) { effect.endEffectAct.Invoke(); } //execute end effect if it exists
+                    
 
                 }
 
@@ -74,14 +74,16 @@ public class ActiveEffectManager : MonoBehaviour
                     effect.effectAct.Invoke(); //execute the action
                     effect.currentDuration--; //decrease the turns left for the effect
                     
-                    // if (effect.currentDuration == 0) { effect.endEffectAct.Invoke(); } //execute end effect if it exists
 
                 }
 
             }
 
-
             RemoveDeadEffects(); //remove any dead effects from the lists
+            
+
+
+            
 
             
 
@@ -94,39 +96,41 @@ public class ActiveEffectManager : MonoBehaviour
 
 
 
-    public void AddEffect(StatusEffect staEfct, Entity caster, Entity target, Action effect, Action endEffect, Action callbacl = null, Action <object []> overideEffect = null)
+    public void AddEffect(StatusEffect staEfct, Entity caster, Entity target, Skill appliedBySkill , Action effect, Action endEffect,  Action callbacl = null, Action <object []> overideEffect = null)
     {
         if (target.getHP() == 0) {return; } //don't add the effect if the target is dead
 
         staEfct.caster = caster;
         staEfct.target = target;
+        staEfct.appliedBySkill = appliedBySkill;
         staEfct.effectAct = effect;
         staEfct.endEffectAct = endEffect;
         staEfct.callbackEffect = callbacl; //calls back to itself
         staEfct.overideEffectAct = overideEffect; //overide some of the actions of the target/caster
 
         activeEffects.Add(staEfct); //add the effect to the list of active effects  
-        StatusHudManager.Instance.addStatusEffectToDisplay(staEfct);
+        staEfct.iconDisplay = StatusHudManager.Instance.addStatusEffectToDisplay(staEfct);
         
     }
 
 
     private void RemoveDeadEffects() {
 
-        
 
-        foreach (StatusEffect effect in activeEffects)
+        foreach (StatusEffect effect in activeEffects.ToArray())
         {
             if (effect.currentDuration < 1)
             {
-                effect.endEffectAct.Invoke();
-                
-                
-                
+                effect.endEffectAct?.Invoke();
+
+                effect.iconDisplay.GetComponent<StatusEffectIcon>().MarkToDie();
+ 
             }
         }
 
         activeEffects.RemoveAll(effect => effect.currentDuration < 1);
+        StatusHudManager.Instance.UpdateStatusEffectDisplay();
+        
 
         
     }
@@ -147,7 +151,7 @@ public class ActiveEffectManager : MonoBehaviour
         }
 
         effectsToRemove.RemoveAll(effect => true);
-        Instance.StartCoroutine(StatusHudManager.Instance.UpdateStatusEffectDisplay());
+        
         
         
 
@@ -176,12 +180,12 @@ public class ActiveEffectManager : MonoBehaviour
     }
 
 
-    public void addBleed(Entity target, Entity caster, bool withSound = false)
+    public void addBleed(Entity target, Entity caster, Skill appliedBySkill = null, bool withSound = false)
     {
         StatusEffect inst = Instantiate(statusEffectPrefabs.BleedEffect);
         target.activeStatusEffects.Add(inst); //add the skill to the active effects list
 
-        AddEffect(inst, caster, target, () =>
+        AddEffect(inst, caster, target, appliedBySkill, () =>
             {
                 // DiceRoll bleedDamage = new DiceRoll(); //create a new DiceRoll
                 // bleedDamage.AddDice(1, 4); //
@@ -194,10 +198,10 @@ public class ActiveEffectManager : MonoBehaviour
             () =>
             {
                 target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
-            }, () => addBleed(target, caster));
+            }, () => addBleed(target, caster, appliedBySkill));
     }
 
-    public void addRottingTouch(Entity target, Entity caster, bool withSound = false)
+    public void addRottingTouch(Entity target, Entity caster, Skill appliedBySkill = null, bool withSound = false)
     {
 
         if (withSound)audioManager.PlaySound(statusEffectPrefabs.RottingTouchEffect.effectSound); //play skill sound   
@@ -208,7 +212,7 @@ public class ActiveEffectManager : MonoBehaviour
         StatusEffect inst = Instantiate(statusEffectPrefabs.RottingTouchEffect);
         target.activeStatusEffects.Add(inst); //add the skill to the active effects list of the target
 
-        AddEffect(inst, caster, target, () => { }, () =>
+        AddEffect(inst, caster, target,  appliedBySkill, () => { }, () =>
         {
 
             target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
@@ -216,10 +220,10 @@ public class ActiveEffectManager : MonoBehaviour
             target.currentATK.RemoveDice(statusEffectPrefabs.RottingTouchEffect.mainRoll); //remove 1d4 from the attack amount
 
 
-        }, () => addRottingTouch(target , caster));
+        }, () => addRottingTouch(target , caster, appliedBySkill));
     }
 
-    public void addBestified(Entity target, Entity caster , bool withSound = false)
+    public void addBestified(Entity target, Entity caster , Skill appliedBySkill = null, bool withSound = false)
     {
         //add 1d6 + 2 to the attack of the user
         target.currentATK.AddDice(statusEffectPrefabs.BestificationEffect.mainRoll);
@@ -233,7 +237,7 @@ public class ActiveEffectManager : MonoBehaviour
         StatusEffect inst = Instantiate(statusEffectPrefabs.BestificationEffect);
         target.activeStatusEffects.Add(inst); //add the skill to the active effects list
 
-        AddEffect(inst, caster, target, () => { }, () =>
+        AddEffect(inst, caster, target, appliedBySkill,() => { }, () =>
         {
 
             target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
@@ -253,12 +257,12 @@ public class ActiveEffectManager : MonoBehaviour
 
 
 
-        }, () => addBestified(target, caster));
+        }, () => addBestified(target, caster ,appliedBySkill));
 
 
     }  
 
-    public void addElectrifiedWeapon(Entity target, Entity caster, bool withSound = false)
+    public void addElectrifiedWeapon(Entity target, Entity caster, Skill appliedBySkill = null, bool withSound = false)
     {
         if (withSound)
         {
@@ -272,7 +276,7 @@ public class ActiveEffectManager : MonoBehaviour
         StatusEffect inst = Instantiate(statusEffectPrefabs.ElectrifiedWeaponEffect);
         target.activeStatusEffects.Add(inst); //add the skill to the active effects list of the target
 
-        AddEffect(inst, caster, target, () => { }, () =>
+        AddEffect(inst, caster, target, appliedBySkill,() => { }, () =>
         {
 
             target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
@@ -280,10 +284,10 @@ public class ActiveEffectManager : MonoBehaviour
             target.currentATK.AddModifier(-3); //remove 1d4 from the attack amount
 
 
-        }, () => addElectrifiedWeapon(target, caster));
+        }, () => addElectrifiedWeapon(target, caster, appliedBySkill));
     }
 
-    public void addPrepared(Entity target, Entity caster, bool withSound = false)
+    public void addPrepared(Entity target, Entity caster, Skill appliedBySkill  = null, bool withSound = false)
     {
 
 
@@ -301,7 +305,7 @@ public class ActiveEffectManager : MonoBehaviour
         StatusEffect inst = Instantiate(statusEffectPrefabs.PreparedEffect);
         caster.activeStatusEffects.Add(inst); //add the skill to the active effects list of the target
 
-        AddEffect(inst, caster, caster, () => { }, () =>
+        AddEffect(inst, caster, caster, appliedBySkill,() => { }, () =>
         {
 
             caster.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
@@ -309,10 +313,10 @@ public class ActiveEffectManager : MonoBehaviour
             caster.atkAdvantage--;
 
 
-        }, () => addPrepared(caster, caster));
+        }, () => addPrepared(caster, caster, appliedBySkill));
     }
 
-    public void addPlattedSoul(Entity target, Entity caster, bool withSound = false)
+    public void addPlattedSoul(Entity target, Entity caster, Skill appliedBySkill  = null, bool withSound = false)
     {
         
         if (withSound) audioManager.PlaySound(statusEffectPrefabs.PlattedSoulEffect.effectSound);
@@ -324,19 +328,19 @@ public class ActiveEffectManager : MonoBehaviour
         StatusEffect inst = Instantiate(statusEffectPrefabs.PlattedSoulEffect);
         target.activeStatusEffects.Add(inst); //add the skill to the active effects list
 
-        AddEffect(inst, caster, target, () => { }, () =>
+        AddEffect(inst, caster, target, appliedBySkill,() => { }, () =>
         {
             target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
             target.def += -3; //remove 1d4 from the attack amount
 
-        }, () => addPlattedSoul(target, caster));
+        }, () => addPlattedSoul(target, caster, appliedBySkill));
 
 
     }
 
 
-    public void addSlateScar(Entity target, Entity caster, bool withSound = false)
+    public void addSlateScar(Entity target, Entity caster, Skill appliedBySkill  = null, bool withSound = false)
     {
         if (withSound) audioManager.PlaySound(statusEffectPrefabs.SlateScarEffect.effectSound);
 
@@ -345,32 +349,33 @@ public class ActiveEffectManager : MonoBehaviour
         StatusEffect inst = Instantiate(statusEffectPrefabs.SlateScarEffect);
         target.activeStatusEffects.Add(inst); //add the skill to the active effects list
 
-        AddEffect(inst, caster, target, () => { }, () =>
+        AddEffect(inst, caster, target, appliedBySkill,() => { }, () =>
         {
             target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
             target.def += 1; 
 
-        }, () => addSlateScar(target, caster));
+        }, () => addSlateScar(target, caster, appliedBySkill));
 
     }
 
-    public void addBodyShielded(Entity target, Entity caster, bool withSound = false)
+    public void addBodyShielded(Entity target, Entity caster, Skill appliedBySkill  = null, bool withSound = false  )
     {
         if (withSound) audioManager.PlaySound(statusEffectPrefabs.BodyShieledEffect.effectSound);
 
-        caster.GetComponent<Image>().sprite = caster.GetComponent<Brain>().altSprite; 
+        caster.GetComponent<Brain>().SetAltSpriteOfNeuronWithSkill(appliedBySkill) ;
 
         StatusEffect inst = Instantiate(statusEffectPrefabs.BodyShieledEffect);
         target.activeStatusEffects.Add(inst); //add the skill to the active effects list
+        
 
-        AddEffect(inst, caster, target, () => { }, () =>
+        AddEffect(inst, caster, target, appliedBySkill, () => { }, () =>
         {
             target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
-            caster.GetComponent<Image>().sprite = caster.GetComponent<Brain>().originalSprite; 
+            caster.GetComponent<Brain>().setOriginalSprite();
 
         }, 
-        () => addBodyShielded(target, caster),
+        () => addBodyShielded(target, caster, appliedBySkill),
         (object [] args) => {
             Entity attacker = (Entity)args[0];
             Entity attackTarget = (Entity)args[1];
@@ -383,6 +388,7 @@ public class ActiveEffectManager : MonoBehaviour
         );
 
     }
+
 
 
     #endregion

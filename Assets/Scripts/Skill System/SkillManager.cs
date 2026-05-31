@@ -232,7 +232,7 @@ public class SkillManager : MonoBehaviour
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
 
-        activeEffectManager.addRottingTouch(target, caster, true); //add rotting touch to the target
+        activeEffectManager.addRottingTouch(target, caster, skill, true); //add rotting touch to the target
         logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
 
 
@@ -244,7 +244,7 @@ public class SkillManager : MonoBehaviour
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
 
-        activeEffectManager.addElectrifiedWeapon(target, caster, true); //add electrified weapon to the target
+        activeEffectManager.addElectrifiedWeapon(target, caster, skill,true); //add electrified weapon to the target
         logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
         
 
@@ -255,7 +255,7 @@ public class SkillManager : MonoBehaviour
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
-        ActiveEffectManager.Instance.addPrepared(caster, caster, true); //add prepared to the target
+        ActiveEffectManager.Instance.addPrepared(caster, caster, skill, true); //add prepared to the target
 
     }
 
@@ -265,7 +265,7 @@ public class SkillManager : MonoBehaviour
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
-        activeEffectManager.addPlattedSoul(target, caster, true); //add platted soul to the target
+        activeEffectManager.addPlattedSoul(target, caster, skill,true); //add platted soul to the target
         logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
 
     }
@@ -308,7 +308,7 @@ public class SkillManager : MonoBehaviour
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
-        ActiveEffectManager.Instance.addBestified(target, caster, true); //add bestified to the target
+        ActiveEffectManager.Instance.addBestified(target, caster, skill,true); //add bestified to the target
         logManager.AddLog(caster.name + " casted " + skill.skillName);
 
     }
@@ -336,7 +336,7 @@ public class SkillManager : MonoBehaviour
 
 
 
-            if (!target.isDead) activeEffectManager.addBleed(target, caster, true);
+            if (!target.isDead) activeEffectManager.addBleed(target, caster, skill,true);
 
 
 
@@ -405,7 +405,7 @@ public class SkillManager : MonoBehaviour
 
         audioManager.PlaySound(skill.soundEffect); //play the skill sound
 
-        ActiveEffectManager.Instance.addBodyShielded(target, caster, true); //add body as a shield to the target
+        ActiveEffectManager.Instance.addBodyShielded(target, caster, skill,true); //add body as a shield to the target
 
         logManager.AddLog(caster.name + " used Body as a Shield on " + target.name); ;
 

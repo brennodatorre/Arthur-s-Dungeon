@@ -8,6 +8,8 @@ using static PlayerData;
 
 public class InfoDisplayManager : MonoBehaviour
 {
+    public static InfoDisplayManager Instance;
+
     public GameObject infoMenu;
 
     [Space(10)]
@@ -49,8 +51,26 @@ public class InfoDisplayManager : MonoBehaviour
 
     
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        
+    }
+
+
     void Start()
     {
+        
+
+
         var skl  = SkillsDisplay.GetComponentInChildren<MenuContainerManager>();
 
         foreach (var skill in PlayerData.Instance.getSkills())
@@ -69,15 +89,20 @@ public class InfoDisplayManager : MonoBehaviour
             temp.GetComponent<TooltipManager>().description = item.GetFullDescription();
         }
 
+
+        setTabButtons();
+
     }
 
-    
+
 
 
    
 
     public void ToggleInfoMenu()
     {
+        
+
         infoMenu.SetActive(!infoMenu.activeSelf);
 
         if (infoMenu.activeSelf)
@@ -91,7 +116,15 @@ public class InfoDisplayManager : MonoBehaviour
 
 
 
+            
+        }
+    }
 
+
+    private void setTabButtons()
+    {
+        
+            
 
             //set buttons for display switching
             mainDisplayButton.GetComponent<Image>().color = Color.white;
@@ -103,6 +136,7 @@ public class InfoDisplayManager : MonoBehaviour
                 mainInfoDisplay.SetActive(true);
                 SkillsDisplay.SetActive(false);
                 ItemDisplay.SetActive(false);
+
 
                 mainDisplayButton.GetComponent<Image>().color = Color.white;
                 skillsDisplayButton.GetComponent<Image>().color = Color.grey;
@@ -130,13 +164,10 @@ public class InfoDisplayManager : MonoBehaviour
             });
 
             
-            
-        }
     }
 
 
-    private void setPlayerInfo()
-    {
+    private void setPlayerInfo(){
         PlayerData pdata = PlayerData.Instance;
             if (pdata != null)
             {

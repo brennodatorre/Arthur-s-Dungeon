@@ -171,6 +171,10 @@ public class AnimationManager : MonoBehaviour
 
         while (elapsed < duration)
         {
+
+            if (ob == null)
+            yield break;
+
             float x = Random.Range(-1f, 1f) * shakeAnimationMagnitude;
             float y = Random.Range(-1f, 1f) * shakeAnimationMagnitude;
 
