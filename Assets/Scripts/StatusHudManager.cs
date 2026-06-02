@@ -148,6 +148,8 @@ public class StatusHudManager : MonoBehaviour
         GameObject prefab = Instantiate(statusEffectPrefab, stat.target.statEffectDisplay.transform);
         statusEffectIconList.Add(prefab);
 
+        if (stat.target == roundManager.player) prefab.transform.localScale = Vector3.one; // set the scale of the prefab to match the scale of the status effect display 
+
         // prefab.GetComponent<TooltipManager>().tooltipPanel = MySceneManager.Instance.tooltipPanel;
         prefab.GetComponent<TooltipManager>().canvas = MySceneManager.Instance.canvas;
 

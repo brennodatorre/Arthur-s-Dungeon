@@ -74,7 +74,7 @@ public class AudioManager : MonoBehaviour
     {
         
         if (MySceneManager.Instance.isInTransition) {return;}
-        setVolume();
+        SetVolume();
 
 
         // adjjusts the player heartbeat sound based on the player's HP, while player is in combat
@@ -97,6 +97,7 @@ public class AudioManager : MonoBehaviour
         AudioSource source = gameObject.AddComponent<AudioSource>();
         source.clip = sound;
         source.pitch = pitch;
+        SetVolume(source);
         source.Play();
 
         Destroy(source, sound.length / Mathf.Abs(pitch));
@@ -112,6 +113,7 @@ public class AudioManager : MonoBehaviour
         AudioSource source = gameObject.AddComponent<AudioSource>();
         source.loop = loop;
         source.clip = sound;
+        SetVolume(source);
         source.Play();
 
         return source;
@@ -203,6 +205,7 @@ public class AudioManager : MonoBehaviour
 
         src.clip = clip;
         src.pitch = startPitch;
+        SetVolume(src);
         src.Play();
 
         while ((isRunning == null || isRunning()) && src != null)
@@ -219,10 +222,15 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// Scales the volume of the game based on the SettingsData as the percentage 
     /// </summary> <summary>
-    public void setVolume()
+    public void SetVolume(AudioSource source = null)
     {
         SFXoutput.volume = (originalSFXVolume / 100) * SettingsData.Instance.globalVolume * 100;
         ambienceOutput.volume = (originalAmbienceVolume / 100) * SettingsData.Instance.globalVolume * 100;
+
+        if (source != null)
+        {
+            source.volume = (originalSFXVolume / 100) * SettingsData.Instance.globalVolume * 100;
+        }
     }
 
 }

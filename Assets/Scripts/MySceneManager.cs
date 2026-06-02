@@ -109,7 +109,7 @@ public class MySceneManager : MonoBehaviour
 
         canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
 
-        if (!isInTransition) audioManager.setVolume();
+        
 
         inputBlocker = Instantiate(inputBlockerPrefab, canvas.transform);
         inputBlocker.SetActive(false);

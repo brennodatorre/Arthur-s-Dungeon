@@ -38,17 +38,14 @@ public class TypeWriterEffect : MonoBehaviour
 
         if (typeSound == null) { Debug.LogError("failed to load typeSound"); }
 
-        audioManager = FindObjectOfType<AudioManager>();
+        audioManager = AudioManager.Instance;
 
-
-        //Debug.Log("Full text: " + fullText);
 
         currentText = textComponent.text;
     }
 
     void OnEnable()
     {
-        //print("TypeWriterEffect enabled");
 
         currentText = textComponent.text;
 

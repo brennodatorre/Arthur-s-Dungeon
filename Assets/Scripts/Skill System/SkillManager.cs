@@ -70,72 +70,87 @@ public class SkillManager : MonoBehaviour
                 skill.hasBeenUsed = true;
             }
 
-            
+            switch (skill.skillID) { 
 
-            if (skill.skillName == "Healing Tear")
-            {
+                case "s_healingTear":
+                {
 
-                roundManager.actionQueue.Enqueue("do HealingTear", () => doHealingTear(target, caster, skill)); //add the action to the queue
+                    roundManager.actionQueue.Enqueue("do HealingTear", () => doHealingTear(target, caster, skill)); //add the action to the queue
+                    break;
 
-            }
-            else if (skill.skillName == "Rotting Touch")
-            {
+                }
+                case "s_rottingTouch":
+                {
 
-                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doRottingTouch(target, caster, skill)); //add the action to the queue
+                    roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doRottingTouch(target, caster, skill)); //add the action to the queue
+                    break;
+                }
+                case "s_platedSoul":
+                {
 
-            }
-            else if (skill.skillName == "Plated Soul")
-            {
+                    roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doPlatedSoul(target, caster, skill)); //add the action to the queue
+                    break;
+                }
+                case "s_devour":
+                {
 
-                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doPlatedSoul(target, caster, skill)); //add the action to the queue
-            }
-            else if (skill.skillName == "Devour")
-            {
+                    roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doDevour(target, caster, skill)); //add the action to the queue
+                    break;
+                }
+                case "s_bestialAdrenaline":
+                {
 
-                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doDevour(target, caster, skill)); //add the action to the queue
-            }
-            else if (skill.skillName == "Bestial Adrenaline")
-            {
+                    roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doBestialAdrenaline(target, caster, skill)); //add the action to the queue
+                    break;
+                }
+                case "s_spinalJaw":
+                {
 
-                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doBestialAdrenaline(target, caster, skill)); //add the action to the queue
-            }
-            else if (skill.skillName == "Spinal Jaw")
-            {
+                    roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doSpinalJaw(target, caster, skill)); //add the action to the queue
+                    break;
+                }
+                case "s_suicide":
+                {
 
-                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doSpinalJaw(target, caster, skill)); //add the action to the queue
-            }
-            else if (skill.skillName == "Suicide")
-            {
+                    roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doSuicide(target, caster, skill)); //add the action to the queue
+                    break;
+                }
+                case "s_electrifyWeapon":
+                {
 
-                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doSuicide(target, caster, skill)); //add the action to the queue
-            }
-            else if (skill.skillName == "Electrify Weapon")
-            {
+                    roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doElectrifyWeapon(target, caster, skill)); //add the action to the queue
+                    break;
+                }
+                case "s_rest":
+                {
 
-                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doElectrifyWeapon(target, caster, skill)); //add the action to the queue
-            }
-            else if (skill.skillName == "Rest")
-            {
+                    roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doRest( caster, skill)); //add the action to the queue
+                    break;
+                }
+                case "s_prepare":
+                {
 
-                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doRest( caster, skill)); //add the action to the queue
-            }
-            else if (skill.skillName == "Prepare")
-            {
+                    roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doPrepare( caster, skill)); //add the action to the queue
+                    break;
+                }
+                case "s_GamblerGambit":
+                {
 
-                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doPrepare( caster, skill)); //add the action to the queue
-            }
-            else if (skill.skillName == "Gambler's Gambit")
-            {
+                    roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doGamblerGambit( caster, skill)); //add the action to the queue
+                    break;
+                }
+                case "s_bodyAsAShield":
+                {
+                    roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doBodyAsAShield(target, caster, skill)); //add the action to the queue
+                    break;
+                }
+                default:
+                {
+                    Debug.Log("Skill not implemented yet.");
+                    break;
 
-                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doGamblerGambit( caster, skill)); //add the action to the queue
-            }
-            else if (skill.skillID == "s_bodyAsAShield")
-            {
-                roundManager.actionQueue.Enqueue("do " + skill.skillName, () => doBodyAsAShield(target, caster, skill)); //add the action to the queue
-            }
-            else
-            {
-                Debug.Log("Skill not implemented yet.");
+                }
+
             }
 
         }
