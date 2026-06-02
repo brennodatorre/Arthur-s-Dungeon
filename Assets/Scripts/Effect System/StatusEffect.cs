@@ -8,7 +8,16 @@ public class StatusEffect : ScriptableObject
 {
     public enum TurnPhaseOfEffect { Start, End, Both };
     public enum StatusEffectType { Buff, Debuff, Neutral };
-    public enum OverideEffectType { NONE, TAKE_DAMAGE, HEAL, BLOCK, DAMAGE, APPLY_EFFECT, REMOVE_EFFECT, APPLY_BUFF, APPLY_DEBUFF, REMOVE_BUFF, REMOVE_DEBUFF };
+    public enum OverideEffectType { NONE, TAKE_DAMAGE, HEAL, BLOCK, DAMAGE, GAIN_DEF };
+    public enum BlockerType { NONE, 
+    TAKING_DAMAGE, HEALING, 
+    INCREASING_DAMAGE, DECREASING_DAMAGE, 
+    STUNNING, 
+    MP_DRAINING, MP_GAINING, 
+    ACTION_GAINING, ACTION_LOSING, 
+    GAIN_ATK_ADVANTAGE, LOSE_ATK_ADVANTAGE ,
+    GAIN_DEF, LOSE_DEF
+    };
 
 
     public Sprite sprite;
@@ -37,11 +46,19 @@ public class StatusEffect : ScriptableObject
     public Action<object []> overideEffectAct;
     public OverideEffectType overideEffectType;
 
+    [Tooltip ("List of blocker types that this effect blocks")]
+    public List<BlockerType> blocks = new();
+    [Tooltip ("List of tags that this effect applies")]
+    public List<BlockerType> tags = new();
+    
+
     public Entity caster;
     public Entity target;
 
     public Skill appliedBySkill;
+    public StatusEffect statusEffectFrom;
     public GameObject iconDisplay;
+    public bool isBeingRemoved = false;
 
 
     public StatusEffect() { }
@@ -70,25 +87,31 @@ public class StatusEffect : ScriptableObject
         return Instantiate(this);
     }
 
-    private bool checkIfStackCanBeApplied(Entity target) {
-        if (target.hasEffect(this)) // Check if the target has the effect of this skill
+    public bool checkIfStackCanBeApplied(Entity target) {
+        
+        foreach (StatusEffect effect in target.activeStatusEffects)
         {
-            if (isStackable) // Check if the skill is stackable
+            foreach (BlockerType blocker in effect.blocks)
             {
-                return true; // Return true if the skill is stackable
-            } 
-            else 
-            {
-                LogManager.Instance.AddLog( "Target already has the effect " + effectName );
-                return false; // Return false if the skill is not stackable
+                if (this.tags.Contains(blocker))
+                    return false;
             }
-        } 
-        else 
+        }
+
+        if (target.hasEffect(this))
         {
-            return true; // Return true if the target does not have the effect of this skill
-        } 
+            if (isStackable) return true;
+
+            LogManager.Instance.AddLog("Target already has the effect " + effectName);
+            return false;
+        }
+
+        return true;
     
     }
+
+
+  
     
 
 

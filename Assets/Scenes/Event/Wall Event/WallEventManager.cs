@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Trait = PlayerData.Trait;
 
-public class WallEventManager : MonoBehaviour
+public class WallEventManager :  EventManager
 {
     
     public int jumpDC = 10;
@@ -207,4 +207,37 @@ public class WallEventManager : MonoBehaviour
         leaveBtn.SetActive(true);
     }
     
+
+
+
+    public override void InputItem(Item item)
+    {
+        if (item.itemID == "i_wall_solvent")
+        {
+            LookMiddle();
+            left.SetActive(false);
+            right.SetActive(false);
+            jumpBtn.SetActive(false);
+            breakBtn.SetActive(false);
+
+            InfoDisplayManager.Instance.ToggleInfoMenu();
+
+            Continue("You pour the solvent on the wall, and it dissolves the wall away!", wallBreakSound);
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

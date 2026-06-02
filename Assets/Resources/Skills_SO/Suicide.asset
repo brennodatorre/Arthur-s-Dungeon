@@ -18,11 +18,11 @@ MonoBehaviour:
   cooldown: 0
   currentCooldown: 0
   description: End your own life.
-  fullDescription: 
+  fullDescription: Ends this current fragment of your story.
   hasBeenUsed: 0
   fableCost: 0
   soundEffect: {fileID: 0}
-  mainDiceRoll:
+  mainDice:
     dices: []
     modifier: 0
   extraInput: 0
@@ -31,9 +31,6 @@ MonoBehaviour:
   actionType: 2
   isOffensiveSkill: 0
   isPAHTSkill: 1
-  mainDice:
-    dices: []
-    modifier: 0
   isStackable: 0
   limitPerTurn: 999
   currentUsesPerTurn: 0

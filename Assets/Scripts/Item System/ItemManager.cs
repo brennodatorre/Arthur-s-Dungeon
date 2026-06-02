@@ -58,25 +58,28 @@ public class ItemManager : MonoBehaviour
             }
 
 
-            switch (item.itemName)
+            switch (item.itemID)
             {
-                case "Bandage":
+                case "i_bandage":
                     roundManager.actionQueue.Enqueue("used Bandage", () => useBandage(target, caster, item)); 
                     break;
-                case "Pocket Shark":
+                case "i_pocketShark":
                     roundManager.actionQueue.Enqueue("used Pocket Shark", () => usePocketShark(target, caster, item, isTargettingEnemy)); 
                     break;
-                case "Reagent Slug":
+                case "i_reagentSlug":
                     roundManager.actionQueue.Enqueue("used Reagent Slug", () => useReagentSlug(target, caster, item)); 
                     break;
-                case "Elk Milk":
+                case "i_elkMilk":
                     roundManager.actionQueue.Enqueue("used Elk Milk", () => useElkMilk(target, caster, item)); 
                     break;
-                case "Jura's Fruit":
+                case "i_juraFruit":
                     roundManager.actionQueue.Enqueue("used Jura Fruit", () => useJuraFruit(target, caster, item)); 
                     break;
-                case "Slate Blade":
+                case "i_slateBalde":
                     roundManager.actionQueue.Enqueue("used Slate Blade", () => useSlateBlade(target, caster, item)); 
+                    break;
+                case "i_wall_solvent":
+                    roundManager.actionQueue.Enqueue("used i_wall_solvent", () => useWallSolvent(target, caster, item)); 
                     break;
                 default:
                     Debug.Log("Item not implemented yet.");
@@ -209,6 +212,21 @@ public class ItemManager : MonoBehaviour
         AudioManager.Instance.PlaySound(item.soundEffect); 
 
         ActiveEffectManager.Instance.addSlateScar(target, caster, null,true);
+        
+    }
+
+    private IEnumerator useWallSolvent(Entity target, Entity caster, Item item)
+    {
+        yield return new WaitForSeconds(0f);
+        AudioManager.Instance.PlaySound(item.soundEffect); 
+
+        if (target.hasEffect(DatabaseManager.Instance.allStatusEffectsDatabase.GetStatusEffectByID("se_bodyShielded")))
+        {
+            target.removeEffect("se_bodyShielded");
+        }
+
+
+        ActiveEffectManager.Instance.addWallSolvent(target, caster, null, item.soundEffect, item);
         
     }
 

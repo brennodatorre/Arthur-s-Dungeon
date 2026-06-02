@@ -68,7 +68,7 @@ public class PlayerData : MonoBehaviour
         GameData.maxHP = player.getMaxHP();
         GameData.mp = player.getMP();
         GameData.maxMP = player.getMaxMP();
-        GameData.def = player.def;
+        GameData.def = player.getDEF();
         GameData.baseATK = player.baseATK;
         GameData.atkAdvantage = player.atkAdvantage;
         GameData.totalMainActions = player.totalMainActions;
@@ -115,8 +115,9 @@ public class PlayerData : MonoBehaviour
         player.setMaxHP(GameData.maxHP);
         player.setMP(GameData.mp);
         player.setMaxMP(GameData.maxMP);
-        player.def = GameData.def;
+        player.SetDEF(GameData.def);
         player.baseATK = GameData.baseATK;
+        player.currentATK = GameData.baseATK.Clone();
         player.atkAdvantage = GameData.atkAdvantage;
         player.totalMainActions = GameData.totalMainActions;
         player.totalSupActions = GameData.totalSupActions;
@@ -178,6 +179,7 @@ public class PlayerData : MonoBehaviour
         GameData.baseATK = new DiceRoll ();
         GameData.baseATK.AddDice(_default.baseATK);
         GameData.baseATK.AddDice(jsonData.baseATK);
+        GameData.baseATK.modifier = _default.baseATK.modifier + jsonData.baseATK.modifier;
 
         GameData.atkAdvantage = _default.atkAdvantage + jsonData.atkAdvantage;
         GameData.totalMainActions = _default.totalMainActions + jsonData.totalMainActions;

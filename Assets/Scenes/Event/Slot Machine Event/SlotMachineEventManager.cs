@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 
 
-public class SlotMachineEventManager : MonoBehaviour
+public class SlotMachineEventManager : EventManager
 {
     public TMP_Dropdown dropdown;
 

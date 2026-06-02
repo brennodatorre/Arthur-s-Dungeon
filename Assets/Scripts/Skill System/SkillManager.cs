@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static StatusEffect;
 
 public class SkillManager : MonoBehaviour
 {
@@ -264,6 +265,8 @@ public class SkillManager : MonoBehaviour
     {
 
         yield return new WaitForSeconds(0f); //wait for 0 seconds
+
+        
 
         activeEffectManager.addPlattedSoul(target, caster, skill,true); //add platted soul to the target
         logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);

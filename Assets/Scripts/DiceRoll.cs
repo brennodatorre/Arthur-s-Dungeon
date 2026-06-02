@@ -192,7 +192,7 @@ public class DiceRoll
             }
         }
 
-        // Debug.Log("Rolled a total of " + bestTotal + " before modifier." + " Modifier is " + modifier + ". Final result is " + (bestTotal + modifier) + ".");
+        Debug.Log("Rolled a total of " + bestTotal + " before modifier." + " Modifier is " + modifier + ". Final result is " + (bestTotal + modifier) + ".");
 
 
         return (bestTotal + modifier, wasCriticalHit(bestPositiveRolls), wasCriticalFail(bestPositiveRolls));
@@ -261,5 +261,11 @@ public class DiceRoll
             parts.Add($"{(modifier > 0 ? "+" : "")}{modifier}");
 
         return string.Join(" ", parts);
+    }
+
+
+    public DiceRoll Clone()
+    {
+        return new DiceRoll(this);
     }
 }

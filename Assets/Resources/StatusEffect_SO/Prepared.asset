@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7670f45e0ed7396448f610041b22aad5, type: 3}
   m_Name: Prepared
   m_EditorClassIdentifier: 
-  sprite: {fileID: 481520295, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
+  sprite: {fileID: -3736113412149801822, guid: eae01b229939c6548a9bff4aef1015d7, type: 3}
   effectName: Prepared
   statusEffectID: se_preprared
   mainRoll:
@@ -25,6 +25,12 @@ MonoBehaviour:
   effectSound: {fileID: 8300000, guid: 06dd84eebb1bd1c4e911806e658cffab, type: 3}
   turnPhaseOfEffect: 1
   effectType: 0
-  effectFromSkill: {fileID: 11400000, guid: baa143d0cfce7fd4ea6c45e540ed1ce9, type: 2}
+  overideEffectType: 0
+  blocks: 
+  tags: 
   caster: {fileID: 0}
   target: {fileID: 0}
+  appliedBySkill: {fileID: 0}
+  statusEffectFrom: {fileID: 0}
+  iconDisplay: {fileID: 0}
+  isBeingRemoved: 0

@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7670f45e0ed7396448f610041b22aad5, type: 3}
-  m_Name: BodyShielded
+  m_Name: ShieldingWithBody
   m_EditorClassIdentifier: 
-  sprite: {fileID: 7595249218746941281, guid: f55c5b1af1bef044c84f11dd43ac5a82, type: 3}
-  effectName: Body Shielded
-  statusEffectID: se_bodyShielded
+  sprite: {fileID: 5789843688315609662, guid: 68b8625144ecc814b8bfe56461a997fa, type: 3}
+  effectName: Shielding With Body
+  statusEffectID: se_shielding_with_body
   mainRoll:
     dices: []
     modifier: 0
   isStackable: 0
-  description: Atacks are directed to someone else
-  duration: 2
-  currentDuration: 2
+  description: Blocking ATKs for something else
+  duration: 0
+  currentDuration: 0
   effectSound: {fileID: 0}
   turnPhaseOfEffect: 1
   effectType: 0
-  overideEffectType: 3
+  overideEffectType: 0
   blocks: 
-  tags: 00000000
+  tags: 
   caster: {fileID: 0}
   target: {fileID: 0}
   appliedBySkill: {fileID: 0}

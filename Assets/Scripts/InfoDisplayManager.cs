@@ -78,6 +78,10 @@ public class InfoDisplayManager : MonoBehaviour
             var temp = skl.AddItem(skill.skillName, () => Debug.Log("Skill Clicked!"));
 
             temp.GetComponent<TooltipManager>().description = skill.GetFullDescription();
+
+            temp.GetComponent<Button>().onClick.AddListener(() => {
+                EventManager.Instance?.InputSkill(skill);
+            });
         }
 
         var itm = ItemDisplay.GetComponentInChildren<MenuContainerManager>();
@@ -87,6 +91,10 @@ public class InfoDisplayManager : MonoBehaviour
             var temp = itm.AddItem(item.itemName, () => Debug.Log("Item Clicked!"));
 
             temp.GetComponent<TooltipManager>().description = item.GetFullDescription();
+
+            temp.GetComponent<Button>().onClick.AddListener(() => {
+                EventManager.Instance?.InputItem(item);
+            });
         }
 
 

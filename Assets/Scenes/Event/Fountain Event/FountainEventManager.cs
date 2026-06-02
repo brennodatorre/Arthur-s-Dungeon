@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FountainEventManager : MonoBehaviour
+public class FountainEventManager : EventManager
 {
 
     public int healAmountPercentage = 10;

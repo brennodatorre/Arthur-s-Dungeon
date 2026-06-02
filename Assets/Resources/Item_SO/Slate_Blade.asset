@@ -31,4 +31,5 @@ MonoBehaviour:
   targetType: 0
   isPAHTItem: 0
   soundEffect: {fileID: 8300000, guid: fa7b74481e024194b9fa75d30bfc720c, type: 3}
+  statusEffect: {fileID: 11400000, guid: 36752e47538c4d64b9f5b4fafcaa48b0, type: 2}
   properties: 

@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OldRockEventManager : MonoBehaviour
+public class OldRockEventManager : EventManager
 {
 
     public GameObject dialogue;

@@ -37,7 +37,7 @@ public class Entity : MonoBehaviour
     [SerializeField] private int maxHP;
     [SerializeField] private int mp;
     [SerializeField] private int maxMP;
-    [SerializeField] public int def;
+    [SerializeField] private int def;
 
 
 
@@ -285,7 +285,18 @@ public class Entity : MonoBehaviour
         StartCoroutine(MySceneManager.Instance.doPopUp(value.ToString(), this.transform.position, Color.green));
     }
 
-    
+    public void changeDEF(int value) {
+
+        //OVERRIDE CHECK
+        StatusEffect BlockerOverideEffectGainDEF = this.CheckForOverideInStatusEffects(OverideEffectType.GAIN_DEF);
+        if (BlockerOverideEffectGainDEF != null && value > 0)
+        {
+            BlockerOverideEffectGainDEF?.overideEffectAct?.Invoke(new object[] {  }); // Invoke the override action if it exists
+           return;
+        }
+
+        def += value;
+    }
 
     public void changeMP(int value)
     {
@@ -297,8 +308,8 @@ public class Entity : MonoBehaviour
         if (value > 0) StartCoroutine(MySceneManager.Instance.doPopUp(value.ToString(), this.transform.position, Color.blue));
     }
 
-    public void SetDef(int value) {
-        def += value;
+    public void SetDEF(int value) {
+        def = value;
     }
 
     public void AddSkill(Skill skill) {
@@ -396,18 +407,36 @@ public class Entity : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Checks if the entity has a specific status effect based of SE_ID. Returns true if it does, false if it doesn't. If the input is null, returns false.
+    /// </summary>
     public bool hasEffect(StatusEffect statusEffect) {
         if (statusEffect == null) { return false; }
 
         foreach (StatusEffect effect in activeStatusEffects)
         {
-            if (effect.effectName == statusEffect.effectName)
+            if (effect.statusEffectID == statusEffect.statusEffectID)
             {
                 return true; // Return true if the effect is found
             }
         }
         return false; // Return false if the effect is not found
     }
+
+    public void removeEffect(string SE_ID) {
+       
+        foreach (StatusEffect effect in activeStatusEffects.ToList())
+        {
+            if (effect.statusEffectID == SE_ID)
+            {
+                ActiveEffectManager.Instance.KillEffect(effect); // Call the KillEffect method to remove the effect
+                continue; // Exit the loop after removing the effect
+            }
+        }
+        
+
+    }
+
 
     public void resetActions()
     {
@@ -456,6 +485,9 @@ public class Entity : MonoBehaviour
     public int getMaxMP() {
         return maxMP;
     }
+    public int getDEF() {
+        return def;
+    }
     public void setHP(int x) {
         hp = x;
     }
@@ -493,7 +525,7 @@ public class Entity : MonoBehaviour
     }
 
 
-    private StatusEffect CheckForOverideInStatusEffects(OverideEffectType overideEffectType) {
+    public StatusEffect CheckForOverideInStatusEffects(OverideEffectType overideEffectType) {
         foreach (StatusEffect effect in activeStatusEffects)
         {
             if (effect.overideEffectType == overideEffectType)

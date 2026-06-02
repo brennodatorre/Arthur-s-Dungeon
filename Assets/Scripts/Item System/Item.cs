@@ -37,6 +37,7 @@ public class Item : ScriptableObject
     public ItemTarget targetType;
     public bool isPAHTItem;
     public AudioClip soundEffect;
+    public StatusEffect statusEffect;
 
 
     [Space(10)]
@@ -66,10 +67,15 @@ public class Item : ScriptableObject
             canUse = false;
             LogManager.Instance.AddLog( "No SUPPORT actions left to use " + itemName );
         }
-        if (actionType == ItemActionType.Main && caster.currentMainActions <= 0)
+        else if (actionType == ItemActionType.Main && caster.currentMainActions <= 0)
         {
             canUse = false;
             LogManager.Instance.AddLog( "No MAIN actions left to use " + itemName );
+        }
+        else if (statusEffect != null && !statusEffect.checkIfStackCanBeApplied(target))
+        {
+            canUse = false;
+            LogManager.Instance.AddLog( "Cannot apply " + statusEffect.effectName + " to " + target.name + " right now." );
         }
 
         return canUse;

@@ -106,11 +106,17 @@ public class Skill : ScriptableObject
             canUse = false;
             LogManager.Instance.AddLog( "No SUPPORT actions left to use " + skillName );
         }
-        if (actionType == SkillActionType.Main && caster.currentMainActions <= 0)
+        else if (actionType == SkillActionType.Main && caster.currentMainActions <= 0)
         {
             canUse = false;
             LogManager.Instance.AddLog( "No MAIN actions left to use " + skillName );
         }
+        else if (statusEffect != null && !statusEffect.checkIfStackCanBeApplied(target))
+        {
+            canUse = false;
+            LogManager.Instance.AddLog( "Cannot apply " + statusEffect.effectName + " to " + target.name + " right now." );
+        }
+
         
          
 

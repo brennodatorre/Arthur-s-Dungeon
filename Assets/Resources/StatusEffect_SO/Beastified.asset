@@ -30,6 +30,12 @@ MonoBehaviour:
   effectSound: {fileID: 8300000, guid: a57a2429b35061e4b9062a690259345f, type: 3}
   turnPhaseOfEffect: 1
   effectType: 0
-  effectFromSkill: {fileID: 0}
+  overideEffectType: 0
+  blocks: 
+  tags: 04000000
   caster: {fileID: 0}
   target: {fileID: 0}
+  appliedBySkill: {fileID: 0}
+  statusEffectFrom: {fileID: 0}
+  iconDisplay: {fileID: 0}
+  isBeingRemoved: 0

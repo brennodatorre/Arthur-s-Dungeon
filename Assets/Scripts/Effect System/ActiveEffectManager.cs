@@ -96,13 +96,14 @@ public class ActiveEffectManager : MonoBehaviour
 
 
 
-    public void AddEffect(StatusEffect staEfct, Entity caster, Entity target, Skill appliedBySkill , Action effect, Action endEffect,  Action callbacl = null, Action <object []> overideEffect = null)
+    public void AddEffect(StatusEffect staEfct, Entity caster, Entity target, Skill appliedBySkill , Action effect, Action endEffect,  Action callbacl = null, Action <object []> overideEffect = null, StatusEffect statusEffectFrom = null)
     {
         if (target.getHP() == 0) {return; } //don't add the effect if the target is dead
 
         staEfct.caster = caster;
         staEfct.target = target;
         staEfct.appliedBySkill = appliedBySkill;
+        staEfct.statusEffectFrom = statusEffectFrom;
         staEfct.effectAct = effect;
         staEfct.endEffectAct = endEffect;
         staEfct.callbackEffect = callbacl; //calls back to itself
@@ -121,6 +122,7 @@ public class ActiveEffectManager : MonoBehaviour
         {
             if (effect.currentDuration < 1)
             {
+                effect.isBeingRemoved = true;
                 effect.endEffectAct?.Invoke();
 
                 effect.iconDisplay.GetComponent<StatusEffectIcon>().MarkToDie();
@@ -145,18 +147,35 @@ public class ActiveEffectManager : MonoBehaviour
 
         foreach (StatusEffect effect in effectsCopy)
         {
-            effect.endEffectAct.Invoke();
-           effect.currentDuration = 0;
+            effect.isBeingRemoved = true;
+            effect.endEffectAct?.Invoke();
+            effect.currentDuration = 0;
+            effect.iconDisplay.GetComponent<StatusEffectIcon>().MarkToDie();
             
         }
 
         effectsToRemove.RemoveAll(effect => true);
-        
+        StatusHudManager.Instance.UpdateStatusEffectDisplay();
         
         
 
         
 
+    }
+
+    public void KillEffect(StatusEffect effect)
+    {
+        if (effect == null || effect.isBeingRemoved) return;
+
+        effect.isBeingRemoved = true;
+
+        effect.currentDuration = 0;
+        effect.endEffectAct?.Invoke();
+
+        if (effect.iconDisplay != null)
+        effect.iconDisplay.GetComponent<StatusEffectIcon>()?.MarkToDie();
+
+        activeEffects.Remove(effect);
     }
 
     
@@ -177,6 +196,8 @@ public class ActiveEffectManager : MonoBehaviour
         public StatusEffect PlattedSoulEffect;
         public StatusEffect SlateScarEffect;
         public StatusEffect BodyShieledEffect;
+        public StatusEffect ShieldingWithBodyEffect;
+        public StatusEffect DefGainBlocked;
     }
 
 
@@ -321,7 +342,7 @@ public class ActiveEffectManager : MonoBehaviour
         
         if (withSound) audioManager.PlaySound(statusEffectPrefabs.PlattedSoulEffect.effectSound);
 
-        target.def += 3; //add 3 to the defense amount
+        target.changeDEF(3); //add 3 to the defense amount
 
   
 
@@ -332,7 +353,7 @@ public class ActiveEffectManager : MonoBehaviour
         {
             target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
-            target.def += -3; //remove 1d4 from the attack amount
+            target.changeDEF(-3); //remove 1d4 from the attack amount
 
         }, () => addPlattedSoul(target, caster, appliedBySkill));
 
@@ -344,7 +365,7 @@ public class ActiveEffectManager : MonoBehaviour
     {
         if (withSound) audioManager.PlaySound(statusEffectPrefabs.SlateScarEffect.effectSound);
 
-        target.def +=  -1; 
+        target.changeDEF(-1); 
 
         StatusEffect inst = Instantiate(statusEffectPrefabs.SlateScarEffect);
         target.activeStatusEffects.Add(inst); //add the skill to the active effects list
@@ -353,7 +374,7 @@ public class ActiveEffectManager : MonoBehaviour
         {
             target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
-            target.def += 1; 
+            target.changeDEF(1); 
 
         }, () => addSlateScar(target, caster, appliedBySkill));
 
@@ -365,14 +386,20 @@ public class ActiveEffectManager : MonoBehaviour
 
         caster.GetComponent<Brain>().SetAltSpriteOfNeuronWithSkill(appliedBySkill) ;
 
+        
+
         StatusEffect inst = Instantiate(statusEffectPrefabs.BodyShieledEffect);
         target.activeStatusEffects.Add(inst); //add the skill to the active effects list
-        
+
+        StatusEffect shielderEffect = addShieldingWithBody( caster, target, inst, appliedBySkill, withSound);
 
         AddEffect(inst, caster, target, appliedBySkill, () => { }, () =>
         {
             target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
-            caster.GetComponent<Brain>().setOriginalSprite();
+            if (shielderEffect != null) {
+                KillEffect(shielderEffect);
+            }
+            if (caster != null) caster.GetComponent<Brain>().setOriginalSprite();
 
         }, 
         () => addBodyShielded(target, caster, appliedBySkill),
@@ -388,6 +415,72 @@ public class ActiveEffectManager : MonoBehaviour
         );
 
     }
+
+    public StatusEffect addShieldingWithBody(Entity target, Entity caster, StatusEffect statusEffectFrom, Skill appliedBySkill  = null, bool withSound = false)
+    {
+        if (withSound) audioManager.PlaySound(statusEffectPrefabs.ShieldingWithBodyEffect.effectSound);
+
+        StatusEffect inst = Instantiate(statusEffectPrefabs.ShieldingWithBodyEffect);
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list
+        inst.duration = statusEffectFrom.duration; //set the duration of the shielding effect to be the same as the body shield effect
+        inst.currentDuration = statusEffectFrom.currentDuration; //set the current duration of the shielding effect to be the same as the body shield effect
+
+        AddEffect(inst, caster, target, appliedBySkill,() => { }
+        ,() =>
+        {
+            target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
+
+            if (statusEffectFrom != null) {
+             
+                KillEffect(statusEffectFrom);
+            }
+
+
+        }, () => addShieldingWithBody(target, caster, statusEffectFrom, appliedBySkill));
+
+        return inst;
+
+    }
+
+    public void addWallSolvent(Entity target, Entity caster, Skill appliedBySkill  = null, bool withSound = false, Item appliedByItem = null)
+    {
+        if (withSound) audioManager.PlaySound(statusEffectPrefabs.DefGainBlocked.effectSound);
+
+        int removedDEF = target.getDEF(); //store the previous defense value of the target
+
+        target.changeDEF(-target.getDEF()); //set the defense to 0
+
+        StatusEffect inst = Instantiate(statusEffectPrefabs.DefGainBlocked);
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list
+
+        if (appliedByItem != null) {
+            inst.duration = (int)appliedByItem.extraInput; //set the duration of the effect to be the same as the skill's duration
+            inst.currentDuration = (int)appliedByItem.extraInput; //set the current duration of the effect to be the same as the skill's duration
+        }
+        else if (appliedBySkill != null) {
+            inst.duration = appliedBySkill.extraInput > 0 ? (int)appliedBySkill.extraInput : 3; //set the duration of the effect to be the same as the skill's duration, or 3 if the skill's duration is not set
+            inst.currentDuration = appliedBySkill.extraInput > 0 ? (int)appliedBySkill.extraInput : 3; //set the current duration of the effect to be the same as the skill's duration, or 3 if the skill's duration is not set
+        }
+
+
+        AddEffect(inst, caster, target, appliedBySkill,() => { }, () =>
+        {
+            target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
+
+            target.changeDEF(removedDEF); //restore the defense value of the target
+
+        }, () => addWallSolvent(target, caster, appliedBySkill, false, appliedByItem), 
+        (object [] args) => {
+            
+
+            logManager.AddLog(target.name + " can no longer increase its defenses.");
+
+        }
+        
+        );
+
+    }
+
 
 
 

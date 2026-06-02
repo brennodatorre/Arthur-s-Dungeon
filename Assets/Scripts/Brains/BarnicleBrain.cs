@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +26,9 @@ public class BarnicleBrain : Brain
                 if (skilllToUse.targetType == Skill.SkillTarget.Self) SkillManager.Instance.doSkill( caster, caster, skilllToUse);
                 else if (skilllToUse.targetType == Skill.SkillTarget.SingleAlly) {
 
-                    Entity targetAlly = RoundManager.Instance.enemies[UnityEngine.Random.Range(0, RoundManager.Instance.enemies.Length)].GetComponent<Entity>();
+                    List<Entity> allies = new List<Entity>(RoundManager.Instance.enemies.Where((Entity e) => e != caster));
+
+                    Entity targetAlly = allies[UnityEngine.Random.Range(0, allies.Count)];
 
                     SkillManager.Instance.doSkill( targetAlly, caster, skilllToUse);
                     
@@ -44,9 +47,12 @@ public class BarnicleBrain : Brain
 
     public override void getIntent()
     {
-        
+        Entity barnicle = GetComponent<Entity>();
 
-        if (RoundManager.Instance.enemies.Length > 1 && GetComponent<Entity>().getMP() > skillNeurons[0]._skill.mpCost )
+        if (RoundManager.Instance.enemies.Length > 1 //more than one enemy alive
+            && barnicle.getMP() > skillNeurons[0]._skill.mpCost  // has enough MP 
+            && !barnicle.hasEffect(ActiveEffectManager.Instance.statusEffectPrefabs.ShieldingWithBodyEffect) // is not already shielding
+        )
         {
             currentIntent = Intent.SKILL;
 
