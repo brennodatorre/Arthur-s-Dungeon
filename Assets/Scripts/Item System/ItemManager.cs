@@ -130,7 +130,7 @@ public class ItemManager : MonoBehaviour
         yield return new WaitForSeconds(0f);
         AudioManager.Instance.PlaySound(item.soundEffect); //play the healing sound
         target.heal(5);
-        logManager.AddLog(caster.name + " used bandage on " + target.name + " for " + 5 + " HP.");
+        logManager.AddLog(caster.entityName + " used bandage on " + target.entityName + " for " + 5 + " HP.");
         
 
     }
@@ -158,7 +158,7 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-        logManager.AddLog(caster.name + " used Pocket Shark on  for " + damage + " damage.");
+        logManager.AddLog(caster.entityName + " used Pocket Shark on  for " + damage + " damage.");
     }
     
     private IEnumerator useReagentSlug(Entity target, Entity caster, Item item)
@@ -178,7 +178,7 @@ public class ItemManager : MonoBehaviour
             callback.Invoke();
         }
         
-        logManager.AddLog(caster.name + " used Reagent Slug on " + target.name );
+        logManager.AddLog(caster.entityName + " used Reagent Slug on " + target.entityName );
         
 
     }
@@ -191,7 +191,7 @@ public class ItemManager : MonoBehaviour
         ActiveEffectManager.RemoveAllEffects(target.activeStatusEffects);
 
 
-        logManager.AddLog(target.name + " drunk Elk Milk" );
+        logManager.AddLog(target.entityName + " drunk Elk Milk" );
     }
 
     private IEnumerator useJuraFruit(Entity target, Entity caster, Item item)
@@ -202,7 +202,7 @@ public class ItemManager : MonoBehaviour
         target.heal( (int) Math.Ceiling((float)target.getMaxHP() / 100 * (int)item.extraInput));
         target.changeMP( (int) Math.Ceiling((float)target.getMaxMP() / 100 * (int)item.extraInput));
 
-        logManager.AddLog(target.name + " ate Jura's Fruit" );
+        logManager.AddLog(target.entityName + " ate Jura's Fruit" );
 
     }
 

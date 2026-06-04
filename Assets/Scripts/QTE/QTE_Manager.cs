@@ -33,6 +33,7 @@ public class QTE_Manager : MonoBehaviour
     [Space(10)]
     [Range(0f, 1f)] public float t;
     public float speed = 1f;
+    public float critComboSpeedIncrease = 0.20f;
 
     [Space(3)]
     public bool suceededQTE;
@@ -66,11 +67,16 @@ public class QTE_Manager : MonoBehaviour
 
 
     // Update is called once per frame
-    public IEnumerator doQTE()
+    public IEnumerator doQTE(int critCombo )
     {
         QTE.gameObject.SetActive(true);
         setQTE();
         qteIsRunning = true;
+
+        float originalSpeed = speed;
+
+
+        speed += critCombo * critComboSpeedIncrease; // increases the speed of the QTE based on the crit combo, making it more difficult to pull off higher combos, but rewarding player skill
 
 
         // deals with speed audio 
@@ -129,7 +135,7 @@ public class QTE_Manager : MonoBehaviour
             yield return null;
         }
 
-        
+        speed = originalSpeed; // resets speed for next qte
 
     }
 

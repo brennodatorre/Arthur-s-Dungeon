@@ -52,7 +52,7 @@ public class ClashManager : MonoBehaviour
     }
 
 
-    public IEnumerator doBasicATK(Entity attacker, Entity target)
+    public IEnumerator doBasicATK(Entity attacker, Entity target, int critCombo = 0)
     {
         if (roundManager.player.isDead) { yield break; } // sops all atks after player death 
 
@@ -73,7 +73,7 @@ public class ClashManager : MonoBehaviour
 
 
         // runs quick time event
-        yield return StartCoroutine(qteManager.doQTE());
+        yield return StartCoroutine(qteManager.doQTE(critCombo));
         bool qteSuceeded = qteManager.suceededQTE;
         
         // enemy moves back to original position after attack
@@ -125,7 +125,7 @@ public class ClashManager : MonoBehaviour
         {
             Debug.Log("Atacker crit and target crit failed");
             
-            roundManager.clashQueue.Enqueue("ATKCRIT vs TARGETFAIL ", () => doBasicATK(attacker, target));
+            roundManager.clashQueue.Enqueue("ATKCRIT vs TARGETFAIL ", () => doBasicATK(attacker, target, critCombo + 1));
 
             //doubles the damage dealt
             CritFailDoubleDamage = true;
@@ -134,7 +134,7 @@ public class ClashManager : MonoBehaviour
         {
             Debug.Log("Atacker crit ");
             
-            roundManager.clashQueue.Enqueue("ATKCRIT ", () => doBasicATK(attacker, target));
+            roundManager.clashQueue.Enqueue("ATKCRIT ", () => doBasicATK(attacker, target, critCombo + 1));
         }
         // commented out for now, as for ballancing reasons: a light hitter can critblock too easily
         // else if (targetCrit)
@@ -147,13 +147,13 @@ public class ClashManager : MonoBehaviour
         {
             Debug.Log("Attacker fail");
             
-            roundManager.clashQueue.Enqueue("TARGETCRIT ", () => doBasicATK(target, attacker));
+            roundManager.clashQueue.Enqueue("TARGETCRIT ", () => doBasicATK(target, attacker, critCombo + 1));
         }
         else if (targetFail)
         {
             Debug.Log("target fail ");
             
-            roundManager.clashQueue.Enqueue("ATKCRIT ", () => doBasicATK(attacker, target));
+            roundManager.clashQueue.Enqueue("ATKCRIT ", () => doBasicATK(attacker, target, critCombo + 1));
         }
 
 
@@ -189,7 +189,7 @@ public class ClashManager : MonoBehaviour
 
 
         roundManager.animationManager.doSlashAnimation(target);
-        logManager.AddLog(attacker.name + ": " + attackRoll + atkAdds + " VS " + target.name + ": " + targetRoll+ " | Damage Dealt: " + damageDealt );
+        logManager.AddLog(attacker.entityName + ": " + attackRoll + atkAdds + " VS " + target.entityName + ": " + targetRoll+ " | Damage Dealt: " + damageDealt );
 
 
         //camera shake when player takes damage

@@ -114,7 +114,7 @@ public class Skill : ScriptableObject
         else if (statusEffect != null && !statusEffect.checkIfStackCanBeApplied(target))
         {
             canUse = false;
-            LogManager.Instance.AddLog( "Cannot apply " + statusEffect.effectName + " to " + target.name + " right now." );
+            LogManager.Instance.AddLog( "Cannot apply " + statusEffect.effectName + " to " + target.entityName + " right now." );
         }
 
         

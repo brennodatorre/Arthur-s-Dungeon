@@ -10,7 +10,7 @@ public class CombatSetter : MonoBehaviour
 
 
     public GameObject RandomLevelObj;
-    public List<GameObject> allEnemyPrefabList = new List<GameObject>();
+    public EntityDatabase enemyDatabase ;
     [Space]
     public List<List<GameObject>> eLevelsLists = new List<List<GameObject>>(); //holds all the enemy list 
     public List<GameObject> enemyL1 = new List<GameObject>();
@@ -33,6 +33,12 @@ public class CombatSetter : MonoBehaviour
     public List<GameObject> randomRoaster = new List<GameObject>();
 
 
+    [Space(15)]
+    [Header("Testing -----------------------------------------------------------")]
+    public bool isTesting = false;
+    public List<GameObject> testRoaster = new List<GameObject>();
+
+
     void Awake()
     {
         eLevelsLists.Add(enemyL6);
@@ -51,6 +57,20 @@ public class CombatSetter : MonoBehaviour
 
     public void openLevel()
     {
+
+        if (isTesting )
+        {
+            if (testRoaster.Count == 0 || possibleSpawnSpots.Count < testRoaster.Count)
+            {
+                Debug.LogError("Test Roaster is empty or has too many enemies!");
+                return;
+            }
+
+            setTestingRoaster();
+
+
+            return;
+        }
 
         setRandomCombatRoaster();
         startRandomCombat();
@@ -149,7 +169,7 @@ public class CombatSetter : MonoBehaviour
     // sorts enemy levels from 1-7, else put them in level 999
     private void sortEnemyLists()
     {
-        foreach (GameObject enemy in allEnemyPrefabList)
+        foreach (GameObject enemy in enemyDatabase.entitiesPrefabs)
         {
             Entity e = enemy.GetComponent<Entity>();
             switch (e.fableWorth)
@@ -181,4 +201,24 @@ public class CombatSetter : MonoBehaviour
     }
 
 
+    private void setTestingRoaster()
+    {
+        
+
+        // Make a copy of spawn spots we can pull from
+        List<GameObject> availableSpots = new List<GameObject>(possibleSpawnSpots);
+
+        for (int f = 0; f < testRoaster.Count; f++)
+        {
+            GameObject enemy = Instantiate(testRoaster[f], RandomLevelObj.transform);
+
+            int rand = Random.Range(0, availableSpots.Count);
+            enemy.transform.position = availableSpots[rand].transform.position;
+
+            // Remove used spot so it's not reused
+            availableSpots.RemoveAt(rand);
+
+        }
+
+    }    
 }

@@ -196,7 +196,7 @@ public class SkillManager : MonoBehaviour
     {
         if (caster.getMP() < skill.mpCost)
         {
-            logManager.AddLog(caster.name + " deoes not have enough MP to cast Healing Tear.");
+            logManager.AddLog(caster.entityName + " deoes not have enough MP to cast Healing Tear.");
             return false; //return false if the caster does not have enough MP to cast the skill
         }
 
@@ -238,7 +238,7 @@ public class SkillManager : MonoBehaviour
         target.heal(heal); //heal the target 
 
 
-        logManager.AddLog(caster.name + " casted Healing Tear on " + target.name + " for " + heal + " HP.");
+        logManager.AddLog(caster.entityName + " casted Healing Tear on " + target.entityName + " for " + heal + " HP.");
 
     }
 
@@ -249,7 +249,7 @@ public class SkillManager : MonoBehaviour
 
 
         activeEffectManager.addRottingTouch(target, caster, skill, true); //add rotting touch to the target
-        logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
+        logManager.AddLog(caster.entityName + " casted " + skill.skillName + " on " + target.entityName);
 
 
     }
@@ -261,7 +261,7 @@ public class SkillManager : MonoBehaviour
 
 
         activeEffectManager.addElectrifiedWeapon(target, caster, skill,true); //add electrified weapon to the target
-        logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
+        logManager.AddLog(caster.entityName + " casted " + skill.skillName + " on " + target.entityName);
         
 
     }
@@ -284,7 +284,7 @@ public class SkillManager : MonoBehaviour
         
 
         activeEffectManager.addPlattedSoul(target, caster, skill,true); //add platted soul to the target
-        logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
+        logManager.AddLog(caster.entityName + " casted " + skill.skillName + " on " + target.entityName);
 
     }
 
@@ -308,13 +308,13 @@ public class SkillManager : MonoBehaviour
             lifesteal.AddDice(1, 4); //add 1d4 to
             int lifestealAmount = lifesteal.Roll(); //roll the lifesteal amount
             caster.heal(lifestealAmount); //heal the caster for the lifesteal amount
-            logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name + " and healed for " + lifestealAmount + " HP.");
+            logManager.AddLog(caster.entityName + " casted " + skill.skillName + " on " + target.entityName + " and healed for " + lifestealAmount + " HP.");
             target.takeTrueDamage(lifestealAmount); //deal true damage to the target for the lifesteal amount
 
         }
         else
         {
-            logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name + " but failed to devour.");
+            logManager.AddLog(caster.entityName + " casted " + skill.skillName + " on " + target.entityName + " but failed to devour.");
         }
 
 
@@ -327,7 +327,7 @@ public class SkillManager : MonoBehaviour
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
         ActiveEffectManager.Instance.addBestified(target, caster, skill,true); //add bestified to the target
-        logManager.AddLog(caster.name + " casted " + skill.skillName);
+        logManager.AddLog(caster.entityName + " casted " + skill.skillName);
 
     }
 
@@ -346,11 +346,11 @@ public class SkillManager : MonoBehaviour
 
         if (damageTaken <= 0)
         {
-            logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name + "but missed.");
+            logManager.AddLog(caster.entityName + " casted " + skill.skillName + " on " + target.entityName + "but missed.");
         }
         else
         {
-            logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name + " for " + damageTaken + " damage.");
+            logManager.AddLog(caster.entityName + " casted " + skill.skillName + " on " + target.entityName + " for " + damageTaken + " damage.");
 
 
 
@@ -373,7 +373,7 @@ public class SkillManager : MonoBehaviour
 
         target.takeTrueDamage (999999999); //add 3 to the defense amount
 
-        logManager.AddLog(caster.name + " casted " + skill.skillName + " on " + target.name);
+        logManager.AddLog(caster.entityName + " casted " + skill.skillName + " on " + target.entityName);
 
 
     }
@@ -392,7 +392,7 @@ public class SkillManager : MonoBehaviour
         caster.changeMP(recover); //heal the target for 10 HP
 
 
-        logManager.AddLog(caster.name + " rested and recovered" + recover + " MP.");
+        logManager.AddLog(caster.entityName + " rested and recovered" + recover + " MP.");
 
     }
 
@@ -410,7 +410,7 @@ public class SkillManager : MonoBehaviour
             ent.takeDamage(damage);
         }
 
-        logManager.AddLog(caster.name + " used Gambler's Gambit");
+        logManager.AddLog(caster.entityName + " used Gambler's Gambit");
 
 
     }
@@ -425,7 +425,7 @@ public class SkillManager : MonoBehaviour
 
         ActiveEffectManager.Instance.addBodyShielded(target, caster, skill,true); //add body as a shield to the target
 
-        logManager.AddLog(caster.name + " used Body as a Shield on " + target.name); ;
+        logManager.AddLog(caster.entityName + " used Body as a Shield on " + target.entityName); ;
 
     }
 

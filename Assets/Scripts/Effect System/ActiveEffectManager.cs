@@ -214,7 +214,7 @@ public class ActiveEffectManager : MonoBehaviour
 
                 target.takeTrueDamage(Bdamage); //deal true damage to the target
 
-                logManager.AddLog(target.name + " took " + Bdamage + " bleed damage. ");
+                logManager.AddLog(target.entityName + " took " + Bdamage + " bleed damage. ");
             },
             () =>
             {
@@ -273,7 +273,7 @@ public class ActiveEffectManager : MonoBehaviour
 
             target.takeTrueDamage(damage); //deal true damage to the target
 
-            logManager.AddLog(target.name + " takes " + damage + " damage from Beastial Adrenaline.");
+            logManager.AddLog(target.entityName + " takes " + damage + " damage from Beastial Adrenaline.");
 
 
 
@@ -317,7 +317,7 @@ public class ActiveEffectManager : MonoBehaviour
 
         caster.atkAdvantage++;
 
-        logManager.AddLog(caster.name + " is prepared");
+        logManager.AddLog(caster.entityName + " is prepared");
 
 
 
@@ -410,7 +410,7 @@ public class ActiveEffectManager : MonoBehaviour
             // redirects attack to the caster, and then calls the basic attack function of the attacker on the caster
             RoundManager.Instance.actionQueue.Enqueue("EnemyAttack", () => attacker.doBasicAtkCaller(caster, true));
             
-            logManager.AddLog(caster.name + " blocked the ATK with its Body as a Shield.");
+            logManager.AddLog(caster.entityName + " blocked the ATK with its Body as a Shield.");
         }
         );
 
@@ -473,7 +473,7 @@ public class ActiveEffectManager : MonoBehaviour
         (object [] args) => {
             
 
-            logManager.AddLog(target.name + " can no longer increase its defenses.");
+            logManager.AddLog(target.entityName + " can no longer increase its defenses.");
 
         }
         

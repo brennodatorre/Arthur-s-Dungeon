@@ -14,6 +14,7 @@ using static StatusEffect;
 [System.Serializable]
 public class Entity : MonoBehaviour
 {
+    public bool IsAClass = false;
     private RoundManager roundManager;
     private Image sprite;
     private LogManager logManager; 
@@ -32,7 +33,8 @@ public class Entity : MonoBehaviour
     [Header("Base Status")]
     [SerializeField] public EntityType entityType;
     public EntityOrigin entityOrigin;
-    [SerializeField] public new string name;
+    [SerializeField] public string entityName;
+    public string entityID;
     [SerializeField] private int hp;
     [SerializeField] private int maxHP;
     [SerializeField] private int mp;
@@ -117,6 +119,7 @@ public class Entity : MonoBehaviour
 
     void Start()
     {
+        if (IsAClass) return; // if this entity is just a class template, dont run the start method since it doesnt have a sprite or needs to be registered in the round manager
 
         roundManager = GameObject.Find("CombatManager").GetComponent<RoundManager>();
         sprite = GetComponent<Image>();
@@ -324,7 +327,7 @@ public class Entity : MonoBehaviour
 
         isDead = true;
         //spriteRenderer.color = Color.black; //change the color of the sprite to gray
-        Debug.Log(name + " has died.");
+        Debug.Log(entityName + " has died.");
 
         // If player Dies
         if (this.entityType == EntityType.Player)
@@ -506,7 +509,7 @@ public class Entity : MonoBehaviour
     public string getStatusAsString(){
         string stts = "";
 
-        stts += "Name: " + name + "\n \n";
+        stts += "Name: " + entityName + "\n \n";
         stts +="HP: "+ hp + "/" +maxHP + "\n";
         stts +="MP " +mp + "/" +maxMP + "\n\n";
         stts +="DEF: "+ def +"\n";
@@ -535,5 +538,67 @@ public class Entity : MonoBehaviour
         }
         return null;
     }
+
+
+    public void CopyFrom(Entity source)
+{
+    // Base Status
+    entityType = source.entityType;
+    entityOrigin = source.entityOrigin;
+    entityName = source.entityName;
+    entityID = source.entityID;
+
+    hp = source.hp;
+    maxHP = source.maxHP;
+    mp = source.mp;
+    maxMP = source.maxMP;
+    def = source.def;
+
+    // Traits
+    DEX = source.DEX;
+    ATLETISM = source.ATLETISM;
+    AURA = source.AURA;
+    CHARISM = source.CHARISM;
+    LUCK = source.LUCK;
+    INTUITION = source.INTUITION;
+    HEX = source.HEX;
+    INT = source.INT;
+    WILL = source.WILL;
+    REFLEX = source.REFLEX;
+    PERSEPTION = source.PERSEPTION;
+    FURTIVITY = source.FURTIVITY;
+    CONSTITUTION = source.CONSTITUTION;
+    DOMINANCE = source.DOMINANCE;
+
+    // Attack
+    baseATK = new DiceRoll(source.baseATK);
+    currentATK = new DiceRoll(source.currentATK);
+    atkAdvantage = source.atkAdvantage;
+
+    // States
+    isDead = source.isDead;
+    totalMainActions = source.totalMainActions;
+    totalSupActions = source.totalSupActions;
+    currentMainActions = source.currentMainActions;
+    currentSupActions = source.currentSupActions;
+
+    // Skills
+    skills = source.skills
+    .Select(skill => Instantiate(skill))
+    .ToList();
+
+    // Status Effects
+    activeStatusEffects = source.activeStatusEffects
+    .Select(effect => Instantiate(effect))
+    .ToList();
+
+    // Items
+    items = source.items
+    .Select(item => Instantiate(item))
+    .ToList();
+
+    // Fable
+    fableWorth = source.fableWorth;
+}
 
 }

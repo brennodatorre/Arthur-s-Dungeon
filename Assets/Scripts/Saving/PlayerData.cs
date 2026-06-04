@@ -1,8 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using static Entity;
-using Unity.VisualScripting.Antlr3.Runtime;
 using System.IO;
 
 public class PlayerData : MonoBehaviour
@@ -63,7 +60,7 @@ public class PlayerData : MonoBehaviour
         ActiveEffectManager.RemoveAllEffects(player.activeStatusEffects);
 
         // Copy over the data
-        GameData.playerName = player.name;
+        GameData.playerName = player.entityName;
         GameData.hp = player.getHP();
         GameData.maxHP = player.getMaxHP();
         GameData.mp = player.getMP();

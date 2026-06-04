@@ -10,6 +10,8 @@ public class DatabaseManager : MonoBehaviour
     public SkillDatabase allSkillsDatabase;
     public StatusEffectDatabase allStatusEffectsDatabase;
 
+    
+
     void Awake()
     {
         if (Instance == null)

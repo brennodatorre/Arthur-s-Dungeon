@@ -18,6 +18,10 @@ public class DiceRoll
         this.modifier = modifier;
     }
 
+
+    /// <summary>
+    /// Creates a new DiceRoll that is a true copy of the given DiceRoll
+    /// </summary>
     public DiceRoll(DiceRoll dc)
     {
         this.dices = new List<Dice>();

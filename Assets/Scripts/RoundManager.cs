@@ -188,7 +188,7 @@ public class RoundManager : MonoBehaviour
 
         combatSetter.openLevel(); // sets the enemies level
 
-        entities = FindObjectsOfType<Entity>(true).ToList(); //finds all entities in the scene and converts to a list
+        entities = FindObjectsOfType<Entity>(true).Where(e => !e.IsAClass).ToList(); //finds all entities in the scene and converts to a list
 
         foreach (Entity entity in entities.ToArray()) //loops through each entity
         {

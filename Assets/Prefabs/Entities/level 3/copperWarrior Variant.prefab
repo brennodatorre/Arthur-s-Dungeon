@@ -204,6 +204,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: entityID
+      value: e_copperWarrior
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: entityName
+      value: copperWarrior
+      objectReference: {fileID: 0}
     - target: {fileID: 8856775654575719279, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
       propertyPath: m_Sprite
       value: 

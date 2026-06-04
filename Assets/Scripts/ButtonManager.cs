@@ -74,6 +74,16 @@ public class ButtonManager : MonoBehaviour
     private Coroutine ActTooltipCoroutine = null;
     public float ActMenuTClock;
 
+
+
+
+    [HideInInspector] public bool canTriggerAtk;
+    [HideInInspector] public bool canTriggerSkill;
+    [HideInInspector] public bool canTriggerItem;
+    [HideInInspector] public bool canTriggerRun;
+
+    
+
     void Awake()
     {
         if (Instance == null)
@@ -104,78 +114,17 @@ public class ButtonManager : MonoBehaviour
     private void Update()
     {
          
+        if (MySceneManager.Instance.isInTransition) {return;}
+        if (MySceneManager.Instance.currentSceneType != MySceneManager.SceneType.COMBAT) { return; }
 
-        if (MySceneManager.Instance.currentSceneType == MySceneManager.SceneType.TUTORIAL) { return; }
-        if (sceneManager.currentSceneType == MySceneManager.SceneType.MAINMENU) { return; }
-        
-        if (roundManager == null) { roundManager = RoundManager.Instance; }
-        if (roundManager == null ) { return; }
-        
-        
-        bool canTriggerAtk = (currentMenu == OnMenu.Action || inAtkOverlay) && !inSkillOverlay && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
-        bool canTriggerSkill = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Skill || inSkillOverlay) && !inAtkOverlay  && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
-        bool canTriggerItem = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Item || inItemOverlay ) && !inAtkOverlay && !inSkillOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
-        bool canTriggerRun = currentMenu == OnMenu.Action && !roundManager.playerIsTargeting && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
+        canTriggerAtk = (currentMenu == OnMenu.Action || inAtkOverlay) && !inSkillOverlay && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
+        canTriggerSkill = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Skill || inSkillOverlay) && !inAtkOverlay  && !inItemOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
+        canTriggerItem = (currentMenu == OnMenu.Action || currentMenu == OnMenu.Item || inItemOverlay ) && !inAtkOverlay && !inSkillOverlay && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
+        canTriggerRun = currentMenu == OnMenu.Action && !roundManager.playerIsTargeting && roundManager.currentPhase != RoundManager.TurnPhase.Clash;
 
         
         //shows in the act menu which key (Q/W/E) to press if no input is done 
         if (currentMenu == OnMenu.Action && roundManager.playerCanAct  && ActTooltipCoroutine == null) ActTooltipCoroutine = StartCoroutine(ActmenuInputTooltipClock());
-
-
-        //Dels with shortcut inputting
-        if (roundManager != null && roundManager.playerCanAct)
-        {
-            //right mouse to cancel selection
-            if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                //skill selection
-                if (inSkillOverlay)
-                {
-
-                    inSkillOverlay = false;
-                    unblockSkillButtons(skillButtons, lastButtonPressed.gameObject);
-                    toggleBtns(true, skillButtons); //unlock the skill buttons
-                    roundManager.toggleEntityTargetingUI(false); //disable the skill targetting UI
-                    roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
-                }
-                //item selection
-                else if (inItemOverlay)
-                {
-                    inItemOverlay = false;
-                    unblockItemButtons(itemButtons, lastButtonPressed.gameObject);
-                    toggleBtns(true, itemButtons); //unlock the skill buttons
-                    roundManager.toggleEntityTargetingUI(false); //disable the skill targetting UI
-                    roundManager.currentPhase = RoundManager.TurnPhase.Action; //set the current phase to action
-                }
-            }
-
-
-
-
-            if (Input.GetKeyDown(KeyCode.Q) && canTriggerAtk)
-            {
-                atkMenuButton(atk_button);
-            }
-            else if (Input.GetKeyDown(KeyCode.W) && canTriggerSkill)
-            {
-                //if not on skill menu, open it, else close it
-                if (currentMenu != OnMenu.Skill) { skillMenuButton(); }
-                else { closeSkillMenu(true); }
-            }
-            else if (Input.GetKeyDown(KeyCode.E) && canTriggerItem)
-            {
-                //if not on item menu, open it, else close it
-                if (currentMenu != OnMenu.Item) { itemMenuButton(); }
-                else { closeItemMenu(true); }
-            }
-            else if (Input.GetKeyDown(KeyCode.R) && canTriggerRun)
-            {
-                runMenuButton();
-            }
-        }
-
-
-
 
 
 

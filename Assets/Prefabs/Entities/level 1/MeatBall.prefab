@@ -241,6 +241,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 222108408469251601}
     - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: entityID
+      value: e_meatBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: entityName
+      value: MeatBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
       propertyPath: baseATK.dices.Array.data[0].sides
       value: 6
       objectReference: {fileID: 0}
