@@ -314,6 +314,7 @@ public class ActiveEffectManager : MonoBehaviour
 
         if (withSound) audioManager.PlaySound(statusEffectPrefabs.PreparedEffect.effectSound); //play skill sound
 
+        caster.GetComponent<Brain>()?.SetAltSpriteOfNeuronWithSkill(appliedBySkill) ;
 
         caster.atkAdvantage++;
 
@@ -331,6 +332,8 @@ public class ActiveEffectManager : MonoBehaviour
 
             caster.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
+            if (caster != null) caster.GetComponent<Brain>()?.setOriginalSprite();
+
             caster.atkAdvantage--;
 
 
@@ -341,6 +344,8 @@ public class ActiveEffectManager : MonoBehaviour
     {
         
         if (withSound) audioManager.PlaySound(statusEffectPrefabs.PlattedSoulEffect.effectSound);
+
+        
 
         target.changeDEF(3); //add 3 to the defense amount
 
@@ -384,7 +389,7 @@ public class ActiveEffectManager : MonoBehaviour
     {
         if (withSound) audioManager.PlaySound(statusEffectPrefabs.BodyShieledEffect.effectSound);
 
-        caster.GetComponent<Brain>().SetAltSpriteOfNeuronWithSkill(appliedBySkill) ;
+        caster.GetComponent<Brain>()?.SetAltSpriteOfNeuronWithSkill(appliedBySkill) ;
 
         
 
@@ -399,7 +404,7 @@ public class ActiveEffectManager : MonoBehaviour
             if (shielderEffect != null) {
                 KillEffect(shielderEffect);
             }
-            if (caster != null) caster.GetComponent<Brain>().setOriginalSprite();
+            if (caster != null) caster.GetComponent<Brain>()?.setOriginalSprite();
 
         }, 
         () => addBodyShielded(target, caster, appliedBySkill),

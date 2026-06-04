@@ -13,6 +13,7 @@ TagManager:
   - ItemOnShop
   - TooltipPanel
   - PostProcess
+  - CrackingOverlay
   layers:
   - Default
   - TransparentFX

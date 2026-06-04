@@ -233,6 +233,7 @@ public class SkillManager : MonoBehaviour
         yield return new WaitForSeconds(0f); //wait for 0 seconds
 
         audioManager.PlaySound(skill.soundEffect); //play the healing sound
+        target.GetComponent<VisualEffectManager>().PlayParticleEffect(target.GetComponent<VisualEffectManager>().healingParticleSystem); //play the healing particle effect on the target
 
         var heal = skill.mainDice.Roll(); 
         target.heal(heal); //heal the target 

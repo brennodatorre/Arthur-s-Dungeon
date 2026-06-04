@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1359419372813269921, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: skillNeurons.Array.data[0]._skill
+      value: 
+      objectReference: {fileID: 11400000, guid: baa143d0cfce7fd4ea6c45e540ed1ce9, type: 2}
+    - target: {fileID: 1359419372813269921, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: skillNeurons.Array.data[0].altSprite
+      value: 
+      objectReference: {fileID: 2787083593670527658, guid: 65bf1d7665d9337428488867bd2de26d, type: 3}
     - target: {fileID: 1432741755785725440, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
       propertyPath: m_Name
       value: copperWarrior Variant
@@ -205,6 +213,38 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: hp
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: mp
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: DEX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: def
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: brain
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: maxHP
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: REFLEX
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: ATLETISM
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
       propertyPath: entityID
       value: e_copperWarrior
       objectReference: {fileID: 0}
@@ -212,12 +252,71 @@ PrefabInstance:
       propertyPath: entityName
       value: copperWarrior
       objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: fableWorth
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: entityOrigin
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: baseATK.modifier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: skills.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: skills.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: baa143d0cfce7fd4ea6c45e540ed1ce9, type: 2}
+    - target: {fileID: 7983877129577770263, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: baseATK.dices.Array.data[0].sides
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472161286478209361, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8856775654575719279, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 2687237383992667439, guid: 65bf1d7665d9337428488867bd2de26d, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1359419372813269921, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1432741755785725440, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 110174391280683060}
   m_SourcePrefab: {fileID: 100100000, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+--- !u!1 &735528516992466784 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1432741755785725440, guid: 7d8f1fd4d3c929641bab36d431c2dc17, type: 3}
+  m_PrefabInstance: {fileID: 1861957259676563808}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &110174391280683060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735528516992466784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2649f0be21be4249a183a7f00d3a890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionQueue: {fileID: 0}
+  basicAtkChance: 91
+  skillNeurons:
+  - _skill: {fileID: 11400000, guid: baa143d0cfce7fd4ea6c45e540ed1ce9, type: 2}
+    weight: 100
+    altSprite: {fileID: 2787083593670527658, guid: 65bf1d7665d9337428488867bd2de26d, type: 3}
+  currentIntent: 2
+  intentMessage: 
+  skilllToUse: {fileID: 0}
+  originalSprite: {fileID: 0}

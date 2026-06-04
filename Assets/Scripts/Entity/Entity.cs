@@ -20,7 +20,7 @@ public class Entity : MonoBehaviour
     private LogManager logManager; 
     private AudioManager audioManager;
     public Brain brain;
-    public Image crackingSpriteOverlay;
+    
 
     public enum EntityType { Player, Enemy, NPC };
     public enum EntityOrigin {ROSES, HEX, LANDREAS, ARTHUR, SYSTEM, UNKNOWN, SURVIVOR, FLAME }
@@ -105,6 +105,8 @@ public class Entity : MonoBehaviour
     
 
 
+    [HideInInspector] public Image crackingSpriteOverlay;
+
     public Entity() { }
     public Entity(int hp, int mp, int def, DiceRoll baseATK)
     {
@@ -127,16 +129,14 @@ public class Entity : MonoBehaviour
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
 
 
+
+
         sprite.material = MaterialPallet.Instance.getColoredMaterial(
             MaterialPallet.Instance.getEntityOriginColor(this), 
             MaterialPallet.Instance.dissolveMaterial
         );
-        crackingSpriteOverlay.material = MaterialPallet.Instance.getColoredMaterial(
-            MaterialPallet.Instance.getEntityOriginColor(this), 
-            MaterialPallet.Instance.crackOverlayMaterial
-        );
-        crackingSpriteOverlay.material.SetFloat("_Health", 1 -((float)hp / (float)maxHP) );
-        crackingSpriteOverlay.material.SetVector("_Random", new Vector2(Random.value, Random.value)); //randomize the crack overlay offset
+
+
 
 
         if (baseATK.dices.Count == 0) { baseATK.AddDice(0, 0); }

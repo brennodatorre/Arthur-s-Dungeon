@@ -75,15 +75,16 @@ public class AfterImage_effect_Mod_Addon : MonoBehaviour
         GameObject ghost = Instantiate(gameObject, transform.position, transform.rotation, transform.parent);
         ghost.transform.SetSiblingIndex(transform.GetSiblingIndex() - 1); // set the ghost behind the original object in the hierarchy
 
-        List<Component> components = new List<Component>(ghost.GetComponentsInChildren<Component>());
+        List<Component> components = new List<Component>(ghost.GetComponents<Component>());
 
         // removes all components except for SpriteRenderer and Image to create a ghost copy of the original
         foreach (Component component in components)
         {
-            if (component is SpriteRenderer || component is Image || component is CanvasRenderer || component is RectTransform) {}
+            if (component is SpriteRenderer || component is Image || component is CanvasRenderer || component is RectTransform){}   
             else { Destroy(component); }
 
         }
+        foreach (Transform child in ghost.transform) { Destroy(child.gameObject); } // remove all children of the ghost to avoid unwanted visuals
 
         
         ghost.SetActive(false); 
