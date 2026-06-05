@@ -11,6 +11,8 @@ using Random = UnityEngine.Random;
 using Image = UnityEngine.UI.Image;
 using static StatusEffect;
 
+using static Properties;
+
 [System.Serializable]
 public class Entity : MonoBehaviour
 {
@@ -23,7 +25,7 @@ public class Entity : MonoBehaviour
     
 
     public enum EntityType { Player, Enemy, NPC };
-    public enum EntityOrigin {ROSES, HEX, LANDREAS, ARTHUR, SYSTEM, UNKNOWN, SURVIVOR, FLAME }
+    
 
 
     public GameObject statEffectDisplay;
@@ -32,7 +34,7 @@ public class Entity : MonoBehaviour
     [Space(5)]
     [Header("Base Status")]
     [SerializeField] public EntityType entityType;
-    public EntityOrigin entityOrigin;
+    public Origin entityOrigin;
     [SerializeField] public string entityName;
     public string entityID;
     [SerializeField] private int hp;
@@ -132,7 +134,7 @@ public class Entity : MonoBehaviour
 
 
         sprite.material = MaterialPallet.Instance.getColoredMaterial(
-            MaterialPallet.Instance.getEntityOriginColor(this), 
+            MaterialPallet.Instance.getOriginColor(entityOrigin), 
             MaterialPallet.Instance.dissolveMaterial
         );
 
@@ -394,7 +396,7 @@ public class Entity : MonoBehaviour
 
             //cahnge into dissolve mateiral
             sprite.material = MaterialPallet.Instance.getColoredMaterial(
-            MaterialPallet.Instance.getEntityOriginColor(this), 
+            MaterialPallet.Instance.getOriginColor(entityOrigin), 
             MaterialPallet.Instance.dissolveMaterial
             );
 

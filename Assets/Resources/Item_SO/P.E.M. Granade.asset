@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f81bbf051d566c54c9b4be052f58fabb, type: 3}
-  m_Name: Bait_Eye
+  m_Name: P.E.M. Granade
   m_EditorClassIdentifier: 
-  itemName: Bait Eye
-  itemID: i_baitEye
-  description: Looks like a good bait
+  itemName: P.E.M. Granade
+  itemID: i_pem_granade
+  description: 'Stuns all HEX creatures '
   fullDescription: 
-  hasBeenUsed: 0
-  isUsableInBattle: 0
+  hasBeenUsed: 1
+  isUsableInBattle: 1
   mainDiceRoll:
     dices: []
     modifier: 0
   extraInput: 0
-  sprite: {fileID: 9185247791366558414, guid: 1dd87c02bf269a04c91f3d2145d36814, type: 3}
-  value: 5
-  itemOrigin: 0
-  actionType: 0
-  targetType: 0
+  sprite: {fileID: -6459629148100544918, guid: afb9e43d012d8954c8c738d97e9126b4, type: 3}
+  value: 10
+  itemOrigin: 1
+  actionType: 2
+  targetType: 1
   isPAHTItem: 0
-  soundEffect: {fileID: 0}
-  statusEffect: {fileID: 0}
+  soundEffect: {fileID: 8300000, guid: 0cd44fcf860b0734f99b3e3b57520df0, type: 3}
+  statusEffect: {fileID: 11400000, guid: d13aed097c5d33b469194e7dc4188a18, type: 2}
   properties: 

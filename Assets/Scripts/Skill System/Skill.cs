@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using static Properties;
+
 [CreateAssetMenu(fileName = "NewSkill", menuName = "RPG/Skill")]
 public class Skill : ScriptableObject
 {
-    public enum SkillOrigin { ROSES, HEX, LANDREAS, ARTHUR, SYSTEM, UNKNOWN, SURVIVOR, FLAME };
-    public enum SkillTarget { SingleEnemy, Multi, Self, SingleAlly };
-    public enum SkillActionType { Main, Sup, Bonus };
+
 
 
     public string skillName;
@@ -29,9 +29,9 @@ public class Skill : ScriptableObject
     
 
     [Space(10)]
-    public SkillOrigin origin;
-    public SkillTarget targetType;
-    public SkillActionType actionType = SkillActionType.Sup;
+    public Origin origin;
+    public Target targetType;
+    public ActionType actionType = ActionType.Sup;
     public bool isOffensiveSkill = false;
     [Tooltip ("if the skill needs to be pressed and held totally in order to activate")]
     public bool isPAHTSkill = false; //press and hold target
@@ -51,7 +51,7 @@ public class Skill : ScriptableObject
     
 
 
-    public Skill(string skillName, int mpCost, int cooldown, string description, AudioClip soundEffect, SkillOrigin origin, SkillTarget targetType)
+    public Skill(string skillName, int mpCost, int cooldown, string description, AudioClip soundEffect, Origin origin, Target targetType)
     {
         this.skillName = skillName;
         this.mpCost = mpCost;
@@ -101,12 +101,12 @@ public class Skill : ScriptableObject
             canUse = false;
             LogManager.Instance.AddLog( "Not enough MP to use " + skillName );
         } 
-        else if (actionType == SkillActionType.Sup && caster.currentSupActions <= 0)
+        else if (actionType == ActionType.Sup && caster.currentSupActions <= 0)
         {
             canUse = false;
             LogManager.Instance.AddLog( "No SUPPORT actions left to use " + skillName );
         }
-        else if (actionType == SkillActionType.Main && caster.currentMainActions <= 0)
+        else if (actionType == ActionType.Main && caster.currentMainActions <= 0)
         {
             canUse = false;
             LogManager.Instance.AddLog( "No MAIN actions left to use " + skillName );

@@ -7,6 +7,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+using static Properties;
+
 public class OldRockEventManager : EventManager
 {
 
@@ -80,7 +82,7 @@ public class OldRockEventManager : EventManager
                 StartCoroutine(ProposeOriginalDeal());
 
 
-                List<Item> rockyItems = PlayerData.Instance.hasItemsWithProperty(Item.ItemProperty.ROCKY);
+                List<Item> rockyItems = PlayerData.Instance.hasItemsWithProperty(Property.ROCKY);
                 if (rockyItems.Count > 0)   {StartCoroutine(ContainerPrompt(rockyItems)); }
 
                 yield return new WaitUntil(() => typeWriter.hasFinishedTyping);
@@ -98,7 +100,7 @@ public class OldRockEventManager : EventManager
         {
             typeWriter.TypeNext("Oh, it's you again...");
             
-            List<Item> rockyItems = PlayerData.Instance.hasItemsWithProperty(Item.ItemProperty.ROCKY);
+            List<Item> rockyItems = PlayerData.Instance.hasItemsWithProperty(Property.ROCKY);
             if (rockyItems.Count == 0)
             {
                 typeWriter.TypeNext("You don't have any rocks for me... Leave!");

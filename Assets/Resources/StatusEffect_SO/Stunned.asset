@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7670f45e0ed7396448f610041b22aad5, type: 3}
+  m_Name: Stunned
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 481520295, guid: 55c528fefb7823247a7d38c70563d1b9, type: 3}
+  effectName: Stunned
+  statusEffectID: 
+  mainRoll:
+    dices: []
+    modifier: 0
+  isStackable: 1
+  description: Canot Act
+  duration: 1
+  currentDuration: 1
+  effectSound: {fileID: 0}
+  turnPhaseOfEffect: 1
+  effectType: 1
+  overideEffectType: 0
+  blocks: 
+  tags: 05000000
+  caster: {fileID: 0}
+  target: {fileID: 0}
+  appliedBySkill: {fileID: 0}
+  statusEffectFrom: {fileID: 0}
+  iconDisplay: {fileID: 0}
+  isBeingRemoved: 0

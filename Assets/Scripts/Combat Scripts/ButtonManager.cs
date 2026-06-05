@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static Properties;
 
 
 
@@ -219,12 +220,12 @@ public class ButtonManager : MonoBehaviour
 
             //Sets the ball displayers based on the skill action type 
             // // as long as hierarchy does not change: Main (3), Sup (2), Bonus (1)
-            if (skill.actionType == Skill.SkillActionType.Sup)
+            if (skill.actionType == ActionType.Sup)
             {
                 buttonObj.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
                 buttonObj.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
             }
-            else if (skill.actionType == Skill.SkillActionType.Main)
+            else if (skill.actionType == ActionType.Main)
             {
                 buttonObj.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
                 buttonObj.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
@@ -510,7 +511,7 @@ public class ButtonManager : MonoBehaviour
         // moves the selected button back to original position
         pressedBtn.transform.position -= new Vector3(0, 5, 0);
         // removes glow outline from item selected
-        pressedBtn.GetComponentInChildren<Image>().material = roundManager.matPallet.getColoredMaterial(roundManager.matPallet.getItemOriginColor(roundManager.itemSelected), roundManager.matPallet.dissolveMaterial);
+        pressedBtn.GetComponentInChildren<Image>().material = roundManager.matPallet.getColoredMaterial(roundManager.matPallet.getOriginColor(roundManager.itemSelected.itemOrigin), roundManager.matPallet.dissolveMaterial);
     }
 
     public void closeAllMenus()

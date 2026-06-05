@@ -3393,6 +3393,7 @@ MonoBehaviour:
     ShieldingWithBodyEffect: {fileID: 11400000, guid: 8bd48354de33ad848ad18d32079ddac4, type: 2}
     DefGainBlockedEffect: {fileID: 11400000, guid: 0da47975c320e504bbf45c2ea5cca406, type: 2}
     BitRateEffect: {fileID: 11400000, guid: 52a1a17c1baec3742bee6c2948df0a4b, type: 2}
+    StunnedEffect: {fileID: 11400000, guid: d13aed097c5d33b469194e7dc4188a18, type: 2}
   activeEffects: []
 --- !u!1 &835907752
 GameObject:
@@ -9833,7 +9834,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: DEFAULT.items.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: DEFAULT.totalMainActions
@@ -9871,6 +9872,10 @@ PrefabInstance:
       propertyPath: DEFAULT.items.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: f5d4887c2223f51449a381b90a0b1067, type: 2}
+    - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
+      propertyPath: DEFAULT.items.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: dc29543380a2ebf49ad68237be171a46, type: 2}
     - target: {fileID: 133055780791406368, guid: bd99d68cd319ad146ae99c3f110d3b23, type: 3}
       propertyPath: NewGameData.totalSupActions
       value: 1

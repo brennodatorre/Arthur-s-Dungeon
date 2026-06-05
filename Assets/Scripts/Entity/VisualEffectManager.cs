@@ -28,7 +28,7 @@ public class VisualEffectManager : MonoBehaviour
         crackingSpriteOverlay = crackingOverlay.GetComponentInChildren<Image>(true); //find the crack overlay image in the children of the entity
 
         crackingSpriteOverlay.material = MaterialPallet.Instance.getColoredMaterial(
-            MaterialPallet.Instance.getEntityOriginColor(entity), 
+            MaterialPallet.Instance.getOriginColor(entity.entityOrigin), 
             MaterialPallet.Instance.crackOverlayMaterial
         );
         crackingSpriteOverlay.material.SetFloat("_Health", 1 -((float)entity.getHP() / (float)entity.getMaxHP()) );

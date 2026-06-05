@@ -3,19 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using static Properties;
 
 
 [CreateAssetMenu(fileName = "NewItem", menuName = "RPG/Item")]
-public class Item : ScriptableObject
+public class Item : ScriptableObject 
 {
 
-    public enum ItemActionType { Main, Sup, Bonus };
-    public enum ItemTarget { Single, Multi, Self };
-
-    public enum ItemProperty
-    {
-        ROCKY = 0
-    }
+    
     
 
     public string itemName;
@@ -32,21 +27,21 @@ public class Item : ScriptableObject
 
     public Sprite sprite;
     public int value;
-    public Entity.EntityOrigin itemOrigin;
-    public ItemActionType actionType;
-    public ItemTarget targetType;
+    public Origin itemOrigin;
+    public ActionType actionType;
+    public Target targetType;
     public bool isPAHTItem;
     public AudioClip soundEffect;
     public StatusEffect statusEffect;
 
 
     [Space(10)]
-    [SerializeField]List<ItemProperty> properties = new List<ItemProperty>();
+    [SerializeField]List<Property> properties = new List<Property>();
 
 
 
     public Item() { }
-    public Item(string _itemName, ItemActionType _itemActionType)
+    public Item(string _itemName, ActionType _itemActionType)
     {
         itemName = _itemName;
         actionType = _itemActionType;
@@ -62,12 +57,12 @@ public class Item : ScriptableObject
         bool canUse = true;
 
        
-        if (actionType == ItemActionType.Sup && caster.currentSupActions <= 0)
+        if (actionType == ActionType.Sup && caster.currentSupActions <= 0)
         {
             canUse = false;
             LogManager.Instance.AddLog( "No SUPPORT actions left to use " + itemName );
         }
-        else if (actionType == ItemActionType.Main && caster.currentMainActions <= 0)
+        else if (actionType == ActionType.Main && caster.currentMainActions <= 0)
         {
             canUse = false;
             LogManager.Instance.AddLog( "No MAIN actions left to use " + itemName );
@@ -84,7 +79,7 @@ public class Item : ScriptableObject
     }
 
 
-    public bool HasProperty(ItemProperty property)
+    public bool HasProperty(Property property)
     {
         return properties.Contains(property);
     }

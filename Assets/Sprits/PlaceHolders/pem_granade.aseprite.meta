@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: aa71a85c41c27864c9b4ea9baf7d41bd
+guid: afb9e43d012d8954c8c738d97e9126b4
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -122,18 +122,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: bit
+  - name: pem_granade
     originalName: 
-    pivot: {x: 0.5, y: -0.14379086}
+    pivot: {x: 0.45398772, y: -0.09039548}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 158
-      height: 153
-    spriteID: cebd45c5f90668e43ab8f314fcd85714
+      width: 163
+      height: 177
+    spriteID: 46325b80b08c36a4c9b91b7ef07a4a26
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -146,25 +146,25 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 339799119
+      value0: 1655664157
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: bit
+    name: pem_granade
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: bit
+    - name: pem_granade
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 22
-        y: 22
-        width: 158
-        height: 153
-      spriteId: cebd45c5f90668e43ab8f314fcd85714
+        x: 27
+        y: 16
+        width: 163
+        height: 177
+      spriteId: 46325b80b08c36a4c9b91b7ef07a4a26
     linkedCells: []
     parentIndex: -1
   platformSettings:

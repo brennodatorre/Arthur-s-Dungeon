@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 
+using static Properties;
+
 public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
@@ -507,7 +509,7 @@ public class PlayerData : MonoBehaviour
     /// <summary>
     /// Returns an item in the player's inventory that has the specified property, or null if no such item exists
     /// </summary>
-    public List<Item> hasItemsWithProperty(Item.ItemProperty property)
+    public List<Item> hasItemsWithProperty(Property property)
     {
         List<Item> itemsWithProperty = new List<Item>();
         foreach (Item item in GameData.items)

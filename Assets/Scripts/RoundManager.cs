@@ -227,6 +227,8 @@ public class RoundManager : MonoBehaviour
 
     private IEnumerator StartTurn()
     {
+        StatusEffect stunnedSE = ActiveEffectManager.Instance.statusEffectPrefabs.StunnedEffect;
+
         //calculates the intent of each entity that is not the start of the round
         if (currentTurn == entities[0])
         {
@@ -234,7 +236,7 @@ public class RoundManager : MonoBehaviour
             {
                 if (entity.entityType == Entity.EntityType.Player) {continue;}
 
-                entity.GetComponent<Brain>().getIntent();
+                if (!entity.hasEffect(stunnedSE)) entity.GetComponent<Brain>().getIntent();
             }
         }
 
@@ -242,11 +244,13 @@ public class RoundManager : MonoBehaviour
 
         yield return null; //wait for the end of the frame to ensure all actions are processed
         
-        currentTurn.resetActions(); //reset the actions for the current turn
+        currentTurn.resetActions(); //reset the actions for the entity
 
         currentPhase = TurnPhase.Action; //set the current phase to action
 
-        if (currentTurn.entityType == Entity.EntityType.Enemy)
+        if (currentTurn.hasEffect(stunnedSE)) { EndTurn(); }
+
+        else if (currentTurn.entityType == Entity.EntityType.Enemy)
         {
 
             yield return Delay(1f);             
@@ -266,15 +270,9 @@ public class RoundManager : MonoBehaviour
 
             actionQueue.Enqueue("delay" , () => Delay(1f));
             act_menu.SetActive(true);
-           
             
+        }
 
-            
-        }
-        else
-        {
-            Debug.Log("Unknown entity type: " + currentTurn.entityType); 
-        }
     }
 
     //endturn picks the next entity to take their turn
@@ -323,7 +321,7 @@ public class RoundManager : MonoBehaviour
             {
                 if(enable) 
                     {enemyRender.material = matPallet.getColoredMaterial(matPallet.red, matPallet.outlineSpriteMaterial);} //red outline if atk targetting
-                else {enemyRender.material = matPallet.getColoredMaterial(matPallet.getEntityOriginColor(enemy), matPallet.crackMaterial); // back to normal dissolve matrial
+                else {enemyRender.material = matPallet.getColoredMaterial(matPallet.getOriginColor(enemy.entityOrigin), matPallet.crackMaterial); // back to normal dissolve matrial
                     }
             } 
         }
@@ -348,7 +346,7 @@ public class RoundManager : MonoBehaviour
             if (entityRender != null && !entity.isDead)//sets color
             {
                 if (enable ) entityRender.material = matPallet.getColoredMaterial(matPallet.blue, matPallet.outlineSpriteMaterial) ; //blue outline if atk targetting
-                else {entityRender.material = matPallet.getColoredMaterial(matPallet.getEntityOriginColor(entity), matPallet.crackMaterial); // back to normal dissolve matrial
+                else {entityRender.material = matPallet.getColoredMaterial(matPallet.getOriginColor(entity.entityOrigin), matPallet.crackMaterial); // back to normal dissolve matrial
                     }
             } 
         }

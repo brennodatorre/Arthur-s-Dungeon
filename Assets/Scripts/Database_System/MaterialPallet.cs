@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using static Properties;
+
 public class MaterialPallet : MonoBehaviour
 {
     public static MaterialPallet Instance;
@@ -28,55 +30,32 @@ public class MaterialPallet : MonoBehaviour
     public Material crackOverlayMaterial;
 
 
-    public Color getEntityOriginColor(Entity _entity)
+    public Color getOriginColor(Origin _origin)
     {
-        switch (_entity.entityOrigin)
+        switch (_origin)
         {
-            case Entity.EntityOrigin.FLAME:
+            case Origin.FLAME:
                 return purple;
-            case Entity.EntityOrigin.ARTHUR:
+            case Origin.ARTHUR:
                 return blue;
-            case Entity.EntityOrigin.ROSES:
+            case Origin.ROSES:
                 return red;
-            case Entity.EntityOrigin.HEX:
+            case Origin.HEX:
                 return green;
-            case Entity.EntityOrigin.SYSTEM:
+            case Origin.SYSTEM:
                 return Orange;
-            case Entity.EntityOrigin.LANDREAS:
+            case Origin.LANDREAS:
                 return pink;
-            case Entity.EntityOrigin.UNKNOWN:
+            case Origin.UNKNOWN:
                 return white;
-            case Entity.EntityOrigin.SURVIVOR:
+            case Origin.SURVIVOR:
                 return yellow;
             default:
                 return Color.black;
         }
     }
     
-    public Color getItemOriginColor(Item _item)
-    {
-        switch (_item.itemOrigin)
-        { 
-            case Entity.EntityOrigin.FLAME:
-                return purple;
-            case Entity.EntityOrigin.ARTHUR:
-                return blue;
-            case Entity.EntityOrigin.ROSES:
-                return red;
-            case Entity.EntityOrigin.HEX:
-                return green;
-            case Entity.EntityOrigin.SYSTEM:
-                return Orange;
-            case Entity.EntityOrigin.LANDREAS:
-                return pink;
-            case Entity.EntityOrigin.UNKNOWN:
-                return white;
-            case Entity.EntityOrigin.SURVIVOR:
-                return yellow;
-            default:
-                return Color.black;
-        }    
-    }
+    
 
     // creates an instance of a material and sets its color by one of the standar colors
     public Material getColoredMaterial(Color _standartColor, Material _materail)

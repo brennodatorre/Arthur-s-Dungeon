@@ -107,7 +107,7 @@ public class ActiveEffectManager : MonoBehaviour
         staEfct.statusEffectFrom = statusEffectFrom;
         staEfct.effectAct = effect;
         staEfct.endEffectAct = endEffect;
-        staEfct.callbackEffect = callbacl; //calls back to itself
+        staEfct.callbackEffect = callbacl; //calls back to itself, i.e. Reagent Slug calling back all SE
         staEfct.overideEffectAct = overideEffect; //overide some of the actions of the target/caster
 
         activeEffects.Add(staEfct); //add the effect to the list of active effects  
@@ -203,6 +203,7 @@ public class ActiveEffectManager : MonoBehaviour
         public StatusEffect ShieldingWithBodyEffect;
         public StatusEffect DefGainBlockedEffect;
         public StatusEffect BitRateEffect;
+        public StatusEffect StunnedEffect;
     }
 
 
@@ -225,6 +226,19 @@ public class ActiveEffectManager : MonoBehaviour
             {
                 target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
             }, () => addBleed(target, caster, appliedBySkill));
+    }
+
+    public void addStunnedEffect(Entity target, Entity caster, Skill appliedBySkill = null, Item appliedByItem = null, bool withSound = false)
+    {
+        StatusEffect inst = Instantiate(statusEffectPrefabs.StunnedEffect);
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list
+
+        AddEffect(inst, caster, target, appliedBySkill, () =>{},
+            () =>
+            {
+                target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
+
+            }, () => addStunnedEffect(target, caster, appliedBySkill, appliedByItem));
     }
 
     public void addRottingTouch(Entity target, Entity caster, Skill appliedBySkill = null, bool withSound = false)

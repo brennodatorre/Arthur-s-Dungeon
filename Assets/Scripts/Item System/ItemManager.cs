@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Properties;
 
 public class ItemManager : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class ItemManager : MonoBehaviour
         bool isTargettingEnemy = RoundManager.Instance.enemies.Contains(target);
 
         // deals with self targeting item (casting a self target into someone else)
-        if (target != caster && item.targetType == Item.ItemTarget.Self)
+        if (target != caster && item.targetType == Target.Self)
         {
             audioManager.PlaySound(audioManager.skill_unable_sound);
             logManager.AddLog(item.itemName + " can only be used on yourself.");
@@ -48,8 +49,8 @@ public class ItemManager : MonoBehaviour
         if (item.CanBeUsed(caster, target, item))
         {
             //use up the sup action if the skill is a support action
-            if (item.actionType == Item.ItemActionType.Sup) { caster.currentSupActions--; }
-            else if (item.actionType == Item.ItemActionType.Main) { caster.currentMainActions--; }
+            if (item.actionType == ActionType.Sup) { caster.currentSupActions--; }
+            else if (item.actionType == ActionType.Main) { caster.currentMainActions--; }
 
             //deals with the skill's fulldescription if it has one
             if (caster.entityType == Entity.EntityType.Player && item.hasBeenUsed == false)
@@ -80,6 +81,9 @@ public class ItemManager : MonoBehaviour
                     break;
                 case "i_wall_solvent":
                     roundManager.actionQueue.Enqueue("used i_wall_solvent", () => useWallSolvent(target, caster, item)); 
+                    break;
+                case "i_pem_granade":
+                    roundManager.actionQueue.Enqueue("used i_pem_granade", () => usePEMGranade(target, caster, item)); 
                     break;
                 default:
                     Debug.Log("Item not implemented yet.");
@@ -227,6 +231,21 @@ public class ItemManager : MonoBehaviour
 
 
         ActiveEffectManager.Instance.addWallSolvent(target, caster, null, item.soundEffect, item);
+        
+    }
+
+    private  IEnumerator usePEMGranade(Entity target, Entity caster, Item item)
+    {
+        yield return new WaitForSeconds(0f);
+        AudioManager.Instance.PlaySound(item.soundEffect); 
+
+        
+        foreach(Entity e in roundManager.entities.Where(x => x.entityOrigin == Origin.HEX))
+        {
+            ActiveEffectManager.Instance.addStunnedEffect(e, caster, null, item);
+        }
+
+        
         
     }
 

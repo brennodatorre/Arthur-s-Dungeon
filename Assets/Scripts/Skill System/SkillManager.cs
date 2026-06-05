@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Properties;
 using static StatusEffect;
 
 public class SkillManager : MonoBehaviour
@@ -45,7 +46,7 @@ public class SkillManager : MonoBehaviour
         bool isTargettingEnemy = RoundManager.Instance.enemies.Contains(target);
 
         // deals with self targeting skills (casting a self target into someone else)
-        if (target != caster && skill.targetType == Skill.SkillTarget.Self)
+        if (target != caster && skill.targetType == Target.Self)
         {
             audioManager.PlaySound(audioManager.skill_unable_sound);
             logManager.AddLog(skill.skillName + " can only be used on yourself.");
@@ -59,8 +60,8 @@ public class SkillManager : MonoBehaviour
         if (skill.CanBeUsed(caster, target))
         {
             //use up the sup action if the skill is a support action
-            if (skill.actionType == Skill.SkillActionType.Sup) { caster.currentSupActions--; }
-            else if (skill.actionType == Skill.SkillActionType.Main) { caster.currentMainActions--; }
+            if (skill.actionType == ActionType.Sup) { caster.currentSupActions--; }
+            else if (skill.actionType == ActionType.Main) { caster.currentMainActions--; }
 
             caster.changeMP( - skill.mpCost); //caster lose mp
 

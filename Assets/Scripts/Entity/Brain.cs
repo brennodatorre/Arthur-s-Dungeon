@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 
 using UnityEngine;
 using UnityEngine.UI;
+using static Properties;
 
 
 public class Brain : MonoBehaviour
@@ -99,9 +100,9 @@ public class Brain : MonoBehaviour
 
             case Intent.SKILL:
                         
-                if (skilllToUse.targetType == Skill.SkillTarget.Self) SkillManager.Instance.doSkill( caster, caster, skilllToUse);
+                if (skilllToUse.targetType == Target.Self) SkillManager.Instance.doSkill( caster, caster, skilllToUse);
 
-                else if (skilllToUse.targetType == Skill.SkillTarget.SingleAlly) {
+                else if (skilllToUse.targetType == Target.SingleAlly) {
 
                      List<Entity> allies = new List<Entity>(RoundManager.Instance.enemies.Where((Entity e) => e != caster));
 

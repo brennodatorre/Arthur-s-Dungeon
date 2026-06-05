@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 
 using UnityEngine;
+using static Properties;
 
 
 public class FableShop : MonoBehaviour
@@ -241,28 +242,28 @@ public class FableShop : MonoBehaviour
         // Activate the symbol based on the skill's origin
         switch (page.skill.origin)
         {
-            case Skill.SkillOrigin.HEX:
+            case Origin.HEX:
                 page.hex_symbol.SetActive(true);
                 break;
-            case Skill.SkillOrigin.ARTHUR:
+            case Origin.ARTHUR:
                 page.arthur_symbol.SetActive(true);
                 break;
-            case Skill.SkillOrigin.LANDREAS:
+            case Origin.LANDREAS:
                 page.landreas_symbol.SetActive(true);
                 break;
-            case Skill.SkillOrigin.SURVIVOR:
+            case Origin.SURVIVOR:
                 page.survivor_symbol.SetActive(true);
                 break;
-            case Skill.SkillOrigin.SYSTEM:
+            case Origin.SYSTEM:
                 page.system_symbol.SetActive(true);
                 break;
-            case Skill.SkillOrigin.FLAME:
+            case Origin.FLAME:
                 page.flame_symbol.SetActive(true);
                 break;
-            case Skill.SkillOrigin.UNKNOWN:
+            case Origin.UNKNOWN:
                 page.unknown_symbol.SetActive(true);
                 break;
-            case Skill.SkillOrigin.ROSES:
+            case Origin.ROSES:
                 page.rose_symbol.SetActive(true);
                 break;
             default:
