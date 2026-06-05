@@ -30,7 +30,7 @@ MonoBehaviour:
   extraInput: 0
   origin: 4
   targetType: 3
-  actionType: 1
+  actionType: 2
   isOffensiveSkill: 0
   isPAHTSkill: 0
   isStackable: 1

@@ -1,6 +1,7 @@
 using System;
 
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -120,9 +121,11 @@ public class ActiveEffectManager : MonoBehaviour
 
         foreach (StatusEffect effect in activeEffects.ToArray())
         {
+            if (effect.isBeingRemoved) continue; 
             if (effect.currentDuration < 1)
             {
                 effect.isBeingRemoved = true;
+                
                 effect.endEffectAct?.Invoke();
 
                 effect.iconDisplay.GetComponent<StatusEffectIcon>().MarkToDie();
@@ -130,7 +133,7 @@ public class ActiveEffectManager : MonoBehaviour
             }
         }
 
-        activeEffects.RemoveAll(effect => effect.currentDuration < 1);
+        activeEffects.RemoveAll(effect => effect.isBeingRemoved);
         StatusHudManager.Instance.UpdateStatusEffectDisplay();
         
 
@@ -148,8 +151,9 @@ public class ActiveEffectManager : MonoBehaviour
         foreach (StatusEffect effect in effectsCopy)
         {
             effect.isBeingRemoved = true;
-            effect.endEffectAct?.Invoke();
             effect.currentDuration = 0;
+            effect.endEffectAct?.Invoke();
+            
             effect.iconDisplay.GetComponent<StatusEffectIcon>().MarkToDie();
             
         }
@@ -197,7 +201,8 @@ public class ActiveEffectManager : MonoBehaviour
         public StatusEffect SlateScarEffect;
         public StatusEffect BodyShieledEffect;
         public StatusEffect ShieldingWithBodyEffect;
-        public StatusEffect DefGainBlocked;
+        public StatusEffect DefGainBlockedEffect;
+        public StatusEffect BitRateEffect;
     }
 
 
@@ -449,13 +454,13 @@ public class ActiveEffectManager : MonoBehaviour
 
     public void addWallSolvent(Entity target, Entity caster, Skill appliedBySkill  = null, bool withSound = false, Item appliedByItem = null)
     {
-        if (withSound) audioManager.PlaySound(statusEffectPrefabs.DefGainBlocked.effectSound);
+        if (withSound) audioManager.PlaySound(statusEffectPrefabs.DefGainBlockedEffect.effectSound);
 
         int removedDEF = target.getDEF(); //store the previous defense value of the target
 
         target.changeDEF(-target.getDEF()); //set the defense to 0
 
-        StatusEffect inst = Instantiate(statusEffectPrefabs.DefGainBlocked);
+        StatusEffect inst = Instantiate(statusEffectPrefabs.DefGainBlockedEffect);
         target.activeStatusEffects.Add(inst); //add the skill to the active effects list
 
         if (appliedByItem != null) {
@@ -482,6 +487,37 @@ public class ActiveEffectManager : MonoBehaviour
 
         }
         
+        );
+
+    }
+
+    public void addBitRateEffect(Entity target, Entity caster, Skill appliedBySkill  = null, bool withSound = false  )
+    {
+        if (withSound) audioManager.PlaySound(statusEffectPrefabs.BitRateEffect.effectSound);
+
+        List<Entity> bits = new List<Entity>(RoundManager.Instance.enemies.Where((Entity e) => e.entityID == caster.entityID)); //get all bits of the caster
+        bits.Remove(caster);
+
+        foreach (Entity bit in bits) {
+            bit.currentATK.AddModifier(1); //add 1 to the attack of all other bits
+        }
+
+        
+
+        StatusEffect inst = Instantiate(statusEffectPrefabs.BitRateEffect);
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list
+
+        
+
+        AddEffect(inst, caster, target, appliedBySkill, () => { }, () =>
+        {
+            target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
+
+            foreach (Entity bit in bits) {
+                bit.currentATK.AddModifier(-1); //remove 1 from the attack of all other bits
+            }
+
+        }
         );
 
     }

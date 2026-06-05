@@ -1,6 +1,7 @@
 using System;
 
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 
 using UnityEngine;
@@ -37,7 +38,7 @@ public class Brain : MonoBehaviour
     public Sprite originalSprite;
     
 
-    void Start()
+    protected virtual void Start()
     {
         originalSprite = GetComponent<Image>().sprite;  
         actionQueue = RoundManager.Instance.actionQueue;
@@ -102,7 +103,9 @@ public class Brain : MonoBehaviour
 
                 else if (skilllToUse.targetType == Skill.SkillTarget.SingleAlly) {
 
-                    Entity targetAlly = RoundManager.Instance.enemies[UnityEngine.Random.Range(0, RoundManager.Instance.enemies.Length)].GetComponent<Entity>();
+                     List<Entity> allies = new List<Entity>(RoundManager.Instance.enemies.Where((Entity e) => e != caster));
+
+                    Entity targetAlly = allies[UnityEngine.Random.Range(0, allies.Count)];
 
                     SkillManager.Instance.doSkill( targetAlly, caster, skilllToUse);
                     

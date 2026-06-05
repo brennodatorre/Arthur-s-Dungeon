@@ -286,7 +286,7 @@ public class RoundManager : MonoBehaviour
 
         yield return null; //wait for the end of the frame to ensure all actions are processed
 
-        if (currentTurn.entityType != Entity.EntityType.Player) currentTurn.GetComponent<Brain>().clearIntent(); //clear the intent of the current turn
+        currentTurn.GetComponent<Brain>()?.clearIntent(); //clear the intent of the current turn
         
 
         // set the next turn to the next entity in the array, or loop back to the first entity if at the end

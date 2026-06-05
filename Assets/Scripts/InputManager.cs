@@ -45,6 +45,7 @@ public class InputManager : MonoBehaviour
                 originalPlayerData.CopyFrom(roundManager.player);
                 roundManager.player.CopyFrom(GodLikePlayerData);
                 roundManager.player.skills = new List<Skill>(DatabaseManager.Instance.allSkillsDatabase.skills);
+                roundManager.player.entityType = Entity.EntityType.Player;
 
 
             }

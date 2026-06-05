@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7670f45e0ed7396448f610041b22aad5, type: 3}
+  m_Name: BitRate
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 8064098864607371654, guid: 2908dc6be9b15d04bbfb91dbe1b80cf0, type: 3}
+  effectName: Bit Rate
+  statusEffectID: se_BitRate
+  mainRoll:
+    dices: []
+    modifier: 0
+  isStackable: 0
+  description: Get +num of Bits to Mod
+  duration: 999
+  currentDuration: 999
+  effectSound: {fileID: 0}
+  turnPhaseOfEffect: 1
+  effectType: 0
+  overideEffectType: 0
+  blocks: 
+  tags: 0e000000
+  caster: {fileID: 0}
+  target: {fileID: 0}
+  appliedBySkill: {fileID: 0}
+  statusEffectFrom: {fileID: 0}
+  iconDisplay: {fileID: 0}
+  isBeingRemoved: 0
