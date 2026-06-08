@@ -509,11 +509,14 @@ public class ActiveEffectManager : MonoBehaviour
     {
         if (withSound) audioManager.PlaySound(statusEffectPrefabs.BitRateEffect.effectSound);
 
-        List<Entity> bits = new List<Entity>(RoundManager.Instance.enemies.Where((Entity e) => e.entityID == caster.entityID)); //get all bits of the caster
+        List<Entity> bits = new List<Entity>(RoundManager.Instance.enemies.Where(e => e.properties.Contains(Properties.Property.BIT))); //get all bits 
+        
         bits.Remove(caster);
 
+        
         foreach (Entity bit in bits) {
             bit.currentATK.AddModifier(1); //add 1 to the attack of all other bits
+            caster.currentATK.AddModifier(1);Debug.Log(bit);
         }
 
         
@@ -527,7 +530,9 @@ public class ActiveEffectManager : MonoBehaviour
         {
             target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
 
-            foreach (Entity bit in bits) {
+            List<Entity> bitsToRemove = new List<Entity>(RoundManager.Instance.enemies.Where((Entity e) => e.properties.Contains(Properties.Property.BIT)));
+            bits.Remove(caster);
+            foreach (Entity bit in bitsToRemove) {
                 bit.currentATK.AddModifier(-1); //remove 1 from the attack of all other bits
             }
 

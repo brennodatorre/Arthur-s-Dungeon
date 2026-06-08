@@ -5,13 +5,11 @@ using UnityEngine;
 public class BitBrain : Brain
 {
 
-    public StatusEffect bitRateStatusEffect;
-
     private Entity bit;
 
-    protected override void Start()
+    public override void WakeUp()
     {
-       base.Start(); // does base brain start 
+       
         
         bit = GetComponent<Entity>();
 

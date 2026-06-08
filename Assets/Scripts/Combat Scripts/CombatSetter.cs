@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class CombatSetter : MonoBehaviour
 {
 
+    public static CombatSetter Instance;
 
     public GameObject RandomLevelObj;
     public EntityDatabase enemyDatabase ;
@@ -26,11 +27,13 @@ public class CombatSetter : MonoBehaviour
 
     [Space(3)]
     public List<GameObject> possibleSpawnSpots = new List<GameObject>(); //used for the random generated fight 
+    public List<GameObject> availableSpots = new List<GameObject>();
     public List<GameObject> preMadeFight = new List<GameObject>(); // used for pre defined fight 
 
     [Space(10)]
     public int playerLevel;
     public List<GameObject> randomRoaster = new List<GameObject>();
+
 
 
     [Space(15)]
@@ -41,6 +44,20 @@ public class CombatSetter : MonoBehaviour
 
     void Awake()
     {
+
+        if (Instance == null)
+        {
+            Instance = this;
+            //DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Avoid duplicates
+        }
+
+
+
+
         eLevelsLists.Add(enemyL6);
         eLevelsLists.Add(enemyL5);
         eLevelsLists.Add(enemyL4);
@@ -57,6 +74,7 @@ public class CombatSetter : MonoBehaviour
 
     public void openLevel()
     {
+        
 
         if (isTesting )
         {
@@ -67,14 +85,19 @@ public class CombatSetter : MonoBehaviour
             }
 
             setTestingRoaster();
-
-
+            
             return;
         }
 
         setRandomCombatRoaster();
         startRandomCombat();
 
+       
+
+
+
+
+        
 
     }
 
@@ -149,19 +172,36 @@ public class CombatSetter : MonoBehaviour
     private void startRandomCombat()
     {
         // Make a copy of spawn spots we can pull from
-        List<GameObject> availableSpots = new List<GameObject>(possibleSpawnSpots);
+        availableSpots = new List<GameObject>(possibleSpawnSpots);
 
         for (int f = 0; f < randomRoaster.Count; f++)
         {
-            GameObject enemy = Instantiate(randomRoaster[f], RandomLevelObj.transform);
-
-
-            int rand = Random.Range(0, availableSpots.Count);
-            enemy.transform.position = availableSpots[rand].transform.position;
-
-            // Remove used spot so it's not reused
-            availableSpots.RemoveAt(rand);
+            AddEntityToCombat(randomRoaster[f]);
         }
+    }
+
+
+    public bool AddEntityToCombat(GameObject ent)
+    {
+        if (availableSpots.Count < 1) return false;
+
+        GameObject enemy = Instantiate(ent, RandomLevelObj.transform);
+
+        int rand = Random.Range(0, availableSpots.Count);
+        enemy.transform.position = availableSpots[rand].transform.position;
+        enemy.GetComponent<Entity>().spawnPoint = availableSpots[rand];
+
+        availableSpots.RemoveAt(rand);
+
+        RoundManager.Instance.entities.Add(enemy.GetComponent<Entity>());
+        RoundManager.Instance.enemies.Add(enemy.GetComponent<Entity>());
+
+        enemy.GetComponent<Brain>().getIntent();
+        enemy.GetComponent<Brain>().WakeUp();
+
+        return true;
+
+        
     }
 
 
@@ -206,17 +246,11 @@ public class CombatSetter : MonoBehaviour
         
 
         // Make a copy of spawn spots we can pull from
-        List<GameObject> availableSpots = new List<GameObject>(possibleSpawnSpots);
+        availableSpots = new List<GameObject>(possibleSpawnSpots);
 
         for (int f = 0; f < testRoaster.Count; f++)
         {
-            GameObject enemy = Instantiate(testRoaster[f], RandomLevelObj.transform);
-
-            int rand = Random.Range(0, availableSpots.Count);
-            enemy.transform.position = availableSpots[rand].transform.position;
-
-            // Remove used spot so it's not reused
-            availableSpots.RemoveAt(rand);
+            AddEntityToCombat(testRoaster[f]);
 
         }
 

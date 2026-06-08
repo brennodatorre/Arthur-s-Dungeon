@@ -64,8 +64,8 @@ public class RoundManager : MonoBehaviour
 
     [Space(10)]
     public List<Entity> entities; //array of all entities in the scene
-    public Entity[] allies; //array of all allies in the scene
-    public Entity[] enemies; //array of all enemies in the scene
+    public List<Entity> allies; //array of all allies in the scene
+    public List<Entity> enemies; //array of all enemies in the scene
     public List<Entity> enemiesKilled = new List<Entity>(); 
 
     [Space(10)]
@@ -119,7 +119,7 @@ public class RoundManager : MonoBehaviour
         ;
 
         //ends the comabt 
-        if (enemies.Length == 0 && !lootMenuIsUp)
+        if (enemies.Count == 0 && !lootMenuIsUp)
         { 
 
             lootMenuIsUp = true;
@@ -188,23 +188,10 @@ public class RoundManager : MonoBehaviour
 
         combatSetter.openLevel(); // sets the enemies level
 
-        entities = FindObjectsOfType<Entity>(true).Where(e => !e.IsAClass).ToList(); //finds all entities in the scene and converts to a list
+        entities = FindObjectsOfType<Entity>().Where(e => !e.IsAClass).ToList(); //finds all entities in the scene and converts to a list
+        allies = entities.Where(e => e.entityType != Entity.EntityType.Enemy).ToList();
 
-        foreach (Entity entity in entities.ToArray()) //loops through each entity
-        {
-            if (entity.isActiveAndEnabled)
-            {
-                if (entity.entityType != Entity.EntityType.Enemy) //if the entity is not an enemy
-                {
-                    allies = allies.Append(entity).ToArray(); //adds the entity to the allies array
-                }
-                else if (entity.entityType == Entity.EntityType.Enemy) //if the entity is an enemy
-                {
-                    enemies = enemies.Append(entity).ToArray(); //adds the entity to the enemies array
-                }
-            }
-            else { entities.Remove(entity); } //removes the entity from the list
-        }
+       
 
         //sorts the entities by their rolls in descending order
         entities = entities.OrderByDescending(x => x.rollDEX()).ToList();

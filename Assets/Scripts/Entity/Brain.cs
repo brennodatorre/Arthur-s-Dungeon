@@ -22,7 +22,7 @@ public class Brain : MonoBehaviour
         
     }
 
-    public enum Intent { ATTACK, SKILL, NONE };
+    public enum Intent { ATTACK, SKILL, NONE, SPECIAL };
 
     [HideInInspector] public ActionQueue actionQueue;
 
@@ -36,10 +36,12 @@ public class Brain : MonoBehaviour
     public string intentMessage = "";
     public Skill skilllToUse;
 
+    public Action specialActionToUse;
+
     public Sprite originalSprite;
     
 
-    protected virtual void Start()
+    void Start()
     {
         originalSprite = GetComponent<Image>().sprite;  
         actionQueue = RoundManager.Instance.actionQueue;
@@ -55,6 +57,11 @@ public class Brain : MonoBehaviour
             }
             
         }
+    }
+
+    public virtual void WakeUp()
+    {
+        
     }
 
     public virtual void getIntent()
@@ -87,9 +94,9 @@ public class Brain : MonoBehaviour
         intentMessage = intentToString();
     }
 
-    public virtual void doIntent(Entity caster, Entity[] targets)
+    public virtual void doIntent(Entity caster, List<Entity> targets)
     {
-        Entity target = targets[UnityEngine.Random.Range(0, targets.Length)];
+        Entity target = targets[UnityEngine.Random.Range(0, targets.Count)];
 
         switch (currentIntent)
         {
@@ -117,6 +124,13 @@ public class Brain : MonoBehaviour
                 
             
                 
+                break;
+
+            case Intent.SPECIAL:
+                specialActionToUse.Invoke();
+
+                RoundManager.Instance.EndTurn();
+
                 break;
 
             case Intent.NONE:
@@ -161,6 +175,9 @@ public class Brain : MonoBehaviour
             case Intent.SKILL:
                 if (skilllToUse.mainDice == null) return "???";
                 return skilllToUse.mainDice.ToString();
+
+            case Intent.SPECIAL:
+                return "???";
 
             default:
                 return "No Intent";   

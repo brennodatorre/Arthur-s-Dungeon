@@ -21,6 +21,8 @@ public class Entity : MonoBehaviour
     private Image sprite;
     private LogManager logManager; 
     private AudioManager audioManager;
+    [HideInInspector] public GameObject spawnPoint;
+
     public Brain brain;
     
 
@@ -34,6 +36,7 @@ public class Entity : MonoBehaviour
     [Space(5)]
     [Header("Base Status")]
     [SerializeField] public EntityType entityType;
+    public List<Property> properties = new List<Property>();
     public Origin entityOrigin;
     [SerializeField] public string entityName;
     public string entityID;
@@ -350,6 +353,9 @@ public class Entity : MonoBehaviour
             audioManager.ambienceOutput.Pause();
             audioManager.PlaySound(audioManager.death_sound); 
 
+            items.Clear();
+            PlayerData.Instance.changeIlhas( - PlayerData.Instance.getIlhas());
+
             // if player has no more lives
             if ((PlayerData.Instance.getLives() - PlayerData.Instance.getDeathCounter()) <= 0)
             {
@@ -382,7 +388,9 @@ public class Entity : MonoBehaviour
             if (this.entityType == EntityType.Enemy)
             {
                 roundManager.enemiesKilled.Add(this);
-                roundManager.enemies = roundManager.enemies.Where(x => x != this).ToArray();
+                roundManager.enemies.Remove(this);
+
+                CombatSetter.Instance.availableSpots.Add(spawnPoint);
 
                 
                 PlayerData.Instance.incrementKillCounter();
@@ -391,7 +399,7 @@ public class Entity : MonoBehaviour
             }
             else
             { //is an ally
-                roundManager.allies = roundManager.allies.Where(x => x != this).ToArray();
+                roundManager.allies = roundManager.allies.Where(x => x != this).ToList();
             }
 
             //cahnge into dissolve mateiral
