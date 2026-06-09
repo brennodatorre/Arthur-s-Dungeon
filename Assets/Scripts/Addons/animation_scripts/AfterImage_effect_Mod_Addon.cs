@@ -18,11 +18,21 @@ public class AfterImage_effect_Mod_Addon : MonoBehaviour
     private Vector3 lastPosition;
 
 
+    GameObject emptyContainer ;
+
+
     void Start()
     {
+
+        emptyContainer = new GameObject("After Image Container");
+        emptyContainer.transform.SetParent(transform.parent, false);
+        
+
         SetGhostPulling();
         SetFrequency();
         lastPosition = transform.position;
+
+        
 
        
     }
@@ -72,8 +82,8 @@ public class AfterImage_effect_Mod_Addon : MonoBehaviour
     private void SetGhostPulling()
     {
         
-        GameObject ghost = Instantiate(gameObject, transform.position, transform.rotation, transform.parent);
-        ghost.transform.SetSiblingIndex(transform.GetSiblingIndex() - 1); // set the ghost behind the original object in the hierarchy
+        GameObject ghost = Instantiate(gameObject, transform.position, transform.rotation, emptyContainer.transform);
+        
 
         List<Component> components = new List<Component>(ghost.GetComponents<Component>());
 
@@ -95,8 +105,9 @@ public class AfterImage_effect_Mod_Addon : MonoBehaviour
         afterImages.Add(ghost);
         for (int i = 1; i < afterImageAmount; i++)
         {
-            GameObject newGhost = Instantiate(ghost, transform.position, transform.rotation, transform.parent);
-            newGhost.transform.SetSiblingIndex(transform.GetSiblingIndex() - 1); // set the ghost behind the original object in the hierarchy
+            
+            GameObject newGhost = Instantiate(ghost, transform.position, transform.rotation, emptyContainer.transform);
+            
             newGhost.SetActive(false);
             newGhost.name = gameObject.name + "_AfterImage_Ghost_" + i;
             afterImages.Add(newGhost);
@@ -116,11 +127,12 @@ public class AfterImage_effect_Mod_Addon : MonoBehaviour
             if (!ghost.activeInHierarchy)
             {
                 if (ghost.GetComponent<SpriteRenderer>() != null){ 
-                    ghost.GetComponent<SpriteRenderer>().color = color;
+                    ghost.GetComponent<SpriteRenderer>().color = color - new Color(0,0,0,0.5f);
+                    
                     ghost.GetComponent<SpriteRenderer>().sprite = this.GetComponent<SpriteRenderer>().sprite;
                 }
                 if (ghost.GetComponent<Image>() != null){
-                    ghost.GetComponent<Image>().color = color;  
+                    ghost.GetComponent<Image>().color = color- new Color(0,0,0,0.5f); 
                     ghost.GetComponent<Image>().sprite = this.GetComponent<Image>().sprite;
                 }
 
@@ -135,8 +147,8 @@ public class AfterImage_effect_Mod_Addon : MonoBehaviour
         }
 
         // if all ghosts are active, spawn a new one and add it to the list
-        GameObject newGhost = Instantiate(afterImages[0], transform.position, transform.rotation, transform.parent);
-        newGhost.transform.SetSiblingIndex(transform.GetSiblingIndex() - 1); // set the ghost behind the original object in the hierarchy
+        GameObject newGhost = Instantiate(afterImages[0], transform.position, transform.rotation, emptyContainer.transform);
+        
         newGhost.SetActive(true);
         newGhost.name = gameObject.name + "_AfterImage_Ghost_" + afterImages.Count;
         afterImages.Add(newGhost);
@@ -158,7 +170,10 @@ public class AfterImage_effect_Mod_Addon : MonoBehaviour
 
         while (elapsedTime < afterImageLifetime)
         {
-            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / afterImageLifetime);
+            
+            float alpha = 
+              Mathf.Lerp(1f, 0f, elapsedTime / afterImageLifetime)  ;
+
             if (spriteRenderer != null)
             {
                 spriteRenderer.color = new Color(color.r, color.g, color.b, alpha);

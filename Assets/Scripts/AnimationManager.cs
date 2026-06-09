@@ -28,6 +28,15 @@ public class AnimationManager : MonoBehaviour
     [Space(7)]
     public float shakeAnimationMagnitude = 0.1f;
 
+    [Space(7)] [Header ("Turn Step")]
+    public float ts_speed = 30f;
+    public float ts_offset = 40f;
+    public float ts_scale = 1.08f;
+    [SerializeField] private AnimationCurve ease = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    public Color normalColor = Color.white;
+    public Color backStepColor = new Color(0.6f, 0.6f, 0.6f, 1f);
+
+
 
 
     void Awake()
@@ -41,11 +50,6 @@ public class AnimationManager : MonoBehaviour
         {
             Destroy(gameObject); // Avoid duplicates
         }
-
-
-
-
-
 
     }
 
@@ -188,6 +192,62 @@ public class AnimationManager : MonoBehaviour
         ob.transform.position = originalPos;
     }
 
+  
 
+
+
+
+    public Coroutine TurnStep(GameObject ob, bool forward)
+    {
+        RectTransform rect = ob.GetComponent<RectTransform>();
+        Image img = ob.GetComponent<Image>();
+
+        Vector2 dir = forward ? Vector2.down : Vector2.up;
+        float scaleTarget = forward ? ts_scale : (1f / ts_scale);
+
+        return StartCoroutine(Step(rect, img, dir, scaleTarget));
+    }
+
+    private IEnumerator Step(RectTransform rect, Image img, Vector2 direction, float scaleMultiplier)
+    {
+        Vector2 startPos = rect.anchoredPosition;
+        Vector3 startScale = rect.localScale;
+
+        Color startColor = img != null ? img.color : Color.white;
+
+        Vector2 targetPos = startPos + direction * ts_offset;
+        Vector3 targetScale = startScale * scaleMultiplier;
+
+        Color targetColor = direction == Vector2.down
+            ? normalColor
+            : backStepColor;
+
+        //set it to furdest child if in front
+        rect.gameObject.transform.SetAsLastSibling();
+
+        float moved = 0f;
+
+        while (moved < ts_offset)
+        {
+            float step = Mathf.Min(ts_speed * Time.deltaTime, ts_offset - moved);
+            moved += step;
+
+            float t = ease.Evaluate(moved / ts_offset);
+
+            rect.anchoredPosition = Vector2.Lerp(startPos, targetPos, t);
+            rect.localScale = Vector3.Lerp(startScale, targetScale, t);
+
+            if (img != null)
+                img.color = Color.Lerp(startColor, targetColor, t);
+
+            yield return null;
+        }
+
+        rect.anchoredPosition = targetPos;
+        rect.localScale = targetScale;
+
+        if (img != null)
+            img.color = targetColor;
+    }
 
 }

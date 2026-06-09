@@ -229,6 +229,8 @@ public class RoundManager : MonoBehaviour
 
         currentPhase = TurnPhase.Start; //set the current phase to start
 
+        if ( currentTurn != player) yield return AnimationManager.Instance.TurnStep(currentTurn.gameObject, true);
+
         yield return null; //wait for the end of the frame to ensure all actions are processed
         
         currentTurn.resetActions(); //reset the actions for the entity
@@ -272,6 +274,8 @@ public class RoundManager : MonoBehaviour
         yield return null; //wait for the end of the frame to ensure all actions are processed
 
         currentTurn.GetComponent<Brain>()?.clearIntent(); //clear the intent of the current turn
+
+        if ( currentTurn != player) yield return AnimationManager.Instance.TurnStep(currentTurn.gameObject, false);
         
 
         // set the next turn to the next entity in the array, or loop back to the first entity if at the end

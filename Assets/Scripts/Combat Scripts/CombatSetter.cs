@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 using Random = UnityEngine.Random;
 
@@ -181,11 +183,11 @@ public class CombatSetter : MonoBehaviour
     }
 
 
-    public bool AddEntityToCombat(GameObject ent)
+    public bool AddEntityToCombat(GameObject _ent)
     {
         if (availableSpots.Count < 1) return false;
 
-        GameObject enemy = Instantiate(ent, RandomLevelObj.transform);
+        GameObject enemy = Instantiate(_ent, RandomLevelObj.transform);
 
         int rand = Random.Range(0, availableSpots.Count);
         enemy.transform.position = availableSpots[rand].transform.position;
@@ -195,6 +197,8 @@ public class CombatSetter : MonoBehaviour
 
         RoundManager.Instance.entities.Add(enemy.GetComponent<Entity>());
         RoundManager.Instance.enemies.Add(enemy.GetComponent<Entity>());
+
+        enemy.GetComponent<Image>().color = AnimationManager.Instance.backStepColor;
 
         enemy.GetComponent<Brain>().getIntent();
         enemy.GetComponent<Brain>().WakeUp();

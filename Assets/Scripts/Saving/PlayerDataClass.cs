@@ -13,7 +13,7 @@ public class PlayerDataClass
     public int maxMP;
     public int def;
 
-    public DiceRoll baseATK;
+    public DiceRoll baseATK = new DiceRoll();
     public int atkAdvantage;
 
     public int totalMainActions ;
