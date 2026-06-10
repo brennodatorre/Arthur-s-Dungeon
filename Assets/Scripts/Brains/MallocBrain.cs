@@ -31,7 +31,7 @@ public class MallocBrain : Brain
 
             specialActionToUse = () => {
                 AudioManager.Instance.PlaySound(printSound) ;
-                CombatSetter.Instance.AddEntityToCombat(bitPrefab);
+                CombatSetter.Instance.AddEntityToCombat(bitPrefab, true);
                 };
 
             

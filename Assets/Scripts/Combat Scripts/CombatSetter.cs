@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -74,7 +74,7 @@ public class CombatSetter : MonoBehaviour
 
 
 
-    public void openLevel()
+    public IEnumerator openLevel()
     {
         
 
@@ -83,26 +83,62 @@ public class CombatSetter : MonoBehaviour
             if (testRoaster.Count == 0 || possibleSpawnSpots.Count < testRoaster.Count)
             {
                 Debug.LogError("Test Roaster is empty or has too many enemies!");
-                return;
+                yield break;
             }
 
-            setTestingRoaster();
+            yield return StartCoroutine(setTestingRoaster());
             
-            return;
+            yield break;
         }
 
         setRandomCombatRoaster();
-        startRandomCombat();
-
-       
-
-
-
-
-        
+        yield return StartCoroutine(startRandomCombat());
+  
 
     }
 
+
+
+
+
+
+
+
+    #region Helpers
+
+    // sorts enemy levels from 1-7, else put them in level 999
+    private void sortEnemyLists()
+    {
+        foreach (GameObject enemy in enemyDatabase.entitiesPrefabs)
+        {
+            Entity e = enemy.GetComponent<Entity>();
+            switch (e.fableWorth)
+            {
+                case 1:
+                    enemyL1.Add(enemy);
+                    break;
+                case 2:
+                    enemyL2.Add(enemy);
+                    break;
+                case 3:
+                    enemyL3.Add(enemy);
+                    break;
+                case 4:
+                    enemyL4.Add(enemy);
+                    break;
+                case 5:
+                    enemyL5.Add(enemy);
+                    break;
+                case 6:
+                    enemyL6.Add(enemy);
+                    break;
+                default:
+                    enemyL999.Add(enemy);
+                    break;
+            }
+
+        }
+    }
 
 
     public int getPlayerLevel()
@@ -171,22 +207,25 @@ public class CombatSetter : MonoBehaviour
 
     }
 
-    private void startRandomCombat()
-    {
-        // Make a copy of spawn spots we can pull from
-        availableSpots = new List<GameObject>(possibleSpawnSpots);
+    #endregion 
 
-        for (int f = 0; f < randomRoaster.Count; f++)
-        {
-            AddEntityToCombat(randomRoaster[f]);
-        }
+
+
+
+
+
+
+    public Coroutine AddEntityToCombat(GameObject _ent, bool backStep = false)
+    {
+        if (availableSpots.Count < 1) return null;
+
+        return StartCoroutine(addEntityToCombatCoroutine(_ent, backStep));
+        
     }
 
-
-    public bool AddEntityToCombat(GameObject _ent)
+    private IEnumerator addEntityToCombatCoroutine(GameObject _ent, bool backStep )
     {
-        if (availableSpots.Count < 1) return false;
-
+        
         GameObject enemy = Instantiate(_ent, RandomLevelObj.transform);
 
         int rand = Random.Range(0, availableSpots.Count);
@@ -198,54 +237,38 @@ public class CombatSetter : MonoBehaviour
         RoundManager.Instance.entities.Add(enemy.GetComponent<Entity>());
         RoundManager.Instance.enemies.Add(enemy.GetComponent<Entity>());
 
-        enemy.GetComponent<Image>().color = AnimationManager.Instance.backStepColor;
 
         enemy.GetComponent<Brain>().getIntent();
         enemy.GetComponent<Brain>().WakeUp();
 
-        return true;
+        while (enemy.GetComponent<Fade_OnActive>().isFading) yield return null;
+
+        
+        if (backStep) yield return AnimationManager.Instance.TurnStep(enemy, false);
+        
 
         
     }
 
 
 
-    // sorts enemy levels from 1-7, else put them in level 999
-    private void sortEnemyLists()
-    {
-        foreach (GameObject enemy in enemyDatabase.entitiesPrefabs)
-        {
-            Entity e = enemy.GetComponent<Entity>();
-            switch (e.fableWorth)
-            {
-                case 1:
-                    enemyL1.Add(enemy);
-                    break;
-                case 2:
-                    enemyL2.Add(enemy);
-                    break;
-                case 3:
-                    enemyL3.Add(enemy);
-                    break;
-                case 4:
-                    enemyL4.Add(enemy);
-                    break;
-                case 5:
-                    enemyL5.Add(enemy);
-                    break;
-                case 6:
-                    enemyL6.Add(enemy);
-                    break;
-                default:
-                    enemyL999.Add(enemy);
-                    break;
-            }
 
+
+    private IEnumerator startRandomCombat()
+    {
+        // Make a copy of spawn spots we can pull from
+        availableSpots = new List<GameObject>(possibleSpawnSpots);
+
+        for (int f = 0; f < randomRoaster.Count; f++)
+        {
+            yield return AddEntityToCombat(randomRoaster[f]);
         }
     }
 
 
-    private void setTestingRoaster()
+
+
+    private IEnumerator setTestingRoaster()
     {
         
 
@@ -254,7 +277,7 @@ public class CombatSetter : MonoBehaviour
 
         for (int f = 0; f < testRoaster.Count; f++)
         {
-            AddEntityToCombat(testRoaster[f]);
+            yield return AddEntityToCombat(testRoaster[f]);
 
         }
 

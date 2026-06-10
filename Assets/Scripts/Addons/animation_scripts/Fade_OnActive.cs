@@ -12,14 +12,22 @@ public class Fade_OnActive : MonoBehaviour
    [Tooltip("obly fade out if called properly, not on actual OnDisable")]
    public bool fadeOutOnDisable = true;
 
-    List<Component> visualComponents = new List<Component>();
+   public bool isFading;
+
+    Dictionary<Component, float> visualComponents = new Dictionary<Component, float>();
+     
 
     void Awake()
     {
         
-        visualComponents.AddRange(GetComponentsInChildren<SpriteRenderer>());
-        visualComponents.AddRange(GetComponentsInChildren<Image>());
-        visualComponents.AddRange(GetComponentsInChildren<Text>());
+        foreach (var sr in GetComponentsInChildren<SpriteRenderer>())
+            visualComponents.Add(sr, sr.color.a);
+
+        foreach (var img in GetComponentsInChildren<Image>())
+            visualComponents.Add(img, img.color.a);
+
+        foreach (var txt in GetComponentsInChildren<Text>())
+            visualComponents.Add(txt, txt.color.a);
 
 
     }
@@ -49,8 +57,10 @@ public class Fade_OnActive : MonoBehaviour
 
    private void hideVisuals()
    {
-        foreach (var visual in visualComponents)
+        foreach (var pair in visualComponents)
         {
+            Component visual = pair.Key;
+
             if (visual is SpriteRenderer sr)
             {
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0f);
@@ -70,14 +80,21 @@ public class Fade_OnActive : MonoBehaviour
 
     private IEnumerator FadeIn()
     {
+        isFading = true;
+
         float elapsedTime = 0f;
 
         while (elapsedTime < fadeTime)
         {
-            float alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeTime);
+            float t = elapsedTime / fadeTime;
 
-            foreach (var visual in visualComponents)
+            foreach (var pair in visualComponents)
             {
+                Component visual = pair.Key;
+                float originalAlpha = pair.Value;
+
+                float alpha = Mathf.Lerp(0f, originalAlpha, t);
+
                 if (visual is SpriteRenderer sr)
                 {
                     sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
@@ -97,21 +114,22 @@ public class Fade_OnActive : MonoBehaviour
         }
 
         // Ensure visuals are fully visible at the end
-        foreach (var visual in visualComponents)
+        foreach (var pair in visualComponents)
         {
+            Component visual = pair.Key;
+            float originalAlpha = pair.Value;
+
             if (visual is SpriteRenderer sr)
-            {
-                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
-            }
+                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, originalAlpha);
+
             else if (visual is Image img)
-            {
-                img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
-            }
+                img.color = new Color(img.color.r, img.color.g, img.color.b, originalAlpha);
+
             else if (visual is Text txt)
-            {
-                txt.color = new Color(txt.color.r, txt.color.g, txt.color.b, 1f);
-            }
+                txt.color = new Color(txt.color.r, txt.color.g, txt.color.b, originalAlpha);
         }
+
+        isFading = false;
     }
 
 
@@ -121,10 +139,15 @@ public class Fade_OnActive : MonoBehaviour
 
         while (elapsedTime < fadeTime)
         {
-            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeTime);
+            float t = elapsedTime / fadeTime;
 
-            foreach (var visual in visualComponents)
+            foreach (var pair in visualComponents)
             {
+                Component visual = pair.Key;
+                float originalAlpha = pair.Value;
+
+                float alpha = Mathf.Lerp(originalAlpha, 0f, t);
+
                 if (visual is SpriteRenderer sr)
                 {
                     sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
@@ -144,20 +167,18 @@ public class Fade_OnActive : MonoBehaviour
         }
 
         // Ensure visuals are fully invisible at the end
-        foreach (var visual in visualComponents)
+        foreach (var pair in visualComponents)
         {
+            Component visual = pair.Key;
+
             if (visual is SpriteRenderer sr)
-            {
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0f);
-            }
+
             else if (visual is Image img)
-            {
                 img.color = new Color(img.color.r, img.color.g, img.color.b, 0f);
-            }
+
             else if (visual is Text txt)
-            {
                 txt.color = new Color(txt.color.r, txt.color.g, txt.color.b, 0f);
-            }
         }
 
 

@@ -498,6 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorMat: {r: 1, g: 0, b: 0, a: 0}
+  isEffectActive: 1
 --- !u!1001 &371965541
 PrefabInstance:
   m_ObjectHideFlags: 0

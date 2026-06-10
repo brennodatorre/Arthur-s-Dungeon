@@ -74,6 +74,10 @@ public class RoundManager : MonoBehaviour
     public bool playerIsAttacking = false; //if the player is currently attacking
     public bool playerIsTargeting;
     public bool playerCanAct;
+
+
+
+
     public int numberOfRounds;
     private bool setupWasdone = false;
     private bool lootMenuIsUp = false;
@@ -173,8 +177,16 @@ public class RoundManager : MonoBehaviour
 
 
 
+
+
+
+
+
+    #region Combat SetUP
+
     private void StartSetup()
     {
+        setupWasdone =true;
 
         matPallet = MaterialPallet.Instance;
 
@@ -186,17 +198,29 @@ public class RoundManager : MonoBehaviour
 
         PlayerData.Instance.LoadPlayerData(player); // load player data 
 
-        combatSetter.openLevel(); // sets the enemies level
+        
+
+        StartCoroutine(SetUpEndCoroutine());
+
+    }
+
+    // deals with setup animations and timing coroutines
+    private IEnumerator SetUpEndCoroutine ()
+    {
+
+        yield return combatSetter.openLevel(); // sets the enemies level
 
         entities = FindObjectsOfType<Entity>().Where(e => !e.IsAClass).ToList(); //finds all entities in the scene and converts to a list
         allies = entities.Where(e => e.entityType != Entity.EntityType.Enemy).ToList();
-
-       
 
         //sorts the entities by their rolls in descending order
         entities = entities.OrderByDescending(x => x.rollDEX()).ToList();
 
         currentTurn = entities[0]; //sets the current turn to the first entity in the array
+
+
+        // make all enemies not acting, take a step back
+        foreach (Entity en in enemies.Where(e => e!= currentTurn)) yield return AnimationManager.Instance.TurnStep(en.gameObject, false);
 
         //sets all menus off so the combat can begin
         act_menu.SetActive(false);
@@ -206,9 +230,19 @@ public class RoundManager : MonoBehaviour
         actionQueue.Enqueue("delay", () => Delay(2f));
         actionQueue.Enqueue("StartTurn", () => StartTurn());
 
-        setupWasdone =true;
-
+        
     }
+
+    #endregion
+
+
+
+
+
+
+
+
+
 
 
 
@@ -293,6 +327,10 @@ public class RoundManager : MonoBehaviour
 
         actionQueue.Enqueue("StartTurn", () => StartTurn());
     }
+
+
+
+
 
 
 
@@ -442,6 +480,8 @@ public class RoundManager : MonoBehaviour
     }
 
     #endregion
+
+
 
 
 

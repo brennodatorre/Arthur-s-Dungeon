@@ -1981,6 +1981,7 @@ MonoBehaviour:
   fadeTime: 1
   fadeInOnEnable: 1
   fadeOutOnDisable: 1
+  isFading: 0
 --- !u!114 &533249699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2137,11 +2138,12 @@ MonoBehaviour:
   preMadeFight: []
   playerLevel: 0
   randomRoaster: []
-  isTesting: 0
+  isTesting: 1
   testRoaster:
   - {fileID: 1101434780596748054, guid: b057e8c9fd13baf45ae3e20b76c20c06, type: 3}
   - {fileID: 1101434780596748054, guid: b057e8c9fd13baf45ae3e20b76c20c06, type: 3}
   - {fileID: 1833099857606586306, guid: 131fa226124e7f04a82865064c60bb0a, type: 3}
+  - {fileID: 826572976774187617, guid: d35c4deb455ff3948a069a402299421e, type: 3}
 --- !u!1 &545758052
 GameObject:
   m_ObjectHideFlags: 0
@@ -2718,6 +2720,7 @@ MonoBehaviour:
   fadeTime: 1
   fadeInOnEnable: 1
   fadeOutOnDisable: 1
+  isFading: 0
 --- !u!114 &645502674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4278,6 +4281,7 @@ MonoBehaviour:
   fadeTime: 1
   fadeInOnEnable: 1
   fadeOutOnDisable: 1
+  isFading: 0
 --- !u!114 &1017243944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10623,7 +10627,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 161.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_SizeDelta.y
@@ -10635,7 +10639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -61.505
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 4302489001076407149, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_fontSize
