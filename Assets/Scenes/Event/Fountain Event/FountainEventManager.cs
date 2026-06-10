@@ -33,7 +33,7 @@ public class FountainEventManager : EventManager
         if (fountainAmbience != null ) { fountainAmbienceASource = AudioManager.Instance.CreateAndPlaySound(fountainAmbience, true);}
 
         typeWriter = dialogue.GetComponentInChildren<TypeWriterEffect>();
-        fountainBtn = this.GetComponentInChildren<Button>();
+        fountainBtn = GetComponentInChildren<Button>();
         fountainBtn.enabled = false;
 
                    
@@ -60,8 +60,20 @@ public class FountainEventManager : EventManager
 
     public void InteractWithFountain()
     {
+        
 
+        StartCoroutine(FountainLogic());
+
+
+    }
+
+
+
+    private IEnumerator FountainLogic()
+    {
         bool success = Random.Range(0, 100) < currentSuccessRate;
+
+        fountainBtn.enabled = false;
 
 
         // After 6 interactions, the fountain becomes unusable and gives a permanent DEF buff
@@ -75,8 +87,17 @@ public class FountainEventManager : EventManager
 
             StartCoroutine(MySceneManager.Instance.doPopUp("+" + 1 + " DEF", this.transform.position, Color.white));
 
+            typeWriter.TypeNext("You finish drinking all that was left on the fountain");
+            typeWriter.TypeNext("The rest seem too foul to consume");
+            typeWriter.TypeNext("You Should Leave now");
+
+                      
+
             fountainAmbienceASource.Stop();
             Destroy(fountainAmbienceASource);
+
+            
+            GetComponent<HighLightOnHover>().TurnOffEffect();
 
         }
         else if (success)
@@ -87,6 +108,11 @@ public class FountainEventManager : EventManager
             PlayerData.Instance.healPlayer(healAmount);
 
             StartCoroutine(MySceneManager.Instance.doPopUp(healAmount.ToString(), this.transform.position, Color.green));
+
+            typeWriter.TypeNext("You feel nourished as the filthy blood passes down your throat");
+            typeWriter.TypeNext("You heal " + healAmount + ". ");
+
+            
         }
         else
         {
@@ -95,7 +121,11 @@ public class FountainEventManager : EventManager
             PlayerData.Instance.changeMaxHP(-maxHPLost);
 
             StartCoroutine(MySceneManager.Instance.doPopUp("-" + maxHPLost.ToString() + " MaxHP", this.transform.position, Color.red));
+
+            typeWriter.TypeNext("You feel yourself growing sick as you gulp down the liquid in the fountain");
+            typeWriter.TypeNext("You lose " + maxHPLost + " Max HP." );
         }
+
 
         currentSuccessRate -= successRateDecrease;
         drunkAmount++;
@@ -103,10 +133,9 @@ public class FountainEventManager : EventManager
         float rand = Random.Range(-.5f,.5f);
         AudioManager.Instance.PlaySoundWithPich(gulpSound, picthRange + rand);
 
-        
+        yield return new WaitUntil(() => typeWriter.hasFinishedTyping);
 
-
-
+        fountainBtn.enabled = true;
 
     }
 }

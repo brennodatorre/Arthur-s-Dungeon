@@ -343,6 +343,7 @@ GameObject:
   - component: {fileID: 360135827}
   - component: {fileID: 360135829}
   - component: {fileID: 360135830}
+  - component: {fileID: 360135831}
   m_Layer: 5
   m_Name: Fountain
   m_TagString: Untagged
@@ -484,6 +485,19 @@ MonoBehaviour:
   gulpSound: {fileID: 8300000, guid: e8416f5423e44664bb037021597f4471, type: 3}
   fountainAmbience: {fileID: 8300000, guid: 6aa054907e9885a48b3f62b1cb3990cf, type: 3}
   dialogue: {fileID: 632701471}
+--- !u!114 &360135831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360135825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcce1ee1ad19d39418fa458df6e25f91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorMat: {r: 1, g: 0, b: 0, a: 0}
 --- !u!1001 &371965541
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -994,6 +1008,10 @@ MonoBehaviour:
   WTooltip: {fileID: 0}
   ETooltip: {fileID: 0}
   ActMenuTClock: 0
+  canTriggerAtk: 0
+  canTriggerSkill: 0
+  canTriggerItem: 0
+  canTriggerRun: 0
 --- !u!4 &764757390
 Transform:
   m_ObjectHideFlags: 0
@@ -1583,7 +1601,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579175041793803952, guid: 046e217dc9d6be444bdd95b323f257a0, type: 3}
       propertyPath: timeBetweenLines
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5321885448037551002, guid: 046e217dc9d6be444bdd95b323f257a0, type: 3}
       propertyPath: m_Name

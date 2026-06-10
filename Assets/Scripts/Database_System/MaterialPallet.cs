@@ -57,7 +57,9 @@ public class MaterialPallet : MonoBehaviour
     
     
 
-    // creates an instance of a material and sets its color by one of the standar colors
+    /// <summary>
+    /// creates an instance of a material and sets its color by one of the standar colors
+    /// </summary>
     public Material getColoredMaterial(Color _standartColor, Material _materail)
     {
         Material newMat = new Material(_materail);
