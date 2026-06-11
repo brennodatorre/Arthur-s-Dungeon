@@ -19,6 +19,9 @@ public static class Properties
 
 
         ROCKY = 0,
+        WOOD = 1,
+        FLESHY = 2,
+        WET = 3,
 
 
         
@@ -36,6 +39,9 @@ public static class Properties
 
 
 
+        OBSTACLE = 1998,
+        MINI_BOSS = 1999,
+        BOSS = 2000,
 
         #endregion
 

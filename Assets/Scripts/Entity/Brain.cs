@@ -64,6 +64,11 @@ public class Brain : MonoBehaviour
         
     }
 
+    public virtual void DyingAction()
+    {
+        
+    }
+
     public virtual void getIntent()
     {
         int rand = UnityEngine.Random.Range (0,100);

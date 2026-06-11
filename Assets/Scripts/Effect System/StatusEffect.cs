@@ -8,7 +8,9 @@ public class StatusEffect : ScriptableObject
 {
     public enum TurnPhaseOfEffect { Start, End, Both };
     public enum StatusEffectType { Buff, Debuff, Neutral };
-    public enum OverideEffectType { NONE, TAKE_DAMAGE, HEAL, BLOCK, DAMAGE, GAIN_DEF };
+    //overrides an action
+    public enum OverideEffectType { NONE, TAKE_DAMAGE, HEAL, BLOCK, DAMAGE, GAIN_DEF, TARGETING };
+    // block/tag effect options
     public enum BlockerType { NONE, 
     TAKING_DAMAGE, HEALING, 
     INCREASING_DAMAGE, DECREASING_DAMAGE, 
@@ -17,7 +19,8 @@ public class StatusEffect : ScriptableObject
     ACTION_GAINING, ACTION_LOSING, 
     GAIN_ATK_ADVANTAGE, LOSE_ATK_ADVANTAGE ,
     GAIN_DEF, LOSE_DEF,
-    ATK_MOD_INCREASE, ATK_MOD_DECREASE
+    ATK_MOD_INCREASE, ATK_MOD_DECREASE,
+    TARGETING
     };
 
 
@@ -52,6 +55,10 @@ public class StatusEffect : ScriptableObject
     [Tooltip ("List of tags that this effect applies")]
     public List<BlockerType> tags = new();
     
+
+
+
+    [Space(20)] [Header ("RUNTIME DEGUG -----------------------")]
 
     public Entity caster;
     public Entity target;

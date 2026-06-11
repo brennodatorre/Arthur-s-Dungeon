@@ -391,10 +391,10 @@ public class Entity : MonoBehaviour
                 roundManager.enemies.Remove(this);
 
                 CombatSetter.Instance.availableSpots.Add(spawnPoint);
-
-                
                 PlayerData.Instance.incrementKillCounter();
-                
+
+
+                GetComponent<Brain>().DyingAction();
 
             }
             else

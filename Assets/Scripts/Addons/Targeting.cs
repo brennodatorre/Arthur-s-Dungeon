@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static StatusEffect;
 
 public class Targeting : MonoBehaviour, IPointerClickHandler
 {
@@ -19,7 +20,13 @@ public class Targeting : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        
+        //OVERRIDE CHECK
+        StatusEffect BlockerOverideEffectGainDEF = entity.CheckForOverideInStatusEffects(OverideEffectType.TARGETING);
+        if (BlockerOverideEffectGainDEF != null)
+        {
+            BlockerOverideEffectGainDEF?.overideEffectAct?.Invoke(new object[] {  }); // Invoke the override action if it exists
+            return;
+        }
 
         ////////////////// fix the rest of the imlpementation\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         if (roundManager.currentPhase == RoundManager.TurnPhase.targetingATK)

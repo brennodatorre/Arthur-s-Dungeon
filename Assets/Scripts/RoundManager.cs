@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 using UnityEngine.UI;
+using static StatusEffect;
 
 
 
@@ -344,6 +345,15 @@ public class RoundManager : MonoBehaviour
 
         foreach (var enemy in enemies) // for each enemy
         {
+
+            //OVERRIDE CHECK
+            StatusEffect BlockerOverideEffectGainDEF = enemy.CheckForOverideInStatusEffects(OverideEffectType.TARGETING);
+            if (BlockerOverideEffectGainDEF != null)
+            {
+                BlockerOverideEffectGainDEF?.overideEffectAct?.Invoke(new object[] {  }); // Invoke the override action if it exists
+                continue;
+            }
+
             Image enemyRender = enemy.GetComponent<Image>();
 
             if (enemyRender != null && !enemy.isDead)//sets color
@@ -480,6 +490,9 @@ public class RoundManager : MonoBehaviour
     }
 
     #endregion
+
+
+
 
 
 

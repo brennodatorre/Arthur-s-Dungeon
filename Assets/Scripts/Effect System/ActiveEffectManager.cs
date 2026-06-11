@@ -204,6 +204,7 @@ public class ActiveEffectManager : MonoBehaviour
         public StatusEffect DefGainBlockedEffect;
         public StatusEffect BitRateEffect;
         public StatusEffect StunnedEffect;
+        public StatusEffect UnreachbleEffct;
     }
 
 
@@ -537,6 +538,33 @@ public class ActiveEffectManager : MonoBehaviour
             }
 
         }
+        );
+
+    }
+
+    public void addUnreachableEffect(Entity target, Entity caster, Skill appliedBySkill  = null, Item appliedByItem = null, bool withSound = false  )
+    {
+        if (withSound) audioManager.PlaySound(statusEffectPrefabs.UnreachbleEffct.effectSound);
+
+        StatusEffect inst = Instantiate(statusEffectPrefabs.UnreachbleEffct);
+        target.activeStatusEffects.Add(inst); //add the skill to the active effects list
+
+        
+
+        AddEffect(inst, caster, target, appliedBySkill, 
+        () => // tic effect
+        { }, 
+        () => // end effct
+            {
+                target.activeStatusEffects.Remove(inst); //remove the effect from the active effects list
+
+            },
+        () => // callback
+        {},
+        (object [] args) => // override 
+            {
+                
+            }
         );
 
     }

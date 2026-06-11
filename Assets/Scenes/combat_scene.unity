@@ -2140,10 +2140,7 @@ MonoBehaviour:
   randomRoaster: []
   isTesting: 1
   testRoaster:
-  - {fileID: 1101434780596748054, guid: b057e8c9fd13baf45ae3e20b76c20c06, type: 3}
-  - {fileID: 1101434780596748054, guid: b057e8c9fd13baf45ae3e20b76c20c06, type: 3}
-  - {fileID: 1833099857606586306, guid: 131fa226124e7f04a82865064c60bb0a, type: 3}
-  - {fileID: 826572976774187617, guid: d35c4deb455ff3948a069a402299421e, type: 3}
+  - {fileID: 5047036045312715066, guid: 8298a97820a915a47a6378ebeffb17a3, type: 3}
 --- !u!1 &545758052
 GameObject:
   m_ObjectHideFlags: 0
@@ -3421,6 +3418,7 @@ MonoBehaviour:
     DefGainBlockedEffect: {fileID: 11400000, guid: 0da47975c320e504bbf45c2ea5cca406, type: 2}
     BitRateEffect: {fileID: 11400000, guid: 52a1a17c1baec3742bee6c2948df0a4b, type: 2}
     StunnedEffect: {fileID: 11400000, guid: d13aed097c5d33b469194e7dc4188a18, type: 2}
+    UnreachbleEffct: {fileID: 11400000, guid: efa7f63be0417ad4495ab92955ec7316, type: 2}
   activeEffects: []
 --- !u!1 &835907752
 GameObject:
@@ -10627,7 +10625,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 161.01
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_SizeDelta.y
@@ -10639,7 +10637,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795630282123423896, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: -61.505
       objectReference: {fileID: 0}
     - target: {fileID: 4302489001076407149, guid: 5b4c89fc943e9574ca67080a75a32709, type: 3}
       propertyPath: m_fontSize
