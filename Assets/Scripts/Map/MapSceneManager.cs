@@ -2,14 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using Unity.VisualScripting;
+
 using UnityEngine;
-using UnityEngine.TextCore.LowLevel;
+
 using UnityEngine.UI;
+
+using static RoomTile;
+using Random = UnityEngine.Random;
 
 
 public class MapSceneManager : MonoBehaviour
 {
+
+
+    public enum Direction {NORTH, SOUTH, WEST, EAST, NULL}
 
     public static MapSceneManager Instance;
     public GameObject roomPrefab;
@@ -29,9 +35,11 @@ public class MapSceneManager : MonoBehaviour
     public int energy;
     public int builders = 1;
 
-    public Color startingDoorColor = Color.clear;
-    public Color discoveredColor = Color.white;
-    public Color undiscoveredColor = Color.clear;
+    public Color hiddenDoorColor = Color.clear;
+    public Color FloorColor = Color.white;
+    public Color undiscoveredRoomColor = Color.clear;
+
+
 
     [Space (10)]
     [Header("Movement")]
@@ -59,17 +67,7 @@ public class MapSceneManager : MonoBehaviour
 
 
         makeGrid();
-        RoomTile firstRoom = roomGrid[mapSizeX/2, mapSizeY/2].buildFirstRoom();
-        playerIcon.transform.position = firstRoom.transform.position;
-        playerLocation.x = firstRoom.x;
-        playerLocation.y = firstRoom.y;
         
-        for (int i = 0; i < builders; i++)
-        {
-            buildDungeon(firstRoom, energy);
-        }
-
-        firstRoom.analyzeRoom();
     }
 
 
@@ -83,6 +81,7 @@ public class MapSceneManager : MonoBehaviour
 
         roomGrid = new RoomTile[mapSizeX, mapSizeY];
 
+        //gets room spacing
         RectTransform prefabRect = roomPrefab.GetComponent<RectTransform>();
         float tileDistance = prefabRect.sizeDelta.x + roomSpacing;
         
@@ -110,107 +109,129 @@ public class MapSceneManager : MonoBehaviour
         }
 
 
-        
         // Center the grid on the map
         gridObject.transform.localPosition = -1 * roomGrid[mapSizeX /2, mapSizeY/2].transform.localPosition ;
+
+
+        // sets first room & player pos
+        RoomTile firstRoom = roomGrid[mapSizeX/2, mapSizeY/2];
+        firstRoom.roomState = RoomState.DISCOVERED;
+        firstRoom.GetComponent<Image>().color = FloorColor;
+        firstRoom.GetComponent<Button>().interactable = true;
+
+
+        playerIcon.transform.position = firstRoom.transform.position;
+        playerLocation.x = firstRoom.x;
+        playerLocation.y = firstRoom.y;
+
+
+        // calls the worm builders that dig the rooms
+        for (int i = 0; i < builders; i++)
+        {
+            buildDungeon(firstRoom, energy);
+        }
+
+
+        firstRoom.CheckForDoors();
+
+
     }
 
     /// <summary>
-    /// This is what makes the actual dungeon based on the grid, called x times for x builders
+    /// This is what makes the actual dungeon based on the grid, called x times for x builders. 
     /// </summary>
-    private void buildDungeon(RoomTile room, int energy, int previousRoom = -1) 
+    private void buildDungeon(RoomTile room, int energy, Direction prevDirection = Direction.NULL) 
     {
-        if (energy <= 0) {lookForNeighboors(room); return;}
+        ConnectRoom(room);
 
-        int randomDirection = -1;
-        
+        if (energy <= 0) { return;}
 
         // higher chance to stay on same direction
-        if (previousRoom != -1)
+        // for dungeons that are less compact 
+        Direction randomDirection;
+        if (prevDirection != Direction.NULL)
         {
             // Continue in the same direction
-            randomDirection = UnityEngine.Random.Range(1, 101);
-            if (randomDirection <= 50)
+            int rand = UnityEngine.Random.Range(1, 101);
+            if (rand <= 50)
             {
-                randomDirection = previousRoom; // Continue in the same direction
+                randomDirection = prevDirection; // go back
             }
             else
             {
-                randomDirection = UnityEngine.Random.Range(1, 5); // Choose a new direction
+                randomDirection = GetNewRandDirection(prevDirection);
             }
 
         } else 
         {
-            randomDirection = UnityEngine.Random.Range(1, 5); // Choose a new direction
+            randomDirection = GetNewRandDirection(prevDirection);
         }
 
 
+
+
+        // Determine the next room to be carved based on the random direction 
         RoomTile nextRoom = null;
-
-        // Determine the next room based on the random direction
-        switch (randomDirection)
-        {
-            case 1: // North
-                if (room.y < mapSizeY - 1) 
-                {
-                    nextRoom = roomGrid[room.x, room.y + 1];
-                }
+        switch (randomDirection){
+            case Direction.NORTH:
+                if (room.y < mapSizeY - 1) {nextRoom = roomGrid[room.x, room.y + 1];}
                 break;
-
-            case 2: // South
-                if (room.y > 0) 
-                {
-                    nextRoom = roomGrid[room.x, room.y - 1];  
-                }
+            case Direction.SOUTH: // South
+                if (room.y > 0) { nextRoom = roomGrid[room.x, room.y - 1];  }
                 break;
-
-            case 3: // West
-                if (room.x > 0) 
-                {
-                    nextRoom = roomGrid[room.x - 1, room.y];   
-                }
+            case Direction.WEST: // West
+                if (room.x > 0) {    nextRoom = roomGrid[room.x - 1, room.y];   }
                 break;
-
-            case 4: // East
-                if (room.x < mapSizeX - 1) 
-                {
-                    nextRoom = roomGrid[room.x + 1, room.y];
-                }
+            case Direction.EAST: // East
+                if (room.x < mapSizeX - 1) {nextRoom = roomGrid[room.x + 1, room.y];}
                 break;
-
         }
-        
-        lookForNeighboors(room);
-        
-        if (nextRoom == null) 
+
+
+        if (nextRoom == null) // out of grid
         {
-            buildDungeon(room, energy ); // Try a different direction
+            buildDungeon(room, energy ); // try again
             return;
         }
 
-        
 
-        if (nextRoom.roomState == RoomTile.RoomState.NOTSET) 
-        {
-            nextRoom.buildRoom();
 
-            buildDungeon(nextRoom, energy - 1, randomDirection); // Continue in same direction
-        } else 
-        {
-            buildDungeon(nextRoom, energy - 1,  randomDirection); // Try a different direction
+
+        // Set up the next room
+        if (nextRoom.roomState == RoomState.NOTSET)
+        {        
+            nextRoom.name = nextRoom.x + ", " + nextRoom.y;
+
+            nextRoom.roomState = RoomState.UNDISCOVERED;
+
+            nextRoom.GetComponent<Image>().color = MapSceneManager.Instance.undiscoveredRoomColor;
+            nextRoom.GetComponent<Button>().interactable = false;
+
+            nextRoom.roomType = MySceneManager.Instance.getNextScene() ;
+            
+
+            dungeonRooms.Add(nextRoom);
         }
 
+
+
+
+        buildDungeon(nextRoom, energy - 1, randomDirection);
 
 
 
     }
 
-    private void lookForNeighboors(RoomTile room)
+
+    /// <summary>
+    /// Connects rooms and set their doors
+    /// </summary>
+    private void ConnectRoom(RoomTile room)
     {
         int x = room.x;
         int y = room.y;
 
-        Color doorColor = startingDoorColor;
+        Color doorColor = hiddenDoorColor;
        
 
         // Only set neighboors for rooms that are built
@@ -247,6 +268,10 @@ public class MapSceneManager : MonoBehaviour
         }
 
     }
+
+
+
+
 
     private IEnumerator rebuildMap()
     {
@@ -309,7 +334,7 @@ public class MapSceneManager : MonoBehaviour
                 }
                 else
                 {
-                    roomGrid[x,y].GetComponent<Image>().color = undiscoveredColor;
+                    roomGrid[x,y].GetComponent<Image>().color = undiscoveredRoomColor;
                     newRoom.name =  "";
                 }
 
@@ -347,14 +372,14 @@ public class MapSceneManager : MonoBehaviour
         foreach (var room in dungeonRooms)
         {
             if (room.roomState == RoomTile.RoomState.DISCOVERED)
-                {
-                    room.GetComponent<Image>().color = discoveredColor;
-                    room.analyzeRoom();
-                }
-                else if (room.roomState == RoomTile.RoomState.UNDISCOVERED)
-                {
-                    room.GetComponent<Image>().color = undiscoveredColor;
-                }
+            {
+                room.GetComponent<Image>().color = FloorColor;
+                room.CheckForDoors();
+            }
+            else if (room.roomState == RoomTile.RoomState.UNDISCOVERED)
+            {
+                room.GetComponent<Image>().color = undiscoveredRoomColor;
+            }
         }
 
 
@@ -498,6 +523,25 @@ public class MapSceneManager : MonoBehaviour
     }
 
     #endregion
+
+
+
+    private Direction GetNewRandDirection (Direction oldDirection)
+    {
+
+        Direction newD;
+
+        do
+        {
+            // -1 accounts for NULL
+            newD = (Direction) Random.Range( 0, Enum.GetValues(typeof(Direction)).Length -1);
+        }
+        while (newD == oldDirection);
+
+
+
+        return newD;
+    }
 
 }
  

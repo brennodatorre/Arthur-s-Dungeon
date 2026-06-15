@@ -91,7 +91,19 @@ public class ClashManager : MonoBehaviour
        
 
         (int attackRoll, bool attackerCrit, bool attackerFail) = attacker.currentATK.RollWithCritCheck(attacker.atkAdvantage);
-        (int targetRoll, bool targetCrit, bool targetFail) = target.currentATK.RollWithCritCheck(target.atkAdvantage);
+
+        int targetRoll; bool targetCrit; bool targetFail;
+        if(target.properties.Contains(Properties.Property.OBSTACLE))
+        {
+            targetRoll = 0;
+            targetCrit = false;
+            targetFail = false;
+        } 
+        else
+        {
+            (targetRoll, targetCrit,  targetFail) = target.currentATK.RollWithCritCheck(target.atkAdvantage);
+        }
+        
 
 
         int rerolls = 0;

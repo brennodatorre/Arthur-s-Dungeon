@@ -31,6 +31,7 @@ public class RoomTile : MonoBehaviour
     public Image eventIcon;
     public Image questionIcon;
     public bool hasBeenPeaked = false; 
+    public bool peakFailed = false;
 
 
 
@@ -68,6 +69,8 @@ public class RoomTile : MonoBehaviour
     /// </summary>
     public void discoverRoom()
     {
+        GetComponent<Button>().interactable = false;
+
         if (MapSceneManager.Instance.isMoving) return;
         MapSceneManager.Instance.isMoving = true;
 
@@ -77,9 +80,9 @@ public class RoomTile : MonoBehaviour
         {
             roomState = RoomState.DISCOVERED;
 
-            GetComponent<Image>().color = MapSceneManager.Instance.discoveredColor;
+            GetComponent<Image>().color = MapSceneManager.Instance.FloorColor;
 
-            analyzeRoom();
+            CheckForDoors();
 
             MapSceneManager.Instance.roomsDiscovered++;
             firstTimeEntering = true;
@@ -104,59 +107,125 @@ public class RoomTile : MonoBehaviour
 
     }
 
-    public void buildRoom()
+    
+
+
+    /// <summary>
+    /// Opens doors of existing rooms
+    /// </summary>  
+    public void  CheckForDoors()
     {
-        this.name = x + ", " + y;
-        roomState = RoomState.UNDISCOVERED;
-        GetComponent<Image>().color = MapSceneManager.Instance.undiscoveredColor;
-        GetComponent<Button>().interactable = false;
-
-        roomType = MySceneManager.Instance.getNextScene() ;
-        
-
-        MapSceneManager.Instance.dungeonRooms.Add(this);
-        
-
-
-    }
-
-    public RoomTile buildFirstRoom()
-    {
-        roomState = RoomState.DISCOVERED;
-        GetComponent<Image>().color = MapSceneManager.Instance.discoveredColor;
-        GetComponent<Button>().interactable = true;
-
-        return this;
-
-    }
-
-    public void  analyzeRoom()
-    {
+        Color openC = MapSceneManager.Instance.FloorColor;
 
         if (northRoom != null && northRoom.roomState != RoomState.NOTSET) {
 
-            northDoor.color = MapSceneManager.Instance.discoveredColor;
-            checkDoor(northRoom);
+            northDoor.color = openC;
+            PeakAtRoom(northRoom);
         }
         if (southRoom != null && southRoom.roomState != RoomState.NOTSET)
         {
-            southDoor.color = MapSceneManager.Instance.discoveredColor;
-            checkDoor(southRoom);
+            southDoor.color = openC;
+            PeakAtRoom(southRoom);
         }
         if (eastRoom != null && eastRoom.roomState != RoomState.NOTSET)
         {  
-            eastDoor.color = MapSceneManager.Instance.discoveredColor;
-            checkDoor(eastRoom);
+            eastDoor.color = openC;
+            PeakAtRoom(eastRoom);
         }
         if (westRoom != null && westRoom.roomState != RoomState.NOTSET)
         {     
-            westDoor.color = MapSceneManager.Instance.discoveredColor;
-            checkDoor(westRoom);
+            westDoor.color = openC;
+            PeakAtRoom(westRoom);
         }
 
         
     }
 
+    //FIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXvvvvvvvv
+    /// <summary>
+    /// Sets next room visual info based on player test
+    /// </summary>
+    private void PeakAtRoom(RoomTile nextRoom)
+    {
+
+        
+
+        if (nextRoom.hasBeenPeaked)
+        {
+            if (!nextRoom.peakFailed)
+            {
+                if (nextRoom.roomType == MySceneManager.SceneType.COMBAT) nextRoom.combatIcon.gameObject.SetActive(true);
+                else if (nextRoom.roomType == MySceneManager.SceneType.EVENT) nextRoom.eventIcon.gameObject.SetActive(true);
+            }
+            else
+            {
+                nextRoom.questionIcon.gameObject.SetActive(true);
+            }
+
+            return;
+        }
+        
+
+        nextRoom.hasBeenPeaked = true; // lock immediately
+
+        nextRoom.GetComponent<Button>().interactable = true;
+
+        bool success = DiceRoll.rollTest(
+            PlayerData.Instance.GetTrait(PlayerData.Trait.PERSEPTION)
+        ) >= 10;
+
+        if (!success)
+        {
+            nextRoom.peakFailed = true;
+            nextRoom.questionIcon.gameObject.SetActive(true);
+            return;
+        }
+
+        if (nextRoom.roomType == MySceneManager.SceneType.COMBAT) nextRoom.combatIcon.gameObject.SetActive(true);
+        else if (nextRoom.roomType == MySceneManager.SceneType.EVENT) nextRoom.eventIcon.gameObject.SetActive(true);
+    }
+
+
+
+    public void CopyRoomTile(RoomTile toCopy)
+    {
+        toCopy.x = this.x;
+        toCopy.y = this.y;
+
+        toCopy.roomState = this.roomState;
+        toCopy.roomType = this.roomType;
+
+        toCopy.northDoor.color = this.northDoor.color;
+        toCopy.southDoor.color = this.southDoor.color;
+        toCopy.eastDoor.color = this.eastDoor.color;
+        toCopy.westDoor.color = this.westDoor.color;
+
+        toCopy.hasBeenPeaked = this.hasBeenPeaked; 
+
+        
+
+
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #region Path Finding
+
+    public void calculateFCost()
+    {
+        fCost = gCost + hCost;
+    }
     public List<RoomTile>  getDiscoveredNeighbors()
     {
         List <RoomTile> neighbors = new List<RoomTile>();
@@ -181,52 +250,5 @@ public class RoomTile : MonoBehaviour
     }
 
 
-    private void checkDoor(RoomTile nextRoom)
-    {
-        nextRoom.GetComponent<Button>().interactable = true;
-
-         
-
-        if (DiceRoll.rollTest(PlayerData.Instance.GetTrait(PlayerData.Trait.PERSEPTION)) > 10 || nextRoom.hasBeenPeaked)
-        {
-            
-            if (nextRoom.roomType == MySceneManager.SceneType.COMBAT) nextRoom.combatIcon.gameObject.SetActive(true); 
-            else if (nextRoom.roomType == MySceneManager.SceneType.EVENT) nextRoom.eventIcon.gameObject.SetActive(true);
-            //else {Debug.Log("could not check door"); nextRoom.GetComponent<Image>().color = Color.red;}
-        }
-        else
-        {
-            nextRoom.questionIcon.gameObject.SetActive(true); 
-        }
-
-        nextRoom.hasBeenPeaked = true;
-
-    }
-
-    public void CopyRoomTile(RoomTile toCopy)
-    {
-        toCopy.x = this.x;
-        toCopy.y = this.y;
-
-        toCopy.roomState = this.roomState;
-        toCopy.roomType = this.roomType;
-
-        toCopy.northDoor.color = this.northDoor.color;
-        toCopy.southDoor.color = this.southDoor.color;
-        toCopy.eastDoor.color = this.eastDoor.color;
-        toCopy.westDoor.color = this.westDoor.color;
-
-        toCopy.hasBeenPeaked = this.hasBeenPeaked; 
-
-        
-
-
-        
-    }
-
-    public void calculateFCost()
-    {
-        fCost = gCost + hCost;
-    }
-
+    #endregion
 }

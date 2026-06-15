@@ -954,6 +954,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f09ac0bdc113c142b4325cfa8977c2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inGodLikeMode: 0
+  GodLikePlayerData: {fileID: 0}
+  originalPlayerData: {fileID: 0}
 --- !u!1 &764757388
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,6 +1013,10 @@ MonoBehaviour:
   WTooltip: {fileID: 0}
   ETooltip: {fileID: 0}
   ActMenuTClock: 0
+  canTriggerAtk: 0
+  canTriggerSkill: 0
+  canTriggerItem: 0
+  canTriggerRun: 0
 --- !u!4 &764757390
 Transform:
   m_ObjectHideFlags: 0
@@ -1424,9 +1431,9 @@ MonoBehaviour:
   mapSizeY: 9
   energy: 10
   builders: 5
-  startingDoorColor: {r: 0, g: 0, b: 0, a: 0.19215687}
-  discoveredColor: {r: 1, g: 1, b: 1, a: 1}
-  undiscoveredColor: {r: 0, g: 0, b: 0, a: 0.16470589}
+  hiddenDoorColor: {r: 0, g: 0, b: 0, a: 0}
+  FloorColor: {r: 1, g: 1, b: 1, a: 1}
+  undiscoveredRoomColor: {r: 0, g: 0, b: 0, a: 0}
   isMoving: 0
   moveCurve:
     serializedVersion: 2
